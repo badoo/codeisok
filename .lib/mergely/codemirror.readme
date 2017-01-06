@@ -1,0 +1,2 @@
+To build own codemirror with mode, use this command:
+./bin/compress --local uglifyjs lib/codemirror.min.js mode/clike/*.js  > ../gitphp/lib/mergely/codemirror.min.js
