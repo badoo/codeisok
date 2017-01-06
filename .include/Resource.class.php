@@ -1,7 +1,7 @@
 <?php
 
-require_once(GITPHP_LIBDIR . '/php-gettext/streams.php');
-require_once(GITPHP_LIBDIR . '/php-gettext/gettext.php');
+require_once(GITPHP_BASEDIR . '/lib/php-gettext/streams.php');
+require_once(GITPHP_BASEDIR . '/lib/php-gettext/gettext.php');
 
 
 /**

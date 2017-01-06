@@ -1,9 +1,4 @@
 <?php
-/**
- * @author emakhrov
- * @date 14.03.13
- * @time 15:52
- */
 return array(
     'GitPHP\\Error'      => GITPHP_INCLUDEDIR . 'Error.php',
     'GitPHP_Application' => GITPHP_INCLUDEDIR . 'Application.php',
