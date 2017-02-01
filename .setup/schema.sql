@@ -41,3 +41,36 @@ CREATE TABLE `Snapshot` (
   `review_type` enum('unified','sidebyside') COLLATE utf8_bin NOT NULL DEFAULT 'unified',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+CREATE TABLE `Access` (
+  `user_id` int(11) unsigned NOT NULL DEFAULT '0',
+  `repository_id` int(11) unsigned NOT NULL DEFAULT '0',
+  `mode` enum('readonly','writable') NOT NULL DEFAULT 'readonly',
+  UNIQUE KEY `user_repository` (`user_id`,`repository_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `Repository` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `project` varchar(128) NOT NULL,
+  `description` varchar(255) NOT NULL DEFAULT '',
+  `category` varchar(64) DEFAULT NULL,
+  `notify_email` varchar(255) NOT NULL DEFAULT '',
+  `display` enum('No','Yes') NOT NULL DEFAULT 'No',
+  `diffs_by_email` enum('Cumulative','Commits') NOT NULL DEFAULT 'Cumulative',
+  `filter_commits` enum('No','Yes') NOT NULL DEFAULT 'No',
+  `is_it_lib` enum('No','Yes') NOT NULL DEFAULT 'No',
+  `created` timestamp NULL DEFAULT NULL,
+  `updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `project` (`project`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `User` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `username` varchar(128) NOT NULL,
+  `public_key` text NOT NULL,
+  `created` timestamp NULL DEFAULT NULL,
+  `updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `username` (`username`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;

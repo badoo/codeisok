@@ -100,6 +100,8 @@ class Acl
             $is_in_group = false;
             if (\GitPHP_Config::AUTH_METHOD['crowd']) {
                 $is_in_group = $this->Jira->crowdIsGroupMember($User->getId(), $group_name);
+            } elseif (\GitPHP_Config::AUTH_METHOD['config']) {
+                $is_in_group = \GitPHP_Config::AUTH_USER['admin'];
             }
             $User->setInGroup($group_name, $is_in_group);
         }

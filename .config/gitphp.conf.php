@@ -6,9 +6,9 @@ return array(
      */
     \GitPHP_Config::PROJECT_ROOT            => '/local/repositories/',
     \GitPHP_Config::DB_HOST                 => 'localhost',
-    \GitPHP_Config::DB_USER                 => 'user',
-    \GitPHP_Config::DB_PASSWORD             => 'userpass',
-    \GitPHP_Config::DB_NAME                 => 'review',
+    \GitPHP_Config::DB_USER                 => 'root',
+    \GitPHP_Config::DB_PASSWORD             => 'qwerty',
+    \GitPHP_Config::DB_NAME                 => 'gitphp',
     \GitPHP_Config::ACCESS_GROUP            => 'developers',
     \GitPHP_Config::CHECK_ACCESS_GROUP      => false,
 

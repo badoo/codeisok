@@ -5,6 +5,9 @@ class GitPHP_Db
     const TBL_COMMENT = 'Comment';
     const TBL_SNAPSHOT = 'Snapshot';
     const TBL_REVIEW = 'Review';
+    const TBL_USER       = 'User';
+    const TBL_ACCESS     = 'Access';
+    const TBL_REPOSITORY = 'Repository';
 
     const QUERY_SAVE_BRANCH_HEAD = 'INSERT INTO #TBL_HEADS# SET branch = #branch#, hash = #hash# ON DUPLICATE KEY UPDATE hash = VALUES(hash)';
     const QUERY_GET_BRANCH_HEAD = 'SELECT hash FROM #TBL_HEADS# WHERE branch = #branch#';
@@ -148,9 +151,7 @@ class GitPHP_Db
      */
     public function query($sql, $params)
     {
-        $params = $this->quote($params);
         $sql = $this->bind($sql, $params);
-
         GitPHP_Log::GetInstance()->timerStart();
         $result = mysqli_query($this->link, $sql);
         GitPHP_Log::GetInstance()->timerStop('mysqli_query', $sql);
@@ -218,14 +219,14 @@ class GitPHP_Db
 
         $params = [
             'snapshot_id' => (int)$snapshotId,
-            'author' => htmlspecialchars($author),
-            'file' => htmlspecialchars($file),
+            'author' => $this->quote(htmlspecialchars($author)),
+            'file' => $this->quote(htmlspecialchars($file)),
             'line' => (int)$line,
-            'text' => htmlspecialchars($text),
+            'text' => $this->quote(htmlspecialchars($text)),
             'lines_count' => (int)$linesCount,
             'real_line' => (int)$realLine,
             'real_line_before' => (int)$realLineBefore,
-            'side' => $side,
+            'side' => $this->quote($side),
         ];
         $res = $this->query($sql, $params);
         return $res ? $this->insert_id : $res;
@@ -233,20 +234,20 @@ class GitPHP_Db
 
     public function updateCommentStatus($id, $status)
     {
-        $res = $this->query(self::QUERY_UPDATE_COMMENT_STATUS, ['id' => (int)$id, 'status' => $status]);
+        $res = $this->query(self::QUERY_UPDATE_COMMENT_STATUS, ['id' => (int)$id, 'status' => $this->quote($status)]);
         return $res ? $this->insert_id : $res;
     }
 
     public function updateComment($id, $text)
     {
-        $res = $this->query(self::QUERY_UPDATE_COMMENT, ['id' => (int)$id, 'text' => htmlspecialchars($text)]);
+        $res = $this->query(self::QUERY_UPDATE_COMMENT, ['id' => (int)$id, 'text' => $this->quote(htmlspecialchars($text))]);
         return $res ? $this->insert_id : $res;
     }
 
     public function addReview($ticket)
     {
         $ticket = htmlspecialchars($ticket);
-        $res = $this->query(self::QUERY_ADD_REVIEW, ['ticket' => $ticket]);
+        $res = $this->query(self::QUERY_ADD_REVIEW, ['ticket' => $this->quote($ticket)]);
         return $res ? $this->insert_id : $res;
     }
 
@@ -254,10 +255,10 @@ class GitPHP_Db
     {
         $params = [
             'review_id' => (int)$review_id,
-            'hash_head' => $hash,
-            'hash_base' => $hash_base,
-            'repo' => $repo,
-            'review_type' => $review_type,
+            'hash_head' => $this->quote($hash),
+            'hash_base' => $this->quote($hash_base),
+            'repo' => $this->quote($repo),
+            'review_type' => $this->quote($review_type),
         ];
         $res = $this->query(self::QUERY_ADD_SNAPSHOT, $params);
         return $res ? $this->insert_id : $res;
@@ -265,7 +266,7 @@ class GitPHP_Db
 
     public function findSnapshotByHash($hash)
     {
-        return $this->getAll(self::QUERY_FIND_SNAPSHOT, ['hash_head' => $hash]);
+        return $this->getAll(self::QUERY_FIND_SNAPSHOT, ['hash_head' => $this->quote($hash)]);
     }
 
     public function findSnapshotsByHash($hash)
@@ -400,10 +401,10 @@ class GitPHP_Db
     {
         $sql = str_replace('#PART_STATUS#', $status ? self::PART_REVIEW_STATUS : '', self::QUERY_SET_REVIEW_STATUS);
         $params = [
-            'status' => $status,
-            'new_status' => $newStatus,
-            'author' => $author,
-            'review_id' => $reviewId,
+            'status' => $this->quote($status),
+            'new_status' => $this->quote($newStatus),
+            'author' => $this->quote($author),
+            'review_id' => $this->quote($reviewId),
         ];
         return $this->query($sql, $params);
     }
@@ -416,29 +417,29 @@ class GitPHP_Db
         else if (!empty($side) && in_array($side, ['lhs', 'rhs'])) $side_condition = self::PART_COMMENT_SIDE;
         $sql = str_replace('#PART_SIDE#', $side_condition, self::QUERY_FIND_COMMENT);
         $params = [
-            'snapshot_id' => $snapshotId,
-            'author' => $author,
-            'file' => $file,
-            'line' => $line,
-            'status' => $status,
-            'side' => $side,
+            'snapshot_id' => $this->quote($snapshotId),
+            'author' => $this->quote($author),
+            'file' => $this->quote($file),
+            'line' => $this->quote($line),
+            'status' => $this->quote($status),
+            'side' => $this->quote($side),
         ];
         return $this->getAll($sql, $params);
     }
 
     public function saveBranchHead($branch, $hash)
     {
-        return false !== $this->query(self::QUERY_SAVE_BRANCH_HEAD, ['branch' => $branch, 'hash' => $hash]);
+        return false !== $this->query(self::QUERY_SAVE_BRANCH_HEAD, ['branch' => $this->quote($branch), 'hash' => $this->quote($hash)]);
     }
 
     public function getBranchHead($branch)
     {
-        return $this->getOne(self::QUERY_GET_BRANCH_HEAD, ['branch' => $branch]);
+        return $this->getOne(self::QUERY_GET_BRANCH_HEAD, ['branch' => $this->quote($branch)]);
     }
 
     public function deleteAllDraftComments($author)
     {
-        return $this->query(self::QUERY_DELETE_ALL_DRAFT_COMMENTS, ['author' => $author]);
+        return $this->query(self::QUERY_DELETE_ALL_DRAFT_COMMENTS, ['author' => $this->quote($author)]);
     }
 
     protected function getOne($sql, $params = [])
@@ -468,7 +469,7 @@ class GitPHP_Db
         return $rows;
     }
 
-    protected function getAssoc($sql, $params = [], $field = '')
+    public function getAssoc($sql, $params = [], $field = '')
     {
         $result = $this->query($sql, $params);
         if (!$result) return false;
@@ -487,7 +488,7 @@ class GitPHP_Db
         return $rows;
     }
 
-    protected function getRow($sql, $params = [])
+    public function getRow($sql, $params = [])
     {
         $result = $this->query($sql, $params);
         if (!$result) return false;
@@ -517,4 +518,5 @@ class GitPHP_Db
         }
         return $tables;
     }
+
 }

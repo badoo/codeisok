@@ -65,6 +65,17 @@ class GitPHP_Controller_Login extends GitPHP_ControllerBase
                 list ($auth_result, $err) = $Jira->crowdAuthenticatePrincipal($this->params['login'], $this->params['password']);
             } elseif (\GitPHP_Config::AUTH_METHOD['jira']) {
                 list ($auth_result, $err) = $Jira->restAuthenticateByUsernameAndPassword($this->params['login'], $this->params['password']);
+            } elseif (\GitPHP_Config::AUTH_METHOD['config']) {
+                if (\GitPHP_Config::AUTH_USER['name'] === $this->params['login'] && \GitPHP_Config::AUTH_USER['password'] === $this->params['password']) {
+                    $auth_result = [
+                        'user_id' => \GitPHP_Config::AUTH_USER['name'],
+                        'user_name' => \GitPHP_Config::AUTH_USER['name'],
+                        'user_email' => \GitPHP_Config::AUTH_USER['name'],
+                        'user_token' => md5(\GitPHP_Config::AUTH_USER['name'].$this->params['password'].microtime())
+                    ];
+                } else {
+                    $err = 'User or password does not exists.';
+                }
             } else {
                 $err = 'Auth method is not defined. Please check config file.';
             }

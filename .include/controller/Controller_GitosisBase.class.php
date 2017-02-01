@@ -7,7 +7,7 @@ abstract class GitPHP_Controller_GitosisBase extends GitPHP_ControllerBase
     /**
      * @var array
      */
-    protected static $_sections = array('users', 'access', 'repositories', 'apply');
+    protected static $_sections = array('users', 'access', 'repositories');
 
     /**
      * @var array
@@ -61,7 +61,5 @@ abstract class GitPHP_Controller_GitosisBase extends GitPHP_ControllerBase
             strtolower(str_replace('GitPHP_Controller_Gitosis', '', get_class($this)))
         );
         $this->tpl->assign('form_errors', $this->_form_errors);
-        $this->tpl->assign('last_apply', $this->ModelGitosis->getLastApply());
-        $this->tpl->assign('last_request', $this->ModelGitosis->getLastRequest());
     }
 }

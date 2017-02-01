@@ -5,14 +5,21 @@ class GitPHP_Config
 
     const AUTH_METHOD = [
         'crowd' => false,
-        'jira' => true,
+        'jira' => false,
+        'config' => true 
+    ];
+
+    const AUTH_USER = [
+        'name' => 'user',
+        'password' => 'qwerty',
+        'admin' => true,
     ];
 
     // DB options
-    const DB_HOST                      = 'db_host';
-    const DB_USER                      = 'db_user';
-    const DB_PASSWORD                  = 'db_password';
-    const DB_NAME                      = 'db_name';
+    const DB_HOST                      = 'localhost';
+    const DB_USER                      = 'username';
+    const DB_PASSWORD                  = 'userpass';
+    const DB_NAME                      = 'dbname';
 
     // Access options
     const CHECK_ACCESS_GROUP           = false;
