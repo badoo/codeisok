@@ -19,7 +19,7 @@
  *
  * 1. Array of projects
  */
-$git_projects = array(
+/*$git_projects = array(
     'someapp.git',
 );
 $git_projects_settings['someapp.git'] = array(
@@ -27,7 +27,8 @@ $git_projects_settings['someapp.git'] = array(
     'description' => 'some repository',
     'owner' => 'wetrend',
     'cloneurl' => 'ssh://yourname@git.someapp.com:/local/repositories/someapp.git'
-);
+);*/
+
 /*
  * 2. Path to file with list of projects
  * Points to a flat file with a list of projects,
@@ -39,6 +40,16 @@ $git_projects_settings['someapp.git'] = array(
  * 3. Leave commented to read all projects in the project root
  */
 
+$git_projects = array();
+$git_projects_settings = array();
+$ModelGitosis = new Model_Gitosis();
+foreach ($ModelGitosis->getRepositories(true) as $project) {
+    $git_projects[] = $project['project'];
+    $git_projects_settings[$project['project']] = array(
+        'category' => $project['category'],
+        'notify_email' => $project['notify_email'],
+    );
+}
 
 /*
  * git_projects_settings

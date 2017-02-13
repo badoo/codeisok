@@ -1,4 +1,7 @@
-CREATE TABLE `Comment` (
+create database IF NOT EXISTS gitphp;
+use gitphp;
+
+CREATE TABLE IF NOT EXISTS `Comment` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `snapshot_id` int(10) unsigned NOT NULL,
   `author` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL,
@@ -18,20 +21,20 @@ CREATE TABLE `Comment` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
-CREATE TABLE `Heads` (
+CREATE TABLE IF NOT EXISTS `Heads` (
   `branch` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
   `hash` varchar(40) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
   PRIMARY KEY (`branch`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
-CREATE TABLE `Review` (
+CREATE TABLE IF NOT EXISTS `Review` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `ticket` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
   `created` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
-CREATE TABLE `Snapshot` (
+CREATE TABLE IF NOT EXISTS `Snapshot` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `review_id` int(10) unsigned NOT NULL,
   `hash_head` varchar(200) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
@@ -42,30 +45,27 @@ CREATE TABLE `Snapshot` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
-CREATE TABLE `Access` (
+CREATE TABLE IF NOT EXISTS `Access` (
   `user_id` int(11) unsigned NOT NULL DEFAULT '0',
   `repository_id` int(11) unsigned NOT NULL DEFAULT '0',
   `mode` enum('readonly','writable') NOT NULL DEFAULT 'readonly',
   UNIQUE KEY `user_repository` (`user_id`,`repository_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `Repository` (
+CREATE TABLE IF NOT EXISTS `Repository` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `project` varchar(128) NOT NULL,
   `description` varchar(255) NOT NULL DEFAULT '',
   `category` varchar(64) DEFAULT NULL,
   `notify_email` varchar(255) NOT NULL DEFAULT '',
   `display` enum('No','Yes') NOT NULL DEFAULT 'No',
-  `diffs_by_email` enum('Cumulative','Commits') NOT NULL DEFAULT 'Cumulative',
-  `filter_commits` enum('No','Yes') NOT NULL DEFAULT 'No',
-  `is_it_lib` enum('No','Yes') NOT NULL DEFAULT 'No',
   `created` timestamp NULL DEFAULT NULL,
   `updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   UNIQUE KEY `project` (`project`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `User` (
+CREATE TABLE IF NOT EXISTS `User` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `username` varchar(128) NOT NULL,
   `public_key` text NOT NULL,

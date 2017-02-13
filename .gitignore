@@ -1,2 +1,4 @@
 templates_c/*
 .unrealsync
+repositories/*
+.setup/storage/*

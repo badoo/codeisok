@@ -36,30 +36,6 @@
                 </td>
             </tr>
             <tr>
-                <td>Diffs by email</td>
-                <td>
-                {foreach name="diffs_by_email" from=$diffs_by_email item=diff}
-                    <label><input type="radio" {if ($smarty.foreach.diffs_by_email.first && !$edit_project) || ($edit_project && $diff == $edit_project.diffs_by_email)}checked=""{/if} name="diffs_by_email" value="{$diff}"> {$diff}</label>
-                {/foreach}
-                </td>
-            </tr>
-            <tr>
-                <td>Filtering GIT commits<br/>before post in JIRA</td>
-                <td>
-                {foreach name="filter_commits" from=$filter_commits item=filter}
-                    <label><input type="radio" {if ($smarty.foreach.filter_commits.first && !$edit_project) || ($edit_project && $filter == $edit_project.filter_commits)}checked=""{/if} name="filter_commits" value="{$filter}"> {$filter}</label>
-                {/foreach}
-                </td>
-            </tr>
-            <tr>
-                <td>Is it lib?</td>
-                <td>
-                {foreach name="is_it_lib" from=$is_it_lib item=lib}
-                    <label><input type="radio" {if ($smarty.foreach.is_it_lib.first && !$edit_project) || ($edit_project && $lib == $edit_project.is_it_lib)}checked=""{/if} name="is_it_lib" value="{$lib}"> {$lib}</label>
-                {/foreach}
-                </td>
-            </tr>
-            <tr>
                 <td colspan="2">
                     <input type="submit" value="Save repository">
                     <a href="/?a=gitosis&section=repositories">Cancel</a>

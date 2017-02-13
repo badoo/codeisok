@@ -3,9 +3,6 @@
 class Model_Gitosis
 {
 
-    const DIFF_TYPE_CUMULATIVE = 'Cumulative';
-    const DIFF_TYPE_COMMIT = 'Commits';
-
     private $db;
     private static $instance;
 
@@ -172,7 +169,7 @@ class Model_Gitosis
         );
     }
 
-    public function saveRepository($project, $description, $category, $notify_email, $display, $diffs_by_email, $filter_commits, $is_it_lib)
+    public function saveRepository($project, $description, $category, $notify_email, $display)
     {
         return $this->db->query(
             static::QUERY_SAVE_REPOSITORY,
@@ -182,9 +179,6 @@ class Model_Gitosis
                 'category'     => $this->db->quote($category),
                 'notify_email' => $this->db->quote($notify_email),
                 'display'      => $this->db->quote($display),
-                'diffs_by_email' => $this->db->quote($diffs_by_email),
-                'filter_commits' => $this->db->quote($filter_commits),
-                'is_it_lib'      => $this->db->quote($is_it_lib),
             )
         );
     }
@@ -241,12 +235,11 @@ class Model_Gitosis
     const QUERY_GET_REPOSITORY_BY_PROJECT = "SELECT * FROM #TBL_REPOSITORY# WHERE project = #project#";
 
     const QUERY_SAVE_REPOSITORY = "INSERT INTO #TBL_REPOSITORY#
-        (project, description, category, notify_email, display, diffs_by_email, filter_commits, is_it_lib, created)
-        VALUES (#project#, #description#, #category#, #notify_email#, #display#, #diffs_by_email#, #filter_commits#, #is_it_lib#, NOW())
+        (project, description, category, notify_email, display, created)
+        VALUES (#project#, #description#, #category#, #notify_email#, #display#, NOW())
         ON DUPLICATE KEY UPDATE
             project = #project#, description = #description#, category = #category#,
-            notify_email = #notify_email#, display = #display#, diffs_by_email= #diffs_by_email#,
-            filter_commits = #filter_commits#, is_it_lib = #is_it_lib#";
+            notify_email = #notify_email#, display = #display#";
 
     const QUERY_GET_REPOSITORY_NOTIFY_EMAIL = "SELECT notify_email FROM #TBL_REPOSITORY# WHERE project = #project#";
 
