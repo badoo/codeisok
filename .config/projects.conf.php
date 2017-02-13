@@ -46,6 +46,7 @@ $ModelGitosis = new Model_Gitosis();
 foreach ($ModelGitosis->getRepositories(true) as $project) {
     $git_projects[] = $project['project'];
     $git_projects_settings[$project['project']] = array(
+        'description' => $project['description'],
         'category' => $project['category'],
         'notify_email' => $project['notify_email'],
     );

@@ -73,8 +73,8 @@ class GitPHP_Application
                 $_COOKIE['debug_js'] = $_GET['debug_js'];
             }
             if (isset($_COOKIE['debug_mode']) && (int)$_COOKIE['debug_mode'] == 1) {
-                GitPHP_Config::GetInstance()->SetValue('debug', (bool)(int)$_REQUEST['debug_mode']);
-                GitPHP_Log::GetInstance()->SetEnabled((bool)(int)$_REQUEST['debug_mode']);
+                GitPHP_Config::GetInstance()->SetValue('debug', (bool)(int)$_COOKIE['debug_mode']);
+                GitPHP_Log::GetInstance()->SetEnabled((bool)(int)$_COOKIE['debug_mode']);
             }
             if (GitPHP_Config::GetInstance()->GetValue('debug', false)) {
                 ini_set('display_errors', 1);

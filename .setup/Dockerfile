@@ -23,6 +23,7 @@ RUN apt-get update -y \
         php7.0-xml \
         strace \
         vim \
+        openssh-server \
     && rm -rf /var/lib/apt/lists/*
 
 RUN apt-get update -y && apt-get install -y git && rm -rf /var/lib/apt/lists/*
@@ -33,6 +34,6 @@ COPY local/ /local/
 
 VOLUME /var/lib/mysql
 
-EXPOSE 80 443 3306
+EXPOSE 80 443 3306 22
 CMD bash /local/init.sh && bash
 

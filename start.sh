@@ -8,6 +8,7 @@ docker run \
     -p 80:80 \
     -p 443:443 \
     -p 3306:3306 \
+    -p 22:22 \
     -v $CURRENT_DIR:/local/gitphp \
     -v $DATABASE_DIR:/var/lib/mysql \
     --rm \

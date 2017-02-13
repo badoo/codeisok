@@ -10,5 +10,6 @@ fi
 service mysql start
 service php7.0-fpm start
 service nginx start
+service ssh start
 
 mysql -uroot -proot < /local/schema.sql
