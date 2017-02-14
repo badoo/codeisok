@@ -27,6 +27,7 @@ RUN apt-get update -y \
     && rm -rf /var/lib/apt/lists/*
 
 RUN apt-get update -y && apt-get install -y git && rm -rf /var/lib/apt/lists/*
+RUN useradd -ms /bin/bash  git && usermod -G www-data git
 
 RUN mkdir -pv /local/logs
 COPY etc/ /etc/

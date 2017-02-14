@@ -1,5 +1,5 @@
 <?php
-require_once '.lib/syntaxhighlighter/syntaxhighlighter.php';
+require_once 'lib/syntaxhighlighter/syntaxhighlighter.php';
 
 /**
  * Blob controller class

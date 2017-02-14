@@ -271,16 +271,16 @@ class GitPHP_Db
 
     public function findSnapshotsByHash($hash)
     {
-        return $this->getAssoc(self::QUERY_FIND_SNAPSHOTS, ['hash_head' => $hash], 'hash_head');
+        return $this->getAssoc(self::QUERY_FIND_SNAPSHOTS, ['hash_head' => $this->quote($hash)], 'hash_head');
     }
 
     public function findSnapshotByHashAndReview($review_id, $hash, $hash_base, $review_type = '')
     {
         $params = [
             'review_id' => (int)$review_id,
-            'hash_head' => $hash,
-            'hash_base' => $hash_base,
-            'review_type' => $review_type,
+            'hash_head' => $this->quote($hash),
+            'hash_base' => $this->quote($hash_base),
+            'review_type' => $this->quote($review_type),
         ];
         $result = $this->getAll(
             $this->bind(
@@ -295,13 +295,13 @@ class GitPHP_Db
 
     public function findSnapshotByTicket($ticket)
     {
-        $result = $this->getAll(self::QUERY_FIND_SNAPSHOT_BY_TICKET, ['ticket' => $ticket]);
+        $result = $this->getAll(self::QUERY_FIND_SNAPSHOT_BY_TICKET, ['ticket' => $this->quote($ticket)]);
         return $result;
     }
 
     public function findReviewById($id)
     {
-        $result = $this->getRow(self::QUERY_FIND_REVIEW, ['id' => $id]);
+        $result = $this->getRow(self::QUERY_FIND_REVIEW, ['id' => (int)$id]);
         return $result;
     }
 
@@ -318,12 +318,12 @@ class GitPHP_Db
 
     public function getComments($snapshotId)
     {
-        return $this->getAll(self::QUERY_GET_COMMENTS_BY_SNAPSHOT, ['snapshot_id' => $snapshotId]);
+        return $this->getAll(self::QUERY_GET_COMMENTS_BY_SNAPSHOT, ['snapshot_id' => (int)$snapshotId]);
     }
 
     public function getCommentsBySnapshotAndAuthor($snapshotId, $author, $file = '')
     {
-        $params = ['snapshot_id' => $snapshotId, 'author' => $author, 'file' => htmlspecialchars($file)];
+        $params = ['snapshot_id' => (int)$snapshotId, 'author' => $this->quote($author), 'file' => $this->quote(htmlspecialchars($file))];
         return $this->getAll(
             $this->bind(
                 self::QUERY_GET_COMMENTS_BY_SNAPSHOT_AUTHOR,
@@ -335,12 +335,12 @@ class GitPHP_Db
 
     public function getCommentsByReviewAndAuthor($reviewId, $author)
     {
-        return $this->getAll(self::QUERY_GET_COMMENTS_BY_REVIEW_AUTHOR, ['review_id' => $reviewId, 'author' => $author]);
+        return $this->getAll(self::QUERY_GET_COMMENTS_BY_REVIEW_AUTHOR, ['review_id' => (int)$reviewId, 'author' => $this->quote($author)]);
     }
 
     public function getDraftCommentByAuthor($author, $limit = 10)
     {
-        return $this->getAll(self::QUERY_GET_DRAFT_COMMENT_BY_AUTHOR, ['author' => $author, 'limit' => (int)$limit]);
+        return $this->getAll(self::QUERY_GET_DRAFT_COMMENT_BY_AUTHOR, ['author' => $this->quote($author), 'limit' => (int)$limit]);
     }
 
     public function getCommentsCountForReviews($review_ids, $author)
@@ -351,7 +351,7 @@ class GitPHP_Db
         }
         return $this->getAssoc(
             self::QUERY_GET_COMMENTSCOUNT_FOR_REVIEWS,
-            ['review_id' => $review_ids, 'author' => $author],
+            ['review_id' => $review_ids, 'author' => $this->quote($author)],
             'review_id'
         );
     }
