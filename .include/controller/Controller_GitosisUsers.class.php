@@ -30,7 +30,11 @@ class GitPHP_Controller_GitosisUsers extends GitPHP_Controller_GitosisBase
 
             if ($username && $public_key) {
                 $this->ModelGitosis->saveUser($username, $public_key);
-                $this->redirect('/?a=gitosis&section=users');
+                if (!GitPHP_Gitosis::addKey($username, $public_key)) {
+                    $this->_form_errors[] = "Can't write key file!";
+                } else {
+                    $this->redirect('/?a=gitosis&section=users');
+                }
             }
 
             $this->_edit_user = $_POST;

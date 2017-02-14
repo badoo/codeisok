@@ -11,6 +11,8 @@ return array(
     \GitPHP_Config::DB_NAME                 => 'gitphp',
     \GitPHP_Config::ACCESS_GROUP            => 'developers',
     \GitPHP_Config::CHECK_ACCESS_GROUP      => false,
+    \GitPHP_Config::GIT_USER                => 'git',
+    \GitPHP_Config::GIT_HOME                => '/home/git/',
 
     //'debug' => true,
     /*

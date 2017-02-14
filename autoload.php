@@ -16,6 +16,7 @@ return array(
     \GitPHP\Db_Result::class => GITPHP_INCLUDEDIR . 'Result.php',
     \GitPHP\Http_Response::class => GITPHP_INCLUDEDIR . 'Http_Response.php',
     'Model_Gitosis'      => GITPHP_INCLUDEDIR . 'Model_Gitosis.php',
+    'GitPHP_Gitosis'     => GITPHP_INCLUDEDIR . 'Gitosis.class.php',
 
     'GitPHP_Cache' => GITPHP_CACHEDIR . 'Cache.class.php',
 

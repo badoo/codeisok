@@ -26,7 +26,8 @@ class GitPHP_Config
     const ACCESS_GROUP                 = 'access_group';
     const PROJECT_ACCESS_GROUPS        = 'project_access_groups';
     const GIT_NO_AUTH_ACTIONS          = 'git_no_auth_actions';
-    const GITOSIS_USER                 = 'git';
+    const GIT_USER                     = 'git';
+    const GIT_HOME                     = '/home/git/';
 
     // Others
     const COLLECT_CHANGES_AUTHORS      = 'collect_changes_authors';

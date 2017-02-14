@@ -27,6 +27,7 @@ RUN apt-get update -y \
     && rm -rf /var/lib/apt/lists/*
 
 RUN apt-get update -y && apt-get install -y git && rm -rf /var/lib/apt/lists/*
+
 RUN useradd -ms /bin/bash  git && usermod -G www-data git
 
 RUN mkdir -pv /local/logs
@@ -34,6 +35,8 @@ COPY etc/ /etc/
 COPY local/ /local/
 
 VOLUME /var/lib/mysql
+VOLUME /home/git
+VOLUME /local/gitphp
 
 EXPOSE 80 443 3306 22
 CMD bash /local/init.sh && bash
