@@ -87,9 +87,11 @@ class GitPHP_Application
     private function initConfiguration()
     {
         $config = GITPHP_CONFIGDIR . 'gitphp.conf.php';
-        $tmpConfig = GITPHP_CONFIGDIR . 'gitphp.conf.' . $_SERVER['SERVER_NAME'] . '.php';
-        if (isset($_SERVER['SERVER_NAME']) && file_exists($tmpConfig)) {
-            $config = $tmpConfig;
+        if (isset($_SERVER['SERVER_NAME'])) {
+            $tmpConfig = GITPHP_CONFIGDIR . 'gitphp.conf.' . $_SERVER['SERVER_NAME'] . '.php';
+            if (file_exists($tmpConfig)) {
+                $config = $tmpConfig;
+            }
         }
         GitPHP_Config::GetInstance()->LoadConfig($config);
     }
