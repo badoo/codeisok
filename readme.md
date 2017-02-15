@@ -15,5 +15,6 @@ But we changed almost everything and added lot of new features.
 
 For installation explore .setup dir and find all nesessary scripts and tools
 
-For docker build run "docker build -t gitphp .setup" from project root
-To run docker container use start.sh script in project root
+For docker build run "docker build -t gitphp .setup" from project root.
+
+To run docker container use start.sh script in project root.
