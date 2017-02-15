@@ -38,6 +38,6 @@ VOLUME /var/lib/mysql
 VOLUME /home/git
 VOLUME /local/gitphp
 
-EXPOSE 80 443 3306 22
+EXPOSE 80 22
 CMD bash /local/init.sh && bash
 
