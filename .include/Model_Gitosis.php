@@ -107,6 +107,15 @@ class Model_Gitosis
         return $result;
     }
 
+    public function getUserAccessToRepository($username, $repository)
+    {
+        $data = $this->db->getRow(
+            self::QUERY_GET_ACCESS_BY_USER_AND_REPO,
+            ['username' => $this->db->quote($username), 'project' => $this->db->quote($repository)]
+        );
+        return $data;
+    }
+
     public function delUserAccess($user_id, $repositories_ids)
     {
         return $this->db->query(
@@ -219,6 +228,10 @@ class Model_Gitosis
     const QUERY_GET_ACCESS = "SELECT * FROM #TBL_ACCESS#";
     const QUERY_GET_ACCESS_BY_USER_ID = "SELECT * FROM #TBL_ACCESS# where user_id=#user_id#";
     const QUERY_GET_ACCESS_BY_REPOSITORY_ID = "SELECT * FROM #TBL_ACCESS# where repository_id=#repository_id#";
+    const QUERY_GET_ACCESS_BY_USER_AND_REPO = "select ac.mode from #TBL_ACCESS# ac
+        inner join #TBL_USER# u on u.id=ac.user_id
+        inner join #TBL_REPOSITORY# r on r.id=ac.repository_id
+        where u.username=#username# and r.project=#project#";
 
     const QUERY_DEL_USER_ACCESS = "DELETE FROM #TBL_ACCESS#
         WHERE user_id = #user_id# AND repository_id IN(#repositories_ids#)";

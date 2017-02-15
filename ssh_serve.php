@@ -25,6 +25,7 @@ class SSH_Serve
         $original_command = getenv('SSH_ORIGINAL_COMMAND');
         if ($_SERVER['argc'] > 0) {
             $this->user = $_SERVER['argv'][1];
+
             list($cmd, $arg) = explode(' ', $original_command);
             $this->argument = trim($arg, "'");
             $project_root = GitPHP_Config::GetInstance()->getValue(GitPHP_Config::PROJECT_ROOT);
@@ -34,6 +35,7 @@ class SSH_Serve
             if (!file_exists($this->argument)) {
                 $this->error('Repo can\'t be found by the path given: ' . $this->argument);
             }
+
             $this->command = $cmd;
         } else {
             $this->error('SSH Serve requires user name.');
@@ -42,13 +44,23 @@ class SSH_Serve
 
     public function run()
     {
-        passthru('git-shell -c "' . $this->command . ' ' . escapeshellarg($this->argument) . '"');
-        file_put_contents('out.txt', var_export([$this->command, $this->argument], 1), FILE_APPEND);
+        $ModelGitosis = new Model_Gitosis();
+        $access = $ModelGitosis->getUserAccessToRepository($this->user, basename($this->argument));
+        if (!empty($access)) {
+            if (in_array($this->command, self::COMMANDS_WRITE) && $access['mode'] !== 'writable') {
+                $this->error('You don\' have write access to repo: ' . $this->argument);
+            }
+            passthru('git-shell -c "' . $this->command . ' ' . escapeshellarg($this->argument) . '"');
+        } else {
+            $this->error("You don't have rights to access the repo: " . $this->argument);
+        }
+        //file_put_contents('out.txt', var_export([$this->user, $this->command, $this->argument, $access], 1), FILE_APPEND);
     }
 
     function error($message)
     {
-        throw new Exception($message . PHP_EOL);
+        fwrite(STDERR, '[ERROR]: ' . $message . PHP_EOL);
+        exit(1);
     }
 }
 
