@@ -260,7 +260,9 @@ class GitPHP_Controller_Comment extends GitPHP_ControllerBase
             $url = GitPHP_Controller_Review::getReviewUrl($reviewId);
             $review_type = $comments[0]['review_type'];
             GitPHP_Util::sendReviewEmail($this->Session->getUser()->getEmail(), $review['ticket'], $url, $comments, $review_type);
-            GitPHP_Util::addReviewToJira($this->Session->getUser()->getId(), $review['ticket'], $url, $comments, $review_type);
+            if (\GitPHP_Config::USE_JIRA) {
+                GitPHP_Util::addReviewToJira($this->Session->getUser()->getId(), $review['ticket'], $url, $comments, $review_type);
+            }
         }
 
         $this->setResponse('status', self::STATUS_OK);

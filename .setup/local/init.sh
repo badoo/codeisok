@@ -23,3 +23,10 @@ if [ ! -d "/home/git/.ssh" ]; then
     mkdir /local/gitphp/repositories
     chown git.git /local/gitphp/repositories
 fi
+
+
+#sendmail init
+hostname=$(hostname)
+localhost=$(head -n 1 /etc/hosts | awk '{print $2}')
+echo "127.0.0.1 $localhost $localhost.localdomain $hostname $hostname.localdomain" >> /etc/hosts
+service sendmail start

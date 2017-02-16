@@ -33,20 +33,22 @@ class GitPHP_Util
         $headers = "From:" . $from . "\nContent-Type: text/html; charset=utf-8";
         $to = [$from];
 
-        $Jira = \GitPHP\JiraRestClient::getInstance();
         $jira_link = '';
-        if (preg_match(self::TICKET_REGEXP, $review_name, $m)) {
-            $ticket_key = $m['ticket'];
-            if ($Ticket = $Jira->getIssue($ticket_key)) {
-                if ($developer = $Jira->getIssueCustomFieldValue($ticket_key, 'Developer')) {
-                    $to[] = $developer->emailAddress;
+        if (\GitPHP_Config::USE_JIRA) {
+            $Jira = \GitPHP\JiraRestClient::getInstance();
+            if (preg_match(self::TICKET_REGEXP, $review_name, $m)) {
+                $ticket_key = $m['ticket'];
+                if ($Ticket = $Jira->getIssue($ticket_key)) {
+                    if ($developer = $Jira->getIssueCustomFieldValue($ticket_key, 'Developer')) {
+                        $to[] = $developer->emailAddress;
+                    }
+                    if (isset($Ticket->fields->summary)) {
+                        $review_name .= ' - ' . $Ticket->fields->summary;
+                    }
                 }
-                if (isset($Ticket->fields->summary)) {
-                    $review_name .= ' - ' . $Ticket->fields->summary;
-                }
+                $jira_link = "(<a href=\"" . GitPHP_Util::getJiraTicketUrl() . $ticket_key . "\">"
+                    . htmlspecialchars($review_name) . "</a>)";
             }
-            $jira_link = "(<a href=\"" . GitPHP_Util::getJiraTicketUrl() . $ticket_key . "\">"
-                . htmlspecialchars($review_name) . "</a>)";
         }
         $first = reset($comments);
         $Project = GitPHP_ProjectList::GetInstance()->GetProject($first['repo']);
@@ -58,11 +60,13 @@ class GitPHP_Util
         $commentsAuthors = $changesAuthors = [];
         $diff = self::insertCommentsToDiffs($comments, 'html', $commentsAuthors, $changesAuthors, $review_type);
 
-        $commentsAuthors = array_unique($commentsAuthors);
-        foreach ($commentsAuthors as $commentAuthor) {
-            $CommentAuthorUser = $Jira->getUser($commentAuthor);
-            if (!empty($CommentAuthorUser) && !empty($CommentAuthorUser->emailAddress)) {
-                $to[] = $CommentAuthorUser->emailAddress;
+        if (GitPHP_Config::USE_JIRA) {
+            $commentsAuthors = array_unique($commentsAuthors);
+            foreach ($commentsAuthors as $commentAuthor) {
+                $CommentAuthorUser = $Jira->getUser($commentAuthor);
+                if (!empty($CommentAuthorUser) && !empty($CommentAuthorUser->emailAddress)) {
+                    $to[] = $CommentAuthorUser->emailAddress;
+                }
             }
         }
         $to = array_unique($to);
@@ -355,7 +359,7 @@ class GitPHP_Util
 
     public static function getHostnameUrl()
     {
-        return 'http://' . $_SERVER['SERVER_NAME'];
+        return 'http://' . $_SERVER['HTTP_HOST'];
     }
 
     public static function getJiraTicketUrl()

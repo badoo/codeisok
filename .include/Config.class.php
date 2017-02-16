@@ -29,6 +29,9 @@ class GitPHP_Config
     const GIT_USER                     = 'git';
     const GIT_HOME                     = '/home/git/';
 
+    //Review options
+    const USE_JIRA                     = false;
+
     // Others
     const COLLECT_CHANGES_AUTHORS      = 'collect_changes_authors';
     const COLLECT_CHANGES_AUTHORS_SKIP = 'collect_changes_authors_skip';

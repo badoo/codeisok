@@ -351,7 +351,7 @@ class GitPHP_Db
         }
         return $this->getAssoc(
             self::QUERY_GET_COMMENTSCOUNT_FOR_REVIEWS,
-            ['review_id' => $review_ids, 'author' => $this->quote($author)],
+            ['review_id' => $this->quote($review_ids, true), 'author' => $this->quote($author)],
             'review_id'
         );
     }
