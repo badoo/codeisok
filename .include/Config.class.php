@@ -6,7 +6,8 @@ class GitPHP_Config
     const AUTH_METHOD = [
         'crowd' => false,
         'jira' => false,
-        'config' => true 
+        'config' => false,
+        'redmine' => true,
     ];
 
     const AUTH_USER = [

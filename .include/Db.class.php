@@ -313,7 +313,7 @@ class GitPHP_Db
         } else {
             $sql = self::QUERY_GET_REVIEWS;
         }
-        return $this->getAssoc($sql, ['ids' => $review_ids], 'id');
+        return $this->getAssoc($sql, ['ids' => $this->quote($review_ids, true)], 'id');
     }
 
     public function getComments($snapshotId)

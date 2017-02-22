@@ -57,14 +57,13 @@ class GitPHP_Controller_Login extends GitPHP_ControllerBase
      */
     protected function LoadData()
     {
-        $Jira = \GitPHP\Jira::instance();
         $err = $auth_result = false;
 
         if ($this->params['post'] && !empty($this->params['login']) && !empty($this->params['password'])) {
             if (\GitPHP_Config::AUTH_METHOD['crowd']) {
-                list ($auth_result, $err) = $Jira->crowdAuthenticatePrincipal($this->params['login'], $this->params['password']);
+                list ($auth_result, $err) = \GitPHP\Jira::instance()->crowdAuthenticatePrincipal($this->params['login'], $this->params['password']);
             } elseif (\GitPHP_Config::AUTH_METHOD['jira']) {
-                list ($auth_result, $err) = $Jira->restAuthenticateByUsernameAndPassword($this->params['login'], $this->params['password']);
+                list ($auth_result, $err) = \GitPHP\Jira::instance()->restAuthenticateByUsernameAndPassword($this->params['login'], $this->params['password']);
             } elseif (\GitPHP_Config::AUTH_METHOD['config']) {
                 if (\GitPHP_Config::AUTH_USER['name'] === $this->params['login'] && \GitPHP_Config::AUTH_USER['password'] === $this->params['password']) {
                     $auth_result = [
@@ -76,14 +75,16 @@ class GitPHP_Controller_Login extends GitPHP_ControllerBase
                 } else {
                     $err = 'User or password does not exists.';
                 }
+            } elseif (\GitPHP_Config::AUTH_METHOD['redmine']) {
+                list ($auth_result, $err) = \GitPHP\Redmine::instance()->restAuthenticateByUsernameAndPassword($this->params['login'], $this->params['password']);
             } else {
                 $err = 'Auth method is not defined. Please check config file.';
             }
         } else if ($this->params['crowd_token_key']) {
             if (\GitPHP_Config::AUTH_METHOD['crowd']) {
-                list ($auth_result, $err) = $Jira->crowdAuthenticatePrincipalByCookie($this->params['crowd_token_key']);
+                list ($auth_result, $err) = \GitPHP\Jira::instance()->crowdAuthenticatePrincipalByCookie($this->params['crowd_token_key']);
             } elseif (\GitPHP_Config::AUTH_METHOD['jira']) {
-                list ($auth_result, $err) = $Jira->restAuthenticateByCookie($this->params['crowd_token_key']);
+                list ($auth_result, $err) = \GitPHP\Jira::instance()->restAuthenticateByCookie($this->params['crowd_token_key']);
             }
         }
 
@@ -91,7 +92,7 @@ class GitPHP_Controller_Login extends GitPHP_ControllerBase
         if ($auth_result) {
             $User = GitPHP_User::fromAuthData($auth_result);
             if (\GitPHP_Config::CHECK_ACCESS_GROUP) {
-                $Acl = new \GitPHP\Acl($Jira);
+                $Acl = new \GitPHP\Acl(\GitPHP\Jira::instance());
                 if (!$Acl->isCodeAccessAllowed($User)) {
                     $User = null;
                     $err = 'You haven\'t permission to view code source!';
@@ -104,7 +105,9 @@ class GitPHP_Controller_Login extends GitPHP_ControllerBase
             if (!empty($this->params['remember'])) {
                 $expire = time() + 60 * 60 * 24 * 30 * 12;
                 $domain = $_SERVER['HTTP_HOST'];
-                setcookie(\GitPHP\Jira::CROWD_COOKIE_NAME, $User->getToken(), $expire, '/', $domain, false, true);
+                if (\GitPHP_Config::AUTH_METHOD['crowd'] || \GitPHP_Config::AUTH_METHOD['jira']) {
+                    setcookie(\GitPHP\Jira::CROWD_COOKIE_NAME, $User->getToken(), $expire, '/', $domain, false, true);
+                }
             }
             $this->redirect($this->params['back']);
         } else {
