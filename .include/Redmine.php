@@ -35,7 +35,7 @@ class Redmine
         $result = [
             'user_id' => $Response->body['user']['login'],
             'user_name' => $Response->body['user']['firstname'] . ' ' . $Response->body['user']['lastname'],
-            'user_email' => '',
+            'user_email' => empty($Response->body['user']['mail'])?'':$Response->body['user']['mail'],
             'user_token' => base64_encode($username . ':' . $password),
         ];
         return [$result, null];
