@@ -5,7 +5,8 @@ But we changed almost everything and added lot of new features.
 
 * Branchdiffs - ability to see diffs between branches
 * Branchlogs
-* Authorisation via JIRA REST API or Atlassian Crowd service
+* Authorisation via JIRA REST API, Atlassian Crowd service or Redmine REST API
+* Comments about review to Jira or Redmine tickets
 * Code Review including branchdiffs
 * Code syntax highlighting using http://alexgorbatchev.com/SyntaxHighlighter 
 * Side-by-side review using http://www.mergely.com
