@@ -65,7 +65,7 @@ class JiraRestClient
     {
         if (empty(self::$instance)) {
             self::$instance = new self();
-            self::$instance->setJiraUrl(\GitPHP\Jira::JIRA_URL);
+            self::$instance->setJiraUrl(\GitPHP\Jira::URL);
         }
         return self::$instance;
     }

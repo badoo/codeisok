@@ -2,7 +2,6 @@
 class GitPHP_Util
 {
     const DEBUG_EMAIL = '';
-    const TICKET_REGEXP = '#(?P<ticket>[A-Z]+\-[0-9]+)#';
 
     public static $diff_size = 8;
 
@@ -33,23 +32,19 @@ class GitPHP_Util
         $headers = "From:" . $from . "\nContent-Type: text/html; charset=utf-8";
         $to = [$from];
 
-        $jira_link = '';
-        if (\GitPHP_Config::USE_JIRA) {
-            $Jira = \GitPHP\JiraRestClient::getInstance();
-            if (preg_match(self::TICKET_REGEXP, $review_name, $m)) {
-                $ticket_key = $m['ticket'];
-                if ($Ticket = $Jira->getIssue($ticket_key)) {
-                    if ($developer = $Jira->getIssueCustomFieldValue($ticket_key, 'Developer')) {
-                        $to[] = $developer->emailAddress;
-                    }
-                    if (isset($Ticket->fields->summary)) {
-                        $review_name .= ' - ' . $Ticket->fields->summary;
-                    }
-                }
-                $jira_link = "(<a href=\"" . GitPHP_Util::getJiraTicketUrl() . $ticket_key . "\">"
-                    . htmlspecialchars($review_name) . "</a>)";
+        $tracker_link = '';
+        $ticket_key = \GitPHP\Tracker::instance()->parceTicketFromString($review_name);
+        if (!empty($ticket_key)) {
+            $ticket_summary = \GitPHP\Tracker::instance()->getTicketSummary($ticket_key);
+            $review_name .= ' - ' . $ticket_summary;
+            $tracker_link = "(<a href=\"" . \GitPHP\Tracker::instance()->getTicketUrl($ticket_key) . "\">"
+                . htmlspecialchars($review_name) . "</a>)";
+            $developer_email = \GitPHP\Tracker::instance()->getTicketDeveloperEmail($ticket_key);
+            if (!empty($developer_email)) {
+                $to[] = $developer_email;
             }
         }
+
         $first = reset($comments);
         $Project = GitPHP_ProjectList::GetInstance()->GetProject($first['repo']);
         $project_notify_email = $Project->GetNotifyEmail();
@@ -57,15 +52,15 @@ class GitPHP_Util
             $to[] = $project_notify_email;
         }
 
-        $commentsAuthors = $changesAuthors = [];
-        $diff = self::insertCommentsToDiffs($comments, 'html', $commentsAuthors, $changesAuthors, $review_type);
+        $comments_authors = $changes_authors = [];
+        $diff = self::insertCommentsToDiffs($comments, 'html', $comments_authors, $changes_authors, $review_type);
 
-        if (GitPHP_Config::USE_JIRA) {
-            $commentsAuthors = array_unique($commentsAuthors);
-            foreach ($commentsAuthors as $commentAuthor) {
-                $CommentAuthorUser = $Jira->getUser($commentAuthor);
-                if (!empty($CommentAuthorUser) && !empty($CommentAuthorUser->emailAddress)) {
-                    $to[] = $CommentAuthorUser->emailAddress;
+        if (\GitPHP\Tracker::instance()->enabled()) {
+            $comments_authors = array_unique($comments_authors);
+            foreach ($comments_authors as $comment_author) {
+                $author_email = \GitPHP\Tracker::instance()->getUserEmail($comment_author);
+                if (!empty($author_email)) {
+                    $to[] = $author_email;
                 }
             }
         }
@@ -73,14 +68,14 @@ class GitPHP_Util
 
         $subject = "[GITPHP] ($review_name) Comment from $from";
 
-        if ($changesAuthors) {
+        if ($changes_authors) {
             $title = 'Changes from the following authors has been reviewed';
-            $undertitle = '<ul><li>' . implode('</li><li>', array_map('htmlspecialchars', $changesAuthors)) . '</li></ul>';
+            $undertitle = '<ul><li>' . implode('</li><li>', array_map('htmlspecialchars', $changes_authors)) . '</li></ul>';
         } else {
             $title = 'Your changes has been reviewed';
             $undertitle = '';
         }
-        $message = "<h2>$title $jira_link:</h2>$undertitle<br>$url<br><div style=\"line-height:1.5em;font: 12px monospace; margin-bottom: 20px;\">$diff</div>";
+        $message = "<h2>$title $tracker_link:</h2>$undertitle<br>$url<br><div style=\"line-height:1.5em;font: 12px monospace; margin-bottom: 20px;\">$diff</div>";
 
         $to = implode(',', $to);
 
@@ -99,27 +94,28 @@ class GitPHP_Util
         }
     }
 
-    public static function addReviewToJira($author_id, $review_name, $url, $comments, $review_type = 'unified')
+    public static function addReviewToTracker($author_id, $review_name, $url, $comments, $review_type = 'unified')
     {
-        if (preg_match(self::TICKET_REGEXP, $review_name, $m)) {
-            $ticket_key = $m['ticket'];
-
-            $Ticket = \GitPHP\JiraRestClient::getInstance()->getIssue($ticket_key);
-            if (!$Ticket) {
-                return;
+        $ticket_key = \GitPHP\Tracker::instance()->parceTicketFromString($review_name);
+        if (!empty($ticket_key)) {
+            $comments_authors = $changes_authors = [];
+            $format = \GitPHP\Tracker::instance()->getCommentsFormat();
+            $diff = self::insertCommentsToDiffs($comments, $format, $comments_authors, $changes_authors, $review_type);
+            $comment = "";
+            if (\GitPHP\Tracker::instance()->getTrackerType() == \GitPHP\Tracker::TRACKER_TYPE_JIRA) {
+                $diff = htmlspecialchars_decode(strip_tags($diff));
+                $comment = "Review from $author_id: \n$url\n" . str_replace('{code}{code}', '', "{code}$diff{code}");
+                $comment = str_replace("{quote}{code}\n{code}{quote}", '{quote}{quote} ⤷ ', $comment);
+            } elseif (\GitPHP\Tracker::instance()->getTrackerType() == \GitPHP\Tracker::TRACKER_TYPE_REDMINE) {
+                $comment = "Review from *$author_id*: \n$url\n" . str_replace("<pre>\n</pre>\n", "", "<pre>$diff</pre>");
+                $comment = str_replace("_\n>*", "_\n>⤷ *", $comment);
             }
-        
-            $commentsAuthors = $changesAuthors = [];
-            $diff = self::insertCommentsToDiffs($comments, 'jira', $commentsAuthors, $changesAuthors, $review_type);
-            $diff = htmlspecialchars_decode(strip_tags($diff));
-            $comment = "Review from $author_id: \n$url\n" . str_replace('{code}{code}', '', "{code}$diff{code}");
-            $comment = str_replace("{quote}{code}\n{code}{quote}", '{quote}{quote} ⤷ ', $comment);
             if (self::DEBUG_EMAIL) {
-                mail(self::DEBUG_EMAIL, "Post to jira ticket $review_name", $comment);
+                mail(self::DEBUG_EMAIL, "Post to tracker ticket $review_name", $comment);
                 return;
             }
             try {
-                \GitPHP\JiraRestClient::getInstance()->addComment($ticket_key, $comment);
+                \GitPHP\Tracker::instance()->addComment($ticket_key, $comment);
             } catch (\Exception $e) {
                 trigger_error($e);
             }
@@ -167,7 +163,12 @@ class GitPHP_Util
                 $vars_data['DIFF_OBJS'][] = self::insertCommentsToDiffObj($comments, $file, $Diff);
             }
         }
-        $template = ($format == 'html' ? 'review.mail.tpl' : 'review.jira.tpl');
+        $template = 'review.mail.tpl';
+        if ($format == 'jira') {
+            $template = 'review.jira.tpl';
+        } elseif ($format == 'redmine') {
+            $template = 'review.redmine.tpl';
+        }
         $View = new Smarty;
         $View->plugins_dir[] = GITPHP_INCLUDEDIR . 'smartyplugins';
         $View->template_dir = GITPHP_TEMPLATESDIR;
@@ -360,11 +361,6 @@ class GitPHP_Util
     public static function getHostnameUrl()
     {
         return 'http://' . $_SERVER['HTTP_HOST'];
-    }
-
-    public static function getJiraTicketUrl()
-    {
-        return \GitPHP\Jira::JIRA_URL . '/browse/';
     }
 
     public static function getReviewLink($snapshot, $file)

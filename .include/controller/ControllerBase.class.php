@@ -332,7 +332,7 @@ abstract class GitPHP_ControllerBase
         $ticketContollers = ['branchdiff', 'branchlog', 'commitdiff', 'commit', 'shortlog', 'log', 'tree'];
         $ticket = in_array($this->GetName(), $ticketContollers) ? $this->guesssTicket() : '';
         $this->tpl->assign('ticket', $ticket);
-        $this->tpl->assign('ticket_href', GitPHP_Util::getJiraTicketUrl() . $ticket);
+        $this->tpl->assign('ticket_href', \GitPHP\Tracker::instance()->getTicketUrl($ticket));
         $this->tpl->assign(
             'fixlineheight',
             isset($_COOKIE[GitPHP_Application::GITPHP_FIX_LINEHEIGHT_COOKIE]) && $_COOKIE[GitPHP_Application::GITPHP_FIX_LINEHEIGHT_COOKIE]
@@ -478,9 +478,7 @@ END;
         }
         if ($review) {
             $reviewObj = GitPHP_Db::getInstance()->findReviewById($review);
-            if (preg_match('#[A-Z]+-[0-9]+#', $reviewObj['ticket'], $m)) {
-                $ticket = $m[0];
-            }
+            $ticket = \GitPHP\Tracker::instance()->parceTicketFromString($reviewObj['ticket']);
         }
         return $ticket;
     }

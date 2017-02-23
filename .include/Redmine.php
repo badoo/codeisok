@@ -5,7 +5,7 @@ namespace GitPHP;
 class Redmine
 {
     const API_KEY = '';
-    const REDMINE_URL = 'https://rm.turbocontract.ru/';
+    const URL = 'https://your.redmine.url/';
 
     protected static $instance;
 
@@ -19,7 +19,7 @@ class Redmine
     {
         $data = json_encode(['username' => $username, 'password' => $password]);
         $Response = $this->request(
-            self::REDMINE_URL,
+            self::URL,
             'GET',
             'users/current.json',
             [],

@@ -107,8 +107,13 @@ class GitPHP_Controller_Review extends GitPHP_ControllerBase
         foreach ($snapshots as &$snapshot) {
             $snapshot['ticket'] = isset($reviews[$snapshot['review_id']]) ? $reviews[$snapshot['review_id']] : '';
             $ticket_key = $reviews[$snapshot['review_id']];
-            $ticket_key = preg_match(GitPHP_Util::TICKET_REGEXP, $ticket_key, $m) ? $m['ticket'] : $ticket_key;
-            $snapshot['ticket_url'] = GitPHP_Util::getJiraTicketUrl() . $ticket_key;
+            $snapshot['ticket_url'] = '';
+            if (\GitPHP\Tracker::instance()->enabled()) {
+                    $ticket_key = \GitPHP\Tracker::instance()->parceTicketFromString($ticket_key);
+                    if (!empty($ticket_key)) {
+                        $snapshot['ticket_url'] = \GitPHP\Tracker::instance()->getTicketUrl($ticket_key);
+                    }
+            }
             $snapshot['count'] = (isset($commentsCount[$snapshot['review_id']]) ? $commentsCount[$snapshot['review_id']]['cnt'] : '')
                 . (!empty($commentsCount[$snapshot['review_id']]['cnt_draft']) ? '+' . $commentsCount[$snapshot['review_id']]['cnt_draft'] . ' draft': '');
             if ($snapshot['hash_base'] == 'blob') {

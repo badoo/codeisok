@@ -8,7 +8,7 @@ class Jira
     const REST_COOKIE_NAME = 'studio.crowd.tokenkey';
     const APP_AUTH = '';
     const CROWD_URL = 'http://crowd.yourjiraurl.com:8095/crowd/rest/';
-    const JIRA_URL = 'https://yourjira.atlassian.net/';
+    const URL = 'https://yourjira.atlassian.net/';
 
     protected static $instance;
 
@@ -21,7 +21,7 @@ class Jira
     public function restAuthenticateByUsernameAndPassword($username, $password)
     {
         $data = json_encode(['username' => $username, 'password' => $password]);
-        $Response = $this->request(self::JIRA_URL, 'POST', 'rest/auth/1/session', $data, ['X-Atlassian-Token: nocheck']);
+        $Response = $this->request(self::URL, 'POST', 'rest/auth/1/session', $data, ['X-Atlassian-Token: nocheck']);
 
         $err = null;
         if ($Response->status_code != 200) {
@@ -40,7 +40,7 @@ class Jira
 
     public function restAuthenticateByCookie($cookie) {
         $err = null;
-        $Myself = $this->request(self::JIRA_URL, 'GET', 'rest/api/2/myself', null, ['X-Atlassian-Token: nocheck', 'Cookie: ' . self::REST_COOKIE_NAME . '=' . $cookie]);
+        $Myself = $this->request(self::URL, 'GET', 'rest/api/2/myself', null, ['X-Atlassian-Token: nocheck', 'Cookie: ' . self::REST_COOKIE_NAME . '=' . $cookie]);
         if ($Myself->status_code != 200) {
             $err = 'REST authentication failure!';
         }

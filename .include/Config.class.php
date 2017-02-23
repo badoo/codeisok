@@ -32,6 +32,7 @@ class GitPHP_Config
 
     //Review options
     const USE_JIRA                     = false;
+    const USE_REDMINE                  = true;
 
     // Others
     const COLLECT_CHANGES_AUTHORS      = 'collect_changes_authors';

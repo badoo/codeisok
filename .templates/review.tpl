@@ -5,7 +5,7 @@
     <thead>
     <tr>
         <th>Review</th>
-        <th>Ticket</th>
+        <th>Ticket/Name</th>
         <th>Comment count</th>
         <th>Link</th>
     </tr>
@@ -17,7 +17,11 @@
             {$snapshot.review_id}
         </td>
         <td>
-            <a href="{$snapshot.ticket_url}">{$snapshot.ticket}</a>
+            {if $snapshot.ticket_url}
+                <a href="{$snapshot.ticket_url}">{$snapshot.ticket}</a>
+            {else}
+                {$snapshot.ticket}
+            {/if}
         </td>
         <td>
             {$snapshot.count}

@@ -46,7 +46,7 @@
     {/if}
     <div class="title-right">
         {if $ticket}
-       <span class="ticket-label">JIRA Issue:</span> <a href="{$ticket_href}" class="ticket">{$ticket}</a>
+       <span class="ticket-label">Issue: </span>#<a href="{$ticket_href}" class="ticket">{$ticket}</a>
         {/if}
         {foreach from=$reviews item=review}
         <a href="{$review.link}">Review {$review.review_id}</a>
