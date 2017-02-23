@@ -107,6 +107,7 @@ class GitPHP_Util
                 $comment = "Review from $author_id: \n$url\n" . str_replace('{code}{code}', '', "{code}$diff{code}");
                 $comment = str_replace("{quote}{code}\n{code}{quote}", '{quote}{quote} ⤷ ', $comment);
             } elseif (\GitPHP\Tracker::instance()->getTrackerType() == \GitPHP\Tracker::TRACKER_TYPE_REDMINE) {
+                $diff = htmlspecialchars_decode($diff);
                 $comment = "Review from *$author_id*: \n$url\n" . str_replace("<pre>\n</pre>\n", "", "<pre>$diff</pre>");
                 $comment = str_replace("_\n>*", "_\n>⤷ *", $comment);
             }
