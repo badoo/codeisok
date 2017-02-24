@@ -20,6 +20,7 @@ class SyntaxHighlighter
     const TYPE_PROTOBUF     = 'protobuf';
     const TYPE_RST          = 'rst';
     const TYPE_GO           = 'go';
+    const TYPE_YAML         = 'yaml';
 
     const BASE_PATH  = 'lib/syntaxhighlighter/';
 
@@ -71,6 +72,8 @@ class SyntaxHighlighter
         'nuspec' => self::TYPE_XML,
         'go' => self::TYPE_GO,
         'rst' => self::TYPE_RST,
+        'yml' => self::TYPE_YAML,
+        'yaml' => self::TYPE_YAML,
     );
 
     protected static $brush_map = array(
@@ -92,6 +95,7 @@ class SyntaxHighlighter
         self::TYPE_PROTOBUF         => 'shBrushProtobuf.js',
         self::TYPE_RST              => 'shBrushRst.js',
         self::TYPE_GO               => 'shBrushGolang.js',
+        self::TYPE_YAML             => 'shBrushYaml.js',
     );
 
     protected $filename;
