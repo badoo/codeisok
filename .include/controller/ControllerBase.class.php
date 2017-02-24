@@ -474,6 +474,8 @@ END;
                 $ticket = $matches[1];
             } else if (preg_match('#refs/heads/([A-Z]+-[0-9]+)#', $hash, $matches)) {
                 $ticket = $matches[1];
+            } else if (preg_match(\GitPHP\Tracker::instance()->getTicketRegexp(), $hash, $matches)) {
+                $ticket = $matches['ticket'];
             }
         }
         if ($review) {

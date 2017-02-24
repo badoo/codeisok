@@ -197,8 +197,8 @@ class GitPHP_Controller_Comment extends GitPHP_ControllerBase
     {
         $ticket = '';
         $url = isset($_POST['url']) ? $_POST['url'] : '';
-        if (preg_match('#([A-Z]+\-[0-9]+)#', $url, $m)) {
-            $ticket = $m[1];
+        if (preg_match(\GitPHP\Tracker::instance()->getTicketRegexp(), $url, $m)) {
+            $ticket = 'issue-' . $m['ticket'];
         }
         $commitMessage = isset($_POST['commit_message']) ? $_POST['commit_message'] : '';
         if (preg_match('#^\[([-A-Z0-9]+)\]#', $commitMessage, $m)) {
