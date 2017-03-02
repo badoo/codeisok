@@ -7,7 +7,7 @@ class GitPHP_Session
     const SESSION_AUTH_DATA = 'crowd_auth_data';
     const SESSION_CREATED = 'created';
 
-    const FILE_DESTROY = '/local/tmp/gitphp_sesssion_destroy';
+    const FILE_DESTROY = '/tmp/gitphp_sesssion_destroy';
 
     /** @var GitPHP_User */
     protected $User;

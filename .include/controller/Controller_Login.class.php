@@ -37,7 +37,7 @@ class GitPHP_Controller_Login extends GitPHP_ControllerBase
     protected function ReadQuery()
     {
         $this->params['back'] = isset($_GET['back']) ? $_GET['back'] : '';
-        $php_format_cookie = str_replace('.', '_', \GitPHP\Jira::CROWD_COOKIE_NAME);
+        $php_format_cookie = str_replace('.', '_', \GitPHP\Jira::getCookieName());
         $this->params['crowd_token_key'] = (isset($_COOKIE[$php_format_cookie])) ? $_COOKIE[$php_format_cookie] : false;
         $this->params['post'] = false;
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -106,7 +106,7 @@ class GitPHP_Controller_Login extends GitPHP_ControllerBase
                 $expire = time() + 60 * 60 * 24 * 30 * 12;
                 $domain = $_SERVER['HTTP_HOST'];
                 if (\GitPHP_Config::AUTH_METHOD['crowd'] || \GitPHP_Config::AUTH_METHOD['jira']) {
-                    setcookie(\GitPHP\Jira::CROWD_COOKIE_NAME, $User->getToken(), $expire, '/', $domain, false, true);
+                    setcookie(\GitPHP\Jira::getCookieName(), $User->getToken(), $expire, '/', $domain, false, true);
                 }
             }
             $this->redirect($this->params['back']);

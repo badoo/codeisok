@@ -18,6 +18,15 @@ class Jira
         return self::$instance;
     }
 
+    public static function getCookieName()
+    {
+        $cookie_name = self::CROWD_COOKIE_NAME;
+        if (\GitPHP_Config::AUTH_METHOD['jira']) {
+            $cookie_name = self::REST_COOKIE_NAME;
+        }
+        return $cookie_name;
+    }
+
     public function restAuthenticateByUsernameAndPassword($username, $password)
     {
         $data = json_encode(['username' => $username, 'password' => $password]);
@@ -29,8 +38,8 @@ class Jira
             return [null, $err];
         }
 
-        if (isset($Response->cookies[self::REST_COOKIE_NAME])) {
-            $session = $Response->cookies[self::REST_COOKIE_NAME][0]['value'];
+        if (isset($Response->cookies[self::getCookieName()])) {
+            $session = $Response->cookies[self::getCookieName()][0]['value'];
             return $this->restAuthenticateByCookie($session);
         } else {
             $err = 'Can\'t get session cookies from REST response!';
@@ -40,7 +49,7 @@ class Jira
 
     public function restAuthenticateByCookie($cookie) {
         $err = null;
-        $Myself = $this->request(self::URL, 'GET', 'rest/api/2/myself', null, ['X-Atlassian-Token: nocheck', 'Cookie: ' . self::REST_COOKIE_NAME . '=' . $cookie]);
+        $Myself = $this->request(self::URL, 'GET', 'rest/api/2/myself', null, ['X-Atlassian-Token: nocheck', 'Cookie: ' . self::getCookieName() . '=' . $cookie]);
         if ($Myself->status_code != 200) {
             $err = 'REST authentication failure!';
         }
@@ -131,6 +140,35 @@ class Jira
             return false;
         }
         return true;
+    }
+
+    public function restIsGroupMember($user_id, $group_name)
+    {
+        if (!empty($_SERVER['HTTP_COOKIE'])) {
+            $auth_cookie = '';
+            $cookies = explode(" ", $_SERVER['HTTP_COOKIE']);
+            foreach ($cookies as $c) {
+                if (strpos($c, self::getCookieName()) !== false) {
+                    $auth_cookie = $c;
+                    break;
+                }
+            }
+            $User = $this->request(
+                self::JIRA_URL,
+                'GET',
+                'rest/api/2/user?username=' . urlencode($user_id) . '&expand=groups',
+                null,
+                ['X-Atlassian-Token: nocheck', 'Cookie: ' . $auth_cookie]
+            );
+            if ($User->status_code == 200 && !empty($User->body['groups']) && !empty($User->body['groups']['items'])) {
+                foreach ($User->body['groups']['items'] as $Group) {
+                    if ($Group['name'] == $group_name) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
     }
 
     protected function request($url, $http_method, $method, $data = null, $headers = [])

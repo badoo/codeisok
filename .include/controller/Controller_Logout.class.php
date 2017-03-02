@@ -45,8 +45,8 @@ class GitPHP_Controller_Logout extends GitPHP_ControllerBase
      */
     protected function LoadData()
     {
-        $php_format_cookie = str_replace('.', '_', \GitPHP\Jira::CROWD_COOKIE_NAME);
-        foreach (array(\GitPHP\Jira::CROWD_COOKIE_NAME, $php_format_cookie) as $cookie) {
+        $php_format_cookie = str_replace('.', '_', \GitPHP\Jira::getCookieName());
+        foreach (array(\GitPHP\Jira::getCookieName(), $php_format_cookie) as $cookie) {
             $domain = $_SERVER['HTTP_HOST'];
             setcookie($cookie, '', 0, '/', $domain, false, true);
         }
