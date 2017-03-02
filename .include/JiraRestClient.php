@@ -676,8 +676,11 @@ class JiraRestClient
         if (\GitPHP_Config::AUTH_METHOD['jira']) {
             //auth by crowd auth token got via rest authorisation
             $User = \GitPHP_Session::instance()->getUser();
-            $header_options['Cookie'] = \GitPHP\Jira::REST_COOKIE_NAME . '=' . $User->getToken();
-        } else {
+            if (!empty($User) && !empty($User->getToken())) {
+                $header_options['Cookie'] = \GitPHP\Jira::REST_COOKIE_NAME . '=' . $User->getToken();
+            }
+        }
+        if (empty($header_options['Cookie'])) {
             //try to auth by AUTH details provided
             $curl_options[CURLOPT_USERPWD] = self::AUTH_USER . ':' . self::AUTH_PASS;
         }
