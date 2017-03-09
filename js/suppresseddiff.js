@@ -1,4 +1,11 @@
 function show_suppressed_diff($node) {
+    //avoid scrolling to anchors when diff is loaded
+    var uri = window.location.toString();
+    if (uri.indexOf("#") > 0) {
+        var clean_uri = uri.substring(0, uri.indexOf("#"));
+        window.history.replaceState({}, document.title, clean_uri);
+    }
+
 	var isJquery = $node instanceof jQuery;
 
 	if (!isJquery) {
