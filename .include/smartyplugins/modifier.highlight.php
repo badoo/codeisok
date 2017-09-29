@@ -22,7 +22,8 @@
  */
 function smarty_modifier_highlight($haystack, $needle, $trimlen = NULL, $escape = false, $highlightclass = 'searchmatch')
 {
-	if (preg_match("/(.*)(" . preg_quote($needle, '/') . ")(.*)/i",$haystack,$regs)) {
+	if (false !== $offset = stripos($haystack, $needle)) {
+		$regs = [$haystack, substr($haystack, 0, $offset), substr($haystack, $offset, strlen($needle)), substr($haystack, $offset + strlen($needle))];
 		if (isset($trimlen) && ($trimlen > 0)) {
 			$linelen = strlen($regs[0]);
 			if ($linelen > $trimlen) {
