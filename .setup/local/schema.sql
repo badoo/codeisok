@@ -42,7 +42,8 @@ CREATE TABLE IF NOT EXISTS `Snapshot` (
   `repo` varchar(30) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
   `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `review_type` enum('unified','sidebyside') COLLATE utf8_bin NOT NULL DEFAULT 'unified',
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `review_id` (`review_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 CREATE TABLE IF NOT EXISTS `Access` (
