@@ -13,10 +13,12 @@ return array(
     \GitPHP_Config::CHECK_ACCESS_GROUP      => false,
     \GitPHP_Config::GIT_USER                => 'git',
     \GitPHP_Config::GIT_HOME                => '/home/git/',
+
     /*
      * Authentication method to use. See \GitPHP_Config::AUTH_METHOD_* constants to get list of supported methods
      */
     \GitPHP_Config::AUTH_METHOD             => \GitPHP_Config::AUTH_METHOD_CONFIG,
+
     /*
      * Credentials for AUTH_METHOD_CONFIG auth method
      */
@@ -35,11 +37,24 @@ return array(
 
     /**
      * ===== CROWD =====
+     *
      * \GitPHP_Config::CROWD_URL crowd url
      * \GitPHP_Config::CROWD_APP_TOKEN crowd application token that can be used with rest api
      */
     // \GitPHP_Config::CROWD_URL => 'http://crowd.yourjiraurl.com:8095/crowd/rest/',
     // \GitPHP_Config::CROWD_APP_TOKEN => '',
+
+    /**
+     * ===== Issue tracker =====
+     *
+     * It's not the same with auth method. Tracker is used to
+     *  - identify issues
+     *  - post review in comments
+     *  - find issue developers to send them review
+     * See \GitPHP_Config::TRACKER_TYPE_* or \GitPHP\Tracker::TRACKER_TYPE_* constants
+     * to get list of supported trackers
+     */
+    \GitPHP_Config::TRACKER_TYPE => '',
 
     //'debug' => true,
     /*

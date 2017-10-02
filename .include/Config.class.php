@@ -37,18 +37,21 @@ class GitPHP_Config
     const GIT_USER                     = 'git';
     const GIT_HOME                     = '/home/git/';
 
-    //Review options
-    const USE_JIRA                     = false;
-    const USE_REDMINE                  = true;
+    // Tracker options
+    const TRACKER_TYPE         = 'tracker_type';
+    const TRACKER_TYPE_JIRA    = \GitPHP\Tracker::TRACKER_TYPE_JIRA;
+    const TRACKER_TYPE_REDMINE = \GitPHP\Tracker::TRACKER_TYPE_REDMINE;
 
-    // Others
+    // Review options
     const COLLECT_CHANGES_AUTHORS      = 'collect_changes_authors';
     const COLLECT_CHANGES_AUTHORS_SKIP = 'collect_changes_authors_skip';
     const HIDE_FILES_PER_CATEGORY      = 'hide_files_per_category';
     const SKIP_SUPPRESS_FOR_CATEGORY   = 'skip_suppress_for_category';
+
+    // Debug
     const DEBUG_ENABLED                = true;
 
-    //static
+    // Static
     const STATIC_VERSION_CSS           = '1';
     const STATIC_VERSION_JS            = '1';
 
@@ -192,6 +195,33 @@ class GitPHP_Config
     /* *****
      * Specific custom getters for configuration options.
      * *****/
+
+    /**
+     * Get tracker type to use
+     * @return string
+     */
+    public function GetTrackerType()
+    {
+        return $this->GetValue(self::TRACKER_TYPE);
+    }
+
+    /**
+     * Should use jira tracker
+     * @return bool
+     */
+    public function GetUseJiraTracker()
+    {
+        return $this->GetTrackerType() === self::TRACKER_TYPE_JIRA;
+    }
+
+    /**
+     * Should use redmine tracker
+     * @return bool
+     */
+    public function GetUseRedmineTracker()
+    {
+        return $this->GetTrackerType() === self::TRACKER_TYPE_REDMINE;
+    }
 
     /**
      * Get crowd instance url

@@ -26,9 +26,9 @@ class Tracker
     public function __construct()
     {
         $res = self::TRACKER_TYPE_DISABLED;
-        if (\GitPHP_Config::USE_JIRA) {
+        if (\GitPHP_Config::GetInstance()->GetUseJiraTracker()) {
             $res = self::TRACKER_TYPE_JIRA;
-        } elseif (\GitPHP_Config::USE_REDMINE) {
+        } elseif (\GitPHP_Config::GetInstance()->GetUseRedmineTracker()) {
             $res = self::TRACKER_TYPE_REDMINE;
         }
         $this->tracker_type = $res;
