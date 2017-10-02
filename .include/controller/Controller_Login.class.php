@@ -65,12 +65,13 @@ class GitPHP_Controller_Login extends GitPHP_ControllerBase
             } else if (\GitPHP_Config::GetInstance()->GetAuthMethod() == \GitPHP_Config::AUTH_METHOD_JIRA) {
                 list ($auth_result, $err) = \GitPHP\Jira::instance()->restAuthenticateByUsernameAndPassword($this->params['login'], $this->params['password']);
             } else if (\GitPHP_Config::GetInstance()->GetAuthMethod() == \GitPHP_Config::AUTH_METHOD_CONFIG) {
-                if (\GitPHP_Config::AUTH_USER['name'] === $this->params['login'] && \GitPHP_Config::AUTH_USER['password'] === $this->params['password']) {
+                $auth_user = \GitPHP_Config::GetInstance()->GetAuthUser();
+                if ($auth_user['name'] === $this->params['login'] && $auth_user['password'] === $this->params['password']) {
                     $auth_result = [
-                        'user_id' => \GitPHP_Config::AUTH_USER['name'],
-                        'user_name' => \GitPHP_Config::AUTH_USER['name'],
-                        'user_email' => \GitPHP_Config::AUTH_USER['name'],
-                        'user_token' => md5(\GitPHP_Config::AUTH_USER['name'].$this->params['password'].microtime())
+                        'user_id' => $auth_user['name'],
+                        'user_name' => $auth_user['name'],
+                        'user_email' => $auth_user['name'],
+                        'user_token' => md5($auth_user['name'].$auth_user['password'].microtime())
                     ];
                 } else {
                     $err = 'User or password does not exists.';

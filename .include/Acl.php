@@ -104,7 +104,7 @@ class Acl
             } else if ($auth_method == \GitPHP_Config::AUTH_METHOD_JIRA) {
                 $is_in_group = $this->Jira->restIsGroupMember($User->getId(), $group_name);
             } else if ($auth_method == \GitPHP_Config::AUTH_METHOD_CONFIG) {
-                $is_in_group = \GitPHP_Config::AUTH_USER['admin'];
+                $is_in_group = \GitPHP_Config::GetInstance()->GetAuthUser()['admin'];
             }
             $User->setInGroup($group_name, $is_in_group);
         }

@@ -154,7 +154,7 @@ class Jira
                 }
             }
             $User = $this->request(
-                self::JIRA_URL,
+                self::URL,
                 'GET',
                 'rest/api/2/user?username=' . urlencode($user_id) . '&expand=groups',
                 null,

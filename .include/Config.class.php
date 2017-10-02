@@ -11,12 +11,8 @@ class GitPHP_Config
     const AUTH_METHOD_REDMINE = 'redmine';
     const AUTH_METHOD_CONFIG  = 'config';
 
-    /** To use this login-password you should enable AUTH_METHOD_CONFIG */
-    const AUTH_USER = [
-        'name' => 'user',
-        'password' => 'qwerty',
-        'admin' => true,
-    ];
+    // User-Password to use with AUTH_METHOD_CONFIG
+    const CONFIG_AUTH_USER = 'config_auth_user';
 
     // DB options
     const DB_HOST                      = 'localhost';
@@ -188,9 +184,28 @@ class GitPHP_Config
      * Specific custom getters for configuration options.
      * *****/
 
+    /**
+     * Get auth method that we should use
+     * One of the self::AUTH_METHOD_* constants
+     *
+     * @return string
+     */
     public function GetAuthMethod()
     {
         return $this->GetValue(self::AUTH_METHOD, self::AUTH_METHOD_NONE);
+    }
+
+    /**
+     * Get user credentials that should be used with AUTH_METHOD_CONFIG auth method
+     *
+     * @return array
+     */
+    public function GetAuthUser()
+    {
+        if ($this->GetAuthMethod() !== self::AUTH_METHOD_CONFIG) {
+            return [];
+        }
+        return $this->GetValue(self::CONFIG_AUTH_USER);
     }
 
     /**

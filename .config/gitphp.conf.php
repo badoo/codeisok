@@ -17,6 +17,10 @@ return array(
      * Authentication method to use. See \GitPHP_Config::AUTH_METHOD_* constants to get list of supported methods
      */
     \GitPHP_Config::AUTH_METHOD             => \GitPHP_Config::AUTH_METHOD_REDMINE,
+    /*
+     * Credentials for AUTH_METHOD_CONFIG auth method
+     */
+    // \GitPHP_Config::CONFIG_AUTH_USER => ['name' => '', 'password' => '', 'admin' => true],
 
     //'debug' => true,
     /*
