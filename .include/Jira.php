@@ -21,7 +21,7 @@ class Jira
     public static function getCookieName()
     {
         $cookie_name = self::CROWD_COOKIE_NAME;
-        if (\GitPHP_Config::AUTH_METHOD['jira']) {
+        if (\GitPHP_Config::GetInstance()->GetAuthMethod() == \GitPHP_Config::AUTH_METHOD_JIRA) {
             $cookie_name = self::REST_COOKIE_NAME;
         }
         return $cookie_name;

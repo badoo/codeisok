@@ -3,13 +3,15 @@ class GitPHP_Config
 {
     const PROJECT_ROOT = 'projectroot';
 
-    const AUTH_METHOD = [
-        'crowd' => false,
-        'jira' => false,
-        'config' => false,
-        'redmine' => true,
-    ];
+    /** Authentication methods that are supported. Change method in .config/gitphp.conf.php file */
+    const AUTH_METHOD         = 'auth_method';
+    const AUTH_METHOD_NONE    = 'none';
+    const AUTH_METHOD_CROWD   = 'crowd';
+    const AUTH_METHOD_JIRA    = 'jira';
+    const AUTH_METHOD_REDMINE = 'redmine';
+    const AUTH_METHOD_CONFIG  = 'config';
 
+    /** To use this login-password you should enable AUTH_METHOD_CONFIG */
     const AUTH_USER = [
         'name' => 'user',
         'password' => 'qwerty',
@@ -186,6 +188,11 @@ class GitPHP_Config
      * Specific custom getters for configuration options.
      * *****/
 
+    public function GetAuthMethod()
+    {
+        return $this->GetValue(self::AUTH_METHOD, self::AUTH_METHOD_NONE);
+    }
+
     /**
      * Get list of actions, allowed for project without authentication.
      * @param string $project - project (repository) name.
@@ -193,9 +200,7 @@ class GitPHP_Config
      */
     public function GetGitNoAuthActions($project)
     {
-        $Config = \GitPHP_Config::GetInstance();
-
-        $git_no_auth_actions = $Config->GetValue(self::GIT_NO_AUTH_ACTIONS, []);
+        $git_no_auth_actions = $this->GetValue(self::GIT_NO_AUTH_ACTIONS, []);
 
         $allowed_by_default  = $git_no_auth_actions['default'] ?? [];
         $allowed_for_project = $git_no_auth_actions[$project]  ?? [];

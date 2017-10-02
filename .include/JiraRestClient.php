@@ -673,7 +673,7 @@ class JiraRestClient
             'X-Atlassian-Token' => 'nocheck',
         ];
 
-        if (\GitPHP_Config::AUTH_METHOD['jira']) {
+        if (\GitPHP_Config::GetInstance()->GetAuthMethod() == \GitPHP_Config::AUTH_METHOD_JIRA) {
             //auth by crowd auth token got via rest authorisation
             $User = \GitPHP_Session::instance()->getUser();
             if (!empty($User) && !empty($User->getToken())) {

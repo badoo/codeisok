@@ -13,6 +13,10 @@ return array(
     \GitPHP_Config::CHECK_ACCESS_GROUP      => false,
     \GitPHP_Config::GIT_USER                => 'git',
     \GitPHP_Config::GIT_HOME                => '/home/git/',
+    /*
+     * Authentication method to use. See \GitPHP_Config::AUTH_METHOD_* constants to get list of supported methods
+     */
+    \GitPHP_Config::AUTH_METHOD             => \GitPHP_Config::AUTH_METHOD_REDMINE,
 
     //'debug' => true,
     /*
