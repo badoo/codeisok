@@ -95,7 +95,7 @@ class JiraRestClient
      * @param array $fields      - new issue field values.
      * @return \stdClass
      *
-     * @throws Exception
+     * @throws \Exception
      */
     public function createIssue($project, $issue_type, $summary, $fields = [])
     {
@@ -552,7 +552,7 @@ class JiraRestClient
      * @param string $issue1_key - first end of link
      * @param string $issue2_key - second end of link
      *
-     * @throws Exception
+     * @throws \Exception
      */
     public function unlinkIssues($link_type, $issue1_key, $issue2_key)
     {
@@ -578,7 +578,7 @@ class JiraRestClient
      *
      * @param int $link_id - link ID
      *
-     * @throws Exception
+     * @throws \Exception
      */
     public function removeLink($link_id)
     {
@@ -647,10 +647,10 @@ class JiraRestClient
      * @param string $command  - API method path (e.g. issue/<key>)
      * @param array $arguments - request data (parameters)
      *
-     * @return array|null      - array (parsed response JSON) or null (on 204 response code with empty body) for
+     * @return \stdClass|\stdClass[]|null      - array (parsed response JSON) or null (on 204 response code with empty body) for
      *                           successful request.
      *
-     * @throws Exception - on JSON parse errors, on warning HTTP codes and other errors.
+     * @throws \Exception - on JSON parse errors, on warning HTTP codes and other errors.
      */
     private function _request($method, $command, $arguments = [])
     {
