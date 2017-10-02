@@ -3,7 +3,7 @@ class GitPHP_Config
 {
     const PROJECT_ROOT = 'projectroot';
 
-    /** Authentication methods that are supported. Change method in .config/gitphp.conf.php file */
+    // Authentication methods that are supported. Change method in .config/gitphp.conf.php file
     const AUTH_METHOD         = 'auth_method';
     const AUTH_METHOD_NONE    = 'none';
     const AUTH_METHOD_CROWD   = 'crowd';
@@ -19,6 +19,15 @@ class GitPHP_Config
     const DB_USER                      = 'username';
     const DB_PASSWORD                  = 'userpass';
     const DB_NAME                      = 'dbname';
+
+    // Jira options
+    const JIRA_URL      = 'jira_url';
+    const JIRA_USER     = 'jira_user';
+    const JIRA_PASSWORD = 'jira_password';
+
+    // Crowd options
+    const CROWD_URL       = 'crowd_url';
+    const CROWD_APP_TOKEN = 'crowd_token';
 
     // Access options
     const CHECK_ACCESS_GROUP           = false;
@@ -183,6 +192,56 @@ class GitPHP_Config
     /* *****
      * Specific custom getters for configuration options.
      * *****/
+
+    /**
+     * Get crowd instance url
+     *
+     * @return string
+     */
+    public function GetCrowdUrl()
+    {
+        return $this->GetValue(self::CROWD_URL, '');
+    }
+
+    /**
+     * Get crowd application token
+     *
+     * @return string
+     */
+    public function GetCrowdToken()
+    {
+        return $this->GetValue(self::CROWD_APP_TOKEN, '');
+    }
+
+    /**
+     * Get jira instance url
+     *
+     * @return string
+     */
+    public function GetJiraUrl()
+    {
+        return $this->GetValue(self::JIRA_URL, '');
+    }
+
+    /**
+     * Get jira user
+     *
+     * @return string
+     */
+    public function GetJiraUser()
+    {
+        return $this->GetValue(self::JIRA_USER, '');
+    }
+
+    /**
+     * Get jira password
+     *
+     * @return string
+     */
+    public function GetJiraPassword()
+    {
+        return $this->GetValue(self::JIRA_PASSWORD, '');
+    }
 
     /**
      * Get auth method that we should use

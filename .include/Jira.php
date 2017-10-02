@@ -6,15 +6,22 @@ class Jira
 {
     const CROWD_COOKIE_NAME = 'crowd.token_key';
     const REST_COOKIE_NAME = 'studio.crowd.tokenkey';
-    const APP_AUTH = '';
-    const CROWD_URL = 'http://crowd.yourjiraurl.com:8095/crowd/rest/';
-    const URL = 'https://yourjira.atlassian.net/';
 
     protected static $instance;
 
+    protected $url = '';
+
+    protected $crowd_url = '';
+    protected $crowd_token = '';
+
     public static function instance()
     {
-        if (!self::$instance) self::$instance = new self();
+        if (!self::$instance) {
+            self::$instance = new self();
+            self::$instance->url = \GitPHP_Config::GetInstance()->GetJiraUrl();
+            self::$instance->crowd_url = \GitPHP_Config::GetInstance()->GetCrowdUrl();
+            self::$instance->crowd_token = \GitPHP_Config::GetInstance()->GetCrowdToken();
+        }
         return self::$instance;
     }
 
@@ -30,7 +37,7 @@ class Jira
     public function restAuthenticateByUsernameAndPassword($username, $password)
     {
         $data = json_encode(['username' => $username, 'password' => $password]);
-        $Response = $this->request(self::URL, 'POST', 'rest/auth/1/session', $data, ['X-Atlassian-Token: nocheck']);
+        $Response = $this->request($this->url, 'POST', 'rest/auth/1/session', $data, ['X-Atlassian-Token: nocheck']);
 
         $err = null;
         if ($Response->status_code != 200) {
@@ -49,7 +56,7 @@ class Jira
 
     public function restAuthenticateByCookie($cookie) {
         $err = null;
-        $Myself = $this->request(self::URL, 'GET', 'rest/api/2/myself', null, ['X-Atlassian-Token: nocheck', 'Cookie: ' . self::getCookieName() . '=' . $cookie]);
+        $Myself = $this->request($this->url, 'GET', 'rest/api/2/myself', null, ['X-Atlassian-Token: nocheck', 'Cookie: ' . self::getCookieName() . '=' . $cookie]);
         if ($Myself->status_code != 200) {
             $err = 'REST authentication failure!';
         }
@@ -67,7 +74,7 @@ class Jira
 
     public function crowdAuthenticatePrincipalByCookie($crowd_token_key)
     {
-        $Response = $this->request(self::CROWD_URL, 'GET', 'usermanagement/latest/session/' . urlencode($crowd_token_key));
+        $Response = $this->request($this->crowd_url, 'GET', 'usermanagement/latest/session/' . urlencode($crowd_token_key));
 
         $err = null;
         if ($Response->status_code != 200) {
@@ -92,7 +99,7 @@ class Jira
     public function crowdAuthenticatePrincipal($login, $password)
     {
         $data = json_encode(['value' => $password]);
-        $Response = $this->request(self::CROWD_URL, 'POST', 'usermanagement/latest/authentication?username=' . urlencode($login), $data);
+        $Response = $this->request($this->crowd_url, 'POST', 'usermanagement/latest/authentication?username=' . urlencode($login), $data);
 
         $err = null;
         if ($Response->status_code != 200) {
@@ -112,7 +119,7 @@ class Jira
         ];
 
         $data = json_encode(['username' => $login, 'password' => $password]);
-        $Response = $this->request(self::CROWD_URL, 'POST', 'usermanagement/latest/session', $data);
+        $Response = $this->request($this->crowd_url, 'POST', 'usermanagement/latest/session', $data);
 
         if ($Response->status_code != 201) {
             $err = isset($Response->body['message']) ? $Response->body['message'] : ($Response->status_code . $Response->status_text);
@@ -135,7 +142,7 @@ class Jira
             'groupname' => $group_name,
         ];
         $query_str = http_build_query($query);
-        $Response = $this->request(self::CROWD_URL, 'GET', 'usermanagement/latest/user/group/direct?' . $query_str);
+        $Response = $this->request($this->crowd_url, 'GET', 'usermanagement/latest/user/group/direct?' . $query_str);
         if ($Response->status_code != 200 || empty($Response->body['name'])) {
             return false;
         }
@@ -154,7 +161,7 @@ class Jira
                 }
             }
             $User = $this->request(
-                self::URL,
+                $this->url,
                 'GET',
                 'rest/api/2/user?username=' . urlencode($user_id) . '&expand=groups',
                 null,
@@ -179,8 +186,8 @@ class Jira
             'Content-Type: application/json',
         ]);
 
-        if (!empty(self::APP_AUTH)) {
-            array_push($headers, 'Authorization: Basic ' . self::APP_AUTH);
+        if (!empty($this->crowd_token)) {
+            array_push($headers, 'Authorization: Basic ' . $this->crowd_token);
         }
 
         $opts = [

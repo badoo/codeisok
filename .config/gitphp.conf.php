@@ -22,6 +22,25 @@ return array(
      */
     // \GitPHP_Config::CONFIG_AUTH_USER => ['name' => '', 'password' => '', 'admin' => true],
 
+    /**
+     * ===== JIRA =====
+     *
+     * \GitPHP_Config::JIRA_URL jira url
+     * \GitPHP_Config::JIRA_USER jira user to use with rest api
+     * \GitPHP_Config::JIRA_PASSWORD jira password to use with rest api
+     */
+    // \GitPHP_Config::JIRA_URL => 'https://yourjira.atlassian.net/',
+    // \GitPHP_Config::JIRA_USER => 'user',
+    // \GitPHP_Config::JIRA_PASSWORD => 'password',
+
+    /**
+     * ===== CROWD =====
+     * \GitPHP_Config::CROWD_URL crowd url
+     * \GitPHP_Config::CROWD_APP_TOKEN crowd application token that can be used with rest api
+     */
+    // \GitPHP_Config::CROWD_URL => 'http://crowd.yourjiraurl.com:8095/crowd/rest/',
+    // \GitPHP_Config::CROWD_APP_TOKEN => '',
+
     //'debug' => true,
     /*
      * cache

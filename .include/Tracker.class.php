@@ -63,7 +63,7 @@ class Tracker
         $url = '';
         switch ($this->tracker_type) {
             case self::TRACKER_TYPE_JIRA:
-                $url = \GitPHP\Jira::URL . 'browse/' . $ticket_key;
+                $url = \GitPHP_Config::GetInstance()->GetJiraUrl() . 'browse/' . $ticket_key;
                 break;
             case self::TRACKER_TYPE_REDMINE:
                 $url = \GitPHP\Redmine::URL . 'issues/' . $ticket_key;
