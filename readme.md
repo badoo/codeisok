@@ -28,7 +28,7 @@ Docker container exposes 2 ports:
 
 ### Internals
 
-Default authorisation is just config-based. See AUTH_USER constant in .include/Config.class.php. Jira types of authorisation can be enabled/disabled there.
+Default authorisation is just config-based. You can use 'user' user and 'password' password. To change it look for \GitPHP_Config::AUTH_METHOD and \GitPHP_Config::CONFIG_AUTH_USER fields in .config/gitphp.conf.php file.
 
 Service is using [smarty](http://www.smarty.net) as template engine. So templates_c directory should be writable for web-service user.
 
