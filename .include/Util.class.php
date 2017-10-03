@@ -65,6 +65,8 @@ class GitPHP_Util
             }
         }
         $to = array_unique($to);
+        $ignored_emails = \GitPHP_Config::GetInstance()->GetValue(\GitPHP_Config::IGNORED_EMAIL_ADDRESSES, []);
+        $to = array_filter($to, function ($address) use ($ignored_emails) { return !in_array($address, $ignored_emails); });
 
         $subject = "[GITPHP] ($review_name) Comment from $from";
 

@@ -47,6 +47,7 @@ class GitPHP_Config
     const COLLECT_CHANGES_AUTHORS_SKIP = 'collect_changes_authors_skip';
     const HIDE_FILES_PER_CATEGORY      = 'hide_files_per_category';
     const SKIP_SUPPRESS_FOR_CATEGORY   = 'skip_suppress_for_category';
+    const IGNORED_EMAIL_ADDRESSES      = 'ignored_email_addresses';
 
     // Debug
     const DEBUG_ENABLED                = true;

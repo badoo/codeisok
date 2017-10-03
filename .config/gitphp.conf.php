@@ -56,6 +56,12 @@ return array(
      */
     \GitPHP_Config::TRACKER_TYPE => '',
 
+    /*
+     * ignored emails
+     * Skip this emails when sending review notifications. May be useful to prevent spam in some cases
+     */
+    \GitPHP_Config::IGNORED_EMAIL_ADDRESSES => [],
+
     //'debug' => true,
     /*
      * cache
