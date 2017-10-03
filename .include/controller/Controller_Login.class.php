@@ -60,30 +60,31 @@ class GitPHP_Controller_Login extends GitPHP_ControllerBase
         $err = $auth_result = false;
 
         if ($this->params['post'] && !empty($this->params['login']) && !empty($this->params['password'])) {
-            if (\GitPHP_Config::AUTH_METHOD['crowd']) {
+            if (\GitPHP_Config::GetInstance()->GetAuthMethod() == \GitPHP_Config::AUTH_METHOD_CROWD) {
                 list ($auth_result, $err) = \GitPHP\Jira::instance()->crowdAuthenticatePrincipal($this->params['login'], $this->params['password']);
-            } elseif (\GitPHP_Config::AUTH_METHOD['jira']) {
+            } else if (\GitPHP_Config::GetInstance()->GetAuthMethod() == \GitPHP_Config::AUTH_METHOD_JIRA) {
                 list ($auth_result, $err) = \GitPHP\Jira::instance()->restAuthenticateByUsernameAndPassword($this->params['login'], $this->params['password']);
-            } elseif (\GitPHP_Config::AUTH_METHOD['config']) {
-                if (\GitPHP_Config::AUTH_USER['name'] === $this->params['login'] && \GitPHP_Config::AUTH_USER['password'] === $this->params['password']) {
+            } else if (\GitPHP_Config::GetInstance()->GetAuthMethod() == \GitPHP_Config::AUTH_METHOD_CONFIG) {
+                $auth_user = \GitPHP_Config::GetInstance()->GetAuthUser();
+                if ($auth_user['name'] === $this->params['login'] && $auth_user['password'] === $this->params['password']) {
                     $auth_result = [
-                        'user_id' => \GitPHP_Config::AUTH_USER['name'],
-                        'user_name' => \GitPHP_Config::AUTH_USER['name'],
-                        'user_email' => \GitPHP_Config::AUTH_USER['name'],
-                        'user_token' => md5(\GitPHP_Config::AUTH_USER['name'].$this->params['password'].microtime())
+                        'user_id' => $auth_user['name'],
+                        'user_name' => $auth_user['name'],
+                        'user_email' => $auth_user['name'],
+                        'user_token' => md5($auth_user['name'].$auth_user['password'].microtime())
                     ];
                 } else {
                     $err = 'User or password does not exists.';
                 }
-            } elseif (\GitPHP_Config::AUTH_METHOD['redmine']) {
+            } else if (\GitPHP_Config::GetInstance()->GetAuthMethod() == \GitPHP_Config::AUTH_METHOD_REDMINE) {
                 list ($auth_result, $err) = \GitPHP\Redmine::instance()->restAuthenticateByUsernameAndPassword($this->params['login'], $this->params['password']);
             } else {
                 $err = 'Auth method is not defined. Please check config file.';
             }
         } else if ($this->params['crowd_token_key']) {
-            if (\GitPHP_Config::AUTH_METHOD['crowd']) {
+            if (\GitPHP_Config::GetInstance()->GetAuthMethod() == \GitPHP_Config::AUTH_METHOD_CROWD) {
                 list ($auth_result, $err) = \GitPHP\Jira::instance()->crowdAuthenticatePrincipalByCookie($this->params['crowd_token_key']);
-            } elseif (\GitPHP_Config::AUTH_METHOD['jira']) {
+            } else if (\GitPHP_Config::GetInstance()->GetAuthMethod() == \GitPHP_Config::AUTH_METHOD_JIRA) {
                 list ($auth_result, $err) = \GitPHP\Jira::instance()->restAuthenticateByCookie($this->params['crowd_token_key']);
             }
         }
@@ -105,7 +106,7 @@ class GitPHP_Controller_Login extends GitPHP_ControllerBase
             if (!empty($this->params['remember'])) {
                 $expire = time() + 60 * 60 * 24 * 30 * 12;
                 $domain = $_SERVER['HTTP_HOST'];
-                if (\GitPHP_Config::AUTH_METHOD['crowd'] || \GitPHP_Config::AUTH_METHOD['jira']) {
+                if (in_array(\GitPHP_Config::GetInstance()->GetAuthMethod(), [\GitPHP_Config::AUTH_METHOD_CROWD, \GitPHP_Config::AUTH_METHOD_JIRA])) {
                     setcookie(\GitPHP\Jira::getCookieName(), $User->getToken(), $expire, '/', $domain, false, true);
                 }
             }

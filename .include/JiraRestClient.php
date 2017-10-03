@@ -11,10 +11,6 @@ class JiraRestClient
         REQ_DELETE    = 'DELETE',
         REQ_MULTIPART = 'MULTIPART';
 
-    const
-        AUTH_USER = 'restuser',
-        AUTH_PASS = 'restpassword';
-
     const REST_URL = 'rest/api/latest/';
 
     /**
@@ -56,7 +52,10 @@ class JiraRestClient
     protected $all_fields = null;
     protected $statuses = null;
     protected $users_cache = [];
-    protected $jira_url = '';
+
+    protected $jira_url      = '';
+    protected $jira_user     = '';
+    protected $jira_password = '';
 
     /**
      * @return JiraRestClient
@@ -65,7 +64,9 @@ class JiraRestClient
     {
         if (empty(self::$instance)) {
             self::$instance = new self();
-            self::$instance->setJiraUrl(\GitPHP\Jira::URL);
+            self::$instance->jira_url = \GitPHP_Config::GetInstance()->GetJiraUrl();
+            self::$instance->jira_user = \GitPHP_Config::GetInstance()->GetJiraUser();
+            self::$instance->jira_password = \GitPHP_Config::GetInstance()->GetJiraPassword();
         }
         return self::$instance;
     }
@@ -95,7 +96,7 @@ class JiraRestClient
      * @param array $fields      - new issue field values.
      * @return \stdClass
      *
-     * @throws Exception
+     * @throws \Exception
      */
     public function createIssue($project, $issue_type, $summary, $fields = [])
     {
@@ -552,7 +553,7 @@ class JiraRestClient
      * @param string $issue1_key - first end of link
      * @param string $issue2_key - second end of link
      *
-     * @throws Exception
+     * @throws \Exception
      */
     public function unlinkIssues($link_type, $issue1_key, $issue2_key)
     {
@@ -578,7 +579,7 @@ class JiraRestClient
      *
      * @param int $link_id - link ID
      *
-     * @throws Exception
+     * @throws \Exception
      */
     public function removeLink($link_id)
     {
@@ -647,14 +648,14 @@ class JiraRestClient
      * @param string $command  - API method path (e.g. issue/<key>)
      * @param array $arguments - request data (parameters)
      *
-     * @return array|null      - array (parsed response JSON) or null (on 204 response code with empty body) for
+     * @return \stdClass|\stdClass[]|null      - array (parsed response JSON) or null (on 204 response code with empty body) for
      *                           successful request.
      *
-     * @throws Exception - on JSON parse errors, on warning HTTP codes and other errors.
+     * @throws \Exception - on JSON parse errors, on warning HTTP codes and other errors.
      */
     private function _request($method, $command, $arguments = [])
     {
-        $url = $this->getJiraUrl() . self::REST_URL . $command;
+        $url = $this->jira_url . self::REST_URL . $command;
         if ($method == self::REQ_GET && !empty($arguments)) {
             $url = $url . '?' . http_build_query($arguments);
         }
@@ -673,7 +674,7 @@ class JiraRestClient
             'X-Atlassian-Token' => 'nocheck',
         ];
 
-        if (\GitPHP_Config::AUTH_METHOD['jira']) {
+        if (\GitPHP_Config::GetInstance()->GetAuthMethod() == \GitPHP_Config::AUTH_METHOD_JIRA) {
             //auth by crowd auth token got via rest authorisation
             $User = \GitPHP_Session::instance()->getUser();
             if (!empty($User) && !empty($User->getToken())) {
@@ -682,7 +683,7 @@ class JiraRestClient
         }
         if (empty($header_options['Cookie'])) {
             //try to auth by AUTH details provided
-            $curl_options[CURLOPT_USERPWD] = self::AUTH_USER . ':' . self::AUTH_PASS;
+            $curl_options[CURLOPT_USERPWD] = $this->jira_user . ':' . $this->jira_password;
         }
 
         switch ($method) {
@@ -742,20 +743,5 @@ class JiraRestClient
             throw new \Exception("Unknown error occurred when tried to perform api call. API answer: " . var_export($result, 1));
         }
         return $result;
-    }
-
-    /**
-     * @param string $url From constats.inc: DEPLOY_JIRA_TEST_URL|DEPLOY_JIRA_PROD_URL
-     * @return $this
-     */
-    public function setJiraUrl($url)
-    {
-        $this->jira_url = $url;
-        return $this;
-    }
-
-    public function getJiraUrl()
-    {
-        return $this->jira_url;
     }
 }

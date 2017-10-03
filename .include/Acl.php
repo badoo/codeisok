@@ -98,12 +98,13 @@ class Acl
         $is_in_group = $User->isInGroup($group_name);
         if ($is_in_group === null) {
             $is_in_group = false;
-            if (\GitPHP_Config::AUTH_METHOD['crowd']) {
+            $auth_method = \GitPHP_Config::GetInstance()->GetAuthMethod();
+            if ($auth_method == \GitPHP_Config::AUTH_METHOD_CROWD) {
                 $is_in_group = $this->Jira->crowdIsGroupMember($User->getId(), $group_name);
-            } elseif (\GitPHP_Config::AUTH_METHOD['jira']) {
+            } else if ($auth_method == \GitPHP_Config::AUTH_METHOD_JIRA) {
                 $is_in_group = $this->Jira->restIsGroupMember($User->getId(), $group_name);
-            } elseif (\GitPHP_Config::AUTH_METHOD['config']) {
-                $is_in_group = \GitPHP_Config::AUTH_USER['admin'];
+            } else if ($auth_method == \GitPHP_Config::AUTH_METHOD_CONFIG) {
+                $is_in_group = \GitPHP_Config::GetInstance()->GetAuthUser()['admin'];
             }
             $User->setInGroup($group_name, $is_in_group);
         }

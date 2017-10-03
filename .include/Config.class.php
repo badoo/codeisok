@@ -3,24 +3,31 @@ class GitPHP_Config
 {
     const PROJECT_ROOT = 'projectroot';
 
-    const AUTH_METHOD = [
-        'crowd' => false,
-        'jira' => false,
-        'config' => false,
-        'redmine' => true,
-    ];
+    // Authentication methods that are supported. Change method in .config/gitphp.conf.php file
+    const AUTH_METHOD         = 'auth_method';
+    const AUTH_METHOD_NONE    = 'none';
+    const AUTH_METHOD_CROWD   = 'crowd';
+    const AUTH_METHOD_JIRA    = 'jira';
+    const AUTH_METHOD_REDMINE = 'redmine';
+    const AUTH_METHOD_CONFIG  = 'config';
 
-    const AUTH_USER = [
-        'name' => 'user',
-        'password' => 'qwerty',
-        'admin' => true,
-    ];
+    // User-Password to use with AUTH_METHOD_CONFIG
+    const CONFIG_AUTH_USER = 'config_auth_user';
 
     // DB options
     const DB_HOST                      = 'localhost';
     const DB_USER                      = 'username';
     const DB_PASSWORD                  = 'userpass';
     const DB_NAME                      = 'dbname';
+
+    // Jira options
+    const JIRA_URL      = 'jira_url';
+    const JIRA_USER     = 'jira_user';
+    const JIRA_PASSWORD = 'jira_password';
+
+    // Crowd options
+    const CROWD_URL       = 'crowd_url';
+    const CROWD_APP_TOKEN = 'crowd_token';
 
     // Access options
     const CHECK_ACCESS_GROUP           = false;
@@ -30,18 +37,21 @@ class GitPHP_Config
     const GIT_USER                     = 'git';
     const GIT_HOME                     = '/home/git/';
 
-    //Review options
-    const USE_JIRA                     = false;
-    const USE_REDMINE                  = true;
+    // Tracker options
+    const TRACKER_TYPE         = 'tracker_type';
+    const TRACKER_TYPE_JIRA    = \GitPHP\Tracker::TRACKER_TYPE_JIRA;
+    const TRACKER_TYPE_REDMINE = \GitPHP\Tracker::TRACKER_TYPE_REDMINE;
 
-    // Others
+    // Review options
     const COLLECT_CHANGES_AUTHORS      = 'collect_changes_authors';
     const COLLECT_CHANGES_AUTHORS_SKIP = 'collect_changes_authors_skip';
     const HIDE_FILES_PER_CATEGORY      = 'hide_files_per_category';
     const SKIP_SUPPRESS_FOR_CATEGORY   = 'skip_suppress_for_category';
+
+    // Debug
     const DEBUG_ENABLED                = true;
 
-    //static
+    // Static
     const STATIC_VERSION_CSS           = '1';
     const STATIC_VERSION_JS            = '1';
 
@@ -187,15 +197,114 @@ class GitPHP_Config
      * *****/
 
     /**
+     * Get tracker type to use
+     * @return string
+     */
+    public function GetTrackerType()
+    {
+        return $this->GetValue(self::TRACKER_TYPE);
+    }
+
+    /**
+     * Should use jira tracker
+     * @return bool
+     */
+    public function GetUseJiraTracker()
+    {
+        return $this->GetTrackerType() === self::TRACKER_TYPE_JIRA;
+    }
+
+    /**
+     * Should use redmine tracker
+     * @return bool
+     */
+    public function GetUseRedmineTracker()
+    {
+        return $this->GetTrackerType() === self::TRACKER_TYPE_REDMINE;
+    }
+
+    /**
+     * Get crowd instance url
+     *
+     * @return string
+     */
+    public function GetCrowdUrl()
+    {
+        return $this->GetValue(self::CROWD_URL, '');
+    }
+
+    /**
+     * Get crowd application token
+     *
+     * @return string
+     */
+    public function GetCrowdToken()
+    {
+        return $this->GetValue(self::CROWD_APP_TOKEN, '');
+    }
+
+    /**
+     * Get jira instance url
+     *
+     * @return string
+     */
+    public function GetJiraUrl()
+    {
+        return $this->GetValue(self::JIRA_URL, '');
+    }
+
+    /**
+     * Get jira user
+     *
+     * @return string
+     */
+    public function GetJiraUser()
+    {
+        return $this->GetValue(self::JIRA_USER, '');
+    }
+
+    /**
+     * Get jira password
+     *
+     * @return string
+     */
+    public function GetJiraPassword()
+    {
+        return $this->GetValue(self::JIRA_PASSWORD, '');
+    }
+
+    /**
+     * Get auth method that we should use
+     * One of the self::AUTH_METHOD_* constants
+     *
+     * @return string
+     */
+    public function GetAuthMethod()
+    {
+        return $this->GetValue(self::AUTH_METHOD, self::AUTH_METHOD_NONE);
+    }
+
+    /**
+     * Get user credentials that should be used with AUTH_METHOD_CONFIG auth method
+     *
+     * @return array
+     */
+    public function GetAuthUser()
+    {
+        if ($this->GetAuthMethod() !== self::AUTH_METHOD_CONFIG) {
+            return [];
+        }
+        return $this->GetValue(self::CONFIG_AUTH_USER);
+    }
+
+    /**
      * Get list of actions, allowed for project without authentication.
      * @param string $project - project (repository) name.
      * @return string[] - list of actions allowed.
      */
     public function GetGitNoAuthActions($project)
     {
-        $Config = \GitPHP_Config::GetInstance();
-
-        $git_no_auth_actions = $Config->GetValue(self::GIT_NO_AUTH_ACTIONS, []);
+        $git_no_auth_actions = $this->GetValue(self::GIT_NO_AUTH_ACTIONS, []);
 
         $allowed_by_default  = $git_no_auth_actions['default'] ?? [];
         $allowed_for_project = $git_no_auth_actions[$project]  ?? [];

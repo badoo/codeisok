@@ -14,6 +14,48 @@ return array(
     \GitPHP_Config::GIT_USER                => 'git',
     \GitPHP_Config::GIT_HOME                => '/home/git/',
 
+    /*
+     * Authentication method to use. See \GitPHP_Config::AUTH_METHOD_* constants to get list of supported methods
+     */
+    \GitPHP_Config::AUTH_METHOD             => \GitPHP_Config::AUTH_METHOD_CONFIG,
+
+    /*
+     * Credentials for AUTH_METHOD_CONFIG auth method
+     */
+     \GitPHP_Config::CONFIG_AUTH_USER => ['name' => 'user', 'password' => 'password', 'admin' => true],
+
+    /**
+     * ===== JIRA =====
+     *
+     * \GitPHP_Config::JIRA_URL jira url
+     * \GitPHP_Config::JIRA_USER jira user to use with rest api
+     * \GitPHP_Config::JIRA_PASSWORD jira password to use with rest api
+     */
+    // \GitPHP_Config::JIRA_URL => 'https://yourjira.atlassian.net/',
+    // \GitPHP_Config::JIRA_USER => 'user',
+    // \GitPHP_Config::JIRA_PASSWORD => 'password',
+
+    /**
+     * ===== CROWD =====
+     *
+     * \GitPHP_Config::CROWD_URL crowd url
+     * \GitPHP_Config::CROWD_APP_TOKEN crowd application token that can be used with rest api
+     */
+    // \GitPHP_Config::CROWD_URL => 'http://crowd.yourjiraurl.com:8095/crowd/rest/',
+    // \GitPHP_Config::CROWD_APP_TOKEN => '',
+
+    /**
+     * ===== Issue tracker =====
+     *
+     * It's not the same with auth method. Tracker is used to
+     *  - identify issues
+     *  - post review in comments
+     *  - find issue developers to send them review
+     * See \GitPHP_Config::TRACKER_TYPE_* or \GitPHP\Tracker::TRACKER_TYPE_* constants
+     * to get list of supported trackers
+     */
+    \GitPHP_Config::TRACKER_TYPE => '',
+
     //'debug' => true,
     /*
      * cache
