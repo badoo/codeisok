@@ -1,4 +1,4 @@
-#!/usr/bin/php
+#!/usr/bin/env php
 <?php
 require_once(dirname(__FILE__).'/bootstrap.php');
 
@@ -16,29 +16,30 @@ class SSH_Serve
         'git receive-pack',
     ];
 
-    const COMMAND_REGEX = "#^([a-z-\s]+)\s'/*(?P<path>[a-zA-Z0-9][a-zA-Z0-9@._-]*(/[a-zA-Z0-9][a-zA-Z0-9@._-]*)*)'$#";
+    const ARG_REGEXP = "#^'/*(?P<path>[a-zA-Z0-9][a-zA-Z0-9@._-]*(/[a-zA-Z0-9][a-zA-Z0-9@._-]*)*)'$#";
 
     protected $user = '';
     protected $command = '';
-    protected $argument = '';
+    protected $full_path = '';
+    protected $repository = '';
 
     public function init()
     {
         $original_command = getenv('SSH_ORIGINAL_COMMAND');
         if ($_SERVER['argc'] > 0) {
             $this->user = $_SERVER['argv'][1];
-            if (preg_match(self::COMMAND_REGEX, $original_command, $m)) {
-                @list($cmd, $arg) = explode(' ', $original_command);
+            @list($cmd, $arg) = explode(' ', $original_command);
+            if (preg_match(self::ARG_REGEXP, $arg, $m)) {
                 if (!empty($cmd) && !empty($arg) && (in_array($cmd, self::COMMANDS_WRITE) || in_array($cmd, self::COMMANDS_READONLY))) {
-                    $this->argument = trim($arg, "'");
+                    $this->full_path = $this->repository = $m['path'];
 
                     $project_root = GitPHP_Config::GetInstance()->getValue(GitPHP_Config::PROJECT_ROOT);
 
-                    if (strpos($this->argument, $project_root) === false) {
-                        $this->argument = $project_root . $this->argument;
+                    if (strpos($this->full_path, $project_root) === false) {
+                        $this->full_path = $project_root . $this->full_path;
                     }
 
-                    if (!file_exists($this->argument)) {
+                    if (!file_exists($this->full_path)) {
                         $this->error('Repo can\'t be found by the path given.');
                     }
 
@@ -57,12 +58,14 @@ class SSH_Serve
     public function run()
     {
         $ModelGitosis = new Model_Gitosis();
-        $access = $ModelGitosis->getUserAccessToRepository($this->user, basename($this->argument));
+        $access = $ModelGitosis->getUserAccessToRepository($this->user, $this->repository);
         if (!empty($access)) {
             if (in_array($this->command, self::COMMANDS_WRITE) && $access['mode'] !== 'writable') {
                 $this->error('You don\' have write access to repo.');
             }
-            passthru('git-shell -c "' . $this->command . ' ' . escapeshellarg($this->argument) . '"');
+            $escaped_user = escapeshellarg($this->user);
+            $escaped_repo = escapeshellarg($this->repository);
+            passthru('GITOSIS_USER=' . $escaped_user . ' GITOSIS_REPO=' . $escaped_repo . ' git-shell -c "' . $this->command . ' ' . escapeshellarg($this->full_path) . '"');
         } else {
             $this->error("You don't have rights to access the repo.");
         }
