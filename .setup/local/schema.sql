@@ -69,6 +69,7 @@ CREATE TABLE IF NOT EXISTS `Repository` (
 CREATE TABLE IF NOT EXISTS `User` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `username` varchar(128) NOT NULL,
+  `email` varchar(256) NOT NULL DEFAULT '',
   `public_key` text NOT NULL,
   `created` timestamp NULL DEFAULT NULL,
   `updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,

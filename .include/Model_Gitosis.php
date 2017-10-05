@@ -33,12 +33,13 @@ class Model_Gitosis
         );
     }
 
-    public function saveUser($username, $public_key)
+    public function saveUser($username, $email, $public_key)
     {
         return $this->db->query(
             static::QUERY_SAVE_USER,
             array(
                 'username'   => $this->db->quote($username),
+                'email'      => $this->db->quote($email),
                 'public_key' => $this->db->quote($public_key),
             )
         );
@@ -218,8 +219,8 @@ class Model_Gitosis
     const QUERY_GET_USER = "SELECT * FROM #TBL_USER# WHERE id = #id#";
 
     const QUERY_SAVE_USER = "INSERT INTO #TBL_USER#
-        (username, public_key, created) VALUES (#username#, #public_key#, NOW())
-        ON DUPLICATE KEY UPDATE username = #username#, public_key = #public_key#";
+        (username, email, public_key, created) VALUES (#username#, #email#, #public_key#, NOW())
+        ON DUPLICATE KEY UPDATE username = #username#, email = #email#, public_key = #public_key#";
 
     const QUERY_REMOVE_USER = "DELETE FROM #TBL_USER# WHERE id = #id#";
     const QUERY_REMOVE_USER_ACCESS = "DELETE FROM #TBL_ACCESS# WHERE user_id = #user_id#";

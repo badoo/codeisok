@@ -16,6 +16,10 @@
                                {if $edit_user.id}readonly=""{/if} /></td>
                 </tr>
                 <tr>
+                    <td>Email</td>
+                    <td><input type="text" name="email" class="text" value="{$edit_user.email|htmlspecialchars}"/></td>
+                </tr>
+                <tr>
                     <td>Public key *</td>
                     <td><textarea name="public_key">{$edit_user.public_key|htmlspecialchars}</textarea></td>
                 </tr>
@@ -36,6 +40,7 @@
     <tbody>
         <tr>
             <th>Username</th>
+            <th>Email</th>
             <th>Actions</th>
             <th>Created</th>
             <th>Updated</th>
@@ -43,6 +48,7 @@
         {foreach from=$users item=user}
             <tr class="{cycle values="light,dark"}">
                 <td><a href="/?a=gitosis&section=access&user_id={$user.id}">{$user.username|htmlspecialchars}</a></td>
+                <td>{$user.email|htmlspecialchars}</td>
                 <td>
                     <a href="/?a=gitosis&section=users&id={$user.id}">Edit</a> |
                     <a href="/?a=gitosis&section=users&id={$user.id}&delete=1"
