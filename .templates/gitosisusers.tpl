@@ -24,6 +24,10 @@
                     <td><textarea name="public_key">{$edit_user.public_key|htmlspecialchars}</textarea></td>
                 </tr>
                 <tr>
+                    <td>Comment</td>
+                    <td><textarea name="comment">{$edit_user.comment|htmlspecialchars}</textarea></td>
+                </tr>
+                <tr>
                     <td colspan="2">
                         <input type="submit" value="Save user">
                         <a href="/?a=gitosis&section=users">Cancel</a>
@@ -42,6 +46,7 @@
             <th>Username</th>
             <th>Email</th>
             <th>Actions</th>
+            <th>Comment</th>
             <th>Created</th>
             <th>Updated</th>
         </tr>
@@ -54,6 +59,7 @@
                     <a href="/?a=gitosis&section=users&id={$user.id}&delete=1"
                        onclick="return confirm('Are you really want deleting {$user.username}');">Delete</a>
                 </td>
+                <td>{$user.comment|htmlspecialchars|nl2br}</td>
                 <td>{$user.created}</td>
                 <td>{$user.updated}</td>
             </tr>

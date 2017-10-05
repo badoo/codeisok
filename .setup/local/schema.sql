@@ -71,6 +71,7 @@ CREATE TABLE IF NOT EXISTS `User` (
   `username` varchar(128) NOT NULL,
   `email` varchar(256) NOT NULL DEFAULT '',
   `public_key` text NOT NULL,
+  `comment` text,
   `created` timestamp NULL DEFAULT NULL,
   `updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
