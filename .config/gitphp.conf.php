@@ -62,6 +62,13 @@ return array(
      */
     \GitPHP_Config::IGNORED_EMAIL_ADDRESSES => [],
 
+    /*
+     * if we can update .ssh/authorized_keys file right from web context
+     * It might be insecure in some cases but much faster/easier.
+     * If you set this to false you'll need to include update_auth_keys.php script in crontab under proper user.
+     */
+    \GitPHP_Config::UPDATE_AUTH_KEYS_FROM_WEB => true,
+
     //'debug' => true,
     /*
      * cache

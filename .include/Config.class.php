@@ -34,6 +34,7 @@ class GitPHP_Config
     const ACCESS_GROUP                 = 'access_group';
     const PROJECT_ACCESS_GROUPS        = 'project_access_groups';
     const GIT_NO_AUTH_ACTIONS          = 'git_no_auth_actions';
+    const UPDATE_AUTH_KEYS_FROM_WEB    = 'update_auth_keys_from_web';
     const GIT_USER                     = 'git';
     const GIT_HOME                     = '/home/git/';
 
