@@ -77,7 +77,7 @@ class GitPHP_Controller_Git extends GitPHP_ControllerBase
      */
     protected function LoadData()
     {
-        if (!$this->project->isActionAllowed($this->action)) {
+        if (!$this->project || !$this->project->isActionAllowed($this->action)) {
             $this->tpl->assign('result', 'You are not allowed to perform this action.');
             return;
         }
