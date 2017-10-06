@@ -40,7 +40,15 @@ class SSH_Serve
                     }
 
                     if (!file_exists($this->full_path)) {
-                        $this->error('Repo can\'t be found by the path given.');
+                        if (strpos($this->full_path, '.git') === false) {
+                            $this->full_path .= '.git';
+                            $this->repository .= '.git';
+                            if (!file_exists($this->full_path)) {
+                                $this->error('Repo can\'t be found by the path given.');
+                            }
+                        } else {
+                            $this->error('Repo can\'t be found by the path given.');
+                        }
                     }
 
                     $this->command = $cmd;
