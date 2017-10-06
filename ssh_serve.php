@@ -66,7 +66,16 @@ class SSH_Serve
     public function run()
     {
         $ModelGitosis = new Model_Gitosis();
-        $access = $ModelGitosis->getUserAccessToRepository($this->user, $this->repository);
+        $allow_all_mode = \GitPHP_Config::GetInstance()->GetAccessMode() === \GitPHP_Config::ACCESS_MODE_ALLOW_ALL;
+        if ($allow_all_mode) {
+            if ($this->isRestrictedRepository($this->repository) || $this->isSystemUser($ModelGitosis, $this->user)) {
+                $access = $ModelGitosis->getUserAccessToRepository($this->user, $this->repository);
+            } else {
+                $access = ['mode' => 'writable'];
+            }
+        } else {
+            $access = $ModelGitosis->getUserAccessToRepository($this->user, $this->repository);
+        }
         if (!empty($access)) {
             if (in_array($this->command, self::COMMANDS_WRITE) && $access['mode'] !== 'writable') {
                 $this->error('You don\' have write access to repo.');
@@ -80,7 +89,18 @@ class SSH_Serve
         //file_put_contents('out.txt', var_export([$this->user, $this->command, $this->argument, $access], 1), FILE_APPEND);
     }
 
-    function error($message)
+    protected function isRestrictedRepository($repository)
+    {
+        return in_array($this->repository, \GitPHP_Config::GetInstance()->GetSpeciallyControlledRepositories());
+    }
+
+    protected function isSystemUser(Model_Gitosis $ModelGitosis, $username)
+    {
+        $user = $ModelGitosis->getUserByUsername($username);
+        return strpos($user['comment'], \GitPHP_Config::GetInstance()->GetSystemUserMark() !== false);
+    }
+
+    protected function error($message)
     {
         fwrite(STDERR, '[ERROR]: ' . $message . PHP_EOL);
         exit(1);

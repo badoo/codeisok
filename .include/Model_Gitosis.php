@@ -33,6 +33,16 @@ class Model_Gitosis
         );
     }
 
+    public function getUserByUsername($username)
+    {
+        return $this->db->getRow(
+            static::QUERY_GET_USER_BY_USERNAME,
+            array(
+                'username' => $this->db->quote($username),
+            )
+        );
+    }
+
     public function saveUser($username, $email, $public_key, $comment = '')
     {
         return $this->db->query(
@@ -218,6 +228,8 @@ class Model_Gitosis
     const QUERY_GET_USERS = "SELECT * FROM #TBL_USER# ORDER BY username";
 
     const QUERY_GET_USER = "SELECT * FROM #TBL_USER# WHERE id = #id#";
+
+    const QUERY_GET_USER_BY_USERNAME = "SELECT * FROM #TBL_USER# WHERE username = '#username#'";
 
     const QUERY_SAVE_USER = "INSERT INTO #TBL_USER#
         (username, email, public_key, comment, created) VALUES (#username#, #email#, #public_key#, #comment#, NOW())
