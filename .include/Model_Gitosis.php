@@ -229,7 +229,7 @@ class Model_Gitosis
 
     const QUERY_GET_USER = "SELECT * FROM #TBL_USER# WHERE id = #id#";
 
-    const QUERY_GET_USER_BY_USERNAME = "SELECT * FROM #TBL_USER# WHERE username = '#username#'";
+    const QUERY_GET_USER_BY_USERNAME = "SELECT * FROM #TBL_USER# WHERE username = #username#";
 
     const QUERY_SAVE_USER = "INSERT INTO #TBL_USER#
         (username, email, public_key, comment, created) VALUES (#username#, #email#, #public_key#, #comment#, NOW())

@@ -26,7 +26,7 @@ class UpdateAuthKeys
                 $auth_keys .= PHP_EOL . \GitPHP_Gitosis::formatKeyString(dirname(__FILE__), $user['username'], $key);
             }
         }
-        if (false !== file_put_contents(\GitPHP_Gitosis::HOME . \GitPHP_Gitosis::KEYFILE, $auth_keys)) {
+        if (false === file_put_contents(\GitPHP_Gitosis::HOME . \GitPHP_Gitosis::KEYFILE, $auth_keys)) {
             echo "Cannot write authorized_keys file\n";
         }
     }

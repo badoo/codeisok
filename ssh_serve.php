@@ -97,7 +97,7 @@ class SSH_Serve
     protected function isSystemUser(Model_Gitosis $ModelGitosis, $username)
     {
         $user = $ModelGitosis->getUserByUsername($username);
-        return strpos($user['comment'], \GitPHP_Config::GetInstance()->GetSystemUserMark() !== false);
+        return strpos($user['comment'], \GitPHP_Config::GetInstance()->GetSystemUserMark()) !== false;
     }
 
     protected function error($message)
