@@ -18,8 +18,14 @@ class GitPHP_Controller_GitosisUsers extends GitPHP_Controller_GitosisBase
             $username = empty($_POST['username']) || !is_string($_POST['username']) ? '' : $_POST['username'];
             $username = trim($username);
 
+            $email = empty($_POST['email']) || !is_string($_POST['email']) ? '' : $_POST['email'];
+            $email = trim($email);
+
             $public_key = empty($_POST['public_key']) || !is_string($_POST['public_key']) ? '' : $_POST['public_key'];
             $public_key = trim($public_key);
+
+            $comment = empty($_POST['comment']) || !is_string($_POST['comment']) ? '' : $_POST['comment'];
+            $comment = trim($comment);
 
             if (!$username) {
                 $this->_form_errors[] = 'Username can not be empty.';
@@ -29,11 +35,13 @@ class GitPHP_Controller_GitosisUsers extends GitPHP_Controller_GitosisBase
             }
 
             if ($username && $public_key) {
-                $this->ModelGitosis->saveUser($username, $public_key);
-                if (!GitPHP_Gitosis::addKey($username, $public_key)) {
-                    $this->_form_errors[] = "Can't write key file!";
-                } else {
-                    $this->redirect('/?a=gitosis&section=users');
+                $this->ModelGitosis->saveUser($username, $email, $public_key, $comment);
+                if (\GitPHP_Config::GetInstance()->GetValue(\GitPHP_Config::UPDATE_AUTH_KEYS_FROM_WEB, false)) {
+                    if (!GitPHP_Gitosis::addKey($username, $public_key)) {
+                        $this->_form_errors[] = "Can't write key file!";
+                    } else {
+                        $this->redirect('/?a=gitosis&section=users');
+                    }
                 }
             }
 

@@ -41,11 +41,11 @@ class GitPHP_Controller_GitosisRepositories extends GitPHP_Controller_GitosisBas
                 $this->ModelGitosis->saveRepository($project, $description, $category, $notify_email, $display);
                 //creating the repo
                 $base_path = GitPHP_Config::GetInstance()->GetValue(\GitPHP_Config::PROJECT_ROOT);
-                $out = '';
-                $retval = 0;
-                exec("cd " . $base_path . ";git init --bare " . escapeshellarg($project), $out, $retval);
-                if ($retval) {
-                    $this->_form_errors[] = 'Can\'t init bare repo in ' . $base_path;
+                if (\GitPHP_Config::GetInstance()->GetValue(\GitPHP_Config::UPDATE_AUTH_KEYS_FROM_WEB)) {
+                    exec("cd " . $base_path . ";git init --bare " . escapeshellarg($project), $out, $retval);
+                    if ($retval) {
+                        $this->_form_errors[] = 'Can\'t init bare repo in ' . $base_path;
+                    }
                 }
                 $this->redirect('/?a=gitosis&section=repositories');
             }

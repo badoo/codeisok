@@ -7,9 +7,15 @@ class GitPHP_Gitosis
 
     public static function addKey($user, $key)
     {
-        $key = trim($key);
-        $ssh_command = 'command="./ssh_serve.php ' . $user
-            . '",no-port-forwarding,no-agent-forwarding,no-X11-forwarding,no-pty ' . $key . PHP_EOL;
+        $ssh_command = self::formatKeyString('.', $user, $key) . PHP_EOL;
         return (false !== file_put_contents(self::HOME . self::KEYFILE, $ssh_command, FILE_APPEND));
+    }
+
+    public static function formatKeyString($base_dir, $user, $key)
+    {
+        $key = trim($key);
+        $ssh_command = 'command="' . $base_dir . '/ssh_serve.php ' . $user
+            . '",no-port-forwarding,no-agent-forwarding,no-X11-forwarding,no-pty ' . $key;
+        return $ssh_command;
     }
 }

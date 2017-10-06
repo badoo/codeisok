@@ -442,7 +442,7 @@ class GitPHP_Db
         return $this->query(self::QUERY_DELETE_ALL_DRAFT_COMMENTS, ['author' => $this->quote($author)]);
     }
 
-    protected function getOne($sql, $params = [])
+    public function getOne($sql, $params = [])
     {
         $result = $this->query($sql, $params);
         if (!$result) return false;

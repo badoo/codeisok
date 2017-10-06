@@ -56,6 +56,46 @@ return array(
      */
     \GitPHP_Config::TRACKER_TYPE => '',
 
+    /*
+     * ignored emails
+     * Skip this emails when sending review notifications. May be useful to prevent spam in some cases
+     */
+    \GitPHP_Config::IGNORED_EMAIL_ADDRESSES => [],
+
+    /*
+     * access mode to git repositories by ssh
+     * Currently we support two access modes:
+     * - ACCESS_MODE_NORMAL. It allows you to clone only those repositories that you have direct access to
+     *                       every access should be specified in web interface
+     * - ACCESS_MODE_ALLOW_ALL. It allows you to push into/pull any repository we have excluding
+     *                          SPECIALLY_CONTROLLED_REPOS list. You should have direct access to repos from
+     *                          'special list'. System users (see below) always have NORMAL access mode
+     * Look for SPECIALLY_CONTROLLED_REPOS and SYSTEM_USERS_MARK settings for more info about ALLOW_ALL mode
+     */
+    \GitPHP_Config::ACCESS_MODE => \GitPHP_Config::ACCESS_MODE_NORMAL,
+
+    /*
+     * specially controlled repositories
+     * This is a list of repositories where you should have direct access to read/write in case when you have
+     * ACCESS_MODE_ALLOW_ALL enabled in ACCESS_MODE option
+     */
+    \GitPHP_Config::SPECIALLY_CONTROLLED_REPOS => [],
+
+    /*
+     * system users mark
+     * System users are those users who marked with special string in comment field. They are always authenticated
+     * with NORMAL access mode (read above)
+     * This works only for ALLOW_ALL access mode
+     */
+    \GitPHP_Config::SYSTEM_USER_MARK => 'system_user',
+
+    /*
+     * if we can update .ssh/authorized_keys file right from web context
+     * It might be insecure in some cases but much faster/easier.
+     * If you set this to false you'll need to include update_auth_keys.php script in crontab under proper user.
+     */
+    \GitPHP_Config::UPDATE_AUTH_KEYS_FROM_WEB => true,
+
     //'debug' => true,
     /*
      * cache
