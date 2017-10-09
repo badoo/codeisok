@@ -1,6 +1,6 @@
 #!/usr/bin/env php
 <?php
-require_once(dirname(__FILE__).'/bootstrap.php');
+require_once(dirname(__FILE__) . '/bootstrap.php');
 
 class SSH_Serve
 {
@@ -80,9 +80,20 @@ class SSH_Serve
             if (in_array($this->command, self::COMMANDS_WRITE) && $access['mode'] !== 'writable') {
                 $this->error('You don\' have write access to repo.');
             }
-            $escaped_user = escapeshellarg($this->user);
-            $escaped_repo = escapeshellarg($this->repository);
-            passthru('GITOSIS_USER=' . $escaped_user . ' GITOSIS_REPO=' . $escaped_repo . ' git-shell -c "' . $this->command . ' ' . escapeshellarg($this->full_path) . '"');
+            if (!extension_loaded('pcntl') && !dl('pcntl.so')) {
+                trigger_error('cannot load pcntl extension');
+                $escaped_user = escapeshellarg($this->user);
+                $escaped_repo = escapeshellarg($this->repository);
+                passthru(
+                    'GITOSIS_USER=' . $escaped_user . ' GITOSIS_REPO=' . $escaped_repo . ' git-shell -c "' . $this->command . ' ' . escapeshellarg($this->full_path) . '"'
+                );
+            } else {
+                pcntl_exec(
+                    '/usr/bin/git-shell',
+                    ['-c', $this->command . ' ' . escapeshellarg($this->full_path)],
+                    ['GITOSIS_USER' => $this->user, 'GITOSIS_REPO' => $this->repository]
+                );
+            }
         } else {
             $this->error("You don't have rights to access the repo.");
         }
