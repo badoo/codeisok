@@ -88,10 +88,11 @@ class SSH_Serve
                     'GITOSIS_USER=' . $escaped_user . ' GITOSIS_REPO=' . $escaped_repo . ' git-shell -c "' . $this->command . ' ' . escapeshellarg($this->full_path) . '"'
                 );
             } else {
+                putenv('GITOSIS_USER=' . $this->user);
+                putenv('GITOSIS_REPO=' . $this->repository);
                 pcntl_exec(
                     '/usr/bin/git-shell',
-                    ['-c', $this->command . ' ' . escapeshellarg($this->full_path)],
-                    ['GITOSIS_USER' => $this->user, 'GITOSIS_REPO' => $this->repository]
+                    ['-c', $this->command . ' ' . escapeshellarg($this->full_path)]
                 );
             }
         } else {

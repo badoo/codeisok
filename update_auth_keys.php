@@ -26,8 +26,13 @@ class UpdateAuthKeys
                 $auth_keys .= PHP_EOL . \GitPHP_Gitosis::formatKeyString(dirname(__FILE__), $user['username'], $key);
             }
         }
-        if (false === file_put_contents(\GitPHP_Gitosis::HOME . \GitPHP_Gitosis::KEYFILE, $auth_keys)) {
+        $auth_keys_path = \GitPHP_Gitosis::HOME . \GitPHP_Gitosis::KEYFILE;
+        $auth_keys_tmp_path = $auth_keys_path . '.tmp';
+        if (false === file_put_contents($auth_keys_tmp_path, $auth_keys)) {
             echo "Cannot write authorized_keys file\n";
+        }
+        if (false === rename($auth_keys_tmp_path, $auth_keys_path)) {
+            echo "Cannot rename tmp auth keys";
         }
     }
 
