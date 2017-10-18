@@ -60,10 +60,6 @@ class GitPHP_Config
     // Debug
     const DEBUG_ENABLED                = true;
 
-    // Static
-    const STATIC_VERSION_CSS           = '1';
-    const STATIC_VERSION_JS            = '1';
-
     /**
      * instance
      *

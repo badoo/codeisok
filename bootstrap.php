@@ -7,6 +7,8 @@ define('GITPHP_CONTROLLERDIR', GITPHP_INCLUDEDIR . 'controller/');
 define('GITPHP_CACHEDIR', GITPHP_INCLUDEDIR . 'cache/');
 define('GITPHP_LOCALEDIR', GITPHP_BASEDIR . '.locale/');
 define('GITPHP_TEMPLATESDIR', GITPHP_BASEDIR . '.templates/');
+define('GITPHP_CSSDIR', GITPHP_BASEDIR . 'css/');
+define('GITPHP_JSDIR', GITPHP_BASEDIR . 'js/');
 
 spl_autoload_register(
     function($class) {

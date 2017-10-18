@@ -244,8 +244,8 @@ abstract class GitPHP_ControllerBase
             $stylesheet = 'gitphpskin.css';
         }
         $this->tpl->assign('stylesheet', $stylesheet);
-        $this->tpl->assign('cssversion', GitPHP_Config::STATIC_VERSION_CSS);
-        $this->tpl->assign('jsversion', GitPHP_Config::STATIC_VERSION_JS);
+        $this->tpl->assign('cssversion', filemtime(GITPHP_CSSDIR));
+        $this->tpl->assign('jsversion', filemtime(GITPHP_JSDIR));
 
         $this->tpl->assign('javascript', GitPHP_Config::GetInstance()->GetValue('javascript', true));
         $this->tpl->assign('homelink', GitPHP_Config::GetInstance()->GetValue('homelink', __('projects')));
