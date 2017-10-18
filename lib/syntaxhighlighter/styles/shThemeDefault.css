@@ -27,7 +27,15 @@
 }
 .syntaxhighlighter .line.color3:hover, .syntaxhighlighter .line.color4:hover, .syntaxhighlighter .line.commentable:hover {
     background-color: rgba(192, 192, 192, 0.3) !important;
+}
+.syntaxhighlighter .line.commentable .line-number {
     cursor: pointer;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 .syntaxhighlighter .line.selected {
     border: 2px solid #080  !important;

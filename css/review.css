@@ -25,6 +25,7 @@ span.btn_small {
     border: 1px solid #888 !important;
     padding-left: 4px !important;
     padding-right: 4px !important;
+    cursor: pointer;
 }
 
 #review_text {

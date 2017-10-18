@@ -28,6 +28,7 @@
  {include file='title.tpl' titlecommit=$commit}
 
  <div class="page_body">
+   <div class="diff_summary">
    {assign var=bugpattern value=$project->GetBugPattern()}
    {assign var=bugurl value=$project->GetBugUrl()}
    {foreach from=$commit->GetComment() item=line}
@@ -72,6 +73,8 @@
       <script type="text/javascript" src="/lib/mergely/mergely.js"></script>
       <link type="text/css" rel="stylesheet" href="/lib/mergely/mergely.css" />
      {/if}
+   </div>
+
      {if $sidebyside}
     <div class="commitDiffSBS">
 

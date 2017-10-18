@@ -491,6 +491,9 @@ var Review = (function() {
 
     Review.selectEnd = function(e) {
         var $target = $(e.target);
+        if (!$target.hasClass('line-number') && !$target.hasClass('btn_small')) {
+            return;
+        }
         if ($target.hasClass("line-number") && $target.parent().children("CODE").length == 0) {
             return;
         }
