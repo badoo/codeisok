@@ -1,5 +1,5 @@
 <div class="title">
-    New repository
+    new repository
 </div>
 <div id="gitosisrepository">
     <form action="" method="post">
@@ -8,26 +8,26 @@
             <li>{$form_error}</li>
         {/foreach}
         </ul>
-        <table>
+        <table cellspacing="0">
             <tbody>
             <tr>
-                <td>Project *</td>
+                <td>project: *</td>
                 <td><input type="text" name="project" class="text" value="{$edit_project.project|htmlspecialchars}" {if $edit_project.id}readonly=""{/if} /></td>
             </tr>
             <tr>
-                <td>Description</td>
+                <td>description</td>
                 <td><input type="text" name="description" class="text" value="{$edit_project.description|htmlspecialchars}" /></td>
             </tr>
             <tr>
-                <td>Category</td>
+                <td>category</td>
                 <td><input type="text" name="category" class="text" value="{$edit_project.category|htmlspecialchars}" /></td>
             </tr>
             <tr>
-                <td>Notify email</td>
+                <td>notify email</td>
                 <td><input type="text" name="notify_email" class="text" value="{$edit_project.notify_email|htmlspecialchars}" /></td>
             </tr>
             <tr>
-                <td>Display</td>
+                <td>display</td>
                 <td>
                 {foreach name="displays" from=$displays item=display}
                     <label><input type="radio" {if ($smarty.foreach.displays.first && !$edit_project) || ($edit_project && $display == $edit_project.display)}checked=""{/if} name="display" value="{$display}"> {$display}</label>
@@ -46,19 +46,19 @@
     </form>
 </div>
 <div class="title">
-    Gitosis projects
+    gitosis projects
 </div>
 <table cellspacing="0" width="100%">
     <tbody>
-    <tr>
-        <th>Project</th>
-        <th>Description</th>
-        <th>Category</th>
-        <th>Notify email</th>
-        <th>Display</th>
-        <th>Created</th>
-        <th>Updated</th>
-        <th>Actions</th>
+    <tr class="list_header">
+        <th>project</th>
+        <th>description</th>
+        <th>category</th>
+        <th>notify email</th>
+        <th>display</th>
+        <th>created</th>
+        <th>updated</th>
+        <th>actions</th>
     </tr>
     {foreach from=$projects item=project}
     <tr class="{cycle values="light,dark"}">

@@ -52,23 +52,29 @@ div.page_header {
 	padding: 8px; 
 	font-size: 18px; 
 	font-weight: bold; 
-	background-color: #d9d8d1; 
+	background-color: #d9d8d1;
 }
 
 div.page_header a:visited, a.header { 
-	color: #3a75bd; 
+	color: #3a75aa; 
 }
 
 div.page_header a:hover { 
 	color: #880000; 
 }
 
+div.adminheader {
+    background-color: #ffcccc;
+}
 
 /*
  * Navigation header links
  */
 div.page_nav { 
-	padding: 8px; 
+	padding: 8px;
+    margin-top: 8px;
+    height: 30px;
+    font-size: 110%;
 }
 
 div.page_nav a:visited { 
@@ -146,6 +152,10 @@ th {
 	padding: 2px 5px; 
 	font-size: 14px;
 	text-align: left; 
+}
+
+tr.list_header {
+    background-color:#d9d8d1;
 }
 
 tr.light:hover {

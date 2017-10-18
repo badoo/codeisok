@@ -296,6 +296,7 @@ abstract class GitPHP_ControllerBase
         $this->tpl->assign('sexy', null);
         $this->tpl->assign('opened', null);
         $this->tpl->assign('filediff', null);
+        $this->tpl->assign('adminarea', 0);
 
         if (GitPHP_Config::GetInstance()->GetValue('search', true)) $this->tpl->assign('enablesearch', true);
         if (GitPHP_Config::GetInstance()->GetValue('filesearch', true)) $this->tpl->assign('filesearch', true);

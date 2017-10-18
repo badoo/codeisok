@@ -83,15 +83,15 @@
             Connectivity problem! Please <a href="{$url_login}" target="_blank">login</a>.
         </div>
     </div>
-    <div class="page_header">
+    <div class="page_header {if $adminarea}adminheader{/if}">
 
 
         {if !$no_user_header}
             <div class="user_block">
                 {if $Session->isAuthorized()}
-                    Logged as: {$user_name} ({if $is_gitosis_admin}<a href="{$url_gitosis}">gitosis</a> | {/if}<a href="{$url_logout}">logout</a>)
+                    logged as: {$user_name} ({if $is_gitosis_admin && !$adminarea}<a href="{$url_gitosis}">admin</a> | {/if}<a href="{$url_logout}">logout</a>)
                 {else}
-                    Logged as: <a href="{$url_login}">{$user_name}</a>
+                    logged as: <a href="{$url_login}">{$user_name}</a>
                 {/if}
             </div>
         {/if}
@@ -117,7 +117,11 @@
             </div>
         {/if}
 
+      {if $adminarea}
+      <a href="/">⟵ projects list</a>
+      {else}
       <a href="index.php?a">{if $homelink}{$homelink}{else}{t}projects{/t}{/if}</a> /
+      {/if}
       {if $project}
         <a href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=summary">{$project->GetProject()}</a>
         {if $actionlocal}

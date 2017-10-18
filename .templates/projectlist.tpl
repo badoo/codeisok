@@ -20,8 +20,8 @@ git source code archive
 
 <div class="projectSearch">
 <form method="post" action="index.php" id="projectSearchForm" enctype="application/x-www-form-urlencoded">
-{t}Filter projects{/t}: <input type="text" name="s" {if $searchmode == 1}disabled="disabled"{/if} class="projectSearchBox" {if $search}value="{$search|escape}"{/if} /> <a href="index.php?a" class="clearSearch" {if !$search}style="display: none;"{/if}>X</a> {if $javascript}<img src="images/search-loader.gif" class="searchSpinner" style="display: none;" />{/if}
-<span style="padding-left:50px;" disabled="true">Search text in project heads: <input name="t" value="{$text}" class="projectSearchBox" onkeydown="keydownSearchField(this);"></input><input type="button" onclick="submitSearchForm(this);" value="Go"></span>
+{t}filter projects{/t}: <input type="text" name="s" {if $searchmode == 1}disabled="disabled"{/if} class="projectSearchBox" {if $search}value="{$search|escape}"{/if} /> <a href="index.php?a" class="clearSearch" {if !$search}style="display: none;"{/if}>X</a> {if $javascript}<img src="images/search-loader.gif" class="searchSpinner" style="display: none;" />{/if}
+<span style="padding-left:50px;" disabled="true">search text in project heads: <input name="t" value="{$text}" class="projectSearchBox" onkeydown="keydownSearchField(this);"></input><input type="button" onclick="submitSearchForm(this);" value="Go"></span>
 {if $searchmode == 1}
 <a href="index.php">Cancel</a>
 {/if}
@@ -33,36 +33,36 @@ git source code archive
   {foreach name=projects from=$projectlist item=proj}
     {if $smarty.foreach.projects.first}
       {* Header *}
-      <tr class="projectHeader" style="background-color:#d9d8d1;">
+      <tr class="projectHeader list_header">
           <th><input type='checkbox' id='selectall' onclick='toggleCheckBoxes(this);'/></th>
         {if $order == "project"}
-          <th>{t}Project{/t}</th>
+          <th>{t}project{/t}</th>
         {else}
-          <th><a class="header" href="{$SCRIPT_NAME}?o=project">{t}Project{/t}</a></th>
+          <th><a class="header" href="{$SCRIPT_NAME}?o=project">{t}project{/t}</a></th>
         {/if}
         {if $order == "descr"}
-          <th>{t}Description{/t}</th>
+          <th>{t}description{/t}</th>
         {else}
-          <th><a class="header" href="{$SCRIPT_NAME}?o=descr">{t}Description{/t}</a></th>
+          <th><a class="header" href="{$SCRIPT_NAME}?o=descr">{t}description{/t}</a></th>
         {/if}
         {if $order == "owner"}
-          <th>{t}Owner{/t}</th>
+          <th>{t}owner{/t}</th>
         {else}
-          <th><a class="header" href="{$SCRIPT_NAME}?o=owner">{t}Owner{/t}</a></th>
+          <th><a class="header" href="{$SCRIPT_NAME}?o=owner">{t}owner{/t}</a></th>
         {/if}
         {if $order == "age"}
-          <th>{t}Last Change{/t}</th>
+          <th>{t}last change{/t}</th>
         {else}
-          <th><a class="header" href="{$SCRIPT_NAME}?o=age">{t}Last Change{/t}</a></th>
+          <th><a class="header" href="{$SCRIPT_NAME}?o=age">{t}last change{/t}</a></th>
         {/if}
-        <th>{t}Actions{/t}</th>
+        <th>{t}actions{/t}</th>
       </tr>
     {/if}
 
     {if $currentcategory != $proj->GetCategory()}
       {assign var=currentcategory value=$proj->GetCategory()}
       {if $currentcategory != ''}
-        <tr class="light categoryRow" style="background-color:#d9d8d1;">
+        <tr class="light categoryRow list_header">
           <th class="categoryName" colspan="6">{$currentcategory}</th>
         </tr>
       {/if}

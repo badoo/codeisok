@@ -10,11 +10,12 @@
 <div id="gitosisaccess">
 {if $scope == 'user'}
     <table cellspacing="0">
-        <tr>
-            <th>Username</th>
-            <th>Project</th>
-            <th>Mode</th>
-            <th>Actions</th>
+        <tr class="list_header">
+            <th>username</th>
+            <th>project</th>
+            <th>mode</th>
+            <th>actions</th>
+            <th></th>
         </tr>
         {foreach from=$users item=user}
         <form method="post" action="">
@@ -29,9 +30,9 @@
                     </select>
                 </td>
                 <td nowrap>
-                    <label><input type="radio" name="mode" value="writable" /> Writable</label>
-                    <label><input type="radio" name="mode" value="readonly" /> Readonly</label>
-                    <label><input type="radio" name="mode" value="" /> No</label>
+                    <label><input type="radio" name="mode" value="writable" /> writable</label>
+                    <label><input type="radio" name="mode" value="readonly" /> readonly</label>
+                    <label><input type="radio" name="mode" value="" /> no</label>
                 </td>
                 <td>
                     <input type="submit" value="Grant access" />
@@ -39,7 +40,7 @@
                 <td>
                 {foreach from=$access[$user.id] key=mode item=projects_ids}
                     <ol>
-                        <b>{$mode|ucfirst}</b>:
+                        <b>{$mode}</b>:
                     {foreach name="projects" from=$projects_ids item=project_id}
                         <li>
                             <a href="/?p={$projects[$project_id].project}&a=summary">{$projects[$project_id].project}</a>
@@ -55,11 +56,12 @@
 {/if}
 {if $scope == 'repo'}
     <table cellspacing="0">
-        <tr>
-            <th>Project</th>
-            <th>User</th>
-            <th>Mode</th>
-            <th>Actions</th>
+        <tr class="list_header">
+            <th>project</th>
+            <th>user</th>
+            <th>mode</th>
+            <th>actions</th>
+            <th></th>
         </tr>
         {foreach from=$projects item=project}
         <form method="post" action="">
@@ -76,9 +78,9 @@
                     </select>
                 </td>
                 <td nowrap>
-                    <label><input type="radio" name="mode" value="writable" /> Writable</label>
-                    <label><input type="radio" name="mode" value="readonly" /> Readonly</label>
-                    <label><input type="radio" name="mode" value="" /> No</label>
+                    <label><input type="radio" name="mode" value="writable" /> writable</label>
+                    <label><input type="radio" name="mode" value="readonly" /> readonly</label>
+                    <label><input type="radio" name="mode" value="" /> no</label>
                 </td>
                 <td>
                     <input type="submit" value="Grant access" />
@@ -86,7 +88,7 @@
                 <td>
                 {foreach from=$access[$project.id] key=mode item=user_ids}
                     <ol>
-                        <b>{$mode|ucfirst}</b>:
+                        <b>{$mode}</b>:
                     {foreach name="users" from=$user_ids item=user_id}
                         <li>
                             {$users[$user_id].username}

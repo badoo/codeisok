@@ -1,5 +1,5 @@
 <div class="title">
-    New gitosis user
+    new gitosis user
 </div>
 <div id="gitosisuser">
     <form action="" method="post">
@@ -8,23 +8,23 @@
             <li>{$form_error}</li>
         {/foreach}
         </ul>
-        <table>
+        <table cellspacing="0">
             <tbody>
                 <tr>
-                    <td>Username *</td>
+                    <td>username: *</td>
                     <td><input type="text" name="username" class="text" value="{$edit_user.username|htmlspecialchars}"
                                {if $edit_user.id}readonly=""{/if} /></td>
                 </tr>
                 <tr>
-                    <td>Email</td>
+                    <td>email:</td>
                     <td><input type="text" name="email" class="text" value="{$edit_user.email|htmlspecialchars}"/></td>
                 </tr>
                 <tr>
-                    <td>Public key *</td>
+                    <td>public ssh key: *</td>
                     <td><textarea name="public_key">{$edit_user.public_key|htmlspecialchars}</textarea></td>
                 </tr>
                 <tr>
-                    <td>Comment</td>
+                    <td>comment:</td>
                     <td><textarea name="comment">{$edit_user.comment|htmlspecialchars}</textarea></td>
                 </tr>
                 <tr>
@@ -38,17 +38,17 @@
     </form>
 </div>
 <div class="title">
-    Gitosis users
+    gitosis users
 </div>
 <table cellspacing="0" width="100%">
     <tbody>
-        <tr>
-            <th>Username</th>
-            <th>Email</th>
-            <th>Actions</th>
-            <th>Comment</th>
-            <th>Created</th>
-            <th>Updated</th>
+        <tr class="list_header">
+            <th>username</th>
+            <th>email</th>
+            <th>actions</th>
+            <th>comment</th>
+            <th>created</th>
+            <th>updated</th>
         </tr>
         {foreach from=$users item=user}
             <tr class="{cycle values="light,dark"}">

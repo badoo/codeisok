@@ -1,13 +1,13 @@
 
 {include file="header.tpl"}
 
-<table>
+<table cellspacing="0">
     <thead>
-    <tr>
-        <th>Review</th>
-        <th>Ticket/Name</th>
-        <th>Comment count</th>
-        <th>Link</th>
+    <tr class="list_header">
+        <th>review</th>
+        <th>ticket / name</th>
+        <th>comments count</th>
+        <th>link</th>
     </tr>
     </thead>
     <tbody>

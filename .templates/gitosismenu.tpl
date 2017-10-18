@@ -5,9 +5,9 @@
     {if $section == 'apply'}
         <input type="submit" value="Apply changes" />
     {elseif $current_section == $section}
-        <b>{$section|ucfirst}</b>
+        {$section}
     {else}
-        <a href="/?a=gitosis&section={$section}">{$section|ucfirst}</a>
+        <a href="/?a=gitosis&section={$section}">{$section}</a>
     {/if}
     {/foreach}
     </form>

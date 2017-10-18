@@ -7,7 +7,7 @@ abstract class GitPHP_Controller_GitosisBase extends GitPHP_ControllerBase
     /**
      * @var array
      */
-    protected static $_sections = array('users', 'access', 'repositories');
+    protected static $_sections = array('users', 'repositories', 'access');
 
     /**
      * @var array
@@ -55,6 +55,7 @@ abstract class GitPHP_Controller_GitosisBase extends GitPHP_ControllerBase
 
     protected function LoadData()
     {
+        $this->tpl->assign('adminarea', 1);
         $this->tpl->assign('sections', static::$_sections);
         $this->tpl->assign(
             'current_section',
