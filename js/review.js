@@ -37,6 +37,9 @@ var Review = (function() {
             if ($('#review_msg:visible')) {
                 $('#review_msg').html(data.error);
                 $('#review_msg').addClass('error');
+                for (i=0;i<3;i++) {
+                    $('#review_review').fadeTo(100, 0.1).fadeTo(200, 1.0)
+                }
             } else {
                 alert(data.error);
             }
