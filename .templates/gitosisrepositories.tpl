@@ -50,28 +50,28 @@
 </div>
 <table cellspacing="0" width="100%">
     <tbody>
-    <tr class="list_header">
+    <tr>
         <th>project</th>
+        <th>actions</th>
         <th>description</th>
         <th>category</th>
         <th>notify email</th>
         <th>display</th>
         <th>created</th>
         <th>updated</th>
-        <th>actions</th>
     </tr>
     {foreach from=$projects item=project}
     <tr class="{cycle values="light,dark"}">
         <td>
             <a href="/?a=gitosis&section=access&scope=repo&project_id={$project.id}">{$project.project|htmlspecialchars}</a>
         </td>
+        <td><a href="/?a=gitosis&section=repositories&id={$project.id}">Edit</a></td>
         <td>{$project.description|htmlspecialchars}</td>
         <td>{$project.category|htmlspecialchars}</td>
         <td>{$project.notify_email|htmlspecialchars}</td>
         <td>{$project.display}</td>
         <td>{$project.created}</td>
         <td>{$project.updated}</td>
-        <td><a href="/?a=gitosis&section=repositories&id={$project.id}">Edit</a></td>
     </tr>
     {/foreach}
     </tbody>
