@@ -154,7 +154,7 @@ class GitPHP_Controller_Comment extends GitPHP_ControllerBase
 
         if (!$review_id) {
             if (empty($ticket)) {
-                $this->setResponse('error', 'New review and ticket empty');
+                $this->setResponse('error', 'Enter review name or ticket key on the page bottom');
                 return;
             }
             $review_id = $this->db->addReview($ticket);
