@@ -54,8 +54,8 @@ class GitosisAccess extends GitosisBase
             $user_id = 0;
             if (!empty($_GET['user_id'])) {
                 $user_id = (int)$_GET['user_id'];
-                $users = $this->ModelGitosis->getUser($user_id);
-                $users = array($users['username'] => $users);
+                $user = $this->ModelGitosis->getUser($user_id);
+                $users = [$user['id'] => $user];
             } else {
                 $users = $this->ModelGitosis->getUsers();
             }
@@ -64,18 +64,52 @@ class GitosisAccess extends GitosisBase
 
             $projects = $this->ModelGitosis->getRepositories();
             $this->tpl->assign('projects', $projects);
+            $this->tpl->assign('restricted_projects', array_filter($projects, function ($project_info) { return $project_info['restricted'] == 'Yes'; }));
 
-            $access = $this->ModelGitosis->getAccessGroupByUserId($user_id);
+            $access = [];
+            foreach ($this->ModelGitosis->getAccessGroupByUserId($user_id) as $user_id => $user_access) {
+                if ($users[$user_id]['access_mode'] == GitosisUsers::ACCESS_MODE_NORMAL) {
+                    $access[$user_id] = $user_access;
+                } else {
+                    $filter_user_access = [];
+                    foreach ($user_access as $mode => $accesses) {
+                        $filter_user_access[$mode] = array_filter(
+                            $accesses,
+                            function ($repository_id) use ($projects) {
+                                return $projects[$repository_id]['restricted'] === 'Yes';
+                            }
+                        );
+                    }
+                    $access[$user_id] = array_filter($filter_user_access);
+                }
+            }
+
+            foreach (array_keys($users) as $user_id) {
+                if (!isset($access[$user_id])) {
+                    $access[$user_id] = [];
+                }
+            }
+
             $this->tpl->assign('access', $access);
         } else {
             $project_id = 0;
             if (!empty($_GET['project_id'])) {
                 $project_id = (int)$_GET['project_id'];
-                $projects = $this->ModelGitosis->getRepository($project_id);
-                $projects = array($projects['project'] => $projects);
+                $project = $this->ModelGitosis->getRepository($project_id);
+                $projects = array($project['id'] => $project);
             } else {
                 $projects = $this->ModelGitosis->getRepositories();
             }
+            // format owners
+            $projects = array_map(
+                function ($project) {
+                    if ($project['owner']) {
+                        $project['owners'] = explode(',', $project['owner']);
+                    }
+                    return $project;
+                },
+                $projects
+            );
             $this->tpl->assign('projects', $projects);
             $users = $this->ModelGitosis->getUsers();
             $this->tpl->assign('users', $users);

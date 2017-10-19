@@ -5,7 +5,16 @@ class ProjectCreate extends Base
 {
     protected $form_errors = [];
     protected $displays = ['Yes', 'No'];
-    protected $edit_project = ['project' => '', 'description' => '', 'category' => '', 'notify_email' => '', 'display' => 'Yes'];
+    protected $restricted = ['No', 'Yes'];
+
+    protected $edit_project = [
+        'project' => '',
+        'description' => '',
+        'category' => '',
+        'notify_email' => '',
+        'display' => 'Yes',
+        'restricted' => 'No',
+    ];
 
     protected $ModelGitosis;
 
@@ -82,12 +91,16 @@ class ProjectCreate extends Base
             $display = empty($_POST['display']) || !in_array($_POST['display'], $this->displays) ? '' : $_POST['display'];
             $display = trim($display);
 
+            $restricted = empty($_POST['restricted']) || !in_array($_POST['restricted'], $this->restricted) ? '' : $_POST['restricted'];
+            $restricted = trim($restricted);
+
             $this->edit_project = [
                 'project' => $project,
                 'description' => $description,
                 'category' => $category,
                 'notify_email' => $notify_email,
                 'display' => $display,
+                'restricted' => $restricted,
             ];
 
             if (!$project) {
@@ -102,6 +115,7 @@ class ProjectCreate extends Base
                     $description,
                     $category,
                     $notify_email,
+                    $restricted,
                     $display,
                     $this->Session->getUser()->getEmail() ?? $this->Session->getUser()->getName()
                 );

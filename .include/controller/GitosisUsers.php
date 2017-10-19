@@ -3,7 +3,11 @@ namespace GitPHP\Controller;
 
 class GitosisUsers extends GitosisBase
 {
-    protected $_edit_user;
+    const ACCESS_MODE_NORMAL = 'normal';
+    const ACCESS_MODE_ALLOW_ALL = 'everywhere';
+
+    protected $edit_user;
+    protected $access_modes = [self::ACCESS_MODE_NORMAL, self::ACCESS_MODE_ALLOW_ALL];
 
     protected function ReadQuery()
     {
@@ -11,7 +15,7 @@ class GitosisUsers extends GitosisBase
             if (isset($_GET['delete'])) {
                 $this->ModelGitosis->removeUser((int)$_GET['id']);
             } else {
-                $this->_edit_user = $this->ModelGitosis->getUser((int)$_GET['id']);
+                $this->edit_user = $this->ModelGitosis->getUser((int)$_GET['id']);
             }
         }
 
@@ -25,6 +29,9 @@ class GitosisUsers extends GitosisBase
             $public_key = empty($_POST['public_key']) || !is_string($_POST['public_key']) ? '' : $_POST['public_key'];
             $public_key = trim($public_key);
 
+            $access_mode = empty($_POST['access_mode']) || !in_array($_POST['access_mode'], $this->access_modes) ? '' : $_POST['access_mode'];
+            $access_mode = trim($access_mode);
+
             $comment = empty($_POST['comment']) || !is_string($_POST['comment']) ? '' : $_POST['comment'];
             $comment = trim($comment);
 
@@ -36,7 +43,7 @@ class GitosisUsers extends GitosisBase
             }
 
             if ($username && $public_key) {
-                $this->ModelGitosis->saveUser($username, $email, $public_key, $comment);
+                $this->ModelGitosis->saveUser($username, $email, $public_key, $access_mode, $comment);
                 if (\GitPHP_Config::GetInstance()->GetValue(\GitPHP_Config::UPDATE_AUTH_KEYS_FROM_WEB, false)) {
                     if (!\GitPHP_Gitosis::addKey($username, $public_key)) {
                         $this->_form_errors[] = "Can't write key file!";
@@ -46,7 +53,7 @@ class GitosisUsers extends GitosisBase
                 }
             }
 
-            $this->_edit_user = $_POST;
+            $this->edit_user = $_POST;
         }
     }
 
@@ -56,7 +63,9 @@ class GitosisUsers extends GitosisBase
 
         $this->tpl->assign('users', $this->ModelGitosis->getUsers());
 
-        $this->tpl->assign('edit_user', $this->_edit_user);
+        $this->tpl->assign('access_modes', $this->access_modes);
+
+        $this->tpl->assign('edit_user', $this->edit_user);
     }
 
     protected function getCurrentSection()

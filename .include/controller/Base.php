@@ -369,7 +369,11 @@ abstract class Base
     public function Render()
     {
         \GitPHP_Log::GetInstance()->timerStart();
-        if ((\GitPHP_Config::GetInstance()->GetValue('cache', false) == true) && (\GitPHP_Config::GetInstance()->GetValue('cacheexpire', true) === true)) $this->CacheExpire();
+        $cache = \GitPHP_Config::GetInstance()->GetValue('cache', false);
+        $cacheexpire = \GitPHP_Config::GetInstance()->GetValue('cacheexpire', true);
+        if ($cache && ($cacheexpire === true)) {
+            $this->CacheExpire();
+        }
         \GitPHP_Log::GetInstance()->timerStop(__METHOD__ . ' cache', null);
 
         if (!$this->tpl->is_cached($this->GetTemplate(), $this->GetFullCacheKey())) {

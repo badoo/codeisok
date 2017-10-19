@@ -3,15 +3,16 @@ namespace GitPHP\Controller;
 
 class GitosisRepositories extends GitosisBase
 {
-    protected $_displays = array('Yes', 'No');
+    protected $displays = array('Yes', 'No');
+    protected $restricted = ['No', 'Yes'];
 
-    protected $_edit_project;
+    protected $edit_project;
 
     protected function ReadQuery()
     {
         $this->Session->getUser()->isGitosisAdmin();
         if (isset($_GET['id']) && is_string($_GET['id'])) {
-            $this->_edit_project = $this->ModelGitosis->getRepository((int)$_GET['id']);
+            $this->edit_project = $this->ModelGitosis->getRepository((int)$_GET['id']);
         }
 
         if (count($_POST)) {
@@ -27,8 +28,11 @@ class GitosisRepositories extends GitosisBase
             $notify_email = empty($_POST['notify_email']) || !is_string($_POST['notify_email']) ? '' : $_POST['notify_email'];
             $notify_email = trim($notify_email);
 
-            $display = empty($_POST['display']) || !in_array($_POST['display'], $this->_displays) ? '' : $_POST['display'];
+            $display = empty($_POST['display']) || !in_array($_POST['display'], $this->displays) ? '' : $_POST['display'];
             $display = trim($display);
+
+            $restricted = empty($_POST['restricted']) || !in_array($_POST['restricted'], $this->restricted) ? '' : $_POST['restricted'];
+            $restricted = trim($restricted);
 
             if (!$project) {
                 $this->_form_errors[] = 'Project can not be empty.';
@@ -42,6 +46,7 @@ class GitosisRepositories extends GitosisBase
                     $description,
                     $category,
                     $notify_email,
+                    $restricted,
                     $display,
                     $this->Session->getUser()->getEmail() ?? $this->Session->getUser()->getName()
                 );
@@ -56,7 +61,7 @@ class GitosisRepositories extends GitosisBase
                 $this->redirect('/?a=gitosis&section=repositories');
             }
 
-            $this->_edit_project = $_POST;
+            $this->edit_project = $_POST;
         }
     }
 
@@ -65,10 +70,9 @@ class GitosisRepositories extends GitosisBase
         parent::LoadData();
 
         $this->tpl->assign('projects', $this->ModelGitosis->getRepositories());
-
-        $this->tpl->assign('displays', $this->_displays);
-
-        $this->tpl->assign('edit_project', $this->_edit_project);
+        $this->tpl->assign('displays', $this->displays);
+        $this->tpl->assign('restricted', $this->restricted);
+        $this->tpl->assign('edit_project', $this->edit_project);
     }
 
     protected function getCurrentSection()
