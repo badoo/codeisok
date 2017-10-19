@@ -223,3 +223,11 @@ span.review {
     font-size: 120%;
     color: black;
 }
+
+#notifications {
+    background-color: #ffff99;
+    padding-left: 5px;
+    height: 40px;
+    font-size: 120%;
+    display: none;
+}

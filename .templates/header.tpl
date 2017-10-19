@@ -170,4 +170,4 @@
       {/if}
 
     </div>
-
+    <div id="notifications"></div>

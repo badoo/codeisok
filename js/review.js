@@ -641,22 +641,19 @@ var Review = (function() {
             dataType: 'json',
             success: function (data) {
                 if (!Review.getUrlParams().review && data.last_review !== undefined) {
-                    var action = prompt("You have an unfinished review started by you.\n"
-                        + "Type 1 to open it (default)\n"
-                        + "Type 2 to delete all your not published (draft) comments in case if you don't care\n"
-                        + "Type 0 or click cancel to continue browsing", 1);
-                    action = parseInt(action);
-                    if (action == 1) {
-                        document.location = data.last_review;
-                    } else if (action == 2) {
+                    $('#notifications').html("<span data-url='" + data.last_review + "'>You have an unfinished review. You can <div class='review_btn' id='review_edit'>Edit</div> or <div class='review_btn' id='review_delete'>Delete</div> it.</span>");
+                    $('#review_edit').click(function() {
+                        document.location = $('#review_edit').parent('span').data('url');
+                    });
+                    $('#review_delete').click(function() {
                         $.getJSON('/?a=delete_all_draft_comments', {}, function(data, status_text, xhr) {
-                            if (data.status == undefined || data.status != 0) {
-                                alert('Failed to delete draft comments');
+                            if (data.status == 0) {
+                                $('#notifications').html("");
+                                $('#notifications').hide();
                             }
-                        }).fail(function() {
-                            alert('Failed to delete draft comments');
                         });
-                    }
+                    });
+                    $('#notifications').show();
                 }
             }
         });
