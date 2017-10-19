@@ -22,6 +22,7 @@
  {include file='title.tpl'}
 
  <div class="page_body">
+   <div class="diff_summary">
    {if $branchdiff && !$sidebyside}
        {if $extensions}
            <div class="file_filter">
@@ -67,6 +68,7 @@
       <script type="text/javascript" src="/lib/mergely/mergely.js"></script>
       <link type="text/css" rel="stylesheet" href="/lib/mergely/mergely.css" />
    {/if}
+   </div>
 
      {if $branchdiff && $sidebyside}
     <div class="commitDiffSBS">
