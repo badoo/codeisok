@@ -1,4 +1,5 @@
 <?php
+
 namespace GitPHP\Controller;
 
 class GitosisRepositories extends GitosisBase
@@ -34,6 +35,10 @@ class GitosisRepositories extends GitosisBase
             $restricted = empty($_POST['restricted']) || !in_array($_POST['restricted'], $this->restricted) ? '' : $_POST['restricted'];
             $restricted = trim($restricted);
 
+            $current_user = $this->Session->getUser()->getEmail() ?? $this->Session->getUser()->getName();
+            $owner = empty($_POST['owner']) || !is_string($_POST['owner']) ? $current_user : $_POST['owner'];
+            $owner = trim($owner);
+
             if (!$project) {
                 $this->_form_errors[] = 'Project can not be empty.';
             } else if (!preg_match('/\.git$/', $project)) {
@@ -48,7 +53,7 @@ class GitosisRepositories extends GitosisBase
                     $notify_email,
                     $restricted,
                     $display,
-                    $this->Session->getUser()->getEmail() ?? $this->Session->getUser()->getName()
+                    $owner
                 );
                 //creating the repo
                 $base_path = \GitPHP_Config::GetInstance()->GetValue(\GitPHP_Config::PROJECT_ROOT);

@@ -1,4 +1,5 @@
 <?php
+
 namespace GitPHP\Controller;
 
 class GitosisAccess extends GitosisBase
@@ -64,7 +65,15 @@ class GitosisAccess extends GitosisBase
 
             $projects = $this->ModelGitosis->getRepositories();
             $this->tpl->assign('projects', $projects);
-            $this->tpl->assign('restricted_projects', array_filter($projects, function ($project_info) { return $project_info['restricted'] == 'Yes'; }));
+            $this->tpl->assign(
+                'restricted_projects',
+                array_filter(
+                    $projects,
+                    function ($project_info) {
+                        return $project_info['restricted'] == 'Yes';
+                    }
+                )
+            );
 
             $access = [];
             foreach ($this->ModelGitosis->getAccessGroupByUserId($user_id) as $user_id => $user_access) {

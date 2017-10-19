@@ -106,16 +106,18 @@
                     <input type="submit" value="Grant access" />
                 </td>
                 <td>
-                {foreach from=$access[$project.id] key=mode item=user_ids}
-                    <ol>
-                        <b>{$mode}</b>:
-                    {foreach name="users" from=$user_ids item=user_id}
-                        <li>
-                            {$users[$user_id].username}
-                        </li>
+                {if isset($access[$project.id])}
+                    {foreach from=$access[$project.id] key=mode item=user_ids}
+                        <ol>
+                            <b>{$mode}</b>:
+                        {foreach name="users" from=$user_ids item=user_id}
+                            <li>
+                                {$users[$user_id].username}
+                            </li>
+                        {/foreach}
+                        </ol>
                     {/foreach}
-                    </ol>
-                {/foreach}
+                {/if}
                 </td>
             </tr>
         </form>

@@ -1,4 +1,5 @@
 <?php
+
 namespace GitPHP\Controller;
 
 class GitosisUsers extends GitosisBase

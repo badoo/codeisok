@@ -1,4 +1,5 @@
 <?php
+
 namespace GitPHP\Controller;
 
 class ProjectCreate extends Base
@@ -8,6 +9,7 @@ class ProjectCreate extends Base
     protected $restricted = ['No', 'Yes'];
 
     protected $edit_project = [
+        'id' => 0,
         'project' => '',
         'description' => '',
         'category' => '',
@@ -142,6 +144,7 @@ class ProjectCreate extends Base
     protected function LoadData()
     {
         $this->tpl->assign('form_errors', $this->form_errors);
+        $this->tpl->assign('restricted', $this->restricted);
         $this->tpl->assign('displays', $this->displays);
         $this->tpl->assign('edit_project', $this->edit_project);
     }

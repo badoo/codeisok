@@ -1,4 +1,5 @@
 <?php
+
 namespace GitPHP\Controller;
 
 abstract class GitosisBase extends Base

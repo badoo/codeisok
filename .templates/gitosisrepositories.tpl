@@ -31,9 +31,12 @@
                 <td>
                     {foreach name="restricted" from=$restricted item=restricted_mode}
                         <label><input type="radio" {if ($smarty.foreach.restricted.first && !$edit_project) || ($edit_project && $restricted_mode == $edit_project.restricted)}checked=""{/if} name="restricted" value="{$restricted_mode}"> {$restricted_mode}</label>
-                        {if $display == 'Yes'}<sup>web server user must have access for repository directory</sup>{/if}
                     {/foreach}
                 </td>
+            </tr>
+            <tr>
+                <td>owner(s)</td>
+                <td><input type="text" name="owner" class="text" value="{$edit_project.owner|htmlspecialchars}" /></td>
             </tr>
             <tr>
                 <td>display</td>
