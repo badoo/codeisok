@@ -1,7 +1,7 @@
 <?php
-/**
- */
-class GitPHP_Controller_Git extends GitPHP_ControllerBase
+namespace GitPHP\Controller;
+
+class Git extends Base
 {
     const SUPPORTED_ACTIONS = [
         self::ACTION_MONITORING,
@@ -40,7 +40,10 @@ class GitPHP_Controller_Git extends GitPHP_ControllerBase
      * @access protected
      * @return string cache key
      */
-    protected function GetCacheKey() {}
+    protected function GetCacheKey()
+    {
+        return null;
+    }
 
     /**
      * GetName
@@ -117,7 +120,7 @@ class GitPHP_Controller_Git extends GitPHP_ControllerBase
             if (!empty($head)) {
                 $hash = $head->GetHash();
                 if ($persist) {
-                    $res = GitPHP_Db::getInstance()->saveBranchHead($branch, $hash);
+                    $res = \GitPHP_Db::getInstance()->saveBranchHead($branch, $hash);
                     $response['status'] = ($res ? 'ok' : 'err');
                 }
             }
@@ -170,7 +173,7 @@ class GitPHP_Controller_Git extends GitPHP_ControllerBase
 
         $log = "Can't get short log for requested commits";
         if (!empty($this->project) && $first_commit && $second_commit) {
-            $exe = new GitPHP_GitExe($this->project);
+            $exe = new \GitPHP_GitExe($this->project);
 
             $args = ['--oneline', $first_commit, "^{$second_commit}", '--'];
             $log  = $exe->Execute(GIT_LOG, $args);

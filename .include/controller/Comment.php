@@ -1,6 +1,7 @@
 <?php
+namespace GitPHP\Controller;
 
-class GitPHP_Controller_Comment extends GitPHP_ControllerBase
+class Comment extends Base
 {
     const STATUS_OK = 0;
     const STATUS_WRONG_PARAMS = 1;
@@ -13,14 +14,14 @@ class GitPHP_Controller_Comment extends GitPHP_ControllerBase
     private $response;
 
     /**
-     * @var GitPHP_Db
+     * @var \GitPHP_Db
      */
     private $db;
 
     public function __construct()
     {
         parent::__construct();
-        $this->db = GitPHP_Db::getInstance();
+        $this->db = \GitPHP_Db::getInstance();
     }
 
     /**
@@ -49,7 +50,10 @@ class GitPHP_Controller_Comment extends GitPHP_ControllerBase
      * @access protected
      * @return string cache key
      */
-    protected function GetCacheKey() {}
+    protected function GetCacheKey()
+    {
+        return null;
+    }
 
     /**
      * GetName
@@ -112,7 +116,7 @@ class GitPHP_Controller_Comment extends GitPHP_ControllerBase
 
         header('Content-Type: application/json; charset=UTF-8');
 
-        $this->setResponse('log', GitPHP_Log::GetInstance()->getForJson());
+        $this->setResponse('log', \GitPHP_Log::GetInstance()->getForJson());
 
         echo json_encode($this->response);
         die;
@@ -158,7 +162,7 @@ class GitPHP_Controller_Comment extends GitPHP_ControllerBase
                 return;
             }
             $review_id = $this->db->addReview($ticket);
-            $this->Session->set(GitPHP_Session::SESSION_REVIEW_ID, $review_id);
+            $this->Session->set(\GitPHP_Session::SESSION_REVIEW_ID, $review_id);
         }
 
         $snapshot = $this->db->findSnapshotByHashAndReview($review_id, $hash, $hash_base, $review_type);
@@ -206,7 +210,7 @@ class GitPHP_Controller_Comment extends GitPHP_ControllerBase
         }
         $hash = $_POST['hash'];
 
-        $session_review_id = $this->Session->get(GitPHP_Session::SESSION_REVIEW_ID);
+        $session_review_id = $this->Session->get(\GitPHP_Session::SESSION_REVIEW_ID);
 
         $review_list = $this->db->getReview($ticket, $hash, $session_review_id);
 
@@ -217,10 +221,9 @@ class GitPHP_Controller_Comment extends GitPHP_ControllerBase
             $review_list[$review_id]['ticket'] = $row['ticket'];
         }
 
-
         $new_review = true;
-        if (isset($review_list[$session_review_id]) &&
-            in_array($review_list[$session_review_id]['origin'], ['ticket', 'hash'])) {
+        if (isset($review_list[$session_review_id])
+            && in_array($review_list[$session_review_id]['origin'], ['ticket', 'hash'])) {
             $review_list[$session_review_id]['selected'] = true;
             $new_review = false;
         }
@@ -257,11 +260,11 @@ class GitPHP_Controller_Comment extends GitPHP_ControllerBase
 
         if ($status == 'Finish' && $this->db->getAffectedRows()) {
             $comments = $this->db->getCommentsByReviewAndAuthor($reviewId, $author);
-            $url = GitPHP_Controller_Review::getReviewUrl($reviewId);
+            $url = Review::getReviewUrl($reviewId);
             $review_type = $comments[0]['review_type'];
-            GitPHP_Util::sendReviewEmail($this->Session->getUser()->getEmail(), $review['ticket'], $url, $comments, $review_type);
+            \GitPHP_Util::sendReviewEmail($this->Session->getUser()->getEmail(), $review['ticket'], $url, $comments, $review_type);
             if (\GitPHP\Tracker::instance()->enabled()) {
-                GitPHP_Util::addReviewToTracker($this->Session->getUser()->getId(), $review['ticket'], $url, $comments, $review_type);
+                \GitPHP_Util::addReviewToTracker($this->Session->getUser()->getId(), $review['ticket'], $url, $comments, $review_type);
             }
         }
 
@@ -317,7 +320,7 @@ class GitPHP_Controller_Comment extends GitPHP_ControllerBase
         if ($draft_messages && count($draft_messages) > 0) {
             $last_message = array_shift($draft_messages);
             if (isset($last_message['repo']) && isset($last_message['hash_head']) && isset($last_message['hash_base']) && isset($last_message['review_id'])) {
-                $this->setResponse('last_review', GitPHP_Controller_Review::getReviewUrl($last_message['review_id']));
+                $this->setResponse('last_review', Review::getReviewUrl($last_message['review_id']));
             }
         }
 

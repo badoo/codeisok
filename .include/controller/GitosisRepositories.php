@@ -1,6 +1,7 @@
 <?php
+namespace GitPHP\Controller;
 
-class GitPHP_Controller_GitosisRepositories extends GitPHP_Controller_GitosisBase
+class GitosisRepositories extends GitosisBase
 {
     protected $_displays = array('Yes', 'No');
 
@@ -23,12 +24,10 @@ class GitPHP_Controller_GitosisRepositories extends GitPHP_Controller_GitosisBas
             $category = empty($_POST['category']) || !is_string($_POST['category']) ? '' : $_POST['category'];
             $category = trim($category);
 
-            $notify_email = empty($_POST['notify_email']) || !is_string($_POST['notify_email'])
-                ? '' : $_POST['notify_email'];
+            $notify_email = empty($_POST['notify_email']) || !is_string($_POST['notify_email']) ? '' : $_POST['notify_email'];
             $notify_email = trim($notify_email);
 
-            $display = empty($_POST['display']) || !in_array($_POST['display'], $this->_displays)
-                ? '' : $_POST['display'];
+            $display = empty($_POST['display']) || !in_array($_POST['display'], $this->_displays) ? '' : $_POST['display'];
             $display = trim($display);
 
             if (!$project) {
@@ -40,7 +39,7 @@ class GitPHP_Controller_GitosisRepositories extends GitPHP_Controller_GitosisBas
             if (empty($this->_form_errors)) {
                 $this->ModelGitosis->saveRepository($project, $description, $category, $notify_email, $display);
                 //creating the repo
-                $base_path = GitPHP_Config::GetInstance()->GetValue(\GitPHP_Config::PROJECT_ROOT);
+                $base_path = \GitPHP_Config::GetInstance()->GetValue(\GitPHP_Config::PROJECT_ROOT);
                 if (\GitPHP_Config::GetInstance()->GetValue(\GitPHP_Config::UPDATE_AUTH_KEYS_FROM_WEB)) {
                     exec("cd " . $base_path . ";git init --bare " . escapeshellarg($project), $out, $retval);
                     if ($retval) {
@@ -63,5 +62,10 @@ class GitPHP_Controller_GitosisRepositories extends GitPHP_Controller_GitosisBas
         $this->tpl->assign('displays', $this->_displays);
 
         $this->tpl->assign('edit_project', $this->_edit_project);
+    }
+
+    protected function getCurrentSection()
+    {
+        return 'repositories';
     }
 }

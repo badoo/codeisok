@@ -1,31 +1,25 @@
 <?php
-class GitPHP_Controller_Branchdiff extends GitPHP_Controller_DiffBase
+namespace GitPHP\Controller;
+
+class Branchdiff extends DiffBase
 {
-    /**
-	 * __construct
-	 *
-	 * Constructor
-	 *
-	 * @access public
-	 * @return controller
-	 */
-	    public function __construct()
+    public function __construct()
     {
         parent::__construct();
         if (!$this->project) {
-            throw new GitPHP_MessageException(__('Project is required'), true);
+            throw new \GitPHP_MessageException(__('Project is required'), true);
         }
     }
 
     /**
-	 * GetTemplate
-	 *
-	 * Gets the template for this controller
-	 *
-	 * @access protected
-	 * @return string template filename
-	 */
-	    protected function GetTemplate()
+     * GetTemplate
+     *
+     * Gets the template for this controller
+     *
+     * @access protected
+     * @return string template filename
+     */
+    protected function GetTemplate()
     {
         if (isset($this->params['plain']) && ($this->params['plain'] === true)) {
             return 'branchdiffplain.tpl';
@@ -34,14 +28,14 @@ class GitPHP_Controller_Branchdiff extends GitPHP_Controller_DiffBase
     }
 
     /**
-	 * GetCacheKey
-	 *
-	 * Gets the cache key for this controller
-	 *
-	 * @access protected
-	 * @return string cache key
-	 */
-	    protected function GetCacheKey()
+     * GetCacheKey
+     *
+     * Gets the cache key for this controller
+     *
+     * @access protected
+     * @return string cache key
+     */
+    protected function GetCacheKey()
     {
         $key = (isset($this->params['hash']) ? $this->params['hash'] : '')
             . '|' . (isset($this->params['hashparent']) ? $this->params['hashparent'] : '')
@@ -51,15 +45,15 @@ class GitPHP_Controller_Branchdiff extends GitPHP_Controller_DiffBase
     }
 
     /**
-	 * GetName
-	 *
-	 * Gets the name of this controller's action
-	 *
-	 * @access public
-	 * @param boolean $local true if caller wants the localized action name
-	 * @return string action name
-	 */
-	    public function GetName($local = false)
+     * GetName
+     *
+     * Gets the name of this controller's action
+     *
+     * @access public
+     * @param boolean $local true if caller wants the localized action name
+     * @return string action name
+     */
+    public function GetName($local = false)
     {
         if ($local) {
             return __('branchdiff');
@@ -68,25 +62,25 @@ class GitPHP_Controller_Branchdiff extends GitPHP_Controller_DiffBase
     }
 
     /**
-	 * ReadQuery
-	 *
-	 * Read query into parameters
-	 *
-	 * @access protected
-	 */
-	    protected function ReadQuery()
+     * ReadQuery
+     *
+     * Read query into parameters
+     *
+     * @access protected
+     */
+    protected function ReadQuery()
     {
         parent::ReadQuery();
 
         $this->params['branch'] = isset($_GET['branch']) ? $_GET['branch'] : '';
         $this->params['review'] = isset($_GET['review']) ? (int)$_GET['review'] : 0;
         // it looks like a possibly wrong code
-        $this->params['base'] = $this->Session->get($this->project->GetProject() . GitPHP_Session::SESSION_BASE_BRANCH, '');
+        $this->params['base'] = $this->Session->get($this->project->GetProject() . \GitPHP_Session::SESSION_BASE_BRANCH, '');
 
         if (isset($_REQUEST['base'])) {
             $this->params['base'] = $_REQUEST['base'];
             if (empty($this->params['review'])) {
-                $this->Session->set($this->project->GetProject() . GitPHP_Session::SESSION_BASE_BRANCH, $this->params['base']);
+                $this->Session->set($this->project->GetProject() . \GitPHP_Session::SESSION_BASE_BRANCH, $this->params['base']);
             }
         } else if (empty($this->params['base'])) {
             $base_branches = $this->project->GetBaseBranches($this->params['branch']);
@@ -107,13 +101,13 @@ class GitPHP_Controller_Branchdiff extends GitPHP_Controller_DiffBase
     }
 
     /**
-	 * LoadHeaders
-	 *
-	 * Loads headers for this template
-	 *
-	 * @access protected
-	 */
-	    protected function LoadHeaders()
+     * LoadHeaders
+     *
+     * Loads headers for this template
+     *
+     * @access protected
+     */
+    protected function LoadHeaders()
     {
         parent::LoadHeaders();
 
@@ -123,34 +117,34 @@ class GitPHP_Controller_Branchdiff extends GitPHP_Controller_DiffBase
     }
 
     /**
-	 * LoadData
-	 *
-	 * Loads data for this template
-	 *
-	 * @access protected
-	 */
-	    protected function LoadData()
+     * LoadData
+     *
+     * Loads data for this template
+     *
+     * @access protected
+     */
+    protected function LoadData()
     {
         parent::LoadData();
         $co = $this->project->GetCommit($this->params['branch']);
         $toHash = null;
         if (!$co) {
-            $co = GitPHP_Db::getInstance()->getBranchHead($this->params['branch']);
+            $co = \GitPHP_Db::getInstance()->getBranchHead($this->params['branch']);
             if ($co) $co = $this->project->GetCommit($co);
             if (!$co) return;
             $toHash = $co->GetHash();
         }
 
         $renames = true;
-        $DiffContext = new DiffContext();
+        $DiffContext = new \DiffContext();
         $DiffContext->setContext($this->params['context'])
             ->setIgnoreWhitespace($this->params['ignorewhitespace'])
             ->setIgnoreFormatting($this->params['ignoreformat'])
             ->setRenames($renames)
             ->setShowHidden($this->params['show_hidden']);
 
-        if (in_array($this->project->GetCategory(), GitPHP_Config::GetInstance()->GetValue(\GitPHP_Config::SKIP_SUPPRESS_FOR_CATEGORY, []))) $DiffContext->setSkipSuppress(true);
-        $branchdiff = new GitPHP_BranchDiff($this->project, $this->params['branch'], $this->params['base'], $DiffContext);
+        if (in_array($this->project->GetCategory(), \GitPHP_Config::GetInstance()->GetValue(\GitPHP_Config::SKIP_SUPPRESS_FOR_CATEGORY, []))) $DiffContext->setSkipSuppress(true);
+        $branchdiff = new \GitPHP_BranchDiff($this->project, $this->params['branch'], $this->params['base'], $DiffContext);
         if ($toHash) $branchdiff->SetToHash($toHash);
         if (preg_match('/[0-9a-f]{40}/i', $this->params['base'])) {
             $branchdiff->setFromHash($this->params['base']);
@@ -163,16 +157,16 @@ class GitPHP_Controller_Branchdiff extends GitPHP_Controller_DiffBase
         }
         $this->tpl->assign('commit', $co);
 
-//		if (isset($this->params['hashparent'])) {
-//			$this->tpl->assign("hashparent", $this->params['hashparent']);
-//		}
+//    	if (isset($this->params['hashparent'])) {
+//    		$this->tpl->assign("hashparent", $this->params['hashparent']);
+//    	}
 
         if (isset($this->params['sidebyside']) && ($this->params['sidebyside'] === true)) {
             $this->tpl->assign('extrascripts', array('commitdiff'));
         }
 
         if (empty($this->params['sidebyside'])) {
-            include_once(GitPHP_Util::AddSlash('lib/syntaxhighlighter') . "syntaxhighlighter.php");
+            include_once(\GitPHP_Util::AddSlash('lib/syntaxhighlighter') . "syntaxhighlighter.php");
             $this->tpl->assign('sexy', 1);
             $this->tpl->assign('highlighter_no_ruler', 1);
             $this->tpl->assign('highlighter_diff_enabled', 1);
@@ -182,7 +176,7 @@ class GitPHP_Controller_Branchdiff extends GitPHP_Controller_DiffBase
             $statuses = [];
             $folders = [];
             foreach ($branchdiff as $filediff) {
-                $SH = new SyntaxHighlighter($filediff->getToFile());
+                $SH = new \SyntaxHighlighter($filediff->getToFile());
                 $brashes = array_merge($SH->getBrushesList(), $brashes);
 
                 $extensions[$filediff->getToFileExtension()] = $filediff->getToFileExtension();

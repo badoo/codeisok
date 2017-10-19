@@ -1,12 +1,8 @@
 <?php
+namespace GitPHP\Controller;
 
-class GitPHP_Controller_Review extends GitPHP_ControllerBase
+class Review extends Base
 {
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
     /**
      * GetTemplate
      *
@@ -28,7 +24,10 @@ class GitPHP_Controller_Review extends GitPHP_ControllerBase
      * @access protected
      * @return string cache key
      */
-    protected function GetCacheKey() {}
+    protected function GetCacheKey()
+    {
+        return null;
+    }
 
     /**
      * GetName
@@ -67,7 +66,7 @@ class GitPHP_Controller_Review extends GitPHP_ControllerBase
      */
     protected function LoadData()
     {
-        $db = GitPHP_Db::getInstance();
+        $db = \GitPHP_Db::getInstance();
 
         $to_start_link = $more_link = null;
         if ($this->params['review']) {
@@ -76,11 +75,11 @@ class GitPHP_Controller_Review extends GitPHP_ControllerBase
             $limit = 50;
             $snapshots = $db->getSnapshotList($limit + 1, $this->params['max_id']);
             if ($this->params['max_id']) {
-                $to_start_link = GitPHP_Application::getUrl('reviews', ['max_id' => 0]);
+                $to_start_link = \GitPHP_Application::getUrl('reviews', ['max_id' => 0]);
             }
             if (count($snapshots) > $limit) {
                 $last = array_pop($snapshots);
-                $more_link = GitPHP_Application::getUrl('reviews', ['max_id' => $last['id']]);
+                $more_link = \GitPHP_Application::getUrl('reviews', ['max_id' => $last['id']]);
             }
         }
         $this->tpl->assign('to_start_link', $to_start_link);
@@ -96,7 +95,7 @@ class GitPHP_Controller_Review extends GitPHP_ControllerBase
                 $comments = $db->getComments($snapshot['id']);
                 $comment = reset($comments);
             }
-            $url = GitPHP_Util::getReviewLink($snapshot, $comment['file']);
+            $url = \GitPHP_Util::getReviewLink($snapshot, $comment['file']);
 
             $this->redirect($url . $c);
         }
@@ -109,19 +108,19 @@ class GitPHP_Controller_Review extends GitPHP_ControllerBase
             $ticket_key = $reviews[$snapshot['review_id']];
             $snapshot['ticket_url'] = '';
             if (\GitPHP\Tracker::instance()->enabled()) {
-                    $ticket_key = \GitPHP\Tracker::instance()->parceTicketFromString($ticket_key);
-                    if (!empty($ticket_key)) {
-                        $snapshot['ticket_url'] = \GitPHP\Tracker::instance()->getTicketUrl($ticket_key);
-                    }
+                $ticket_key = \GitPHP\Tracker::instance()->parceTicketFromString($ticket_key);
+                if (!empty($ticket_key)) {
+                    $snapshot['ticket_url'] = \GitPHP\Tracker::instance()->getTicketUrl($ticket_key);
+                }
             }
             $snapshot['count'] = (isset($commentsCount[$snapshot['review_id']]) ? $commentsCount[$snapshot['review_id']]['cnt'] : '')
-                . (!empty($commentsCount[$snapshot['review_id']]['cnt_draft']) ? '+' . $commentsCount[$snapshot['review_id']]['cnt_draft'] . ' draft': '');
+                . (!empty($commentsCount[$snapshot['review_id']]['cnt_draft']) ? '+' . $commentsCount[$snapshot['review_id']]['cnt_draft'] . ' draft' : '');
             if ($snapshot['hash_base'] == 'blob') {
                 $comments = $db->getComments($snapshot['id']);
                 $comment = reset($comments);
                 $snapshot['file'] = $comment['file'];
             }
-            $snapshot['url'] = GitPHP_Util::getReviewLink($snapshot, $snapshot['file'] ?? null);
+            $snapshot['url'] = \GitPHP_Util::getReviewLink($snapshot, $snapshot['file'] ?? null);
 
             if ($snapshot['hash_base'] == 'blob') {
                 $snapshot['title'] = $snapshot['hash_head'] . ' ' . $snapshot['file'];
@@ -137,7 +136,7 @@ class GitPHP_Controller_Review extends GitPHP_ControllerBase
 
     public static function getReviewUrl($reviewId)
     {
-        $hostname = GitPHP_Util::getHostnameUrl();
+        $hostname = \GitPHP_Util::getHostnameUrl();
         $url = $hostname . '/r/' . $reviewId;
         return $url;
     }

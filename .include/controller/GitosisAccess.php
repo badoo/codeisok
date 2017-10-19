@@ -1,6 +1,7 @@
 <?php
+namespace GitPHP\Controller;
 
-class GitPHP_Controller_GitosisAccess extends GitPHP_Controller_GitosisBase
+class GitosisAccess extends GitosisBase
 {
     protected $scope = 'user';
 
@@ -31,6 +32,7 @@ class GitPHP_Controller_GitosisAccess extends GitPHP_Controller_GitosisBase
                         case '':
                             $this->ModelGitosis->delUserAccess($user_id, array($project_id));
                             break;
+
                         case 'writable':
                         case 'readonly':
                             $this->ModelGitosis->saveUserAccess($user_id, $project_id, $mode);
@@ -80,5 +82,10 @@ class GitPHP_Controller_GitosisAccess extends GitPHP_Controller_GitosisBase
             $access = $this->ModelGitosis->getAccessGroupByRepositoryId($project_id);
             $this->tpl->assign('access', $access);
         }
+    }
+
+    protected function getCurrentSection()
+    {
+        return 'access';
     }
 }

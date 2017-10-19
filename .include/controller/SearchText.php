@@ -1,67 +1,70 @@
 <?php
+namespace GitPHP\Controller;
+
 /**
  * Search controller class
  *
  * @package GitPHP
  * @subpackage Controller
  */
-class GitPHP_Controller_SearchText extends GitPHP_ControllerBase
+class SearchText extends Base
 {
-
-	/**
-	 * GetTemplate
-	 *
-	 * Gets the template for this controller
-	 *
-	 * @access protected
-	 * @return string template filename
-	 */
-	protected function GetTemplate()
-	{
-	}
+    /**
+     * GetTemplate
+     *
+     * Gets the template for this controller
+     *
+     * @access protected
+     * @return string template filename
+     */
+    protected function GetTemplate()
+    {
+        return null;
+    }
 
     protected function GetCacheKey()
     {
+        return null;
     }
 
-	/**
-	 * GetName
-	 *
-	 * Gets the name of this controller's action
-	 *
-	 * @access public
-	 * @param boolean $local true if caller wants the localized action name
-	 * @return string action name
-	 */
-	public function GetName($local = false)
-	{
-		return 'searchtext';
-	}
+    /**
+     * GetName
+     *
+     * Gets the name of this controller's action
+     *
+     * @access public
+     * @param boolean $local true if caller wants the localized action name
+     * @return string action name
+     */
+    public function GetName($local = false)
+    {
+        return 'searchtext';
+    }
 
-	/**
-	 * ReadQuery
-	 *
-	 * Read query into parameters
-	 *
-	 * @access protected
-	 */
-	protected function ReadQuery()
-	{
-		$this->params['text'] = htmlspecialchars_decode(urldecode($_POST['text']));
-	        $this->params['project'] = $_POST['project'];
-	}
+    /**
+     * ReadQuery
+     *
+     * Read query into parameters
+     *
+     * @access protected
+     */
+    protected function ReadQuery()
+    {
+        $this->params['text'] = htmlspecialchars_decode(urldecode($_POST['text']));
+        $this->params['project'] = $_POST['project'];
+    }
 
-	/**
-	 * LoadData
-	 *
-	 * Loads data for this template
-	 *
-	 * @access protected
-	 */
-	protected function LoadData()
-	{
+    /**
+     * LoadData
+     *
+     * Loads data for this template
+     *
+     * @access protected
+     */
+    protected function LoadData()
+    {
         $response = 'Nothing found...';
-        $Project = GitPHP_ProjectList::GetInstance()->GetProject($this->params['project']);
+        $Project = \GitPHP_ProjectList::GetInstance()->GetProject($this->params['project']);
         if (!empty($Project)) {
             $branch = 'master';
             $search = $Project->SearchText($this->params['text'], $branch);
@@ -69,10 +72,10 @@ class GitPHP_Controller_SearchText extends GitPHP_ControllerBase
                 $response = $search;
                 //$response = str_replace(htmlspecialchars($this->params['text']), '<span class="highlight">' . htmlspecialchars($this->params['text']) . '</span>', $response);
                 $response = preg_replace_callback(
-                    '/(' . str_replace('/', '\/', $this->params['text']) . ')/', 
+                    '/(' . str_replace('/', '\/', $this->params['text']) . ')/',
                     function ($matches) {
                         return '[HIGHLIGHTSPANBEGIN]' . $matches['1'] . '[HIGHLIGHTSPANEND]';
-                    }, 
+                    },
                     $response
                 );
                 $otherVars = $this->params;
@@ -82,7 +85,7 @@ class GitPHP_Controller_SearchText extends GitPHP_ControllerBase
                     if (strpos($line, $branch . ':') === 0) {
                         list(, $file) = explode(':', $line);
                         $search[$key] = '[HIGHLIGHTFILEURL' . str_replace('/', '', strtoupper($file)) . ']';
-                        $url = '/index.php?p=' . $otherVars['project'] . '&a=blob&hb=' . $branch . '&f='. strip_tags($file);
+                        $url = '/index.php?p=' . $otherVars['project'] . '&a=blob&hb=' . $branch . '&f=' . strip_tags($file);
                         $otherVars['fileurls'][$search[$key]] = '<a target="_blank" href="' . $url . '">' . $branch . ':' . $file . '</a>';
                     } elseif (!empty($line) && !empty($url)) {
                         list($num, $code) = explode(':', $line);
@@ -93,9 +96,9 @@ class GitPHP_Controller_SearchText extends GitPHP_ControllerBase
                 $response = implode("\n", $search);
             }
         }
-		header('Content-Type: application/json; charset=UTF-8');
+        header('Content-Type: application/json; charset=UTF-8');
         $response = nl2br(htmlspecialchars($response));
-        if (count($otherVars['fileurls'])) {
+        if (isset($otherVars) && count($otherVars['fileurls'])) {
             $response = str_replace(
                 array_keys($otherVars['fileurls']),
                 array_values($otherVars['fileurls']),
@@ -109,6 +112,5 @@ class GitPHP_Controller_SearchText extends GitPHP_ControllerBase
         );
         echo json_encode(array('response' => $response));
         die;
-	}
-	
+    }
 }

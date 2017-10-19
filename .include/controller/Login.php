@@ -1,6 +1,7 @@
 <?php
+namespace GitPHP\Controller;
 
-class GitPHP_Controller_Login extends GitPHP_ControllerBase
+class Login extends Base
 {
     protected function GetTemplate()
     {
@@ -71,7 +72,7 @@ class GitPHP_Controller_Login extends GitPHP_ControllerBase
                         'user_id' => $auth_user['name'],
                         'user_name' => $auth_user['name'],
                         'user_email' => $auth_user['name'],
-                        'user_token' => md5($auth_user['name'].$auth_user['password'].microtime())
+                        'user_token' => md5($auth_user['name'] . $auth_user['password'] . microtime())
                     ];
                 } else {
                     $err = 'User or password does not exists.';
@@ -91,7 +92,7 @@ class GitPHP_Controller_Login extends GitPHP_ControllerBase
 
         $User = null;
         if ($auth_result) {
-            $User = GitPHP_User::fromAuthData($auth_result);
+            $User = \GitPHP_User::fromAuthData($auth_result);
             if (\GitPHP_Config::CHECK_ACCESS_GROUP) {
                 $Acl = new \GitPHP\Acl(\GitPHP\Jira::instance());
                 if (!$Acl->isCodeAccessAllowed($User)) {

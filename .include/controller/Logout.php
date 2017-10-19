@@ -1,6 +1,7 @@
 <?php
+namespace GitPHP\Controller;
 
-class GitPHP_Controller_Logout extends GitPHP_ControllerBase
+class Logout extends Base
 {
     protected function GetTemplate()
     {

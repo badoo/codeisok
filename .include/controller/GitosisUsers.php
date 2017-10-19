@@ -1,6 +1,7 @@
 <?php
+namespace GitPHP\Controller;
 
-class GitPHP_Controller_GitosisUsers extends GitPHP_Controller_GitosisBase
+class GitosisUsers extends GitosisBase
 {
     protected $_edit_user;
 
@@ -37,7 +38,7 @@ class GitPHP_Controller_GitosisUsers extends GitPHP_Controller_GitosisBase
             if ($username && $public_key) {
                 $this->ModelGitosis->saveUser($username, $email, $public_key, $comment);
                 if (\GitPHP_Config::GetInstance()->GetValue(\GitPHP_Config::UPDATE_AUTH_KEYS_FROM_WEB, false)) {
-                    if (!GitPHP_Gitosis::addKey($username, $public_key)) {
+                    if (!\GitPHP_Gitosis::addKey($username, $public_key)) {
                         $this->_form_errors[] = "Can't write key file!";
                     } else {
                         $this->redirect('/?a=gitosis&section=users');
@@ -56,5 +57,10 @@ class GitPHP_Controller_GitosisUsers extends GitPHP_Controller_GitosisBase
         $this->tpl->assign('users', $this->ModelGitosis->getUsers());
 
         $this->tpl->assign('edit_user', $this->_edit_user);
+    }
+
+    protected function getCurrentSection()
+    {
+        return 'users';
     }
 }

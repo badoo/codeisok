@@ -1,4 +1,5 @@
 <?php
+namespace GitPHP\Controller;
 /**
  * GitPHP Controller DiffBase
  *
@@ -33,16 +34,16 @@ define('GITPHP_DIFF_MODE_COOKIE_LIFETIME', 60 * 60 * 24 * 365);           // 1 y
  * @package GitPHP
  * @subpackage Controller
  */
-abstract class GitPHP_Controller_DiffBase extends GitPHP_ControllerBase
+abstract class DiffBase extends Base
 {
     /**
-	 * ReadQuery
-	 *
-	 * Read query into parameters
-	 *
-	 * @access protected
-	 */
-	    protected function ReadQuery()
+     * ReadQuery
+     *
+     * Read query into parameters
+     *
+     * @access protected
+     */
+    protected function ReadQuery()
     {
         if (!isset($this->params['plain']) || $this->params['plain'] != true) {
             if ($this->DiffMode(isset($_GET['o']) ? $_GET['o'] : '') == GITPHP_DIFF_SIDEBYSIDE) {
@@ -52,33 +53,34 @@ abstract class GitPHP_Controller_DiffBase extends GitPHP_ControllerBase
     }
 
     /**
-	 * DiffMode
-	 *
-	 * Determines the diff mode to use
-	 *
-	 * @param string $overrideMode mode overridden by the user
-	 * @access protected
-	 */
-	    protected function DiffMode($overrideMode = '')
+     * DiffMode
+     *
+     * Determines the diff mode to use
+     *
+     * @param string $overrideMode mode overridden by the user
+     * @access protected
+     * @return int
+     */
+    protected function DiffMode($overrideMode = '')
     {
-        $mode = GITPHP_DIFF_UNIFIED;	// default
+        $mode = GITPHP_DIFF_UNIFIED;    // default
 
         /*
-		 * Check cookie
-		 */
+    	 * Check cookie
+    	 */
         if (!empty($_COOKIE[GITPHP_DIFF_MODE_COOKIE])) {
             $mode = $_COOKIE[GITPHP_DIFF_MODE_COOKIE];
         } else {
             /*
-			 * Create cookie to prevent browser delay
-			 */
-			            setcookie(GITPHP_DIFF_MODE_COOKIE, $mode, time() + GITPHP_DIFF_MODE_COOKIE_LIFETIME);
+    		 * Create cookie to prevent browser delay
+    		 */
+    		            setcookie(GITPHP_DIFF_MODE_COOKIE, $mode, time() + GITPHP_DIFF_MODE_COOKIE_LIFETIME);
         }
 
         if (!empty($overrideMode)) {
             /*
-			 * User is choosing a new mode
-			 */
+    		 * User is choosing a new mode
+    		 */
             if ($overrideMode == 'sidebyside') {
                 $mode = GITPHP_DIFF_SIDEBYSIDE;
                 setcookie(GITPHP_DIFF_MODE_COOKIE, GITPHP_DIFF_SIDEBYSIDE, time() + GITPHP_DIFF_MODE_COOKIE_LIFETIME);
@@ -92,16 +94,16 @@ abstract class GitPHP_Controller_DiffBase extends GitPHP_ControllerBase
     }
 
     /**
-	 * LoadHeaders
-	 *
-	 * Loads headers for this template
-	 *
-	 * @access protected
-	 */
-	    protected function LoadHeaders()
+     * LoadHeaders
+     *
+     * Loads headers for this template
+     *
+     * @access protected
+     */
+    protected function LoadHeaders()
     {
         if (isset($this->params['plain']) && ($this->params['plain'] === true)) {
-            GitPHP_Log::GetInstance()->SetEnabled(false);
+            \GitPHP_Log::GetInstance()->SetEnabled(false);
             $this->headers[] = 'Content-type: text/plain; charset=UTF-8';
         }
     }
@@ -111,12 +113,12 @@ abstract class GitPHP_Controller_DiffBase extends GitPHP_ControllerBase
         $this->tpl->assign('sidebyside', isset($this->params['sidebyside']) && ($this->params['sidebyside'] === true));
     }
 
-    protected function loadReviewsLinks(GitPHP_Commit $co, $ticket)
+    protected function loadReviewsLinks(\GitPHP_Commit $co, $ticket)
     {
         if (preg_match('#([A-Z]+-[0-9]+)#', $ticket, $m)) {
             $ticket = $m[1];
         }
-        $Db = GitPHP_Db::getInstance();
+        $Db = \GitPHP_Db::getInstance();
         $reviews = $Db->getReview($ticket, $co->GetHash());
 
         $comments_count = $Db->getCommentsCountForReviews(array_keys($reviews), $this->Session->getUser()->getId());
@@ -135,7 +137,7 @@ abstract class GitPHP_Controller_DiffBase extends GitPHP_ControllerBase
         }
 
         foreach ($reviews as $review_id => &$review) {
-            $review['link'] = GitPHP_Application::getUrl('reviews', ['review' => $review_id]);
+            $review['link'] = \GitPHP_Application::getUrl('reviews', ['review' => $review_id]);
             $review['diff_link'] = '';
             if ($review['hash_base'] && $review['hash_base'] != 'blob' && isset($this->params['branch']) && !preg_match('#^[0-9a-f]{40}$#', $this->params['branch'])) {
                 $review['diff_link'] = \GitPHP_Application::getUrl(

@@ -1,5 +1,7 @@
 <?php
-abstract class GitPHP_ControllerBase
+namespace GitPHP\Controller;
+
+abstract class Base
 {
     /**
      * tpl
@@ -15,7 +17,7 @@ abstract class GitPHP_ControllerBase
      *
      * Current project
      *
-     * @var GitPHP_Project
+     * @var \GitPHP_Project
      * @access protected
      */
     protected $project;
@@ -39,7 +41,7 @@ abstract class GitPHP_ControllerBase
     protected $headers = [];
 
     /**
-     * @var GitPHP_Session
+     * @var \GitPHP_Session
      */
     protected $Session = null;
 
@@ -49,59 +51,58 @@ abstract class GitPHP_ControllerBase
      * Constructor
      *
      * @access public
-     * @return mixed controller object
-     * @throws Exception on invalid project
+     * @throws \Exception on invalid project
      */
     public function __construct()
     {
-        GitPHP_Log::GetInstance()->timerStart();
-        require_once(GitPHP_Util::AddSlash(GitPHP_Config::GetInstance()->GetValue('smarty_prefix', 'lib/smarty/libs/')) . 'Smarty.class.php');
-        GitPHP_Log::GetInstance()->timerStop('require Smarty.class.php');
-        $this->tpl = new Smarty;
+        \GitPHP_Log::GetInstance()->timerStart();
+        require_once(\GitPHP_Util::AddSlash(\GitPHP_Config::GetInstance()->GetValue('smarty_prefix', 'lib/smarty/libs/')) . 'Smarty.class.php');
+        \GitPHP_Log::GetInstance()->timerStop('require Smarty.class.php');
+        $this->tpl = new \Smarty;
         $this->tpl->plugins_dir[] = GITPHP_INCLUDEDIR . 'smartyplugins';
         $this->tpl->template_dir = GITPHP_TEMPLATESDIR;
 
-        if (GitPHP_Config::GetInstance()->GetValue('debug', false)) {
+        if (\GitPHP_Config::GetInstance()->GetValue('debug', false)) {
             $this->tpl->error_reporting = E_ALL;
         }
 
-        if (GitPHP_Config::GetInstance()->GetValue('cache', false)) {
+        if (\GitPHP_Config::GetInstance()->GetValue('cache', false)) {
             $this->tpl->caching = 2;
-            if (GitPHP_Config::GetInstance()->HasKey('cachelifetime')) {
-                $this->tpl->cache_lifetime = GitPHP_Config::GetInstance()->GetValue('cachelifetime');
+            if (\GitPHP_Config::GetInstance()->HasKey('cachelifetime')) {
+                $this->tpl->cache_lifetime = \GitPHP_Config::GetInstance()->GetValue('cachelifetime');
             }
 
-            $servers = GitPHP_Config::GetInstance()->GetValue('memcache', null);
+            $servers = \GitPHP_Config::GetInstance()->GetValue('memcache', null);
             if (isset($servers) && is_array($servers) && (count($servers) > 0)) {
                 require_once(GITPHP_CACHEDIR . 'Memcache.class.php');
-                GitPHP_Memcache::GetInstance()->AddServers($servers);
+                \GitPHP_Memcache::GetInstance()->AddServers($servers);
                 require_once(GITPHP_CACHEDIR . 'memcache_cache_handler.php');
                 $this->tpl->cache_handler_func = 'memcache_cache_handler';
             }
         }
 
         if (isset($_GET['p'])) {
-            $this->project = GitPHP_ProjectList::GetInstance()->GetProject(str_replace(chr(0), '', $_GET['p']));
+            $this->project = \GitPHP_ProjectList::GetInstance()->GetProject(str_replace(chr(0), '', $_GET['p']));
         }
 
         if (isset($_GET['s'])) $this->params['search'] = $_GET['s'];
         if (isset($_GET['st'])) $this->params['searchtype'] = $_GET['st'];
 
-        GitPHP_Log::GetInstance()->timerStart();
+        \GitPHP_Log::GetInstance()->timerStart();
         $this->initSession();
-        GitPHP_Log::GetInstance()->timerStop('initSession');
-        GitPHP_Log::GetInstance()->timerStart();
+        \GitPHP_Log::GetInstance()->timerStop('initSession');
+        \GitPHP_Log::GetInstance()->timerStart();
         $this->checkUser();
-        GitPHP_Log::GetInstance()->timerStop('checkUser');
+        \GitPHP_Log::GetInstance()->timerStop('checkUser');
 
         if (isset($_GET['p']) && !$this->project) {
-            throw new GitPHP_MessageException(sprintf(__('Invalid project %1$s'), $_GET['p']), true);
+            throw new \GitPHP_MessageException(sprintf(__('Invalid project %1$s'), $_GET['p']), true);
         }
 
         /* this is not a part of initialization */
-        GitPHP_Log::GetInstance()->timerStart();
+        \GitPHP_Log::GetInstance()->timerStart();
         $this->ReadQuery();
-        GitPHP_Log::GetInstance()->timerStop('ReadQuery');
+        \GitPHP_Log::GetInstance()->timerStop('ReadQuery');
     }
 
     /**
@@ -137,9 +138,9 @@ abstract class GitPHP_ControllerBase
      */
     protected function GetCacheKeyPrefix($projectKeys = true)
     {
-        $cacheKeyPrefix = GitPHP_Resource::GetLocale();
+        $cacheKeyPrefix = \GitPHP_Resource::GetLocale();
 
-        $projList = GitPHP_ProjectList::GetInstance();
+        $projList = \GitPHP_ProjectList::GetInstance();
         if ($projList) {
             $cacheKeyPrefix .= '|' . sha1(serialize($projList->GetConfig())) . '|' . sha1(serialize($projList->GetSettings()));
             unset($projList);
@@ -238,7 +239,7 @@ abstract class GitPHP_ControllerBase
      */
     protected function LoadCommonData()
     {
-        $stylesheet = GitPHP_Config::GetInstance()->GetValue('stylesheet', 'gitphpskin.css');
+        $stylesheet = \GitPHP_Config::GetInstance()->GetValue('stylesheet', 'gitphpskin.css');
         if ($stylesheet == 'gitphp.css') {
             // backwards compatibility
             $stylesheet = 'gitphpskin.css';
@@ -247,8 +248,8 @@ abstract class GitPHP_ControllerBase
         $this->tpl->assign('cssversion', filemtime(GITPHP_CSSDIR));
         $this->tpl->assign('jsversion', filemtime(GITPHP_JSDIR));
 
-        $this->tpl->assign('javascript', GitPHP_Config::GetInstance()->GetValue('javascript', true));
-        $this->tpl->assign('homelink', GitPHP_Config::GetInstance()->GetValue('homelink', __('projects')));
+        $this->tpl->assign('javascript', \GitPHP_Config::GetInstance()->GetValue('javascript', true));
+        $this->tpl->assign('homelink', \GitPHP_Config::GetInstance()->GetValue('homelink', __('projects')));
         $this->tpl->assign('action', $this->GetName());
         $this->tpl->assign('actionlocal', $this->GetName(true));
         $this->tpl->assign('project', $this->project ?: null);
@@ -298,12 +299,12 @@ abstract class GitPHP_ControllerBase
         $this->tpl->assign('filediff', null);
         $this->tpl->assign('adminarea', 0);
 
-        if (GitPHP_Config::GetInstance()->GetValue('search', true)) $this->tpl->assign('enablesearch', true);
-        if (GitPHP_Config::GetInstance()->GetValue('filesearch', true)) $this->tpl->assign('filesearch', true);
+        if (\GitPHP_Config::GetInstance()->GetValue('search', true)) $this->tpl->assign('enablesearch', true);
+        if (\GitPHP_Config::GetInstance()->GetValue('filesearch', true)) $this->tpl->assign('filesearch', true);
         $this->tpl->assign('search', isset($this->params['search']) ? $this->params['search'] : null);
         if (isset($this->params['searchtype'])) $this->tpl->assign('searchtype', $this->params['searchtype']);
-        $this->tpl->assign('currentlocale', GitPHP_Resource::GetLocale());
-        $this->tpl->assign('supportedlocales', GitPHP_Resource::SupportedLocales());
+        $this->tpl->assign('currentlocale', \GitPHP_Resource::GetLocale());
+        $this->tpl->assign('supportedlocales', \GitPHP_Resource::SupportedLocales());
 
         $getvars = explode('&', $_SERVER['QUERY_STRING']);
         $getvarsmapped = [];
@@ -319,16 +320,16 @@ abstract class GitPHP_ControllerBase
         }
         $this->tpl->assign('requestvars', $getvarsmapped);
 
-        $this->tpl->assign('snapshotformats', GitPHP_Archive::SupportedFormats());
+        $this->tpl->assign('snapshotformats', \GitPHP_Archive::SupportedFormats());
         $this->tpl->assign('Session', $this->Session);
         $this->tpl->assign('User', $this->Session->getUser());
 
         /* header.tpl */
         $this->tpl->assign('user_name', $this->Session->getUser()->getName());
         $this->tpl->assign('is_gitosis_admin', $this->Session->getUser()->isGitosisAdmin());
-        $this->tpl->assign('url_gitosis', GitPHP_Application::getUrl('gitosis'));
-        $this->tpl->assign('url_logout', GitPHP_Application::getUrl('logout'));
-        $this->tpl->assign('url_login', GitPHP_Application::getUrl('login', ['back' => $_SERVER['REQUEST_URI']]));
+        $this->tpl->assign('url_gitosis', \GitPHP_Application::getUrl('gitosis'));
+        $this->tpl->assign('url_logout', \GitPHP_Application::getUrl('logout'));
+        $this->tpl->assign('url_login', \GitPHP_Application::getUrl('login', ['back' => $_SERVER['REQUEST_URI']]));
 
         $ticketContollers = ['branchdiff', 'branchlog', 'commitdiff', 'commit', 'shortlog', 'log', 'tree'];
         $ticket = in_array($this->GetName(), $ticketContollers) ? $this->guesssTicket() : '';
@@ -336,7 +337,7 @@ abstract class GitPHP_ControllerBase
         $this->tpl->assign('ticket_href', \GitPHP\Tracker::instance()->getTicketUrl($ticket));
         $this->tpl->assign(
             'fixlineheight',
-            isset($_COOKIE[GitPHP_Application::GITPHP_FIX_LINEHEIGHT_COOKIE]) && $_COOKIE[GitPHP_Application::GITPHP_FIX_LINEHEIGHT_COOKIE]
+            isset($_COOKIE[\GitPHP_Application::GITPHP_FIX_LINEHEIGHT_COOKIE]) && $_COOKIE[\GitPHP_Application::GITPHP_FIX_LINEHEIGHT_COOKIE]
         );
     }
 
@@ -367,22 +368,22 @@ abstract class GitPHP_ControllerBase
      */
     public function Render()
     {
-        GitPHP_Log::GetInstance()->timerStart();
-        if ((GitPHP_Config::GetInstance()->GetValue('cache', false) == true) && (GitPHP_Config::GetInstance()->GetValue('cacheexpire', true) === true)) $this->CacheExpire();
-        GitPHP_Log::GetInstance()->timerStop(__METHOD__ . ' cache', null);
+        \GitPHP_Log::GetInstance()->timerStart();
+        if ((\GitPHP_Config::GetInstance()->GetValue('cache', false) == true) && (\GitPHP_Config::GetInstance()->GetValue('cacheexpire', true) === true)) $this->CacheExpire();
+        \GitPHP_Log::GetInstance()->timerStop(__METHOD__ . ' cache', null);
 
         if (!$this->tpl->is_cached($this->GetTemplate(), $this->GetFullCacheKey())) {
-            GitPHP_Log::GetInstance()->timerStart();
+            \GitPHP_Log::GetInstance()->timerStart();
             $this->LoadCommonData();
-            GitPHP_Log::GetInstance()->timerStop(__METHOD__ . ' LoadCommonData', null);
+            \GitPHP_Log::GetInstance()->timerStop(__METHOD__ . ' LoadCommonData', null);
 
-            GitPHP_Log::GetInstance()->timerStart();
+            \GitPHP_Log::GetInstance()->timerStart();
             $this->LoadData();
-            GitPHP_Log::GetInstance()->timerStop(__METHOD__ . ' LoadData', null);
+            \GitPHP_Log::GetInstance()->timerStop(__METHOD__ . ' LoadData', null);
         }
-        GitPHP_Log::GetInstance()->timerStart();
+        \GitPHP_Log::GetInstance()->timerStart();
         $this->tpl->display($this->GetTemplate(), $this->GetFullCacheKey());
-        GitPHP_Log::GetInstance()->timerStop(__METHOD__ . ' display', null);
+        \GitPHP_Log::GetInstance()->timerStop(__METHOD__ . ' display', null);
     }
 
     /**
@@ -413,7 +414,7 @@ abstract class GitPHP_ControllerBase
 
     protected function initSession()
     {
-        $this->Session = GitPHP_Session::instance();
+        $this->Session = \GitPHP_Session::instance();
     }
 
     public static function finishScript()
@@ -423,12 +424,12 @@ abstract class GitPHP_ControllerBase
 
     protected function redirect($url, $code = 302)
     {
-        if (GitPHP_Config::GetInstance()->GetValue('debug', false)) {
+        if (\GitPHP_Config::GetInstance()->GetValue('debug', false)) {
             echo '<a href="' . $url . '">' . htmlspecialchars($url) . '</a>';
 
-            GitPHP_Log::GetInstance()->printHtmlHeader();
-            GitPHP_Log::GetInstance()->printHtml();
-            GitPHP_Log::GetInstance()->printHtmlFooter();
+            \GitPHP_Log::GetInstance()->printHtmlHeader();
+            \GitPHP_Log::GetInstance()->printHtml();
+            \GitPHP_Log::GetInstance()->printHtmlFooter();
 
             static::finishScript();
         }
@@ -451,7 +452,7 @@ END;
     protected function checkUser()
     {
         $action = isset($_GET['a']) ? $_GET['a'] : null;
-        $skipAuthorization = array_merge(['login'], GitPHP_Controller_Git::SUPPORTED_ACTIONS);
+        $skipAuthorization = array_merge(['login'], Git::SUPPORTED_ACTIONS);
         if (!$this->Session->isAuthorized() && !in_array($action, $skipAuthorization)) {
             $this->redirect('/?a=login&back=' . urlencode($_SERVER['REQUEST_URI']));
         }
@@ -480,7 +481,7 @@ END;
             }
         }
         if ($review) {
-            $reviewObj = GitPHP_Db::getInstance()->findReviewById($review);
+            $reviewObj = \GitPHP_Db::getInstance()->findReviewById($review);
             $ticket = \GitPHP\Tracker::instance()->parceTicketFromString($reviewObj['ticket']);
         }
         return $ticket;

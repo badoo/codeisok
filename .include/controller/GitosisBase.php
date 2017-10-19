@@ -1,6 +1,7 @@
 <?php
+namespace GitPHP\Controller;
 
-abstract class GitPHP_Controller_GitosisBase extends GitPHP_ControllerBase
+abstract class GitosisBase extends Base
 {
     const DEFAULT_SECTION = 'users';
 
@@ -15,7 +16,7 @@ abstract class GitPHP_Controller_GitosisBase extends GitPHP_ControllerBase
     protected $_form_errors = array();
 
     /**
-     * @var Model_Gitosis
+     * @var \Model_Gitosis
      */
     protected $ModelGitosis;
 
@@ -26,7 +27,7 @@ abstract class GitPHP_Controller_GitosisBase extends GitPHP_ControllerBase
 
     public function __construct()
     {
-        $this->ModelGitosis = new Model_Gitosis();
+        $this->ModelGitosis = new \Model_Gitosis();
         parent::__construct();
         if (!$this->Session->getUser()->isGitosisAdmin()) {
             $this->redirect('/');
@@ -38,20 +39,14 @@ abstract class GitPHP_Controller_GitosisBase extends GitPHP_ControllerBase
         return 'gitosis.tpl';
     }
 
-    protected function GetCacheKey()
-    {
-
-    }
+    protected function GetCacheKey() {}
 
     public function GetName($local = false)
     {
         return 'gitosis';
     }
 
-    protected function ReadQuery()
-    {
-
-    }
+    protected function ReadQuery() {}
 
     protected function LoadData()
     {
@@ -59,8 +54,10 @@ abstract class GitPHP_Controller_GitosisBase extends GitPHP_ControllerBase
         $this->tpl->assign('sections', static::$_sections);
         $this->tpl->assign(
             'current_section',
-            strtolower(str_replace('GitPHP_Controller_Gitosis', '', get_class($this)))
+            $this->getCurrentSection()
         );
         $this->tpl->assign('form_errors', $this->_form_errors);
     }
+
+    abstract protected function getCurrentSection();
 }
