@@ -2,14 +2,7 @@
 
 class Model_Gitosis
 {
-
     private $db;
-    private static $instance;
-
-    public static function getInstance()
-    {
-        return new self;
-    }
 
     public function __construct()
     {
@@ -190,7 +183,7 @@ class Model_Gitosis
         );
     }
 
-    public function saveRepository($project, $description, $category, $notify_email, $display)
+    public function saveRepository($project, $description, $category, $notify_email, $display, $created_user)
     {
         return $this->db->query(
             static::QUERY_SAVE_REPOSITORY,
@@ -200,11 +193,13 @@ class Model_Gitosis
                 'category'     => $this->db->quote($category),
                 'notify_email' => $this->db->quote($notify_email),
                 'display'      => $this->db->quote($display),
+                'created_user' => $this->db->quote($created_user),
             )
         );
     }
 
-    public function getRepositoryNotifyEmail($project) {
+    public function getRepositoryNotifyEmail($project)
+    {
         return $this->db->getOne(
             static::QUERY_GET_REPOSITORY_NOTIFY_EMAIL,
             array(
@@ -213,7 +208,8 @@ class Model_Gitosis
         );
     }
 
-    public function getRepositoryEmailDiffType($project) {
+    public function getRepositoryEmailDiffType($project)
+    {
         $diff_type = $this->db->getOne(
             static::QUERY_GET_REPOSITORY_EMAIL_DIFF_TYPE,
             array(
@@ -262,8 +258,8 @@ class Model_Gitosis
     const QUERY_GET_REPOSITORY_BY_PROJECT = "SELECT * FROM #TBL_REPOSITORY# WHERE project = #project#";
 
     const QUERY_SAVE_REPOSITORY = "INSERT INTO #TBL_REPOSITORY#
-        (project, description, category, notify_email, display, created)
-        VALUES (#project#, #description#, #category#, #notify_email#, #display#, NOW())
+        (project, description, category, notify_email, display, created, created_user)
+        VALUES (#project#, #description#, #category#, #notify_email#, #display#, NOW(), #created_user#)
         ON DUPLICATE KEY UPDATE
             project = #project#, description = #description#, category = #category#,
             notify_email = #notify_email#, display = #display#";
@@ -271,5 +267,4 @@ class Model_Gitosis
     const QUERY_GET_REPOSITORY_NOTIFY_EMAIL = "SELECT notify_email FROM #TBL_REPOSITORY# WHERE project = #project#";
 
     const QUERY_GET_REPOSITORY_EMAIL_DIFF_TYPE = "SELECT diffs_by_email FROM #TBL_REPOSITORY# WHERE project = #project#";
-
 }

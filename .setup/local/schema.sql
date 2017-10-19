@@ -60,6 +60,7 @@ CREATE TABLE IF NOT EXISTS `Repository` (
   `category` varchar(64) DEFAULT NULL,
   `notify_email` varchar(255) NOT NULL DEFAULT '',
   `display` enum('No','Yes') NOT NULL DEFAULT 'No',
+  `created_user` varchar(255) NOT NULL DEFAULT '',
   `created` timestamp NULL DEFAULT NULL,
   `updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),

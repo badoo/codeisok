@@ -1,12 +1,12 @@
 #!/usr/bin/env php
 <?php
-require_once(dirname(__FILE__).'/bootstrap.php');
+require_once(dirname(__FILE__) . '/bootstrap.php');
 
 class UpdateAuthKeys
 {
     public function run()
     {
-        $Gitosis = Model_Gitosis::getInstance();
+        $Gitosis = new Model_Gitosis();
 
         $users = $Gitosis->getUsers();
         $this->generateAuthKeys($users);

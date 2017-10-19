@@ -37,7 +37,14 @@ class GitosisRepositories extends GitosisBase
             }
 
             if (empty($this->_form_errors)) {
-                $this->ModelGitosis->saveRepository($project, $description, $category, $notify_email, $display);
+                $this->ModelGitosis->saveRepository(
+                    $project,
+                    $description,
+                    $category,
+                    $notify_email,
+                    $display,
+                    $this->Session->getUser()->getEmail() ?? $this->Session->getUser()->getName()
+                );
                 //creating the repo
                 $base_path = \GitPHP_Config::GetInstance()->GetValue(\GitPHP_Config::PROJECT_ROOT);
                 if (\GitPHP_Config::GetInstance()->GetValue(\GitPHP_Config::UPDATE_AUTH_KEYS_FROM_WEB)) {
