@@ -62,7 +62,7 @@
 </div>
 <table cellspacing="0" width="100%">
     <tbody>
-    <tr>
+    <tr class="list_header">
         <th>project</th>
         <th>actions</th>
         <th>description</th>
