@@ -269,6 +269,10 @@ class GitPHP_Application
                 $controller->SetParam('txt', true);
                 break;
 
+            case 'project_create':
+                $controller = new \GitPHP\Controller\ProjectCreate();
+                break;
+
             case 'opml':
                 $controller = new \GitPHP\Controller\ProjectList();
                 $controller->SetParam('opml', true);

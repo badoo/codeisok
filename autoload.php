@@ -73,6 +73,7 @@ return array(
     \GitPHP\Controller\Tags::class                => GITPHP_CONTROLLERDIR . 'Tags.php',
     \GitPHP\Controller\Tree::class                => GITPHP_CONTROLLERDIR . 'Tree.php',
     \GitPHP\Controller\Project::class             => GITPHP_CONTROLLERDIR . 'Project.php',
+    \GitPHP\Controller\ProjectCreate::class       => GITPHP_CONTROLLERDIR . 'ProjectCreate.php',
     \GitPHP\Controller\ProjectList::class         => GITPHP_CONTROLLERDIR . 'ProjectList.php',
     \GitPHP\Controller\Git::class                 => GITPHP_CONTROLLERDIR . 'Git.php',
     \GitPHP\Controller\SearchText::class          => GITPHP_CONTROLLERDIR . 'SearchText.php'

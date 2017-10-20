@@ -554,9 +554,17 @@ span.agehighlight {
 
 div.projectSearch {
 	/* the project search box */
-	padding: 8px; 
-	border: solid #d9d8d1; 
+	border: solid #d9d8d1;
 	border-width: 0px 0px 1px; 
+}
+
+div.projectSearch table {
+	border: 0;
+	vertical-align: middle;
+}
+
+div.projectSearch table td {
+	border: 0;
 }
 
 .projectName .indent {

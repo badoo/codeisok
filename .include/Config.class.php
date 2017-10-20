@@ -39,11 +39,7 @@ class GitPHP_Config
 
     // Git access options
     const UPDATE_AUTH_KEYS_FROM_WEB    = 'update_auth_keys_from_web';
-    const ACCESS_MODE                  = 'access_mode';
-    const ACCESS_MODE_NORMAL           = 'normal';
-    const ACCESS_MODE_ALLOW_ALL        = 'all';
-    const SPECIALLY_CONTROLLED_REPOS   = 'special_controlled_repos';
-    const SYSTEM_USER_MARK             = 'system_user_mark';
+    const ALLOW_USER_CREATE_REPOS      = 'allow_user_create_repos';
 
     // Tracker options
     const TRACKER_TYPE         = 'tracker_type';
@@ -200,34 +196,6 @@ class GitPHP_Config
     /* *****
      * Specific custom getters for configuration options.
      * *****/
-
-    /**
-     * Get access mode to use. You can read about access modes in gitphp.conf.php file
-     * @return string
-     */
-    public function GetAccessMode()
-    {
-        return $this->GetValue(self::ACCESS_MODE, self::ACCESS_MODE_NORMAL);
-    }
-
-    /**
-     * List of repositories with strict access control. Read more in ACCESS_MODE section of gitphp.conf.php file
-     * @return array
-     */
-    public function GetSpeciallyControlledRepositories()
-    {
-        return $this->GetValue(self::SPECIALLY_CONTROLLED_REPOS, []);
-    }
-
-    /**
-     * Special mark for system users. Should be in comment field of all system users
-     * Read more in ACCESS_MODE section of gitphp.conf.php file
-     * @return string
-     */
-    public function GetSystemUserMark()
-    {
-        return $this->GetValue(self::SYSTEM_USER_MARK, 'system_user');
-    }
 
     /**
      * Get tracker type to use

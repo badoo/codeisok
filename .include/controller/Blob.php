@@ -1,7 +1,7 @@
 <?php
 namespace GitPHP\Controller;
 
-require_once __DIR__ . '/../../lib/SyntaxHighlighter/SyntaxHighlighter.php';
+require_once __DIR__ . '/../../lib/syntaxhighlighter/syntaxhighlighter.php';
 
 /**
  * Blob controller class

@@ -19,14 +19,37 @@ git source code archive
 </div>
 
 <div class="projectSearch">
-<form method="post" action="index.php" id="projectSearchForm" enctype="application/x-www-form-urlencoded">
-{t}filter projects{/t}: <input type="text" name="s" {if $searchmode == 1}disabled="disabled"{/if} class="projectSearchBox" {if $search}value="{$search|escape}"{/if} /> <a href="index.php?a" class="clearSearch" {if !$search}style="display: none;"{/if}>X</a> {if $javascript}<img src="images/search-loader.gif" class="searchSpinner" style="display: none;" />{/if}
-<span style="padding-left:50px;" disabled="true">search text in project heads: <input name="t" value="{$text}" class="projectSearchBox" onkeydown="keydownSearchField(this);"></input><input type="button" onclick="submitSearchForm(this);" value="Go"></span>
-{if $searchmode == 1}
-<a href="index.php">Cancel</a>
-{/if}
-<span style="color:red !important;" id="error"></span>
-</form>
+    <table style="width: 100%">
+        <tbody>
+        <tr style="border: 0">
+            <td>
+                <form method="post" action="index.php" id="projectSearchForm"
+                      enctype="application/x-www-form-urlencoded">
+                    {t}filter projects{/t}: <input type="text" name="s" {if $searchmode == 1}disabled="disabled"{/if}
+                                                   class="projectSearchBox" {if $search}value="{$search|escape}"{/if} />
+                    <a href="index.php?a" class="clearSearch"
+                       {if !$search}style="display: none;"{/if}>X</a> {if $javascript}
+                        <img src="images/search-loader.gif" class="searchSpinner" style="display: none;"/>
+                    {/if}
+                    <span style="padding-left:50px;" disabled="true">search text in project heads: <input name="t"
+                                                                                                          value="{$text}"
+                                                                                                          class="projectSearchBox"
+                                                                                                          onkeydown="keydownSearchField(this);"></input><input
+                                type="button" onclick="submitSearchForm(this);" value="Go"></span>
+                    {if $searchmode == 1}
+                        <a href="index.php">Cancel</a>
+                    {/if}
+                    <span style="color:red !important;" id="error"></span>
+                </form>
+            </td>
+            {if $allow_create_projects}
+                <td>
+                    <a href="/?a=project_create">create new repository</a>
+                </td>
+            {/if}
+        </tr>
+        </tbody>
+    </table>
 </div>
 
 <table cellspacing="0" class="projectList">
