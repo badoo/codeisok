@@ -47,17 +47,17 @@
             </tr>
             <tr>
                 <td colspan="2">
-                    <span style="color: red;">Your project will be created in one minute after form submission. You should be able to clone it once it appears in projects list</span>
+                    <span style="color: red;">your project will be created in one minute after form submission</span>
                 </td>
             </tr>
             <tr>
                 <td colspan="2">
-                    <span style="color: red;">Restricted access is a special mark for repositories with strict controlled access.</span>
+                    <span style="color: red;">restricted access is a special mark for repositories with strict controlled access</span>
                 </td>
             </tr>
             <tr>
                 <td colspan="2">
-                    <span style="color: red;">It's not allowed to change project's name upon creation</span>
+                    <span style="color: red;">it's not allowed to change project's name upon creation</span>
                 </td>
             </tr>
             <tr>
