@@ -31,16 +31,16 @@
   bottom: auto !important;
   float: none !important;
   height: auto !important;
-  left: auto !important;
+  left: auto;
   line-height: 1.5em !important;
   margin: 0 !important;
   outline: 0 !important;
   /*overflow: auto !important;*/
   padding: 0 !important;
-  position: static !important;
+  position: static;
   right: auto !important;
   text-align: left !important;
-  top: auto !important;
+  top: auto;
   vertical-align: baseline !important;
   width: auto !important;
   box-sizing: content-box !important;

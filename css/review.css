@@ -231,3 +231,41 @@ span.review {
     font-size: 120%;
     display: none;
 }
+
+.hoverable {
+        visibility: hidden;
+}
+
+/* Do not hide hoverable element, which is marked as active. */
+.hoverable.active {
+        visibility: inherit;
+}
+
+:hover > .hoverable {
+    visibility: visible;
+}
+
+.context-menu-button {
+    font-size: 120% !important;
+    cursor: pointer;
+    position: absolute !important;
+    z-index: 2;
+    left: 0px;
+    background-color: #0366d6;
+    background-image: linear-gradient(#0372ef, #0366d6);
+    border-radius: 3px;
+    box-shadow: 0 1px 4px rgba(27,31,35,0.15);
+    text-align: center;
+    width: 22px;
+    height: 22px;
+    color: #fff;
+    transition: -webkit-transform 0.1s ease-in-out;
+    transition: transform 0.1s ease-in-out;
+    -webkit-transform: scale(0.8, 0.8);
+    transform: scale(0.8, 0.8);
+}
+
+.context-menu-button:hover {
+    -webkit-transform: scale(1, 1);
+    transform: scale(1, 1);
+}

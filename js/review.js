@@ -416,6 +416,7 @@ var Review = (function() {
     };
 
     Review.showForm = function(target) {
+        $('l').removeClass('hoverable').hide();
         $('#review_review').show();
         $('body').append('<div style="height:44px;" id="review_posfixedspace"></div>');
         $('#review_posfixedspace').append($('#review_comment'));
@@ -459,6 +460,7 @@ var Review = (function() {
         } catch (e) {
             console.log(e);
         }
+        $('l').addClass('hoverable').show();
     };
 
     Review.selectReset = function() {
@@ -473,10 +475,10 @@ var Review = (function() {
 
     Review.selectStart = function(e) {
         Review.last_mouse_down = e.target;
-        if (!Review.commentableLine($(this)) || e.which != 1 || Review.form_shown || !e.shiftKey) {
+        if (!Review.commentableLine($(this)) || e.which != 1 || Review.form_shown || e.target.tagName != 'L') {
             return true;
         }
-        if (this != e.target && e.target.tagName != 'CODE' && !(e.target.tagName == 'SPAN' && $(e.target).parent().hasClass('diff'))) {
+        if (this != e.target && !(e.target.tagName == 'SPAN' && $(e.target).parent().hasClass('diff')) && e.target.tagName != 'L') {
             console.log(e.target, '!=', this);
             return false;
         }
@@ -494,10 +496,7 @@ var Review = (function() {
 
     Review.selectEnd = function(e) {
         var $target = $(e.target);
-        if (!$target.hasClass('line-number') && !$target.hasClass('btn_small') && !$target.is('span')) {
-            return;
-        }
-        if ($target.hasClass("line-number") && $target.parent().children("CODE").length == 0) {
+        if (!$target.hasClass('line-number') && !$target.hasClass('btn_small') && !$target.is('span') && !$target.hasClass('context-menu-button')) {
             return;
         }
         /* click onto existing comment */
@@ -552,7 +551,7 @@ var Review = (function() {
             Review.select_after = params.after;
             Review.selectReset();
             if ($target.hasClass('spaces') || $target.hasClass('line-number')) {
-                $target = $target.parent().find('code:last-child');
+                $target = $target.parent('.line');
             }
             Review.showForm($target);
         }
@@ -610,7 +609,10 @@ var Review = (function() {
         } else {
             textarea = this;
         }
-        textarea.rows = (textarea.value.split("\n").length || 1);
+        textarea.rows = 1;
+        if (textarea.value) {
+            textarea.rows = textarea.value.split("\n").length;
+        }
         textarea.rows = textarea.rows > 32 ? 32 : textarea.rows;
         return true;
     };
@@ -657,11 +659,12 @@ var Review = (function() {
                 }
             }
         });
-        $('code').parent().removeClass('commentable').addClass('commentable').attr('title', 'add comment');
+        $('.line-number').parent().removeClass('commentable').addClass('commentable');
 
         if ($('#review_file').size()) {
-            $('.line').removeClass('commentable').addClass('commentable').attr('title', 'add comment');
+            $('.line').removeClass('commentable').addClass('commentable');
         }
+        $('.line-number').parent().prepend('<l class="hoverable context-menu-button">+</l>');
 
         if (!Review.is_handlers_bound) {
             $('#review_save').click(Review.commentSubmit);
