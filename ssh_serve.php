@@ -66,15 +66,10 @@ class SSH_Serve
     public function run()
     {
         $ModelGitosis = new Model_Gitosis();
-        $allow_all_mode = \GitPHP_Config::GetInstance()->GetAccessMode() === \GitPHP_Config::ACCESS_MODE_ALLOW_ALL;
-        if ($allow_all_mode) {
-            if ($this->isNormalUser($ModelGitosis, $this->user) || $this->isRestrictedRepository($ModelGitosis, $this->repository)) {
-                $access = $ModelGitosis->getUserAccessToRepository($this->user, $this->repository);
-            } else {
-                $access = ['mode' => 'writable'];
-            }
-        } else {
+        if ($this->isNormalUser($ModelGitosis, $this->user) || $this->isRestrictedRepository($ModelGitosis, $this->repository)) {
             $access = $ModelGitosis->getUserAccessToRepository($this->user, $this->repository);
+        } else {
+            $access = ['mode' => 'writable'];
         }
         if (!empty($access)) {
             if (in_array($this->command, self::COMMANDS_WRITE) && $access['mode'] !== 'writable') {
