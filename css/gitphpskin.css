@@ -601,3 +601,14 @@ span.searchmatch {
 .syntaxhighlighter .line.alt2.highlighted-line {
         background-color: #f8eec7;
 }
+
+small.warning {
+	color: red;
+}
+
+ul.owners-list {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+	font-size: smaller;
+}

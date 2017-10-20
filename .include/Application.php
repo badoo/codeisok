@@ -104,19 +104,27 @@ class GitPHP_Application
 
         $exe = new GitPHP_GitExe(null);
         if (!$exe->Valid()) {
-            throw new GitPHP_MessageException(sprintf(
-                __('Could not run the git executable "%1$s".  You may need to set the "%2$s" config value.'),
-                $exe->GetBinary(),
-                'gitbin'
-            ), true, 500);
+            throw new GitPHP_MessageException(
+                sprintf(
+                    __('Could not run the git executable "%1$s".  You may need to set the "%2$s" config value.'),
+                    $exe->GetBinary(),
+                    'gitbin'
+                ),
+                true,
+                500
+            );
         }
         $exe = new GitPHP_DiffExe();
         if (!$exe->Valid()) {
-            throw new GitPHP_MessageException(sprintf(
-                __('Could not run the diff executable "%1$s".  You may need to set the "%2$s" config value.'),
-                $exe->GetBinary(),
-                'diffbin'
-            ), true, 500);
+            throw new GitPHP_MessageException(
+                sprintf(
+                    __('Could not run the diff executable "%1$s".  You may need to set the "%2$s" config value.'),
+                    $exe->GetBinary(),
+                    'diffbin'
+                ),
+                true,
+                500
+            );
         }
 
         if (file_exists(GITPHP_CONFIGDIR . 'projects.conf.php')) {
@@ -150,7 +158,7 @@ class GitPHP_Application
     protected function showExceptionMessage(Exception $e)
     {
         try {
-            $controller = new GitPHP_Controller_Message();
+            $controller = new \GitPHP\Controller\Message();
             $controller->SetParam('message', $e->getMessage());
             if ($e instanceof GitPHP_MessageException) {
                 $controller->SetParam('error', $e->Error);
@@ -172,39 +180,39 @@ class GitPHP_Application
         switch ($action) {
             case 'search':
             case 'search_json':
-                $controller = new GitPHP_Controller_Search();
+                $controller = new \GitPHP\Controller\Search();
                 break;
 
             case 'searchtext':
-                $controller = new GitPHP_Controller_SearchText();
+                $controller = new \GitPHP\Controller\SearchText();
                 break;
 
             case 'commitdiff':
             case 'commitdiff_plain':
-                $controller = new GitPHP_Controller_Commitdiff();
+                $controller = new \GitPHP\Controller\Commitdiff();
                 if ($action === 'commitdiff_plain') $controller->SetParam('plain', true);
                 break;
 
             case 'branchdiff':
             case 'branchdiff_plain':
-                $controller = new GitPHP_Controller_Branchdiff();
+                $controller = new \GitPHP\Controller\Branchdiff();
                 if ($action === 'branchdiff_plain') $controller->SetParam('plain', true);
                 break;
 
             case 'blobdiff':
             case 'blobdiff_plain':
-                $controller = new GitPHP_Controller_Blobdiff();
+                $controller = new \GitPHP\Controller\Blobdiff();
                 if ($action === 'blobdiff_plain') $controller->SetParam('plain', true);
                 break;
 
             case 'history':
-                $controller = new GitPHP_Controller_History();
+                $controller = new \GitPHP\Controller\History();
                 break;
 
             case 'shortlog':
             case 'log':
             case 'branchlog':
-                $controller = new GitPHP_Controller_Log();
+                $controller = new \GitPHP\Controller\Log();
                 if ($action === 'shortlog') $controller->SetParam('short', true);
                 if ($action === 'branchlog') {
                     $controller->SetParam('branchlog', true);
@@ -212,66 +220,66 @@ class GitPHP_Application
                 break;
 
             case 'snapshot':
-                $controller = new GitPHP_Controller_Snapshot();
+                $controller = new \GitPHP\Controller\Snapshot();
                 break;
 
             case 'tree':
-                $controller = new GitPHP_Controller_Tree();
+                $controller = new \GitPHP\Controller\Tree();
                 break;
 
             case 'tag':
-                $controller = new GitPHP_Controller_Tag();
+                $controller = new \GitPHP\Controller\Tag();
                 break;
 
             case 'tags':
-                $controller = new GitPHP_Controller_Tags();
+                $controller = new \GitPHP\Controller\Tags();
                 break;
 
             case 'heads':
-                $controller = new GitPHP_Controller_Heads();
+                $controller = new \GitPHP\Controller\Heads();
                 break;
 
             case 'blame':
-                $controller = new GitPHP_Controller_Blame();
+                $controller = new \GitPHP\Controller\Blame();
                 break;
 
             case 'blob':
             case 'blob_plain':
-                $controller = new GitPHP_Controller_Blob();
+                $controller = new \GitPHP\Controller\Blob();
                 if ($action === 'blob_plain') $controller->SetParam('plain', true);
                 break;
 
             case 'atom':
             case 'rss':
-                $controller = new GitPHP_Controller_Feed();
+                $controller = new \GitPHP\Controller\Feed();
                 if ($action == 'rss') $controller->SetParam('format', GITPHP_FEED_FORMAT_RSS);
                 else if ($action == 'atom') $controller->SetParam('format', GITPHP_FEED_FORMAT_ATOM);
                 break;
 
             case 'commit':
-                $controller = new GitPHP_Controller_Commit();
+                $controller = new \GitPHP\Controller\Commit();
                 break;
 
             case 'summary':
-                $controller = new GitPHP_Controller_Project();
+                $controller = new \GitPHP\Controller\Project();
                 break;
 
             case 'project_index':
-                $controller = new GitPHP_Controller_ProjectList();
+                $controller = new \GitPHP\Controller\ProjectList();
                 $controller->SetParam('txt', true);
                 break;
 
             case 'opml':
-                $controller = new GitPHP_Controller_ProjectList();
+                $controller = new \GitPHP\Controller\ProjectList();
                 $controller->SetParam('opml', true);
                 break;
 
             case 'login':
-                $controller = new GitPHP_Controller_Login();
+                $controller = new \GitPHP\Controller\Login();
                 break;
 
             case 'logout':
-                $controller = new GitPHP_Controller_Logout();
+                $controller = new \GitPHP\Controller\Logout();
                 break;
 
             case 'save_comment':
@@ -284,33 +292,33 @@ class GitPHP_Application
             case 'set_review_status':
             case 'get_unfinished_review':
             case 'delete_all_draft_comments':
-                $controller = new GitPHP_Controller_Comment();
+                $controller = new \GitPHP\Controller\Comment();
                 break;
 
             case 'reviews':
-                $controller = new GitPHP_Controller_Review();
+                $controller = new \GitPHP\Controller\Review();
                 break;
 
             case 'gitosis':
-                $section = empty($_GET['section']) ? GitPHP_Controller_GitosisBase::DEFAULT_SECTION : $_GET['section'];
-                if (!in_array($section, GitPHP_Controller_GitosisBase::getSections())) exit(1);
+                $section = empty($_GET['section']) ? \GitPHP\Controller\GitosisBase::DEFAULT_SECTION : $_GET['section'];
+                if (!in_array($section, \GitPHP\Controller\GitosisBase::getSections())) exit(1);
 
                 $ucsection = ucfirst($section);
-                $class_name = 'GitPHP_Controller_Gitosis' . $ucsection;
+                $class_name = '\GitPHP\Controller\Gitosis' . $ucsection;
                 $controller = new $class_name();
                 break;
 
             case 'check_session':
-                $controller = new GitPHP_Controller_CheckSession();
+                $controller = new \GitPHP\Controller\CheckSession();
                 break;
 
             default:
-                if (in_array($action, GitPHP_Controller_Git::SUPPORTED_ACTIONS)) {
-                    $controller = new GitPHP_Controller_Git();
+                if (in_array($action, \GitPHP\Controller\Git::SUPPORTED_ACTIONS)) {
+                    $controller = new \GitPHP\Controller\Git();
                 } else if (isset($_GET['p'])) {
-                    $controller = new GitPHP_Controller_Project();
+                    $controller = new \GitPHP\Controller\Project();
                 } else {
-                    $controller = new GitPHP_Controller_ProjectList();
+                    $controller = new \GitPHP\Controller\ProjectList();
                 }
         }
         GitPHP_Log::GetInstance()->Log('controller', get_class($controller));

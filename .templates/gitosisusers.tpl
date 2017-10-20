@@ -24,7 +24,15 @@
                     <td><textarea name="public_key">{$edit_user.public_key|htmlspecialchars}</textarea></td>
                 </tr>
                 <tr>
-                    <td>comment:</td>
+                    <td>access mode</td>
+                    <td>
+                        {foreach name="access_modes" from=$access_modes item=access_mode}
+                            <label><input type="radio" {if ($smarty.foreach.access_modes.first && !$edit_user) || ($edit_user && $access_mode == $edit_user.access_mode)}checked=""{/if} name="access_mode" value="{$access_mode}"> {$access_mode}</label>
+                        {/foreach}
+                    </td>
+                </tr>
+                <tr>
+                    <td>comment</td>
                     <td><textarea name="comment">{$edit_user.comment|htmlspecialchars}</textarea></td>
                 </tr>
                 <tr>

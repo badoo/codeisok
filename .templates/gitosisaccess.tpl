@@ -21,12 +21,21 @@
         <form method="post" action="">
             <input type="hidden" name="user_id" value="{$user.id}" />
             <tr class="{cycle values="light,dark"}" id="{$user.username}">
-                <td>{$user.username}</td>
+                <td>
+                    <p>{$user.username}</p>
+                    {if $user.access_mode == 'everywhere'}<small class="warning">only restricted repos shown</small>{/if}
+                </td>
                 <td>
                     <select name="projects_ids[]" multiple="" size="10">
-                    {foreach from=$projects item=project}
-                        <option value="{$project.id}">{$project.project}</option>
-                    {/foreach}
+                    {if $user.access_mode == 'everywhere'}
+                        {foreach from=$restricted_projects item=project}
+                            <option value="{$project.id}">{$project.project}</option>
+                        {/foreach}
+                    {else}
+                        {foreach from=$projects item=project}
+                            <option value="{$project.id}">{$project.project}</option>
+                        {/foreach}
+                    {/if}
                     </select>
                 </td>
                 <td nowrap>
@@ -68,7 +77,18 @@
             <input type="hidden" name="project_id" value="{$project.id}" />
             <tr class="{cycle values="light,dark"}" id="{$project.project}">
                 <td>
-                    <a href="/?p={$project.project}&a=summary">{$project.project}</a>
+                    <p><a href="/?p={$project.project}&a=summary">{$project.project}</a></p>
+                    {if $project.restricted == 'Yes'}
+                        <small class="warning">Restricted repo!</small>
+                        {if $project.owner and $project.owners}
+                            <br/><small class="warning">Owner(s):</small>
+                            <ul class="owners-list">
+                            {foreach from=$project.owners item=owner}
+                                <li><a href="mailto:{$owner}">{$owner}</a></li>
+                            {/foreach}
+                            </ul>
+                        {/if}
+                    {/if}
                 </td>
                 <td>
                     <select name="user_ids[]" multiple="" size="10">
@@ -86,16 +106,18 @@
                     <input type="submit" value="Grant access" />
                 </td>
                 <td>
-                {foreach from=$access[$project.id] key=mode item=user_ids}
-                    <ol>
-                        <b>{$mode}</b>:
-                    {foreach name="users" from=$user_ids item=user_id}
-                        <li>
-                            {$users[$user_id].username}
-                        </li>
+                {if isset($access[$project.id])}
+                    {foreach from=$access[$project.id] key=mode item=user_ids}
+                        <ol>
+                            <b>{$mode}</b>:
+                        {foreach name="users" from=$user_ids item=user_id}
+                            <li>
+                                {$users[$user_id].username}
+                            </li>
+                        {/foreach}
+                        </ol>
                     {/foreach}
-                    </ol>
-                {/foreach}
+                {/if}
                 </td>
             </tr>
         </form>

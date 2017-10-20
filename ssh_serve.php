@@ -68,7 +68,7 @@ class SSH_Serve
         $ModelGitosis = new Model_Gitosis();
         $allow_all_mode = \GitPHP_Config::GetInstance()->GetAccessMode() === \GitPHP_Config::ACCESS_MODE_ALLOW_ALL;
         if ($allow_all_mode) {
-            if ($this->isRestrictedRepository($this->repository) || $this->isSystemUser($ModelGitosis, $this->user)) {
+            if ($this->isNormalUser($ModelGitosis, $this->user) || $this->isRestrictedRepository($ModelGitosis, $this->repository)) {
                 $access = $ModelGitosis->getUserAccessToRepository($this->user, $this->repository);
             } else {
                 $access = ['mode' => 'writable'];
@@ -81,6 +81,8 @@ class SSH_Serve
                 $this->error('You don\' have write access to repo.');
             }
             if (!extension_loaded('pcntl') && !dl('pcntl.so')) {
+                // we've seen some strange git behaviour without using pcntl_exec
+                // nevertheless I've saved this part for back-compatibility with old php config
                 trigger_error('cannot load pcntl extension');
                 $escaped_user = escapeshellarg($this->user);
                 $escaped_repo = escapeshellarg($this->repository);
@@ -88,10 +90,12 @@ class SSH_Serve
                     'GITOSIS_USER=' . $escaped_user . ' GITOSIS_REPO=' . $escaped_repo . ' git-shell -c "' . $this->command . ' ' . escapeshellarg($this->full_path) . '"'
                 );
             } else {
+                // we need this for hooks and back-compatibility with gitosis
+                putenv('GITOSIS_USER=' . $this->user);
+                putenv('GITOSIS_REPO=' . $this->repository);
                 pcntl_exec(
                     '/usr/bin/git-shell',
-                    ['-c', $this->command . ' ' . escapeshellarg($this->full_path)],
-                    ['GITOSIS_USER' => $this->user, 'GITOSIS_REPO' => $this->repository]
+                    ['-c', $this->command . ' ' . escapeshellarg($this->full_path)]
                 );
             }
         } else {
@@ -100,15 +104,16 @@ class SSH_Serve
         //file_put_contents('out.txt', var_export([$this->user, $this->command, $this->argument, $access], 1), FILE_APPEND);
     }
 
-    protected function isRestrictedRepository($repository)
+    protected function isRestrictedRepository(Model_Gitosis $ModelGitosis, $repository)
     {
-        return in_array($this->repository, \GitPHP_Config::GetInstance()->GetSpeciallyControlledRepositories());
+        $repository_info = $ModelGitosis->getRepositoryByProject($repository);
+        return $repository_info['restricted'] == 'Yes';
     }
 
-    protected function isSystemUser(Model_Gitosis $ModelGitosis, $username)
+    protected function isNormalUser(Model_Gitosis $ModelGitosis, $username)
     {
         $user = $ModelGitosis->getUserByUsername($username);
-        return strpos($user['comment'], \GitPHP_Config::GetInstance()->GetSystemUserMark()) !== false;
+        return $user['access_mode'] == \GitPHP\Controller\GitosisUsers::ACCESS_MODE_NORMAL;
     }
 
     protected function error($message)

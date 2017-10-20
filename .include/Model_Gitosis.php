@@ -2,14 +2,7 @@
 
 class Model_Gitosis
 {
-
     private $db;
-    private static $instance;
-
-    public static function getInstance()
-    {
-        return new self;
-    }
 
     public function __construct()
     {
@@ -43,15 +36,16 @@ class Model_Gitosis
         );
     }
 
-    public function saveUser($username, $email, $public_key, $comment = '')
+    public function saveUser($username, $email, $public_key, $access_mode, $comment = '')
     {
         return $this->db->query(
             static::QUERY_SAVE_USER,
             array(
-                'username'   => $this->db->quote($username),
-                'email'      => $this->db->quote($email),
-                'public_key' => $this->db->quote($public_key),
-                'comment'    => $this->db->quote($comment),
+                'username'    => $this->db->quote($username),
+                'email'       => $this->db->quote($email),
+                'public_key'  => $this->db->quote($public_key),
+                'access_mode' => $this->db->quote($access_mode),
+                'comment'     => $this->db->quote($comment),
             )
         );
     }
@@ -190,7 +184,7 @@ class Model_Gitosis
         );
     }
 
-    public function saveRepository($project, $description, $category, $notify_email, $display)
+    public function saveRepository($project, $description, $category, $notify_email, $restricted, $display, $owner)
     {
         return $this->db->query(
             static::QUERY_SAVE_REPOSITORY,
@@ -199,12 +193,15 @@ class Model_Gitosis
                 'description'  => $this->db->quote($description),
                 'category'     => $this->db->quote($category),
                 'notify_email' => $this->db->quote($notify_email),
+                'restricted'   => $this->db->quote($restricted),
                 'display'      => $this->db->quote($display),
+                'owner'        => $this->db->quote($owner),
             )
         );
     }
 
-    public function getRepositoryNotifyEmail($project) {
+    public function getRepositoryNotifyEmail($project)
+    {
         return $this->db->getOne(
             static::QUERY_GET_REPOSITORY_NOTIFY_EMAIL,
             array(
@@ -213,7 +210,8 @@ class Model_Gitosis
         );
     }
 
-    public function getRepositoryEmailDiffType($project) {
+    public function getRepositoryEmailDiffType($project)
+    {
         $diff_type = $this->db->getOne(
             static::QUERY_GET_REPOSITORY_EMAIL_DIFF_TYPE,
             array(
@@ -232,8 +230,8 @@ class Model_Gitosis
     const QUERY_GET_USER_BY_USERNAME = "SELECT * FROM #TBL_USER# WHERE username = #username#";
 
     const QUERY_SAVE_USER = "INSERT INTO #TBL_USER#
-        (username, email, public_key, comment, created) VALUES (#username#, #email#, #public_key#, #comment#, NOW())
-        ON DUPLICATE KEY UPDATE username = #username#, email = #email#, public_key = #public_key#, comment = #comment#";
+        (username, email, public_key, access_mode, comment, created) VALUES (#username#, #email#, #public_key#, #access_mode#, #comment#, NOW())
+        ON DUPLICATE KEY UPDATE username = #username#, email = #email#, public_key = #public_key#, access_mode = #access_mode#, comment = #comment#";
 
     const QUERY_REMOVE_USER = "DELETE FROM #TBL_USER# WHERE id = #id#";
     const QUERY_REMOVE_USER_ACCESS = "DELETE FROM #TBL_ACCESS# WHERE user_id = #user_id#";
@@ -262,14 +260,13 @@ class Model_Gitosis
     const QUERY_GET_REPOSITORY_BY_PROJECT = "SELECT * FROM #TBL_REPOSITORY# WHERE project = #project#";
 
     const QUERY_SAVE_REPOSITORY = "INSERT INTO #TBL_REPOSITORY#
-        (project, description, category, notify_email, display, created)
-        VALUES (#project#, #description#, #category#, #notify_email#, #display#, NOW())
+        (project, description, category, notify_email, restricted, display, created, owner)
+        VALUES (#project#, #description#, #category#, #notify_email#, #restricted#, #display#, NOW(), #owner#)
         ON DUPLICATE KEY UPDATE
-            project = #project#, description = #description#, category = #category#,
-            notify_email = #notify_email#, display = #display#";
+            project = #project#, description = #description#, category = #category#, notify_email = #notify_email#,
+            restricted = #restricted#, display = #display#, owner = #owner#";
 
     const QUERY_GET_REPOSITORY_NOTIFY_EMAIL = "SELECT notify_email FROM #TBL_REPOSITORY# WHERE project = #project#";
 
     const QUERY_GET_REPOSITORY_EMAIL_DIFF_TYPE = "SELECT diffs_by_email FROM #TBL_REPOSITORY# WHERE project = #project#";
-
 }

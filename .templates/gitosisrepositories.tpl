@@ -27,12 +27,24 @@
                 <td><input type="text" name="notify_email" class="text" value="{$edit_project.notify_email|htmlspecialchars}" /></td>
             </tr>
             <tr>
+                <td>restricted access</td>
+                <td>
+                    {foreach name="restricted" from=$restricted item=restricted_mode}
+                        <label><input type="radio" {if ($smarty.foreach.restricted.first && !$edit_project) || ($edit_project && $restricted_mode == $edit_project.restricted)}checked=""{/if} name="restricted" value="{$restricted_mode}"> {$restricted_mode}</label>
+                    {/foreach}
+                </td>
+            </tr>
+            <tr>
+                <td>owner(s)</td>
+                <td><input type="text" name="owner" class="text" value="{$edit_project.owner|htmlspecialchars}" /></td>
+            </tr>
+            <tr>
                 <td>display</td>
                 <td>
-                {foreach name="displays" from=$displays item=display}
-                    <label><input type="radio" {if ($smarty.foreach.displays.first && !$edit_project) || ($edit_project && $display == $edit_project.display)}checked=""{/if} name="display" value="{$display}"> {$display}</label>
-                    {if $display == 'Yes'}<sup>web server user must have access for repository directory</sup>{/if}
-                {/foreach}
+                    {foreach name="displays" from=$displays item=display}
+                        <label><input type="radio" {if ($smarty.foreach.displays.first && !$edit_project) || ($edit_project && $display == $edit_project.display)}checked=""{/if} name="display" value="{$display}"> {$display}</label>
+                        {if $display == 'Yes'}<sup>web server user must have access for repository directory</sup>{/if}
+                    {/foreach}
                 </td>
             </tr>
             <tr>
@@ -50,28 +62,28 @@
 </div>
 <table cellspacing="0" width="100%">
     <tbody>
-    <tr class="list_header">
+    <tr>
         <th>project</th>
+        <th>actions</th>
         <th>description</th>
         <th>category</th>
         <th>notify email</th>
         <th>display</th>
         <th>created</th>
         <th>updated</th>
-        <th>actions</th>
     </tr>
     {foreach from=$projects item=project}
     <tr class="{cycle values="light,dark"}">
         <td>
             <a href="/?a=gitosis&section=access&scope=repo&project_id={$project.id}">{$project.project|htmlspecialchars}</a>
         </td>
+        <td><a href="/?a=gitosis&section=repositories&id={$project.id}">Edit</a></td>
         <td>{$project.description|htmlspecialchars}</td>
         <td>{$project.category|htmlspecialchars}</td>
         <td>{$project.notify_email|htmlspecialchars}</td>
         <td>{$project.display}</td>
         <td>{$project.created}</td>
         <td>{$project.updated}</td>
-        <td><a href="/?a=gitosis&section=repositories&id={$project.id}">Edit</a></td>
     </tr>
     {/foreach}
     </tbody>
