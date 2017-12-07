@@ -1033,6 +1033,7 @@ class GitPHP_Project
      * @param string $hash hash to start the log at
      * @param integer $count number of entries to get
      * @param integer $skip number of entries to skip
+     * @param null $hashBase
      * @return array array of hashes
      */
     public function GetLogHash($hash, $count = 50, $skip = 0, $hashBase = null)
@@ -1318,6 +1319,7 @@ class GitPHP_Project
      * @param integer $count number of results to get
      * @param integer $skip number of results to skip
      * @param array $args args to give to rev-list
+     * @param null $hashBase
      * @return array array of hashes
      */
     private function RevList($hash, $count = 50, $skip = 0, $args = array(), $hashBase = null)
@@ -1434,7 +1436,25 @@ class GitPHP_Project
 
     public function GetBaseBranches($branch)
     {
-        $base_branches = array('master', 'staging');
+        $main_branches = array_filter(
+            \GitPHP_Config::GetInstance()->GetBaseBranchesByCategory($this->GetCategory()),
+            function ($branch_name) { return $this->GetHead($branch_name)->Exists(); }
+        );
+        $build_branches = [];
+        foreach (\GitPHP_config::GetInstance()->GetBaseBranchPatternsPerCategory($this->GetCategory()) as $pattern) {
+            $new_heads = array_map(function (\GitPHP_Head $Head) { return $Head->GetName(); }, $this->GetHeads(3, $pattern));
+            $build_branches = array_merge($new_heads, $build_branches);
+        }
+
+        $base_branches = array_merge($main_branches, $build_branches);
+
+        // sort them so that branch with the least diff length will be first
+        usort(
+            $base_branches,
+            function ($first_branch, $second_branch) use ($branch) {
+                return $this->GetCommitsCountBetween($first_branch, $branch) <=> $this->GetCommitsCountBetween($second_branch, $branch);
+            }
+        );
         return $base_branches;
     }
 
@@ -1453,5 +1473,18 @@ class GitPHP_Project
             return null;
         }
         return new GitPHP_Commit($this, $hash);
+    }
+
+    protected $commits_count_cache = [];
+
+    protected function GetCommitsCountBetween($first_hash, $second_hash)
+    {
+        if (!isset($this->commits_count_cache[$first_hash])) {
+            $this->commits_count_cache[$first_hash] = [];
+        }
+        if (!isset($this->commits_count_cache[$first_hash][$second_hash])) {
+            $this->commits_count_cache[$first_hash][$second_hash] = count($this->GetLog($second_hash, 1000, 0, $first_hash));
+        }
+        return $this->commits_count_cache[$first_hash][$second_hash];
     }
 }
