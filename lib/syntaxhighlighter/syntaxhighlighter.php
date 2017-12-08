@@ -21,6 +21,7 @@ class SyntaxHighlighter
     const TYPE_RST          = 'rst';
     const TYPE_GO           = 'go';
     const TYPE_YAML         = 'yaml';
+    const TYPE_KOTLIN       = 'kotlin';
 
     const BASE_PATH  = 'lib/syntaxhighlighter/';
 
@@ -74,6 +75,7 @@ class SyntaxHighlighter
         'rst' => self::TYPE_RST,
         'yml' => self::TYPE_YAML,
         'yaml' => self::TYPE_YAML,
+        'kt' => self::TYPE_KOTLIN,
     );
 
     protected static $brush_map = array(
@@ -96,6 +98,7 @@ class SyntaxHighlighter
         self::TYPE_RST              => 'shBrushRst.js',
         self::TYPE_GO               => 'shBrushGolang.js',
         self::TYPE_YAML             => 'shBrushYaml.js',
+        self::TYPE_KOTLIN           => 'shBrushKotlin.js',
     );
 
     protected $filename;
