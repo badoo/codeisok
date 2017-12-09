@@ -126,6 +126,7 @@ abstract class DiffBase extends Base
         $this->tpl->assign('sidebyside', isset($this->params['sidebyside']) && ($this->params['sidebyside'] === true));
         $this->tpl->assign('unified', isset($this->params['unified']) && ($this->params['unified'] === true));
         $this->tpl->assign('treediff', isset($this->params['treediff']) && ($this->params['treediff'] === true));
+        $this->tpl->assign('review', $this->params['review']);
     }
 
     protected function loadReviewsLinks(\GitPHP_Commit $co, $ticket)
