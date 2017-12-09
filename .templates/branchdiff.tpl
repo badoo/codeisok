@@ -11,11 +11,19 @@
    {/if}
    {include file='nav.tpl' current='branchdiff' logcommit=$commit treecommit=$commit}
    <br />
-   {if $sidebyside}
-   <a href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=branchdiff&amp;branch={$branch}&amp;o=unified">{t}unified{/t}</a>
-   {else}
-   <a href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=branchdiff&amp;branch={$branch}&amp;o=sidebyside">{t}side by side{/t}</a>
-   {/if}
+
+    <strong>Diff mode</strong>
+    {if $sidebyside}
+      <a href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=branchdiff&amp;branch={$branch}&amp;{if $review}review={$review}{/if}&amp;o=unified">{t}unified{/t}</a>
+      | <a href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=branchdiff&amp;branch={$branch}&amp;{if $review}review={$review}{/if}&amp;o=treediff">{t}treediff{/t}</a>
+    {elseif $unified}
+      <a href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=branchdiff&amp;branch={$branch}&amp;{if $review}review={$review}{/if}&amp;o=sidebyside">{t}side by side{/t}</a>
+      | <a href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=branchdiff&amp;branch={$branch}&amp;{if $review}review={$review}{/if}&amp;o=treediff">{t}treediff{/t}</a>
+    {else}
+      <a href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=branchdiff&amp;branch={$branch}&amp;{if $review}review={$review}{/if}&amp;o=unified">{t}unified{/t}</a>
+      | <a href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=branchdiff&amp;branch={$branch}&amp;{if $review}review={$review}{/if}&amp;o=sidebyside">{t}side by side{/t}</a>
+    {/if}
+
    | <a href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=branchdiff_plain&amp;branch={$branch}">{t}plain{/t}</a>
  </div>
 
@@ -23,7 +31,15 @@
 
  <div class="page_body">
    <div class="diff_summary">
-   {if $branchdiff && !$sidebyside}
+
+
+
+  {* Tree Diff *}
+   {if $branchdiff && $treediff}
+    {include file='treediff.tpl' diff_source=$branchdiff}
+   {/if}
+
+   {if $branchdiff && $unified}
        {if $extensions}
            <div class="file_filter">
                Filter:
@@ -79,7 +95,7 @@
        {t count=$branchdiff->Count() 1=$branchdiff->Count() plural="%1 files changed"}%1 file changed{/t}</li>
        {foreach from=$branchdiff item=filediff}
        <li>
-       <a href="#{$filediff->GetFromHash()}_{$filediff->GetToHash()}" 
+       <a href="#{$filediff->GetFromHash()}_{$filediff->GetToHash()}"
        onclick="loadSBS('{$filediff->GetFromHash()}', '{$filediff->GetFromFile()}', '{$filediff->GetToHash()}', '{$filediff->GetToFile()}');"
        class="SBSTOCItem">
        {if $filediff->GetStatus() == 'A'}
@@ -110,9 +126,9 @@
 
    {* Diff each file changed *}
    {if $branchdiff}
-   {if !$sidebyside}
+    {if $unified}
       {foreach from=$branchdiff item=filediff}
-        {if !$sidebyside}
+        {if $unified}
           {assign var="diff" value=$filediff->GetDiff('', true, true)}
         {/if}
         <div class="filetype-{$filediff->getToFileExtension()} status-{$filediff->getStatus()|lower} folder-{$filediff->getToFileRootFolder()|lower} diffBlob{if $filediff->getDiffTooLarge()} suppressed{/if}" id="{$filediff->GetFromHash()}_{$filediff->GetToHash()}">
@@ -162,7 +178,6 @@
    {if $sidebyside}
      </div>
      <div class="SBSFooter"></div>
-
     </div>
    {/if}
 

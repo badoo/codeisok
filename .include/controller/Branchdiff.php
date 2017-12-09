@@ -37,9 +37,19 @@ class Branchdiff extends DiffBase
      */
     protected function GetCacheKey()
     {
+        $mode = '1';
+
+        if (isset($this->params['sidebyside']) && ($this->params['sidebyside'] === true)) {
+            $mode = '2';
+        }
+
+        if (isset($this->params['treediff']) && ($this->params['treediff'] === true)) {
+            $mode = '3';
+        }
+
         $key = (isset($this->params['hash']) ? $this->params['hash'] : '')
             . '|' . (isset($this->params['hashparent']) ? $this->params['hashparent'] : '')
-            . '|' . (isset($this->params['sidebyside']) && ($this->params['sidebyside'] === true) ? '1' : '');
+            . '|' . $mode;
 
         return $key;
     }

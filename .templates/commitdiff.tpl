@@ -13,22 +13,22 @@
  {* Nav *}
  <div class="page_nav">
    {if $commit}
-   {assign var=tree value=$commit->GetTree()}
+      {assign var=tree value=$commit->GetTree()}
    {/if}
    {include file='nav.tpl' current='commitdiff' logcommit=$commit treecommit=$commit}
    <br />
 
     <strong>Diff mode</strong>
-   {if $sidebyside}
-     <a href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=commitdiff&amp;h={$commit->GetHash()}{if $hashparent}&amp;hp={$hashparent}{/if}&amp;{if $review}review={$review}{/if}&amp;o=unified">{t}unified{/t}</a>
-     | <a href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=commitdiff&amp;h={$commit->GetHash()}{if $hashparent}&amp;hp={$hashparent}{/if}&amp;{if $review}review={$review}{/if}&amp;o=treediff">{t}treediff{/t}</a>
-   {elseif $unified}
-     <a href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=commitdiff&amp;h={$commit->GetHash()}{if $hashparent}&amp;hp={$hashparent}{/if}&amp;{if $review}review={$review}{/if}&amp;o=sidebyside">{t}side by side{/t}</a>
-     | <a href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=commitdiff&amp;h={$commit->GetHash()}{if $hashparent}&amp;hp={$hashparent}{/if}&amp;{if $review}review={$review}{/if}&amp;o=treediff">{t}treediff{/t}</a>
-   {else}
-     <a href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=commitdiff&amp;h={$commit->GetHash()}{if $hashparent}&amp;hp={$hashparent}{/if}&amp;{if $review}review={$review}{/if}&amp;o=unified">{t}unified{/t}</a>
-     | <a href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=commitdiff&amp;h={$commit->GetHash()}{if $hashparent}&amp;hp={$hashparent}{/if}&amp;{if $review}review={$review}{/if}&amp;o=sidebyside">{t}side by side{/t}</a>
-   {/if}
+    {if $sidebyside}
+      <a href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=commitdiff&amp;h={$commit->GetHash()}{if $hashparent}&amp;hp={$hashparent}{/if}&amp;{if $review}review={$review}{/if}&amp;o=unified">{t}unified{/t}</a>
+      | <a href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=commitdiff&amp;h={$commit->GetHash()}{if $hashparent}&amp;hp={$hashparent}{/if}&amp;{if $review}review={$review}{/if}&amp;o=treediff">{t}treediff{/t}</a>
+    {elseif $unified}
+      <a href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=commitdiff&amp;h={$commit->GetHash()}{if $hashparent}&amp;hp={$hashparent}{/if}&amp;{if $review}review={$review}{/if}&amp;o=sidebyside">{t}side by side{/t}</a>
+      | <a href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=commitdiff&amp;h={$commit->GetHash()}{if $hashparent}&amp;hp={$hashparent}{/if}&amp;{if $review}review={$review}{/if}&amp;o=treediff">{t}treediff{/t}</a>
+    {else}
+      <a href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=commitdiff&amp;h={$commit->GetHash()}{if $hashparent}&amp;hp={$hashparent}{/if}&amp;{if $review}review={$review}{/if}&amp;o=unified">{t}unified{/t}</a>
+      | <a href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=commitdiff&amp;h={$commit->GetHash()}{if $hashparent}&amp;hp={$hashparent}{/if}&amp;{if $review}review={$review}{/if}&amp;o=sidebyside">{t}side by side{/t}</a>
+    {/if}
 
    | <a href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=commitdiff_plain&amp;h={$commit->GetHash()}{if $hashparent}&amp;hp={$hashparent}{/if}">{t}plain{/t}</a>
  </div>
@@ -85,66 +85,8 @@
    </div>
 
   {* Tree Diff *}
-
-   {* @todo
-      - why is getToFileRootFolder needed?
-    *}
    {if $treediff}
-
-      <script>
-        var _file_list = [
-          {foreach from=$commit_tree_diff item=filediff}
-              {ldelim}
-                path: '{$filediff->getToFile()}',
-                status: '{$filediff->getStatus()|lower}',
-                fileType: '{$filediff->getToFileExtension()}'
-              {rdelim},
-            {/foreach}
-        ];
-      </script>
-
-      <div class="two-panes">
-
-        {* This is rendered for non-JS support *}
-        <div class="left-pane">
-
-          {if $extensions}
-          <div class="file_filter">
-              <strong>Filter:</strong>
-              {foreach from=$statuses item=st}
-                  <span class="status selected" data-status="{$st|lower}">{$st}</span>
-              {/foreach}
-              {foreach from=$extensions item=ext}
-                  <span class="extension selected" data-extension="{$ext}">{$ext}</span>
-              {/foreach}
-              {foreach from=$folders item=folder}
-                  <span class="folder selected" data-folder="{$folder|lower}">{$folder}</span>
-              {/foreach}
-              <span class="hint">(+Shift for single select)</span>
-          </div>
-          {/if}
-
-          <ul class="file-list">
-              {foreach from=$commit_tree_diff item=filediff}
-                  <li class="filetype-{$filediff->getToFileExtension()} status-{$filediff->getStatus()|lower} folder-{$filediff->getToFileRootFolder()|lower}">
-                    <a href="#{$filediff->getToFile()}">{$filediff->getToFile()}</a>
-                    <a name="files_index_{$filediff->getToFile()}"></a>
-                  </li>
-              {/foreach}
-          </ul>
-        </div>
-
-        <div class="right-pane">
-          {foreach from=$commit_tree_diff item=filediff}
-            {assign var="diff" value=$filediff->GetDiff('', true, true)}
-            <div class="filetype-{$filediff->getToFileExtension()} status-{$filediff->getStatus()|lower} folder-{$filediff->getToFileRootFolder()|lower} diffBlob{if $filediff->getDiffTooLarge()} suppressed{/if}" id="{$filediff->GetFromHash()}_{$filediff->GetToHash()}">
-                <a name="{$filediff->GetToFile()}"></a>
-                {include file='filediff.tpl' diff=$diff}
-            </div>
-          {/foreach}
-        </div>
-
-      </div>
+    {include file='treediff.tpl' diff_source=$commit_tree_diff}
    {/if}
 
      {if $sidebyside}
