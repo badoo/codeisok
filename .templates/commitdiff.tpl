@@ -17,11 +17,19 @@
    {/if}
    {include file='nav.tpl' current='commitdiff' logcommit=$commit treecommit=$commit}
    <br />
+
+    <strong>Diff mode</strong>
    {if $sidebyside}
-   <a href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=commitdiff&amp;h={$commit->GetHash()}{if $hashparent}&amp;hp={$hashparent}{/if}&amp;o=unified">{t}unified{/t}</a>
+     <a href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=commitdiff&amp;h={$commit->GetHash()}{if $hashparent}&amp;hp={$hashparent}{/if}&amp;o=unified">{t}unified{/t}</a>
+     | <a href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=commitdiff&amp;h={$commit->GetHash()}{if $hashparent}&amp;hp={$hashparent}{/if}&amp;o=treediff">{t}treediff{/t}</a>
+   {elseif $unified}
+     <a href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=commitdiff&amp;h={$commit->GetHash()}{if $hashparent}&amp;hp={$hashparent}{/if}&amp;o=sidebyside">{t}side by side{/t}</a>
+     | <a href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=commitdiff&amp;h={$commit->GetHash()}{if $hashparent}&amp;hp={$hashparent}{/if}&amp;o=treediff">{t}treediff{/t}</a>
    {else}
-   <a href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=commitdiff&amp;h={$commit->GetHash()}{if $hashparent}&amp;hp={$hashparent}{/if}&amp;o=sidebyside">{t}side by side{/t}</a>
+     <a href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=commitdiff&amp;h={$commit->GetHash()}{if $hashparent}&amp;hp={$hashparent}{/if}&amp;o=unified">{t}unified{/t}</a>
+     | <a href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=commitdiff&amp;h={$commit->GetHash()}{if $hashparent}&amp;hp={$hashparent}{/if}&amp;o=sidebyside">{t}side by side{/t}</a>
    {/if}
+
    | <a href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=commitdiff_plain&amp;h={$commit->GetHash()}{if $hashparent}&amp;hp={$hashparent}{/if}">{t}plain{/t}</a>
  </div>
 
@@ -34,6 +42,7 @@
    {foreach from=$commit->GetComment() item=line}
      {$line|htmlspecialchars|buglink:$bugpattern:$bugurl}<br />
    {/foreach}
+
    {if !$sidebyside}
       <hr>
        {if $extensions}
@@ -56,7 +65,7 @@
        {/if}
 
        <table style="float: left; border: 0; padding: 0; margin: 0;">
-       {foreach from=$treediff item=filediff}
+       {foreach from=$commit_tree_diff item=filediff}
            <tr class="filetype-{$filediff->getToFileExtension()} status-{$filediff->getStatus()|lower} folder-{$filediff->getToFileRootFolder()|lower}">
                <td>
                    {$filediff->getStatus()}&nbsp;&nbsp;&nbsp;&nbsp;<a href="#{$filediff->getToFile()}">{$filediff->getToFile()}</a>
@@ -75,16 +84,87 @@
      {/if}
    </div>
 
+  {* Tree Diff *}
+
+   {* @todo
+      - why is getToFileRootFolder needed?
+    *}
+   {if $treediff}
+      <div class="two-panes">
+
+        <script>
+          var _file_list = [
+            {foreach from=$commit_tree_diff item=filediff}
+                {ldelim}
+                  path: '{$filediff->getToFile()}',
+                  status: '{$filediff->getStatus()|lower}',
+                  fileType: '{$filediff->getToFileExtension()}'
+                {rdelim},
+              {/foreach}
+          ];
+        </script>
+
+        {* This is rendered for non-JS support *}
+        <div class="left-pane">
+          <ul class="file-list">
+              {foreach from=$commit_tree_diff item=filediff}
+                  <li class="filetype-{$filediff->getToFileExtension()} status-{$filediff->getStatus()|lower} folder-{$filediff->getToFileRootFolder()|lower}">
+                    <a href="#{$filediff->getToFile()}">{$filediff->getToFile()}</a>
+                      {* <td name="files_index_{$filediff->getToFile()}"></td> *}
+                  </li>
+              {/foreach}
+          </ul>
+        </div>
+
+        <div class="right-pane">
+          {foreach from=$commit_tree_diff item=filediff}
+            {assign var="diff" value=$filediff->GetDiff('', true, true)}
+
+            <div class="filetype-{$filediff->getToFileExtension()} status-{$filediff->getStatus()|lower} folder-{$filediff->getToFileRootFolder()|lower} diffBlob{if $filediff->getDiffTooLarge()} suppressed{/if}" id="{$filediff->GetFromHash()}_{$filediff->GetToHash()}">
+                <a name="{$filediff->GetToFile()}"></a>
+                {*
+                <div class="diff_info">
+                {if ($filediff->GetStatus() == 'D') || ($filediff->GetStatus() == 'M') || ($filediff->GetStatus() == 'R')}
+                  {assign var=localfromtype value=$filediff->GetFromFileType(1)}
+                  {$localfromtype}:<a href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=blob&amp;h={$filediff->GetFromHash()}&amp;hb={$commit->GetHash()}{if $filediff->GetFromFile()}&amp;f={$filediff->GetFromFile()}{/if}">{if $filediff->GetFromFile()}a/{$filediff->GetFromFile()}{else}{$filediff->GetFromHash()}{/if}</a>
+                  {if $filediff->GetStatus() == 'D'}
+                    {t}(deleted){/t}
+                  {/if}
+                {/if}
+
+                {if $filediff->GetStatus() == 'M' || $filediff->GetStatus() == 'R'}
+                  -&gt;
+                {/if}
+
+                {if ($filediff->GetStatus() == 'A') || ($filediff->GetStatus() == 'M') || ($filediff->GetStatus() == 'R')}
+                  {assign var=localtotype value=$filediff->GetToFileType(1)}
+                  {$localtotype}:<a href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=blob&amp;h={$filediff->GetToHash()}&amp;hb={$commit->GetHash()}{if $filediff->GetToFile()}&amp;f={$filediff->GetToFile()}{/if}">{if $filediff->GetToFile()}b/{$filediff->GetToFile()}{else}{$filediff->GetToHash()}{/if}</a>
+
+                  {if $filediff->GetStatus() == 'A'}
+                    {t}(new){/t}
+                  {/if}
+                {/if}
+                </div>
+                *}
+
+                {include file='filediff.tpl' diff=$diff}
+            </div>
+          {/foreach}
+        </div>
+
+      </div>
+   {/if}
+
      {if $sidebyside}
     <div class="commitDiffSBS">
 
      <div class="SBSTOC">
        <ul>
        <li class="listcount">
-       {t count=$treediff->Count() 1=$treediff->Count() plural="%1 files changed"}%1 file changed{/t} </li>
-       {foreach from=$treediff item=filediff}
+       {t count=$commit_tree_diff->Count() 1=$commit_tree_diff->Count() plural="%1 files changed"}%1 file changed{/t} </li>
+       {foreach from=$commit_tree_diff item=filediff}
        <li>
-       <a href="#{$filediff->GetFromHash()}_{$filediff->GetToHash()}" 
+       <a href="#{$filediff->GetFromHash()}_{$filediff->GetToHash()}"
        onclick="loadSBS('{$filediff->GetFromHash()}', '{$filediff->GetFromFile()}', '{$filediff->GetToHash()}', '{$filediff->GetToFile()}');"
        class="SBSTOCItem">
        {if $filediff->GetStatus() == 'A'}
@@ -111,12 +191,15 @@
      </div>
 
      <div class="SBSContent">
+      {include file='filediffsidebyside.tpl' diffsplit=$filediff->GetDiffSplit()}
+      </div>
    {/if}
+
    {* Diff each file changed *}
-     {if !$sidebyside}
-      {foreach from=$treediff item=filediff}
+    {if $unified}
+      {foreach from=$commit_tree_diff item=filediff}
        {assign var="diff" value=$filediff->GetDiff('', true, true)}
-     
+
        <div class="filetype-{$filediff->getToFileExtension()} status-{$filediff->getStatus()|lower} folder-{$filediff->getToFileRootFolder()|lower} diffBlob{if $filediff->getDiffTooLarge()} suppressed{/if}" id="{$filediff->GetFromHash()}_{$filediff->GetToHash()}">
        <a name="{$filediff->GetToFile()}"></a>
        <div class="diff_info">
@@ -146,11 +229,6 @@
      {/foreach}
     {/if}
 
-    {if $sidebyside}
-        {include file='filediffsidebyside.tpl' diffsplit=$filediff->GetDiffSplit()}
-        </div>
-    {/if}
-
    {if $sexy}
        {include file="sexy_highlighter.tpl"}
    {/if}
@@ -159,10 +237,8 @@
      </div>
      </div>
      <div class="SBSFooter"></div>
-
     </div>
    {/if}
-
 
  </div>
 

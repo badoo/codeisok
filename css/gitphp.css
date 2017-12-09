@@ -10,7 +10,7 @@
 
 
 /*
- * Base styles 
+ * Base styles
  */
 .monospace {
 	font-family: monospace;
@@ -25,18 +25,18 @@ td.code * {
  * (main header with commit message)
  */
 div.title a.title {
-	display: block; 
+	display: block;
 }
 
 
 /*
  * Full log view
  */
-div.log_body { 
-	padding: 8px 8px 8px 150px; 
+div.log_body {
+	padding: 8px 8px 8px 150px;
 }
-span.age { 
-	position: relative; 
+span.age {
+	position: relative;
 	float: left;
 	width: 142px;
 }
@@ -44,7 +44,7 @@ div.log_link {
 	margin: -5px 0px;
 	padding: 0px 8px;
 	position: relative;
-	float: left; 
+	float: left;
 	width: 136px;
 }
 
@@ -52,17 +52,17 @@ div.log_link {
 /*
  * Diff display
  */
-.pre { 
-	white-space: pre; 
+.pre {
+	white-space: pre;
 }
 
 
 /*
  * Search box
  */
-div.search { 
-	margin: 4px 8px; 
-	position: absolute; 
+div.search {
+	margin: 4px 8px;
+	position: absolute;
 	top: 56px;
 	right: 12px
 }
@@ -158,7 +158,7 @@ div.commitDiffSBS div.SBSTOC .showAll
 	font: normal normal 1em/1.2em monospace;
 	margin: 0;
 	padding: 0;
-	background: none; 
+	background: none;
 	vertical-align: top;
 }
 
@@ -266,4 +266,39 @@ div.diff_controls {
 
 .ext-hidden, .st-hidden, .fldr-hidden {
 	display: none;
+}
+
+.two-panes {
+	display: -webkit-flex;
+	display: flex;
+	-webkit-flex-direction: row;
+	flex-direction: row;
+	-webkit-align-items: stretch;
+	align-items: stretch;
+	-webkit-justify-content: flex-start;
+	justify-content: flex-start;
+}
+
+.two-panes .left-pane {
+	flex: 1 0 0;
+    overflow: scroll;
+    max-width: 350px;
+    margin-right: 10px;
+    border-right: 2px solid #eee;
+}
+
+.two-panes .right-pane {
+	flex: 2 0 0;
+	overflow: scroll;
+}
+
+.file-list {
+	padding: 0;
+	margin: 0;
+}
+
+.file-list li {
+	white-space: nowrap;
+	list-style: none;
+	padding-left: 20px;
 }
