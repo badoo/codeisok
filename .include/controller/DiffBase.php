@@ -15,9 +15,9 @@ namespace GitPHP\Controller;
 /**
  * Constants for diff modes
  */
-define('GITPHP_DIFF_UNIFIED', 1);
-define('GITPHP_DIFF_SIDEBYSIDE', 2);
-define('GITPHP_DIFF_TREEDIFF', 3);
+define('GITPHP_DIFF_UNIFIED', '1');
+define('GITPHP_DIFF_SIDEBYSIDE', '2');
+define('GITPHP_DIFF_TREEDIFF', '3');
 
 /**
  * Constant of the diff mode cookie in the user's browser
