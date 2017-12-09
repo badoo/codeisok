@@ -283,11 +283,9 @@ div.diff_controls {
 	flex: 1 0 0;
 	overflow: scroll;
 	max-width: 350px;
-	margin-right: 10px;
-	border-right: 2px solid #eee;
-	padding: 10px 0;
+	padding: 0 0 10px 10px;
 	position: sticky;
-	top: 10px;
+	top: 0;
 	align-self: flex-start;
 	max-height: 97vh;
 }
@@ -295,6 +293,12 @@ div.diff_controls {
 .two-panes .right-pane {
 	flex: 2 0 0;
 	overflow: scroll;
+	border-left: 2px solid #eee;
+	padding-left: 10px;
+}
+
+.two-panes .file_filter {
+    margin-left: 0;
 }
 
 .file-list {
@@ -312,7 +316,9 @@ div.diff_controls {
 }
 
 .file-list .type-folder {
-	color: #666;
+	color: #333;
+	display: block;
+	margin-top: 5px;
 }
 
 .file-list li.type-file.status-a a {
