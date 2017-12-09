@@ -321,31 +321,49 @@ div.diff_controls {
 	margin-top: 5px;
 }
 
-.file-list li.type-file.status-a a {
+/* Added files */
+.file-list .status-a a {
     color: #008c00;
 }
-
-.file-list li.type-file.status-d a {
-    color: #a50000;
-}
-
-.file-list li.type-file.status-m a {
-    color: #3a75bd;
-}
-
-.file-list li.type-file.status-a a:visited {
+.file-list .status-a a:visited {
     color: #829f82;
 }
 
-.file-list li.type-file.status-d a:visited {
+/* Deleted files */
+.file-list .status-d a {
+    color: #a50000;
+}
+.file-list .status-d a:visited {
     color: #ca9999;
 }
 
-.file-list li.type-file.status-m a:visited {
+/* Modified files */
+.file-list .status-m a {
+    color: #3a75bd;
+}
+.file-list .status-m a:visited {
     color: #91bef5;
 }
 
-.file-list li.type-file::before,
+/* Renamed files */
+.file-list .status-r a {
+    color: #a400cf;
+}
+.file-list .status-r a:visited {
+    color: #c991f5;
+}
+
+.file-list .type-file .review-comments a {
+	background: #ffde00;
+	font-size: 12px;
+	border-radius: 4px;
+	color: #000;
+	display: inline-block;
+	padding: 2px 5px 0px 5px;
+	font-weight: bold;
+}
+
+.file-list .type-file::before,
 .file-list span.type-folder::before {
 	content: "";
 	background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij48cGF0aCBkPSJNNCAyMnYtMjBoMTZ2MTEuNTQzYzAgNC4xMDctNiAyLjQ1Ny02IDIuNDU3czEuNTE4IDYtMi42MzggNmgtNy4zNjJ6bTE4LTcuNjE0di0xNC4zODZoLTIwdjI0aDEwLjE4OWMzLjE2MyAwIDkuODExLTcuMjIzIDkuODExLTkuNjE0em0tNS0xLjM4NmgtMTB2LTFoMTB2MXptMC00aC0xMHYxaDEwdi0xem0wLTNoLTEwdjFoMTB2LTF6Ii8+PC9zdmc+");

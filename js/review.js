@@ -392,6 +392,7 @@ var Review = (function() {
                             anchorDefferredForClick = $comment_anchor;
                         }
                         $('td[name="files_index_' + file + '"]').append(' ').append($comment_anchor);
+                        $('span[name="files_index_' + file + '"]').append(' ').append($comment_anchor);
                         Review.comments_ids_file.push({id: data.comments[i].id, file: file});
                         prev_line = line;
                     }

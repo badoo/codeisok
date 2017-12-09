@@ -128,7 +128,7 @@
               {foreach from=$commit_tree_diff item=filediff}
                   <li class="filetype-{$filediff->getToFileExtension()} status-{$filediff->getStatus()|lower} folder-{$filediff->getToFileRootFolder()|lower}">
                     <a href="#{$filediff->getToFile()}">{$filediff->getToFile()}</a>
-                      {* <td name="files_index_{$filediff->getToFile()}"></td> *}
+                    <a name="files_index_{$filediff->getToFile()}"></a>
                   </li>
               {/foreach}
           </ul>

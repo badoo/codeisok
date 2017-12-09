@@ -96,7 +96,10 @@ function renderFolder(folder) {
 
 function renderFile(file) {
     return `
-        <li class="type-file status-${file.status} filetype-${file.fileType}"><a href="#${file.path}">${file.name}</a></li>
+        <li class="type-file status-${file.status} filetype-${file.fileType}">
+            <a href="#${file.path}">${file.name}</a>
+            <span class="review-comments" name="files_index_${file.path}"></span>
+        </li>
     `;
 }
 
