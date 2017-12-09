@@ -63,7 +63,9 @@
            <span class="hint">(+Shift for single select)</span>
        </div>
        {/if}
+   {/if}
 
+   {if $unified}
        <table style="float: left; border: 0; padding: 0; margin: 0;">
        {foreach from=$commit_tree_diff item=filediff}
            <tr class="filetype-{$filediff->getToFileExtension()} status-{$filediff->getStatus()|lower} folder-{$filediff->getToFileRootFolder()|lower}">
@@ -90,20 +92,20 @@
       - why is getToFileRootFolder needed?
     *}
    {if $treediff}
+
+      <script>
+        var _file_list = [
+          {foreach from=$commit_tree_diff item=filediff}
+              {ldelim}
+                path: '{$filediff->getToFile()}',
+                status: '{$filediff->getStatus()|lower}',
+                fileType: '{$filediff->getToFileExtension()}'
+              {rdelim},
+            {/foreach}
+        ];
+      </script>
+
       <div class="two-panes">
-
-        <script>
-          var _file_list = [
-            {foreach from=$commit_tree_diff item=filediff}
-                {ldelim}
-                  path: '{$filediff->getToFile()}',
-                  status: '{$filediff->getStatus()|lower}',
-                  fileType: '{$filediff->getToFileExtension()}'
-                {rdelim},
-              {/foreach}
-          ];
-        </script>
-
         {* This is rendered for non-JS support *}
         <div class="left-pane">
           <ul class="file-list">

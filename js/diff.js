@@ -81,7 +81,7 @@ function renderFileList(fileList, container) {
 function renderFolder(folder) {
     return `
         <li>
-            <span class="folder">${folder.name}</span>
+            <span class="type-folder">${folder.name}</span>
             <ul class="file-list">
                 ${folder.contents.map(content => {
                     if (content.type === 'file') {
@@ -96,7 +96,7 @@ function renderFolder(folder) {
 
 function renderFile(file) {
     return `
-        <li class="status-${file.status} type-${file.fileType}"><a href="#${file.path}">${file.name}</a></li>
+        <li class="type-file status-${file.status} filetype-${file.fileType}"><a href="#${file.path}">${file.name}</a></li>
     `;
 }
 
