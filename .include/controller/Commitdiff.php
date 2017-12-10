@@ -37,9 +37,20 @@ class Commitdiff extends DiffBase
      */
     protected function GetCacheKey()
     {
+
+        $mode = '1';
+
+        if (isset($this->params['sidebyside']) && ($this->params['sidebyside'] === true)) {
+            $mode = '2';
+        }
+
+        if (isset($this->params['treediff']) && ($this->params['treediff'] === true)) {
+            $mode = '3';
+        }
+
         $key = (isset($this->params['hash']) ? $this->params['hash'] : '')
             . '|' . (isset($this->params['hashparent']) ? $this->params['hashparent'] : '')
-            . '|' . (isset($this->params['sidebyside']) && ($this->params['sidebyside'] === true) ? '1' : '');
+            . '|' . $mode;
 
         return $key;
     }
@@ -127,7 +138,8 @@ class Commitdiff extends DiffBase
             ->setContext($this->params['context'])
             ->setIgnoreWhitespace($this->params['ignorewhitespace'])
             ->setIgnoreFormatting($this->params['ignoreformat']);
-        $treediff = new \GitPHP_TreeDiff(
+
+        $commit_tree_diff = new \GitPHP_TreeDiff(
             $this->project,
             $this->params['hash'],
             (isset($this->params['hashparent']) ? $this->params['hashparent'] : ''),
@@ -146,7 +158,7 @@ class Commitdiff extends DiffBase
             $extensions = [];
             $statuses = [];
             $folders = [];
-            foreach ($treediff as $filediff) {
+            foreach ($commit_tree_diff as $filediff) {
                 /** @var \GitPHP_FileDiff $filediff */
 
                 $extensions[$filediff->getToFileExtension()] = $filediff->getToFileExtension();
@@ -169,7 +181,8 @@ class Commitdiff extends DiffBase
             $this->tpl->assign('statuses', $statuses);
             $this->tpl->assign('folders', $this->filterRootFolders($folders));
         }
-        $this->tpl->assign('treediff', $treediff);
+
+        $this->tpl->assign('commit_tree_diff', $commit_tree_diff);
         $this->tpl->assign('retbranch', $this->params['retbranch']);
         $this->tpl->assign('diffcontext', is_int($this->params['context']) ? $this->params['context'] : 3);
         $this->tpl->assign('ignorewhitespace', $this->params['ignorewhitespace']);

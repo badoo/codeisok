@@ -367,6 +367,7 @@ var Review = (function() {
                             $line = Review.getNodeFileLine(file, j, real_line_before, real_line, line - j);
                             $line.addClass('commented').data('line', line).data('file', file).data('lines_count', lines_count)
                                 .data('real_line', real_line).data('real_line_before', real_line_before);
+                            $line.closest('.diffBlob').addClass('has-review-comment');
                         }
                         if (data.comments[i].status == 'Draft') {
                             $('#review_finish').show();
@@ -392,6 +393,7 @@ var Review = (function() {
                             anchorDefferredForClick = $comment_anchor;
                         }
                         $('td[name="files_index_' + file + '"]').append(' ').append($comment_anchor);
+                        $('span[name="files_index_' + file + '"]').append(' ').append($comment_anchor);
                         Review.comments_ids_file.push({id: data.comments[i].id, file: file});
                         prev_line = line;
                     }
@@ -634,6 +636,20 @@ var Review = (function() {
         return false;
     };
 
+    Review.toggleReviewComments = function (e) {
+        e.preventDefault();
+        $('.diffBlob.lines-visible').removeClass('lines-visible');
+        $('.page_body').toggleClass('only-comments');
+    }
+
+    Review.expandBlobIfNeeded = function (e) {
+        // Comments only mode is not shown, no need to go forther
+        if (!$('.page_body').hasClass('only-comments')) {
+            return;
+        }
+        $(e.currentTarget).addClass('lines-visible');
+    }
+
     /**
      * call when all lines are hightlighted and div.line exists in DOM
      */
@@ -667,6 +683,8 @@ var Review = (function() {
         $('.line-number').parent().prepend('<l class="hoverable context-menu-button">+</l>');
 
         if (!Review.is_handlers_bound) {
+            $('.js-toggle-review-comments').click(Review.toggleReviewComments);
+            $('.diffBlob').click(Review.expandBlobIfNeeded);
             $('#review_save').click(Review.commentSubmit);
             $('#review_cancel').click(Review.hideForm);
             $('#review_finish').click(Review.setReviewStatus);
@@ -691,13 +709,12 @@ var Review = (function() {
             $('body').on('keyup', null, null, function(e) {
                 if (e.keyCode == 27) {
                     Review.hideForm();
-                } else if (e.keyCode == 38 && !(e.target instanceof HTMLTextAreaElement) && (e.ctrlKey || e.altKey)) {
+                } else if ((e.keyCode == 38 || e.keyCode == 80) && !(e.target instanceof HTMLTextAreaElement) && (e.ctrlKey || e.altKey)) {
                     Review.gotoPrevComment();
                     window.location = $('#review_commentnav_prev').attr('href');
-                } else if (e.keyCode == 40 && !(e.target instanceof HTMLTextAreaElement) && (e.ctrlKey || e.altKey)) {
+                } else if ((e.keyCode == 40 || e.keyCode == 78) && !(e.target instanceof HTMLTextAreaElement) && (e.ctrlKey || e.altKey)) {
                     Review.gotoNextComment();
                     window.location = $('#review_commentnav_next').attr('href');
-
                 }
                 return true;
             });
