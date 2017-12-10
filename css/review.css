@@ -4,6 +4,11 @@
     padding: 7px !important;
     background: #ffffff !important;
     white-space: normal !important;
+    margin: 0 30px 30px !important;
+    border: 1px solid #ccc !important;
+    border-top: 0 !important;
+    border-radius: 0 0px 5px 5px !important;
+    box-shadow: 0px 10px 10px -6px rgba(0,0,0,0.3);
 }
 #review_ticket {
     display: none;
@@ -68,23 +73,39 @@ span.btn_small {
     white-space: pre-line;
     padding: 5px !important;
     /* max-width: 980px; */
+    margin: 0 30px !important;
+    border-left: 1px solid #ccc !important;
+    border-right: 1px solid #ccc !important;
 }
 
 div.comments + div.comments {
-    padding-left: 20px !important;
+    padding-left: 10px !important;
+    border-top: 0 !important;
+    margin-top: 0 !important;
 }
 
 div.comments + div.comments + div.comments {
     padding-left: 40px !important;
 }
 
+/* First comment */
+.commented code + div.comments {
+    margin-top: 20px !important;
+    border-radius: 5px 5px 0px 0px !important;
+}
+
+/* Last comment */
+.commented [class~='comments']:last-of-type {
+    margin-bottom: 20px !important;
+    box-shadow: 0px 10px 10px -6px rgba(0,0,0,0.3);
+    border-radius: 0 0px 5px 5px !important;
+}
+
 .commented div.comments {
     border-bottom: 1px solid #ccc !important;
     border-top: 1px solid #ccc !important;
 }
-.commented div.comments + .comments {
-    border-top: 0 !important;
-}
+
 .commented div.comments.draft {
     /*background: #f88 !important;*/
     background-color: rgba(123, 19, 193, 0.2) !important;
