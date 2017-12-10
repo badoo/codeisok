@@ -78,8 +78,12 @@ div.comments + div.comments + div.comments {
     padding-left: 40px !important;
 }
 
-.commented div.comments + .comments {
+.commented div.comments {
+    border-bottom: 1px solid #ccc !important;
     border-top: 1px solid #ccc !important;
+}
+.commented div.comments + .comments {
+    border-top: 0 !important;
 }
 .commented div.comments.draft {
     /*background: #f88 !important;*/
