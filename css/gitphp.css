@@ -214,7 +214,7 @@ div.diff_controls {
 }
 
 .hidden {
-    display: none;
+    display: none !important;
 }
 
 .highlight {

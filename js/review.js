@@ -723,6 +723,25 @@ var Review = (function() {
                     return "You're about to leave this page but you have unsaved comment\nIf you continue unsaved message would be lost";
                 }
             });
+
+            // Fix copy paste of code
+            document.addEventListener('copy', function(e){
+                const copyTarget = $(e.target);
+                const parentBlob = copyTarget.parents('.diffBlob');
+
+                // Ignore copy pasting of non-code
+                if (parentBlob.length === 0) {
+                    return;
+                }
+
+                // HACKIEST of hacks :) but it works!
+                $('.line-number').addClass('hidden');
+                const clipboardData = document.getSelection().toString();
+                $('.line-number').removeClass('hidden');
+
+                e.clipboardData.setData('text/plain', clipboardData);
+                e.preventDefault(); // default behaviour is to copy any selected text
+            });
         }
         Review.is_handlers_bound = true;
         Review.showComments();
