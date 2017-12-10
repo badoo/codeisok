@@ -1,3 +1,5 @@
+<link rel="stylesheet" href="/css/treediff.css?v={$cssversion}" type="text/css" />
+
 <script>
 var _file_list = [
     {foreach from=$diff_source item=filediff}
@@ -46,7 +48,7 @@ var _file_list = [
     {assign var="diff" value=$filediff->GetDiff('', true, true)}
 
     <div class="filetype-{$filediff->getToFileExtension()} status-{$filediff->getStatus()|lower} folder-{$filediff->getToFileRootFolder()|lower} diffBlob{if $filediff->getDiffTooLarge()} suppressed{/if}" id="{$filediff->GetFromHash()}_{$filediff->GetToHash()}">
-        <a name="{$filediff->GetToFile()}"></a>
+        <a name="{$filediff->GetToFile()}" class="anchor"></a>
 
         {if ($filediff->GetStatus() == 'D') || ($filediff->GetStatus() == 'R')}
             <div class="diff_info">

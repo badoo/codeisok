@@ -66,16 +66,35 @@ $(function(){
         SmartFilter.onFilterClick(event, $(this), 'folder', 'folder', 'fldr');
     });
 
-    // Render the new file list
+    // Render tree diff mode
     if (window._file_list) {
-        renderFileList(window._file_list, document.querySelector('.file-list'));
+        renderTreeDiff(window._file_list, document.querySelector('.file-list'));
     }
 });
 
 
-function renderFileList(fileList, container) {
+function renderTreeDiff(fileList, container) {
+
+    // Update the folder list
     const folderMap = getFolderMap(fileList);
     container.innerHTML = `<ul class="file-list">${folderMap.map(folder => renderFolder(folder)).join('\n')}</ul>`;
+
+    // Check if we need to display a pre-selected comment or blob
+    detectActiveBlobs();
+
+    // Start listening for hash changes
+    window.onhashchange = detectActiveBlobs;
+}
+
+function detectActiveBlobs() {
+    const hash = window.location.hash.substr(1);
+    const closestBlob = $(`[name="${hash}"]`).closest('.diffBlob');
+    closestBlob.addClass('is-visible').siblings().removeClass('is-visible');
+
+    // Find the file name and highlight on the left pane
+    const fileName = closestBlob.find('a.anchor').attr('name');
+    $('.file-list li').removeClass('is-active');
+    $(`.file-list a[href="#${fileName}"`).parent().addClass('is-active');
 }
 
 function renderFolder(folder) {
@@ -147,11 +166,11 @@ function getFolderMap(fileList) {
         return contents;
     }, [])
     .map(folder => {
-        return flatten(folder);
+        return flattenFolder(folder);
     });
 }
 
-function flatten(folder) {
+function flattenFolder(folder) {
     if (!folder || folder.type !== 'folder') {
         return folder;
     }
@@ -166,11 +185,11 @@ function flatten(folder) {
                 contents: subFolder.contents
             };
 
-            return flatten(newFolder);
+            return flattenFolder(newFolder);
         }
     }
 
-    folder.contents = folder.contents.map(flatten);
+    folder.contents = folder.contents.map(flattenFolder);
 
     return folder;
 }
