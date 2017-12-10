@@ -2,21 +2,27 @@
     display: none;
     position: relative !important;
     padding: 7px !important;
-    background: #fffbc2 !important;
+    background: #ffffff !important;
     white-space: normal !important;
 }
 #review_ticket {
     display: none;
 }
 div.review_btn {
-    margin: 3px auto !important;
+    margin: 4px auto 0px !important;
     padding: 4px !important;
-    border: 1px solid #888 !important;
+    border: 1px solid #125100 !important;
     border-radius: 3px !important;
-    background: #efe !important;
+    background: #8cff00 !important;
     display: inline-block;
     cursor: pointer !important;
     color: #333 !important;
+    min-width: 60px !important;
+    text-align: center !important;
+}
+
+div.review_btn.review_cancel {
+    background: #ffffff !important;
 }
 
 span.btn_small {
@@ -57,14 +63,23 @@ span.btn_small {
 }
 .commented div.comments {
     color: blue !important;
-    background: #fffbc2 !important;
-    margin-left: 20px !important;
+    background: #ffffff !important;
+    /* margin-left: 20px !important; */
     white-space: pre-line;
     padding: 5px !important;
     max-width: 980px;
 }
+
+div.comments + div.comments {
+    padding-left: 20px !important;
+}
+
+div.comments + div.comments + div.comments {
+    padding-left: 40px !important;
+}
+
 .commented div.comments + .comments {
-    border-top: 2px solid #eadc00 !important;
+    border-top: 1px solid #ccc !important;
 }
 .commented div.comments.draft {
     /*background: #f88 !important;*/
@@ -216,12 +231,6 @@ span.review {
 
 #review_text.sbs {
     height: 50px;
-}
-
-.commented div.comments.thread:before {
-    content: "⤷ ";
-    font-size: 120%;
-    color: black;
 }
 
 #notifications {
