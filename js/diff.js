@@ -79,7 +79,7 @@ function renderTreeDiff(fileList, container) {
     const treeMap = getFolderMap(fileList);
     container.innerHTML = `
         <ul class="file-list">
-            ${treeMap.map(item => item.type === 'file' ? renderFile(item) : renderFolder(folder)).join('\n')}
+            ${treeMap.map(item => item.type === 'file' ? renderFile(item) : renderFolder(item)).join('\n')}
         </ul>`;
 
     // Check if we need to display a pre-selected comment or blob
