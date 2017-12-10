@@ -15,7 +15,7 @@
 }
 div.review_btn {
     margin: 4px auto 0px !important;
-    padding: 4px !important;
+    padding: 4px 4px 2px 4px !important;
     border: 1px solid #125100 !important;
     border-radius: 3px !important;
     background: #8cff00 !important;
@@ -66,7 +66,8 @@ span.btn_small {
 .syntaxhighlighter div.commented.line:hover {
     background: #fffbc2 !important;
 }
-.commented div.comments {
+
+.comment-container > div {
     color: blue !important;
     background: #ffffff !important;
     /* margin-left: 20px !important; */
@@ -76,40 +77,36 @@ span.btn_small {
     margin: 0 30px !important;
     border-left: 1px solid #ccc !important;
     border-right: 1px solid #ccc !important;
+    border-bottom: 1px solid #ccc !important;
+    border-top: 1px solid #ccc !important;
 }
 
-div.comments + div.comments {
+.comment-container > div + div {
     padding-left: 10px !important;
     border-top: 0 !important;
     margin-top: 0 !important;
 }
 
-div.comments + div.comments + div.comments {
+.comment-container > div + div + div {
     padding-left: 40px !important;
 }
 
-/* First comment */
-.commented code + div.comments {
+.comment-container > div:first-child {
     margin-top: 20px !important;
     border-radius: 5px 5px 0px 0px !important;
 }
 
 /* Last comment */
-.commented [class~='comments']:last-of-type {
+.comment-container > div:last-child {
     margin-bottom: 20px !important;
     box-shadow: 0px 10px 10px -6px rgba(0,0,0,0.3);
     border-radius: 0 0px 5px 5px !important;
 }
 
-.commented div.comments {
-    border-bottom: 1px solid #ccc !important;
-    border-top: 1px solid #ccc !important;
-}
-
 .commented div.comments.draft {
-    /*background: #f88 !important;*/
-    background-color: rgba(123, 19, 193, 0.2) !important;
-    margin-left: 0 !important;
+    background-color: rgb(228, 254, 255) !important;
+    padding-top: 10px !important;
+    padding-bottom: 10px !important;
 }
 
 .commented div.comments.draft.controls {
@@ -120,13 +117,6 @@ div.comments + div.comments + div.comments {
     text-align: right !important;
     height: 100% !important;
     padding: 5px 100px 5px 5px !important;
-}
-
-.commented table {
-    margin-left: 19px !important;
-    border: 0 !important;
-    border-spacing: 0 !important;
-    padding: 0 !important;
 }
 
 div.review-select {

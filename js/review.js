@@ -379,14 +379,25 @@ var Review = (function() {
                         var commentsHtml = '<div class="comments' + thread + '">'
                             + '<a name="' + data.comments[i].id + '" href="#' + data.comments[i].id + '"><span class="date">' + date + '</span> <span class="author">' + author + ':</span></a> '
                             + '<span class="text">' + text + '</span></div>';
+
                         if (data.comments[i].status == 'Draft') {
-                            commentsHtml = '<table><tr><td><div class="comments draft' + thread + '" title="draft, click to edit">'
-                                + '<a name="' + data.comments[i].id + '" href="#' + data.comments[i].id + '"><span class="date">' + date + '</span> <span class="author">' + author + ':</span></a> '
-                                + '<span class="text">' + text + '</span></div></td><td><div class="comments draft controls" title="draft, click to edit">'
-                                + '<span class="btn_small" id="review_line_edit">Edit</span>'
-                                + '<span class="btn_small" id="review_line_delete" title="delete this comment">Delete</span></div></td></tr></table>';
+                            commentsHtml = `<div class="comments draft ${thread}" title="draft, click to edit">
+                                <a name="${data.comments[i].id}" href="#${data.comments[i].id}"><span class="date">${date}</span> <span class="author">${author}:</span></a>
+                                <span class="text">${text}</span>
+                                <div>
+                                    <div class="btn_small review_btn review_save" id="review_line_edit" title="Edit this comment">Edit</div>
+                                    <div class="btn_small review_btn review_cancel" id="review_line_delete" title="delete this comment">Delete</div>
+                                </div>
+                            </div>`.replace(/\n/g, '');
                         }
-                        $line.append(commentsHtml);
+
+                        var $container = $line.children('.comment-container');
+
+                        if ($container.length === 0) {
+                            $line.append('<div class="comment-container"></div>');
+                            $container = $line.children('.comment-container');
+                        }
+                        $container.append(commentsHtml);
                         var $comment_anchor = $('<a href="#' + data.comments[i].id + '" class="files_index_anchor">#' + (1 + parseInt(i)) + '</a>');
                         $comment_anchor.data('file', file).click(Review.clickCommentAnchor);
                         if (location.hash.substr(1) == data.comments[i].id) {
@@ -437,7 +448,14 @@ var Review = (function() {
         if ($(target).find('#review_save').size()) {
             return true;
         }
-        $(target).append(wnd);
+        var $container = $(target).children('.comment-container');
+
+        if ($container.length === 0) {
+            $(target).append('<div class="comment-container"></div>');
+            $container = $(target).children('.comment-container');
+        }
+
+        $container.append(wnd);
         Review.checkReviewId();
         $('#review_text').focus();
     };
