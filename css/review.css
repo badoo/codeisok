@@ -67,7 +67,7 @@ span.btn_small {
     /* margin-left: 20px !important; */
     white-space: pre-line;
     padding: 5px !important;
-    max-width: 980px;
+    /* max-width: 980px; */
 }
 
 div.comments + div.comments {

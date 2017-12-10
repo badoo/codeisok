@@ -638,7 +638,16 @@ var Review = (function() {
 
     Review.toggleReviewComments = function (e) {
         e.preventDefault();
+        $('.diffBlob.lines-visible').removeClass('lines-visible');
         $('.page_body').toggleClass('only-comments');
+    }
+
+    Review.expandBlobIfNeeded = function (e) {
+        // Comments only mode is not shown, no need to go forther
+        if (!$('.page_body').hasClass('only-comments')) {
+            return;
+        }
+        $(e.currentTarget).addClass('lines-visible');
     }
 
     /**
@@ -674,7 +683,8 @@ var Review = (function() {
         $('.line-number').parent().prepend('<l class="hoverable context-menu-button">+</l>');
 
         if (!Review.is_handlers_bound) {
-            $('.js-toggle-review-comments').click(Review.toggleReviewComments)
+            $('.js-toggle-review-comments').click(Review.toggleReviewComments);
+            $('.diffBlob').click(Review.expandBlobIfNeeded);
             $('#review_save').click(Review.commentSubmit);
             $('#review_cancel').click(Review.hideForm);
             $('#review_finish').click(Review.setReviewStatus);

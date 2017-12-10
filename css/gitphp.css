@@ -269,6 +269,18 @@ div.diff_controls {
 }
 
 /* Comment mode toggler */
+.page_body .only-comments-warning {
+	display: none;
+}
+.page_body.only-comments .only-comments-warning {
+	display: block;
+	text-align: center;
+	background: #ffffca;
+	padding: 10px;
+}
 .page_body.only-comments .line:not(.commented) {
     display: none;
+}
+.page_body.only-comments .diffBlob.lines-visible .line {
+    display: block;
 }
