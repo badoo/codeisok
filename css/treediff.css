@@ -12,7 +12,7 @@
 .two-panes .left-pane {
 	flex: 1 0 0;
 	overflow: scroll;
-	max-width: 350px;
+	max-width: 300px;
 	padding: 0 0 10px 10px;
 	position: sticky;
 	top: 0;
@@ -54,7 +54,7 @@
 }
 
 .file-list li.is-active {
-	border-bottom: 2px solid #ddd;
+	background: #eee;
 }
 
 .file-list .type-folder {
@@ -120,4 +120,8 @@
 
 .file-list span.type-folder::before {
 	background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij48cGF0aCBkPSJNNy45NzIgMmgtNi45NzJsLjcxNCA1aDIuMDIxbC0uNDI5LTNoMy42OTRjMS4xMTIgMS4zODggMS45NTIgMiA0LjI3NyAyaDkuMjgzbC0uMiAxaDIuMDRsLjYtM2gtMTEuNzIzYy0xLjk3OCAwLTIuMDQxLS40MTctMy4zMDUtMnptMTYuMDI4IDdoLTI0bDIgMTNoMjBsMi0xM3oiIHN0eWxlPSJmaWxsOiAjMDA5NGE0OyI+PC9wYXRoPjwvc3ZnPg==");
+}
+
+.page_body.only-comments .right-pane .diffBlob.has-review-comment {
+    display: block;
 }

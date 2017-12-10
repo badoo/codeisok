@@ -267,3 +267,8 @@ div.diff_controls {
 .ext-hidden, .st-hidden, .fldr-hidden {
 	display: none !important;
 }
+
+/* Comment mode toggler */
+.page_body.only-comments .line:not(.commented) {
+    display: none;
+}
