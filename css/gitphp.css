@@ -17,7 +17,7 @@
 }
 
 td.code * {
-    font-family: monospace; !important
+    font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace !important;
 }
 
 /*
