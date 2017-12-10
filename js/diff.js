@@ -76,8 +76,11 @@ $(function(){
 function renderTreeDiff(fileList, container) {
 
     // Update the folder list
-    const folderMap = getFolderMap(fileList);
-    container.innerHTML = `<ul class="file-list">${folderMap.map(folder => renderFolder(folder)).join('\n')}</ul>`;
+    const treeMap = getFolderMap(fileList);
+    container.innerHTML = `
+        <ul class="file-list">
+            ${treeMap.map(item => item.type === 'file' ? renderFile(item) : renderFolder(folder)).join('\n')}
+        </ul>`;
 
     // Check if we need to display a pre-selected comment or blob
     detectActiveBlobs();
