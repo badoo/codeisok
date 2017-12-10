@@ -699,13 +699,12 @@ var Review = (function() {
             $('body').on('keyup', null, null, function(e) {
                 if (e.keyCode == 27) {
                     Review.hideForm();
-                } else if (e.keyCode == 38 && !(e.target instanceof HTMLTextAreaElement) && (e.ctrlKey || e.altKey)) {
+                } else if ((e.keyCode == 38 || e.keyCode == 80) && !(e.target instanceof HTMLTextAreaElement) && (e.ctrlKey || e.altKey)) {
                     Review.gotoPrevComment();
                     window.location = $('#review_commentnav_prev').attr('href');
-                } else if (e.keyCode == 40 && !(e.target instanceof HTMLTextAreaElement) && (e.ctrlKey || e.altKey)) {
+                } else if ((e.keyCode == 40 || e.keyCode == 78) && !(e.target instanceof HTMLTextAreaElement) && (e.ctrlKey || e.altKey)) {
                     Review.gotoNextComment();
                     window.location = $('#review_commentnav_next').attr('href');
-
                 }
                 return true;
             });
