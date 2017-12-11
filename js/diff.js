@@ -135,7 +135,7 @@ function detectActiveBlobs() {
     // Find the file name and highlight on the left pane
     const fileName = closestBlob.find('a.anchor').attr('name');
     $('.file-list li').removeClass('is-active');
-    $(`.file-list a[href="#${fileName}"`).parent().addClass('is-active');
+    $(`.file-list a[href="#${fileName}"]`).parent().addClass('is-active');
 }
 
 function renderFolder(folder) {
