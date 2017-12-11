@@ -105,7 +105,6 @@ $(function(){
                 e.preventDefault();
 
                 const offset = dragStart - e.clientX;
-                console.log(offset);
                 leftPane.css('min-width', leftPaneWidth - offset);
             })
     })();
