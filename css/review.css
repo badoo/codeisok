@@ -15,19 +15,27 @@
 }
 div.review_btn {
     margin: 4px auto 0px !important;
-    padding: 4px 4px 2px 4px !important;
-    border: 1px solid #125100 !important;
+    padding: 4px 10px 3px 10px !important;
+    border: 1px solid #228839 !important;
     border-radius: 3px !important;
-    background: #8cff00 !important;
     display: inline-block;
     cursor: pointer !important;
     color: #333 !important;
-    min-width: 60px !important;
     text-align: center !important;
+    color: #fff !important;
+    background-color: #28a745 !important;
+    background-image: linear-gradient(-180deg, #34d058 0%, #28a745 90%);
+    font-family: Helvetica, Arial, sans-serif !important;
+    line-height: 1.5em !important;
 }
 
+div#review_line_edit {}
+
 div.review_btn.review_cancel {
-    background: #ffffff !important;
+    color: #24292e !important;
+    background-color: #eff3f6 !important;
+    background-image: linear-gradient(-180deg, #fafbfc 0%, #eff3f6 90%) !important;
+    border-color: #bcbcbc !important;
 }
 
 span.btn_small {
@@ -47,6 +55,8 @@ span.btn_small {
     display: block !important;
     position: relative !important;
     margin: 3px auto !important;
+    min-height: 3em !important;
+    padding: 5px !important;
 }
 .review_text:focus {
     box-shadow: 0 0 2px 1px #08f !important;
@@ -61,10 +71,16 @@ span.btn_small {
     display: inline-block;
 }
 .syntaxhighlighter div.commented.line {
-    background: #fffbc2 !important;
+    background: #fffcce !important;
 }
 .syntaxhighlighter div.commented.line:hover {
     background: #fffbc2 !important;
+}
+.syntaxhighlighter div.commented.line.deleted-row-container {
+    background: #ffebc2 !important;
+}
+.syntaxhighlighter div.commented.line.added-row-container {
+    background: #e6ffc2 !important;
 }
 
 .comment-container > div {
@@ -92,7 +108,7 @@ span.btn_small {
 }
 
 .comment-container > div:first-child {
-    margin-top: 20px !important;
+    margin-top: 10px !important;
     border-radius: 5px 5px 0px 0px !important;
 }
 
@@ -104,7 +120,7 @@ span.btn_small {
 }
 
 .commented div.comments.draft {
-    background-color: rgb(228, 254, 255) !important;
+    background-color: rgb(229, 254, 255) !important;
     padding-top: 10px !important;
     padding-bottom: 10px !important;
 }

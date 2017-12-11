@@ -94,9 +94,9 @@ div.page_path {
  * Page footer
  * (footer bar with project description and atom/rss links)
  */
-div.page_footer { 
-	height: 17px; 
-	padding: 4px 8px; 
+div.page_footer {
+	height: 17px;
+	padding: 0px 4px 8px;
 	background-color: #d9d8d1;
 }
 
@@ -134,7 +134,7 @@ div.page_footer_text {
  * Diff summary
  */
 div.diff_summary {
-	padding: 8px; 
+	padding: 0 8px;
 }
 
 

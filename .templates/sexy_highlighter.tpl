@@ -6,7 +6,7 @@
         <textarea name="text" rows="1" cols="10" id="review_text"></textarea>
     </div>
     <div id="review_ticket_tab">
-        <div class="review_btn review_save" id="review_save">OK</div>
+        <div class="review_btn review_save" id="review_save">Comment</div>
         <div class="review_btn review_cancel" id="review_cancel">Cancel</div>
     </div>
     <div id="review_msg"></div>
