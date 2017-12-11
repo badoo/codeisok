@@ -70,44 +70,6 @@ $(function(){
     if (window._file_list) {
         renderTreeDiff(window._file_list, document.querySelector('.file-list'));
     }
-
-    // Dragging for panes
-    (function () {
-        const leftPane = $('.js-left-pane');
-        const dragger = $('.js-pane-dragger');
-
-        if (leftPane.length === 0) {
-            return;
-        }
-
-        let isDragging = false;
-        let dragStart = 0;
-        let leftPaneWidth;
-
-        $(document.body)
-            .mousedown(function (e) {
-                if (e.target !== dragger.get(0)) {
-                    return;
-                }
-
-                isDragging = true;
-                dragStart = e.clientX;
-                leftPaneWidth = leftPane.width();
-            })
-            .mouseup(function () {
-                isDragging = false;
-            })
-            .mousemove(function (e) {
-                if (!isDragging) {
-                    return;
-                }
-
-                e.preventDefault();
-
-                const offset = dragStart - e.clientX;
-                leftPane.css('min-width', leftPaneWidth - offset);
-            })
-    })();
 });
 
 
@@ -122,9 +84,48 @@ function renderTreeDiff(fileList, container) {
 
     // Check if we need to display a pre-selected comment or blob
     detectActiveBlobs();
+    enablePaneDragging();
 
     // Start listening for hash changes
     window.onhashchange = detectActiveBlobs;
+}
+
+// Dragging for panes
+function enablePaneDragging() {
+    const leftPane = $('.js-left-pane');
+    const dragger = $('.js-pane-dragger');
+
+    if (leftPane.length === 0) {
+        return;
+    }
+
+    let isDragging = false;
+    let dragStart = 0;
+    let leftPaneWidth;
+
+    $(document.body)
+        .mousedown(function (e) {
+            if (e.target !== dragger.get(0)) {
+                return;
+            }
+
+            isDragging = true;
+            dragStart = e.clientX;
+            leftPaneWidth = leftPane.width();
+        })
+        .mouseup(function () {
+            isDragging = false;
+        })
+        .mousemove(function (e) {
+            if (!isDragging) {
+                return;
+            }
+
+            e.preventDefault();
+
+            const offset = dragStart - e.clientX;
+            leftPane.css('min-width', Math.min(leftPaneWidth - offset, window.innerWidth / 2));
+        });
 }
 
 function detectActiveBlobs() {
@@ -135,7 +136,7 @@ function detectActiveBlobs() {
     // Find the file name and highlight on the left pane
     const fileName = closestBlob.find('a.anchor').attr('name');
     $('.file-list li').removeClass('is-active');
-    $(`.file-list a[href="#${fileName}"]`).parent().addClass('is-active');
+    $(`.file-list a[href="#${fileName}"]`).parent().addClass('is-active is-visited');
 }
 
 function renderFolder(folder) {

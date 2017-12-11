@@ -71,8 +71,16 @@
 	position: relative;
 }
 
+.file-list li > a {
+	text-decoration: none;
+}
+
 .file-list li.is-active {
 	background: #eee;
+}
+
+.file-list li.is-active > a {
+	color: black !important;
 }
 
 .file-list .type-folder {
@@ -113,13 +121,23 @@
     color: #c991f5;
 }
 
+/* Visited files */
+.file-list li.is-visited > a:before {
+	content: "✅";
+	position: absolute;
+	left: 5px;
+	font-size: 10px;
+	top: 5px;
+}
+
 .file-list .type-file .review-comments a {
 	background: #ffde00;
 	font-size: 12px;
+	line-height: 15px;
 	border-radius: 4px;
 	color: #000;
 	display: inline-block;
-	padding: 2px 5px 0px 5px;
+	padding: 2px 4px 0px 4px;
 	font-weight: bold;
 }
 
@@ -127,8 +145,8 @@
 .file-list span.type-folder::before {
 	content: "";
 	background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij48cGF0aCBkPSJNNCAyMnYtMjBoMTZ2MTEuNTQzYzAgNC4xMDctNiAyLjQ1Ny02IDIuNDU3czEuNTE4IDYtMi42MzggNmgtNy4zNjJ6bTE4LTcuNjE0di0xNC4zODZoLTIwdjI0aDEwLjE4OWMzLjE2MyAwIDkuODExLTcuMjIzIDkuODExLTkuNjE0em0tNS0xLjM4NmgtMTB2LTFoMTB2MXptMC00aC0xMHYxaDEwdi0xem0wLTNoLTEwdjFoMTB2LTF6Ii8+PC9zdmc+");
-	width: 15px;
-	height: 15px;
+	width: 14px;
+	height: 14px;
 	position: absolute;
 	background-repeat: no-repeat;
 	background-size: contain;
