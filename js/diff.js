@@ -70,6 +70,45 @@ $(function(){
     if (window._file_list) {
         renderTreeDiff(window._file_list, document.querySelector('.file-list'));
     }
+
+    // Dragging for panes
+    (function () {
+        const leftPane = $('.js-left-pane');
+        const dragger = $('.js-pane-dragger');
+
+        if (leftPane.length === 0) {
+            return;
+        }
+
+        let isDragging = false;
+        let dragStart = 0;
+        let leftPaneWidth;
+
+        $(document.body)
+            .mousedown(function (e) {
+                if (e.target !== dragger.get(0)) {
+                    return;
+                }
+
+                isDragging = true;
+                dragStart = e.clientX;
+                leftPaneWidth = leftPane.width();
+            })
+            .mouseup(function () {
+                isDragging = false;
+            })
+            .mousemove(function (e) {
+                if (!isDragging) {
+                    return;
+                }
+
+                e.preventDefault();
+
+                const offset = dragStart - e.clientX;
+                console.log(offset);
+                leftPane.css('min-width', leftPaneWidth - offset);
+            })
+    })();
 });
 
 

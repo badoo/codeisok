@@ -14,7 +14,7 @@ var _file_list = [
 
 <div class="two-panes">
     {* This is rendered for non-JS support *}
-    <div class="left-pane">
+    <div class="js-left-pane left-pane">
 
         {if $extensions}
         <div class="file_filter">
@@ -41,6 +41,8 @@ var _file_list = [
             {/foreach}
         </ul>
     </div>
+
+    <div class="js-pane-dragger pane-dragger"></div>
 
     <div class="right-pane">
         {foreach from=$diff_source item=filediff}

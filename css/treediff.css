@@ -3,28 +3,46 @@
 	display: flex;
 	-webkit-flex-direction: row;
 	flex-direction: row;
-	-webkit-align-items: stretch;
-	align-items: stretch;
-	-webkit-justify-content: flex-start;
-	justify-content: flex-start;
+	height: 100%;
+	align-content: stretch;
 }
 
 .two-panes .left-pane {
 	flex: 1 0 0;
 	overflow: scroll;
-	max-width: 300px;
 	padding: 0 0 10px 10px;
 	position: sticky;
 	top: 0;
 	align-self: flex-start;
-	max-height: 97vh;
+	max-height: calc(100vh - 157px);
+	min-width: 300px;
+}
+
+.two-panes .pane-dragger {
+	width: 6px;
+	background: #eeeeee;
+	min-height: 100px;
+	align-self: stretch;
+	position: relative;
+	display: flex;
+	border-left: 1px solid #dcd8d8;
+	cursor: col-resize;
+}
+
+.two-panes .pane-dragger:after {
+    content: "";
+    width: 4px;
+    height: 40px;
+    background: #c8c8c8;
+    position: absolute;
+    top: 50%;
+    margin-top: -20px;
+    left: 1px;
 }
 
 .two-panes .right-pane {
-	flex: 2 0 0;
+	flex: 4 0 0;
 	overflow: scroll;
-	border-left: 2px solid #eee;
-	padding-left: 10px;
 }
 
 .right-pane .diffBlob {
