@@ -76,7 +76,7 @@
 }
 
 .file-list li.is-active {
-	background: #eee;
+	background: #f7f6f6;
 }
 
 .file-list li.is-active > a {
@@ -138,7 +138,6 @@
 	color: #000;
 	display: inline-block;
 	padding: 2px 4px 0px 4px;
-	font-weight: bold;
 }
 
 .file-list .type-file::before,
