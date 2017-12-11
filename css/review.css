@@ -55,6 +55,8 @@ span.btn_small {
     display: block !important;
     position: relative !important;
     margin: 3px auto !important;
+    min-height: 3em !important;
+    padding: 5px !important;
 }
 .review_text:focus {
     box-shadow: 0 0 2px 1px #08f !important;
@@ -118,7 +120,7 @@ span.btn_small {
 }
 
 .commented div.comments.draft {
-    background-color: rgb(228, 254, 255) !important;
+    background-color: rgb(229, 254, 255) !important;
     padding-top: 10px !important;
     padding-bottom: 10px !important;
 }
