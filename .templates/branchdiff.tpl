@@ -12,7 +12,7 @@
    {include file='nav.tpl' current='branchdiff' logcommit=$commit treecommit=$commit}
    <br />
 
-    <strong>Change diff mode</strong>
+    <strong>Change diff mode:</strong>
     {if $sidebyside}
       <a href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=branchdiff&amp;branch={$branch}&amp;{if $review}review={$review}{/if}&amp;o=unified">{t}unified{/t}</a>
       | <a href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=branchdiff&amp;branch={$branch}&amp;{if $review}review={$review}{/if}&amp;o=treediff">{t}treediff{/t}</a>

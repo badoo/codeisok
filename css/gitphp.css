@@ -17,7 +17,7 @@
 }
 
 td.code * {
-    font-family: monospace; !important
+    font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace !important;
 }
 
 /*
@@ -283,4 +283,11 @@ div.diff_controls {
 }
 .page_body.only-comments .diffBlob.lines-visible .line {
     display: block;
+}
+
+/* Clear fix for lines in code */
+.line:after {
+	content: "";
+	display: table;
+	clear: both;
 }
