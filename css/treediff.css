@@ -5,16 +5,13 @@
 	flex-direction: row;
 	height: 100%;
 	align-content: stretch;
+    height: calc(100vh - 157px);
 }
 
 .two-panes .left-pane {
 	flex: 1 0 0;
 	overflow: scroll;
 	padding: 0 0 10px 10px;
-	position: sticky;
-	top: 0;
-	align-self: flex-start;
-	max-height: calc(100vh - 160px);
 	min-width: 300px;
 }
 
@@ -43,7 +40,6 @@
 .two-panes .right-pane {
 	flex: 4 0 0;
 	overflow: scroll;
-    max-height: calc(100vh - 160px);
 }
 
 .right-pane .diffBlob {
