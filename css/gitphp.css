@@ -287,7 +287,13 @@ div.diff_controls {
 
 /* Clear fix for lines in code */
 .line:after {
-	content: "";
-	display: table;
-	clear: both;
+    content: " ";
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden;
+}
+
+.line:last-child::after {
+	display: none;
 }

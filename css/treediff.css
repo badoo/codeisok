@@ -5,16 +5,13 @@
 	flex-direction: row;
 	height: 100%;
 	align-content: stretch;
+	height: calc(100vh - 147px);
 }
 
 .two-panes .left-pane {
 	flex: 1 0 0;
 	overflow: scroll;
 	padding: 0 0 10px 10px;
-	position: sticky;
-	top: 0;
-	align-self: flex-start;
-	max-height: calc(100vh - 157px);
 	min-width: 300px;
 }
 
