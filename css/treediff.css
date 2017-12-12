@@ -5,7 +5,7 @@
 	flex-direction: row;
 	height: 100%;
 	align-content: stretch;
-    height: calc(100vh - 157px);
+	height: calc(100vh - 147px);
 }
 
 .two-panes .left-pane {
