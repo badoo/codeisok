@@ -5,14 +5,16 @@ But we changed almost everything and added lot of new features.
 
 * Branchdiffs - ability to see diffs between branches
 * Branchlogs
+* treediff mode - as unified but with folders/files tree on the left side
+* toggle comments mode - ability to see all comments in review in a one view
 * Authorisation via JIRA REST API, Atlassian Crowd service or Redmine REST API
 * Comments about review to Jira or Redmine tickets
 * Code Review including branchdiffs
-* Code syntax highlighting using http://alexgorbatchev.com/SyntaxHighlighter 
+* Code syntax highlighting using http://alexgorbatchev.com/SyntaxHighlighter with a lot of additional languages support
 * Side-by-side review using http://www.mergely.com
 * Filters in diffs on-the-fly for different file types and changes
 * Search in project heads
-* Access control, repositories management
+* Access control, repositories management - no gitosis is reguired, everything is done inside gitphp
 * and even more
 
 ### Installation
