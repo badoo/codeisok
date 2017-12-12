@@ -293,3 +293,7 @@ div.diff_controls {
     clear: both;
     visibility: hidden;
 }
+
+.line:last-child::after {
+	display: none;
+}
