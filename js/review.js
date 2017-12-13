@@ -381,14 +381,8 @@ var Review = (function() {
                             + '<span class="text">' + text + '</span></div>';
 
                         if (data.comments[i].status == 'Draft') {
-                            commentsHtml = `<div class="comments draft ${thread}" title="draft, click to edit">
-                                <a name="${data.comments[i].id}" href="#${data.comments[i].id}"><span class="date">${date}</span> <span class="author">${author}:</span></a>
-                                <span class="text">${text}</span>
-                                <div>
-                                    <div class="btn_small review_btn review_save" id="review_line_edit" title="Edit this comment">Edit</div>
-                                    <div class="btn_small review_btn review_cancel" id="review_line_delete" title="delete this comment">Delete</div>
-                                </div>
-                            </div>`.replace(/\n/g, '');
+                            commentsHtml = `<div class="comments draft ${thread}" title="draft, click to edit"><a name="${data.comments[i].id}" href="#${data.comments[i].id}"><span class="date">${date}</span> <span class="author">${author}:</span></a><span class="text">${text}</span><div>
+                                    <div class="btn_small review_btn review_save" id="review_line_edit" title="Edit this comment">Edit</div><div class="btn_small review_btn review_cancel" id="review_line_delete" title="delete this comment">Delete</div></div></div>`;
                         }
 
                         var $container = $line.children('.comment-container');
