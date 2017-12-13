@@ -72,13 +72,23 @@ class Tracker
         return $url;
     }
 
-    public function parceTicketFromString($string)
+    public function parseTicketFromString($string)
     {
         $key = '';
         if (preg_match($this->getTicketRegexp(), $string, $m)) {
             $key = $m['ticket'];
         }
         return $key;
+    }
+
+    public function getReviewTicketPrefix()
+    {
+        switch($this->tracker_type) {
+            case self::TRACKER_TYPE_REDMINE:
+                return 'issue-';
+            default:
+                return '';
+        }
     }
 
     public function getTicketSummary($ticket_key)

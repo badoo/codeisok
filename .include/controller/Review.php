@@ -108,7 +108,7 @@ class Review extends Base
             $ticket_key = $reviews[$snapshot['review_id']];
             $snapshot['ticket_url'] = '';
             if (\GitPHP\Tracker::instance()->enabled()) {
-                $ticket_key = \GitPHP\Tracker::instance()->parceTicketFromString($ticket_key);
+                $ticket_key = \GitPHP\Tracker::instance()->parseTicketFromString($ticket_key);
                 if (!empty($ticket_key)) {
                     $snapshot['ticket_url'] = \GitPHP\Tracker::instance()->getTicketUrl($ticket_key);
                 }

@@ -486,7 +486,7 @@ END;
         }
         if ($review) {
             $reviewObj = \GitPHP_Db::getInstance()->findReviewById($review);
-            $ticket = \GitPHP\Tracker::instance()->parceTicketFromString($reviewObj['ticket']);
+            $ticket = \GitPHP\Tracker::instance()->parseTicketFromString($reviewObj['ticket']);
         }
         return $ticket;
     }
