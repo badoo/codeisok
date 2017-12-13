@@ -33,7 +33,7 @@ class GitPHP_Util
         $to = [$from];
 
         $tracker_link = '';
-        $ticket_key = \GitPHP\Tracker::instance()->parceTicketFromString($review_name);
+        $ticket_key = \GitPHP\Tracker::instance()->parseTicketFromString($review_name);
         if (!empty($ticket_key)) {
             $ticket_summary = \GitPHP\Tracker::instance()->getTicketSummary($ticket_key);
             $review_name .= ' - ' . $ticket_summary;
@@ -98,7 +98,7 @@ class GitPHP_Util
 
     public static function addReviewToTracker($author_id, $review_name, $url, $comments, $review_type = 'unified')
     {
-        $ticket_key = \GitPHP\Tracker::instance()->parceTicketFromString($review_name);
+        $ticket_key = \GitPHP\Tracker::instance()->parseTicketFromString($review_name);
         if (!empty($ticket_key)) {
             $comments_authors = $changes_authors = [];
             $format = \GitPHP\Tracker::instance()->getCommentsFormat();

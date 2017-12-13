@@ -201,12 +201,12 @@ class Comment extends Base
     {
         $ticket = '';
         $url = isset($_POST['url']) ? $_POST['url'] : '';
-        if (preg_match(\GitPHP\Tracker::instance()->getTicketRegexp(), $url, $m)) {
-            $ticket = 'issue-' . $m['ticket'];
+        if ($key = \GitPHP\Tracker::instance()->parseTicketFromString($url)) {
+            $ticket = \GitPHP\Tracker::instance()->getReviewTicketPrefix() . $key;
         }
-        $commitMessage = isset($_POST['commit_message']) ? $_POST['commit_message'] : '';
-        if (preg_match('#^\[([-A-Z0-9]+)\]#', $commitMessage, $m)) {
-            $ticket = $m[1];
+        $commit_message = isset($_POST['commit_message']) ? $_POST['commit_message'] : '';
+        if ($key = \GitPHP\Tracker::instance()->parseTicketFromString($commit_message)) {
+            $ticket = \GitPHP\Tracker::instance()->getReviewTicketPrefix() . $key;
         }
         $hash = $_POST['hash'];
 

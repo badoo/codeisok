@@ -1,4 +1,5 @@
 <?php
+
 namespace GitPHP\Controller;
 /**
  * GitPHP Controller DiffBase
@@ -51,11 +52,9 @@ abstract class DiffBase extends Base
 
             if ($diffcookie === GITPHP_DIFF_SIDEBYSIDE) {
                 $this->params['sidebyside'] = true;
-            }
-            else if ($diffcookie === GITPHP_DIFF_TREEDIFF) {
+            } else if ($diffcookie === GITPHP_DIFF_TREEDIFF) {
                 $this->params['treediff'] = true;
-            }
-            else {
+            } else {
                 $this->params['unified'] = true;
             }
         }
@@ -96,8 +95,7 @@ abstract class DiffBase extends Base
             } else if ($overrideMode == 'unified') {
                 $mode = GITPHP_DIFF_UNIFIED;
                 setcookie(GITPHP_DIFF_MODE_COOKIE, GITPHP_DIFF_UNIFIED, time() + GITPHP_DIFF_MODE_COOKIE_LIFETIME);
-            }
-            else if ($overrideMode == 'treediff') {
+            } else if ($overrideMode == 'treediff') {
                 $mode = GITPHP_DIFF_TREEDIFF;
                 setcookie(GITPHP_DIFF_MODE_COOKIE, GITPHP_DIFF_TREEDIFF, time() + GITPHP_DIFF_MODE_COOKIE_LIFETIME);
             }
@@ -131,8 +129,8 @@ abstract class DiffBase extends Base
 
     protected function loadReviewsLinks(\GitPHP_Commit $co, $ticket)
     {
-        if (preg_match('#([A-Z]+-[0-9]+)#', $ticket, $m)) {
-            $ticket = $m[1];
+        if ($key = \GitPHP\Tracker::instance()->parseTicketFromString($ticket)) {
+            $ticket = \GitPHP\Tracker::instance()->getReviewTicketPrefix() . $key;
         }
 
         $Db = \GitPHP_Db::getInstance();
