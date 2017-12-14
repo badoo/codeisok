@@ -580,7 +580,7 @@ table.treeTable td.filesize {
 }
 
 table.treeTable tr:nth-child(2n) {
-    background: #f7f7f7;
+    background: #f5f5f5;
 }
 
 table.treeTable tr.is-loading {
