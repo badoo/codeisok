@@ -16,7 +16,7 @@
  {include file='title.tpl' titlecommit=$commit}
 
  {include file='path.tpl' pathobject=$tree target='tree'}
- 
+
  <div class="page_body">
    {* List files *}
 <table cellspacing="0" class="treeTable">
