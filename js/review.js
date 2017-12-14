@@ -334,16 +334,6 @@ var Review = (function() {
                 if (!Review.reviewSaveSuccess(data)) {
                     return;
                 }
-                /*if (data.snapshot && data.snapshot.review_type != 'unified') {
-                    q.o = 'sidebyside';
-                    var search = [];
-                    for (var i in q) {
-                        search.push(i + '=' + q[i]);
-                    }
-                    alert('Review is sidebyside. Redirecting...');
-                    document.location.search = search.join('&');
-                    return;
-                }*/
                 $('div.comments').remove();
                 $('a.files_index_anchor').remove();
                 $('div.commented').each(function(){
@@ -358,7 +348,10 @@ var Review = (function() {
                         var file = data.comments[i].file;
                         var line = parseInt(data.comments[i].line);
                         var lines_count = parseInt(data.comments[i].lines_count) || 0;
-                        var real_line = parseInt(data.comments[i].real_line) || undefined;
+                        var real_line = parseInt(data.comments[i].real_line);
+                        if (data.comments[i].side) {
+                            real_line = real_line + 1;
+                        }
                         var real_line_before = parseInt(data.comments[i].real_line_before) || undefined;
                         var text = data.comments[i].text;
                         var author = data.comments[i].author;
