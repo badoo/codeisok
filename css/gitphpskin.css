@@ -589,15 +589,15 @@ table.treeTable tr.is-loading {
 
 table.treeTable tr.is-loaded {
     animation-name: yellow-fade;
-    animation-duration: 1s;
+    animation-duration: 0.3s;
 }
 
 @keyframes yellow-fade {
     from {
-		background: #ffffce;
+		transform: translateY(-10px);
 	}
     to {
-		background: #ffffff;
+		transform: translateY(0px);
 	}
 }
 
