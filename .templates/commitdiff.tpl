@@ -8,6 +8,7 @@
 {include file='header.tpl'}
 
 <input type="hidden" id="review_hash_head" value="{$commit->GetHash()}" />
+<input type="hidden" id="review_hash_base" value="" />
 
 
  {* Nav *}

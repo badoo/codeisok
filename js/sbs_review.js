@@ -93,17 +93,6 @@ SideBySideReview.prototype = {
             })
             .done(function (data) {
                 review.finished = true;
-                if (data.snapshot && data.snapshot.review_type != 'sidebyside') {
-                    var params = review.getUrlParams();
-                    params.o = 'unified';
-                    var search = [];
-                    for (var i in params) {
-                        search.push(i + '=' + params[i]);
-                    }
-                    alert('Review is unified. Redirecting...');
-                    document.location.search = search.join('&');
-                    return;
-                }
                 if (data.comments) {
                     data.comments.forEach(
                         function (comment_data) {
@@ -114,15 +103,27 @@ SideBySideReview.prototype = {
                                 review.finished = false;
                             }
                             var line_from = parseInt(comment_data.line);
-                            review.addComment(
-                                comment_data.side,
-                                {from: line_from, to: line_from + parseInt(comment_data.lines_count) - 1},
-                                comment_data.text,
-                                parseInt(comment_data.id),
-                                comment_data.status == 'Draft',
-                                comment_data.date,
-                                comment_data.author
-                            )
+                            var comment_side = comment_data.side;
+                            if (comment_data.real_line && !comment_side) {
+                                line_from = parseInt(comment_data.real_line);
+                            }
+                            if (!comment_side) {
+                                comment_side = 'lhs';
+                                if (parseInt($('#lhs_length').val()) < line_from) {
+                                    comment_side = 'rhs';
+                                }
+                            }
+                            if (!$('#comment' + comment_data.id).length) {
+                                review.addComment(
+                                    comment_side,
+                                    {from: line_from, to: line_from + parseInt(comment_data.lines_count) - 1},
+                                    comment_data.text,
+                                    parseInt(comment_data.id),
+                                    comment_data.status == 'Draft',
+                                    comment_data.date,
+                                    comment_data.author
+                                )
+                            }
                         }
                     );
                     review.setReviewId(review_id);
@@ -207,6 +208,7 @@ SideBySideReview.prototype = {
         this.review = editor.addLineWidget(line, node);
 
         var review = this;
+        review.showReviewStatus();
         $('#review_save').on('click', function () { review.submitComment(); });
         $('#review_cancel').on('click', function () { review.discardReview(); });
         this.compare.mergely('update');
@@ -260,7 +262,7 @@ SideBySideReview.prototype = {
 
         var commentElement = document.createElement('div');
         var reviewWidth = $(editor.getWrapperElement()).width() * 0.9;
-        commentElement.innerHTML = '<div class="sbs review_comment_block" style="display:block; width: ' + reviewWidth + 'px;">' +
+        commentElement.innerHTML = '<div class="sbs review_comment_block" style="display:block; width: ' + reviewWidth + 'px;" id="comment' + comment_id + '">' +
                                    '<div class="sbs cloud_with_text">' + comment_text + '</div></div>';
         if (draft) {
             var editButtons = document.createElement('div');
@@ -522,13 +524,25 @@ SideBySideReview.prototype = {
         var review_status = $('#review_review');
 
         if (!review_status.length) {
-            $('.page_body').append($('<div id="review_review" style="display: block; z-index: 1000;">' +
-            '<div id="review_ticket_select">Review: <div class="review-select review-selected" title="Id: ' + this.review_id + '">' + this.ticket + '(' + this.review_id + ')</div></div>' +
-            '<input type="text" id="review_ticket">' +
+            var review_review = '<div id="review_review" style="display: block; z-index: 1000;">';
+
+            if (this.review_id) {
+                review_review = review_review + '<div id="review_ticket_select">Review: <div class="review-select review-selected" title="Id: ' + this.review_id + '">' + this.ticket + '(' + this.review_id + ')</div></div>';
+            } else {
+                review_review = review_review + '<div id="review_ticket_select">Review: <div class="review-select review-selected">New</div></div>';
+            }
+
+            review_review = review_review + '<input type="text" id="review_ticket">' +
             '<div class="review_btn" id="review_finish" style="">Finish</div>' +
             '<div class="review_btn" id="review_abort" style="">Cancel</div>' +
             '<div id="review_loader" style="background: url(\'/images/search-loader.gif\') transparent;height: 16px;line-height: 16px;width: 16px;display:none;">&nbsp;</div>' +
-            '</div>'));
+            '</div>';
+
+            $('.page_body').append($(review_review));
+            $('#review_review').show();
+            if (!this.review_id) {
+                $('#review_ticket').show();
+            }
 
             var review = this;
 
@@ -540,6 +554,8 @@ SideBySideReview.prototype = {
             abort_review.on('click', function () {
                 review.abortReview();
             });
+
+            $('#review_review').show();
 
             if (!this.finished) {
                 finish_review.hide();
@@ -604,31 +620,45 @@ SideBySideReview.prototype = {
             hash_base: this.getHashBase(),
             file: $('#review_file').val(),
             line: this.lastSelection.from,
+            real_line: parseInt(this.lastSelection.from),
             lines_count: this.lastSelection.to - this.lastSelection.from + 1,
             side: this.lastSelection.editor == this.leftEditor ? 'lhs' : 'rhs',
             text: $('#review_text').val()
         };
+        if (!this.review_id) {
+            post_data.ticket = $('#review_ticket').val();
+        }
         var review = this;
         $.post(post_url, post_data, function (data) {
             if (data.error) {
-                review._saveFailureHandler();
+                review._saveFailureHandler(data);
             }
             if (!review.getUrlParams().review) {
                 review.setReviewId(data.review_id);
+                review.updateCommentsCounts();
+                review.showReviewStatus();
             }
         }, 'json')
             .fail(function (data) { review._saveFailureHandler(data); }).done(function (data) { review._commentSavedHandler(data); });
     },
 
-    _saveFailureHandler: function () {
-        alert('Cannot update information on server. Try again later');
+    _saveFailureHandler: function (data) {
+        $('#review_msg').html(data.error);
+        $('#review_msg').addClass('error');
+        for (i=0;i<3;i++) {
+            $('#review_review').fadeTo(100, 0.1).fadeTo(200, 1.0)
+        }
+        $('#review_review').find('.review_btn').addClass('hidden');
     },
 
     _commentSavedHandler: function (data) {
         if (data.error || !data.comment_id) {
-            this._saveFailureHandler();
             return;
         }
+        console.log(data);
+        $('#review_review').find('.review-selected').text($('#review_ticket').val());
+        $('#review_ticket').hide();
+        $('#review_review').find('.review_btn').removeClass('hidden');
         if (this.editingCommentId && this.editingCommentId > 0 && this.editingCommentId != data.comment_id) {
             // server saved our comment with other id for some reason
             this.deleteComment(this.editingCommentId, true);

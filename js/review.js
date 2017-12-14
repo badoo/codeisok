@@ -334,7 +334,7 @@ var Review = (function() {
                 if (!Review.reviewSaveSuccess(data)) {
                     return;
                 }
-                if (data.snapshot && data.snapshot.review_type != 'unified') {
+                /*if (data.snapshot && data.snapshot.review_type != 'unified') {
                     q.o = 'sidebyside';
                     var search = [];
                     for (var i in q) {
@@ -343,7 +343,7 @@ var Review = (function() {
                     alert('Review is sidebyside. Redirecting...');
                     document.location.search = search.join('&');
                     return;
-                }
+                }*/
                 $('div.comments').remove();
                 $('a.files_index_anchor').remove();
                 $('div.commented').each(function(){

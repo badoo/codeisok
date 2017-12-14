@@ -9,7 +9,7 @@
  * @package GitPHP
  * @subpackage Template
  *}
- <script src="/js/sbs_review.js"></script>
+ <script src="/js/sbs_review.js?v={$jsversion}"></script>
 
  <div id="compare" style="height:500px;"><div>
 
@@ -50,6 +50,11 @@
         success: function (response, textStatus, request) {
             cm_mode = request.getResponseHeader('Cm-mode');
             compare.mergely('lhs', response);
+            var resp_length = 0;
+            if (response) {
+                resp_length = response.split("\n").length;
+            }
+            $('.page_body').prepend($('<input type="hidden" id="lhs_length" value="' + resp_length + '">'));
             compare.mergely('cm', 'lhs').setOption('mode', cm_mode);
             compare.mergely('cm', 'lhs').setOption('viewportMargin', Infinity);
             cnt++;
@@ -64,6 +69,11 @@
         success: function (response, textStatus, request) {
             cm_mode = request.getResponseHeader('Cm-mode');
             compare.mergely('rhs', response);
+            var resp_length = 0;
+            if (response) {
+                resp_length = response.split("\n").length;
+            }
+            $('.page_body').prepend($('<input type="hidden" id="rhs_length" value="' + resp_length + '">'));
             compare.mergely('cm', 'rhs').setOption('mode', cm_mode);
             compare.mergely('cm', 'rhs').setOption('viewportMargin', Infinity);
             cnt++;
