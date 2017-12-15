@@ -35,6 +35,7 @@
 	background: white;
 	animation: sk-cubemove 2s infinite ease-in-out;
 	z-index: 2;
+	border-radius: 5px;
 }
 
 @keyframes sk-cubemove {
