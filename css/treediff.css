@@ -8,6 +8,54 @@
 	height: calc(100vh - 147px);
 }
 
+.is-loading {
+	position: relative;
+}
+
+.is-loading::before {
+	content: "";
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: 0;
+	bottom: 0;
+	background: rgba(0,0,0,0.2);
+	z-index: 1;
+}
+
+.is-loading::after {
+	content: "";
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	margin-left: -10px;
+	margin-top: -10px;
+	width: 20px;
+	height: 20px;
+	background: white;
+	animation: sk-cubemove 2s infinite ease-in-out;
+	z-index: 2;
+	border-radius: 5px;
+}
+
+@keyframes sk-cubemove {
+	25% {
+	  transform: translateX(42px) rotate(-90deg) scale(0.5);
+	}
+	50% {
+	  transform: translateX(42px) translateY(42px) rotate(-179deg);
+	}
+	50.1% {
+	  transform: translateX(42px) translateY(42px) rotate(-180deg);
+	}
+	75% {
+	  transform: translateX(0px) translateY(42px) rotate(-270deg) scale(0.5);
+	}
+	100% {
+	  transform: rotate(-360deg);
+	}
+}
+
 .two-panes .left-pane {
 	flex: 1 0 0;
 	overflow: scroll;
