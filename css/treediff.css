@@ -63,13 +63,15 @@
 .file-list li {
 	white-space: nowrap;
 	list-style: none;
-	padding-left: 20px;
+	padding-left: 15px;
 	display: block;
 	position: relative;
 }
 
 .file-list li > a {
 	text-decoration: none;
+	position: relative;
+	padding-left: 18px;
 }
 
 .file-list li.is-active {
@@ -80,10 +82,16 @@
 	color: black !important;
 }
 
+.file-list li.collapsed > .file-list {
+	display: none;
+}
+
 .file-list .type-folder {
 	color: #333;
 	display: block;
 	margin-top: 5px;
+	position: relative;
+	padding-left: 20px;
 }
 
 /* Added files */
@@ -119,12 +127,13 @@
 }
 
 /* Visited files */
-.file-list li.is-visited > a:before {
+.file-list li.is-visited > a:after {
 	content: "✅";
 	position: absolute;
 	left: 5px;
 	font-size: 10px;
-	top: 5px;
+	bottom: -4px;
+	line-height: 10px;
 }
 
 .file-list .type-file .review-comments a {
@@ -137,7 +146,7 @@
 	padding: 2px 4px 0px 4px;
 }
 
-.file-list .type-file::before,
+.file-list .type-file > a::before,
 .file-list .type-folder::before {
 	content: "";
 	background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij48cGF0aCBkPSJNNCAyMnYtMjBoMTZ2MTEuNTQzYzAgNC4xMDctNiAyLjQ1Ny02IDIuNDU3czEuNTE4IDYtMi42MzggNmgtNy4zNjJ6bTE4LTcuNjE0di0xNC4zODZoLTIwdjI0aDEwLjE4OWMzLjE2MyAwIDkuODExLTcuMjIzIDkuODExLTkuNjE0em0tNS0xLjM4NmgtMTB2LTFoMTB2MXptMC00aC0xMHYxaDEwdi0xem0wLTNoLTEwdjFoMTB2LTF6Ii8+PC9zdmc+");
@@ -146,12 +155,28 @@
 	position: absolute;
 	background-repeat: no-repeat;
 	background-size: contain;
-	left: 0px;
+	left: 0;
 	top: 2px;
 }
 
 .file-list .type-folder::before {
 	background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij48cGF0aCBkPSJNNy45NzIgMmgtNi45NzJsLjcxNCA1aDIuMDIxbC0uNDI5LTNoMy42OTRjMS4xMTIgMS4zODggMS45NTIgMiA0LjI3NyAyaDkuMjgzbC0uMiAxaDIuMDRsLjYtM2gtMTEuNzIzYy0xLjk3OCAwLTIuMDQxLS40MTctMy4zMDUtMnptMTYuMDI4IDdoLTI0bDIgMTNoMjBsMi0xM3oiIHN0eWxlPSJmaWxsOiAjMDA5NGE0OyI+PC9wYXRoPjwvc3ZnPg==");
+}
+
+.file-list li .type-folder::after {
+	content: "▼";
+	width: 10px;
+	height: 15px;
+	display: block;
+	position: absolute;
+	color: #000;
+	left: -15px;
+	top: -1px;
+	font-size: 10px;
+}
+
+.file-list li.collapsed .type-folder::after {
+	content: "▶︎";
 }
 
 .page_body.only-comments .right-pane .diffBlob.has-review-comment {

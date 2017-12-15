@@ -85,9 +85,16 @@ function renderTreeDiff(fileList, container) {
     // Check if we need to display a pre-selected comment or blob
     detectActiveBlobs();
     enablePaneDragging();
+    enableFolderCollapsing();
 
     // Start listening for hash changes
     window.onhashchange = detectActiveBlobs;
+}
+
+function enableFolderCollapsing() {
+    $('.type-folder').click(function () {
+        $(this).parent().toggleClass('collapsed');
+    });
 }
 
 // Dragging for panes
