@@ -64,6 +64,14 @@ function initTree() {
 
 				subRows.addClass(treeHash);
 
+				// Add the hash from parent back to the child rows so they can be toggled together
+				var classList = row.attr('class').split(/\s+/);
+ 				$.each(classList, function(index, item) {
+ 					if (item.match(/[0-9a-fA-F]{40}/)) {
+ 						subRows.addClass(item);
+ 					}
+ 				});
+
 				subRows.each(function() {
 					$(this).data('parent', treeHash);
 					$(this).data('expanded', true);
