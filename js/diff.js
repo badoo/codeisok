@@ -88,6 +88,8 @@ function renderTreeDiff(fileList, container) {
 
     // Start listening for hash changes
     window.onhashchange = detectActiveBlobs;
+
+    $('.left-pane').removeClass('is-loading');
 }
 
 // Dragging for panes

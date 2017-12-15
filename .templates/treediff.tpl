@@ -14,7 +14,7 @@ var _file_list = [
 
 <div class="two-panes">
     {* This is rendered for non-JS support *}
-    <div class="js-left-pane left-pane">
+    <div class="js-left-pane left-pane is-loading">
 
         {if $extensions}
         <div class="file_filter">
