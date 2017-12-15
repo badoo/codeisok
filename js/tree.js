@@ -1,6 +1,6 @@
 /*
  * GitPHP javascript tree
- * 
+ *
  * Load subtree data into tree page asynchronously
  *
  * @author Christopher Han <xiphux@gmail.com>
@@ -8,33 +8,16 @@
  * @package GitPHP
  * @subpackage Javascript
  */
-
-function expanderLink(href, text) {
-	var a = jQuery(document.createElement('a'));
-	a.attr('href', href);
-	a.text(text);
-	a.addClass('jsTree');
-	a.addClass('expander');
-	return a;
-};
-
 function initTree() {
-	var url = window.location.href.match(/^([^\?]+\/)/);
-	if (!url) {
-		return;
-	}
-	url = url[1];
+	$('span.expander').live('click', function() {
+		var expandUrl = $(this).data('expand-url');
 
-	var collapsed = '[+]';
-	var expanded = '[–]';
-	var indent = '—';
+		if (!expandUrl) {
+			return;
+		}
 
-	$('a.treeLink').each(function() {
-		$(this).parent().parent().find('td.expander').append(expanderLink($(this).attr('href'), collapsed));
-	});
+		var treeHash = expandUrl.match(/h=([0-9a-fA-F]{40}|HEAD)/);
 
-	$('a.jsTree').live('click', function() {
-		var treeHash = $(this).attr('href').match(/h=([0-9a-fA-F]{40}|HEAD)/);
 		if (!treeHash) {
 			return;
 		}
@@ -45,6 +28,7 @@ function initTree() {
 		var row = cell.parent();
 
 		var treeRows = $('.' + treeHash);
+
 		if (treeRows && treeRows.size() > 0) {
 			if (treeRows.is(':visible')) {
 				treeRows.hide();
@@ -53,7 +37,7 @@ function initTree() {
 						$(this).data('expanded', false);
 					}
 				});
-				row.find('a.expander').text(collapsed);
+				row.find('.expander').removeClass('expanded');
 			} else {
 				treeRows.each(function() {
 					if (($(this).data('parent') == treeHash) || ($(this).data('expanded') == true)) {
@@ -61,56 +45,46 @@ function initTree() {
 						$(this).data('expanded', true);
 					}
 				});
-				row.find('a.expander').text(expanded);
+				row.find('.expander').addClass('expanded');
 			}
 		} else {
 			var depth = row.data('depth');
-			if (depth == null)
+
+			if (depth == null) {
 				depth = 0;
+			}
+
 			depth++;
 
-			var img = jQuery(document.createElement('img'));
-			img.attr('src', url + "images/tree-loader.gif");
-			img.attr('alt', GITPHP_RES_LOADING);
-			img.addClass('treeSpinner');
-			row.find('a.treeLink').after(img);
+			row.addClass('is-loading');
 
-			$.get($(this).attr('href'), { o: 'js' },
-			function(data) {
-				var subRows = jQuery(data);
+			$.get(expandUrl, { o: 'js' }, function(data) {
+				var subRows = jQuery(data)
+					.filter(function () { return this.nodeName === 'TR' });
 
 				subRows.addClass(treeHash);
 
+				// Add the hash from parent back to the child rows so they can be toggled together
 				var classList = row.attr('class').split(/\s+/);
-				$.each(classList, function(index, item) {
-					if (item.match(/[0-9a-fA-F]{40}/)) {
-						subRows.addClass(item);
-					}
-				});
+ 				$.each(classList, function(index, item) {
+ 					if (item.match(/[0-9a-fA-F]{40}/)) {
+ 						subRows.addClass(item);
+ 					}
+ 				});
 
 				subRows.each(function() {
-
 					$(this).data('parent', treeHash);
 					$(this).data('expanded', true);
 					$(this).data('depth', depth);
 
-					var fileCell = $(this).find('td.fileName');
-					var treeLink = $(this).find('a.treeLink');
-					if (treeLink && (treeLink.size() > 0)) {
-						fileCell.prepend(expanderLink(treeLink.attr('href'), collapsed));
-					} else {
-						fileCell.prepend(indent);
-					}
-
-					for (var i = 1; i < depth; i++) {
-						fileCell.prepend(indent);
-					}
+					var fileCell = $(this).find('.expander');
+					fileCell.css('margin-left', depth * 15);
 				});
 
 				row.after(subRows);
-
-				row.find('a.expander').text(expanded);
-				row.find('img.treeSpinner').remove();
+				row.find('.expander').addClass('expanded');
+				row.removeClass('is-loading');
+				subRows.addClass('is-loaded');
 			});
 		}
 
