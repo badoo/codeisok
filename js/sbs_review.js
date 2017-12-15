@@ -108,9 +108,9 @@ SideBySideReview.prototype = {
                                 line_from = parseInt(comment_data.real_line);
                             }
                             if (!comment_side) {
-                                comment_side = 'lhs';
-                                if (parseInt($('#lhs_length').val()) < line_from) {
-                                    comment_side = 'rhs';
+                                comment_side = 'rhs';
+                                if (parseInt($('#rhs_length').val()) < line_from) {
+                                    comment_side = 'lhs';
                                 }
                             }
                             if (!$('#comment' + comment_data.id).length) {
