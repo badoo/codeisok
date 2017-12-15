@@ -49,20 +49,20 @@
     <script type="text/javascript" src="/js/diff.js?v={$jsversion}"></script>
     <script type="text/javascript" src="/js/session_checker.js?v={$jsversion}"></script>
     {if file_exists('js/tooltips.min.js')}
-    <script type="text/javascript" src="/js/tooltips.min.js"></script>
+    <script type="text/javascript" src="/js/tooltips.min.js?v={$jsversion}"></script>
     {else}
-    <script type="text/javascript" src="/js/tooltips.js"></script>
+    <script type="text/javascript" src="/js/tooltips.js?v={$jsversion}"></script>
     {/if}
     {if file_exists('js/lang.min.js')}
-    <script type="text/javascript" src="/js/lang.min.js"></script>
+    <script type="text/javascript" src="/js/lang.min.js?v={$jsversion}"></script>
     {else}
-    <script type="text/javascript" src="/js/lang.js"></script>
+    <script type="text/javascript" src="/js/lang.js?v={$jsversion}"></script>
     {/if}
     {foreach from=$extrascripts item=script}
     {if file_exists("js/$script.min.js")}
-    <script type="text/javascript" src="/js/{$script}.min.js"></script>
+    <script type="text/javascript" src="/js/{$script}.min.js?v={$jsversion}"></script>
     {else}
-    <script type="text/javascript" src="/js/{$script}.js"></script>
+    <script type="text/javascript" src="/js/{$script}.js?v={$jsversion}"></script>
     {/if}
     {/foreach}
     {/if}
