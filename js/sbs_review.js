@@ -116,7 +116,10 @@ SideBySideReview.prototype = {
                             if (!$('#comment' + comment_data.id).length) {
                                 review.addComment(
                                     comment_side,
-                                    {from: line_from, to: line_from + parseInt(comment_data.lines_count) - 1},
+                                    {
+                                        from: line_from,
+                                        to: Math.max(line_from, line_from + parseInt(comment_data.lines_count) - 1)
+                                    },
                                     comment_data.text,
                                     parseInt(comment_data.id),
                                     comment_data.status == 'Draft',
