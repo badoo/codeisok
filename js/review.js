@@ -348,7 +348,7 @@ var Review = (function() {
                         var file = data.comments[i].file;
                         var line = parseInt(data.comments[i].line);
                         var lines_count = parseInt(data.comments[i].lines_count) || 0;
-                        var real_line = parseInt(data.comments[i].real_line);
+                        var real_line = parseInt(data.comments[i].real_line) || undefined;
                         if (data.comments[i].side) {
                             real_line = real_line + 1;
                         }
