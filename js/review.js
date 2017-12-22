@@ -528,7 +528,8 @@ var Review = (function() {
         }
         if ($target.attr('id') == 'review_line_delete' && $target.parents('.commented').size() != 0) {
             if (confirm('Are you sure?')) {
-                var $comment_id = $target.parents('tr').find('.comments.draft > a').attr('name');
+                // (current comment container -> draft -> link).name
+                var $comment_id = $target.parents('.comment-container').find('.comments.draft > a').attr('name');
                 $.post('/?a=delete_comment', {comment_id: $comment_id}, function(data) {
                     $target = $target.parents('.commented');
                     $target.find('table').hide();
