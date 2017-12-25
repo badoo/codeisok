@@ -11,7 +11,7 @@
  *}
  <script src="/js/sbs_review.js?v={$jsversion}"></script>
 
- <div id="compare" style="height:500px;"><div>
+ <div id="compare" class="clearfix"></div>
 
  <script>
  var id='';
@@ -40,8 +40,9 @@
         review = new SideBySideReview();
         reviewCache[reviewKey] = review;
     }
-    var cnt=0;
-    $('.commitDiffSBS').append('<div id="ajax_loader" style="display:table;height:400px;overflow:hidden;position:absolute;top:0;left:0;width:100%;height:100%;background-color:rgba(255, 255, 255, 0.7);z-index:100;"><div style="display:table-cell;vertical-align:middle;text-align:center;"><img src="/images/blame-loader.gif"></div></div>');
+
+    $('.commitDiffSBS').addClass('is-loading');
+
     $.ajax({
         type: 'GET', async: true, dataType: 'text',
         {/literal}
@@ -56,11 +57,10 @@
             }
             $('.page_body').prepend($('<input type="hidden" id="lhs_length" value="' + resp_length + '">'));
             compare.mergely('cm', 'lhs').setOption('mode', cm_mode);
-            compare.mergely('cm', 'lhs').setOption('viewportMargin', Infinity);
-            cnt++;
-            hideLoader(cnt);
+            hideLoader();
         }
     });
+
     $.ajax({
         type: 'GET', async: true, dataType: 'text',
          {/literal}
@@ -75,32 +75,42 @@
             }
             $('.page_body').prepend($('<input type="hidden" id="rhs_length" value="' + resp_length + '">'));
             compare.mergely('cm', 'rhs').setOption('mode', cm_mode);
-            compare.mergely('cm', 'rhs').setOption('viewportMargin', Infinity);
-            cnt++;
-            cnt++;
-            hideLoader(cnt);
+            hideLoader();
         }
     });
  }
-
+ var oneSideLoaded = false;
  function hideLoader(cnt) {
-     if (cnt > 1) {
-         $('#ajax_loader').remove();
-         review.setCompareElement(compare);
-         var backup_function = compare.mergely('options').updated;
-         compare.mergely('options').updated = function () {
-             review.restore();
-             compare.mergely('options').updated = backup_function;
-         };
+     if (oneSideLoaded) {
+        review.setCompareElement(compare);
+        compare.mergely('resize');
 
+        var backup_function = compare.mergely('options').updated;
+        compare.mergely('options').updated = function () {
+            compare.mergely('options').updated = backup_function;
+            review.restore();
+        };
+
+        compare.mergely('update');
      }
+
+     oneSideLoaded = true;
  }
 
  $(document).ready(function () {
     compare.mergely({
-        cmsettings: { readOnly: 'nocursor', lineNumbers: true },
+        cmsettings: { readOnly: 'nocursor', lineNumbers: true, viewportMargin: Infinity },
+        resized: function () {
+            $('.commitDiffSBS').removeClass('is-loading');
+        },
         editor_width: '48%',
-        editor_height: ($(window).height()-130)+'px'
+        editor_height: 'auto',
+
+        // Toggle performance improving features
+        fadein: false,
+        autoupdate: false,
+        viewport: true,
+        autoresize: false
  {/literal}
  {if $ignorewhitespace}
  {literal}

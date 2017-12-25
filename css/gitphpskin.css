@@ -440,6 +440,7 @@ div.commitDiffSBS
 {
 	width: 100%;
 	border-top: 2px solid #edece6;
+	min-height: 70vh;
 }
 
 div.commitDiffSBS div.SBSTOC
@@ -602,7 +603,7 @@ table.treeTable tr.is-loaded {
 }
 
 table.treeTable td a:visited {
-	color: #3a75bd;
+	color: #112339;
 }
 
 table.treeTable .folderName .expander,
