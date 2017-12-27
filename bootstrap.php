@@ -9,6 +9,7 @@ define('GITPHP_LOCALEDIR', GITPHP_BASEDIR . '.locale/');
 define('GITPHP_TEMPLATESDIR', GITPHP_BASEDIR . '.templates/');
 define('GITPHP_CSSDIR', GITPHP_BASEDIR . 'css/');
 define('GITPHP_JSDIR', GITPHP_BASEDIR . 'js/');
+define('GITPHP_LIBDIR', GITPHP_BASEDIR . 'lib/');
 
 spl_autoload_register(
     function($class) {

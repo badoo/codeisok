@@ -2,7 +2,7 @@
 
 .CodeMirror {
   /* Set height, width, borders, and global font properties here */
-  font-family: monospace;
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace !important;
   height: 100%;
 }
 .CodeMirror-scroll {
@@ -216,6 +216,10 @@ div.CodeMirror span.CodeMirror-nonmatchingbracket {color: #f22;}
   position: relative;
   z-index: 2;
   overflow: auto;
+}
+
+.CodeMirror-linewidget + .CodeMirror-linewidget {
+  margin-top: -12px;
 }
 
 .CodeMirror-widget {

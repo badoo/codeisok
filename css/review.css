@@ -27,15 +27,18 @@ div.review_btn {
     background-image: linear-gradient(-180deg, #34d058 0%, #28a745 90%);
     font-family: Helvetica, Arial, sans-serif !important;
     line-height: 1.5em !important;
+    margin-right: 10px !important;
 }
 
 div#review_line_edit {}
 
-div.review_btn.review_cancel {
-    color: #24292e !important;
-    background-color: #eff3f6 !important;
-    background-image: linear-gradient(-180deg, #fafbfc 0%, #eff3f6 90%) !important;
-    border-color: #bcbcbc !important;
+div.review_btn.review_cancel,
+div.review_btn.comment_delete,
+#review_abort,
+#review_cancel {
+    color: #ffffff !important;
+    background-image: linear-gradient(-180deg, #ff5e5e 0%, #d33838 90%) !important;
+    border-color: #7e0000 !important;
 }
 
 span.btn_small {
@@ -49,14 +52,15 @@ span.btn_small {
 
 #review_text {
     width: 100% !important;
-    border: 1px solid #888 !important;
+    border: 1px solid #cacaca !important;
     box-sizing: border-box !important;
     border-radius: 3px !important;
     display: block !important;
     position: relative !important;
-    margin: 3px auto !important;
+    /* margin: 3px auto !important; */
     min-height: 3em !important;
     padding: 5px !important;
+    font-size: 14px !important;
 }
 .review_text:focus {
     box-shadow: 0 0 2px 1px #08f !important;
@@ -152,6 +156,7 @@ div.review-selected {
     color: #000 !important;
     font-size: 14px !important;
 }
+.date {font-size: 12px !important;letter-spacing: -0.5px;}
 .author {
     font-weight: bold;
 }
@@ -245,10 +250,32 @@ span.review {
 /* Side by side review */
 .review_comment_block.sbs {
     display: none;
-    position: relative !important;
-    padding: 10px !important;
-    background: #eee !important;
-    white-space: normal !important;
+    /* position: relative !important; */
+    padding: 0;
+    border: 1px solid #ccc;
+    border-radius: 2px;
+    /* white-space: normal !important; */
+}
+
+.review_comment_block.sbs .text {
+    color: #008200;
+}
+
+#review_comment_tab {
+    padding: 5px 5px 0 5px;
+    background: white;
+}
+
+#review_ticket_tab {
+    padding: 1px 10px 5px 5px;
+    background: white;
+}
+
+.CodeMirror-linewidget .edit_buttons {
+    background: white;
+    border: 1px solid #ccc;
+    border-top: 0;
+    padding: 3px 10px 5px;
 }
 
 .cloud_with_text.sbs {
@@ -257,7 +284,7 @@ span.review {
 }
 
 .selected_text {
-    background: #eee !important;
+    background: #fffcce !important;
 }
 
 #review_text.sbs {

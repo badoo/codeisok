@@ -23,7 +23,7 @@ body {
 
 a {
 	color: #3a75bd;
-    text-decoration: none;
+	text-decoration: none;
 }
 
 a:hover, a:active {
@@ -77,6 +77,8 @@ div.page_nav {
 div.page_nav a:visited {
 	color: #0000cc;
 }
+
+div.diff_modes {padding: 10px 0 0 0;}
 
 
 /*
@@ -440,6 +442,7 @@ div.commitDiffSBS
 {
 	width: 100%;
 	border-top: 2px solid #edece6;
+	min-height: 70vh;
 }
 
 div.commitDiffSBS div.SBSTOC
@@ -447,7 +450,7 @@ div.commitDiffSBS div.SBSTOC
 	word-wrap: break-word;
 	background-color: #ffffff;
 	border-bottom: 1px solid #edece6;
-    overflow: scroll;
+	overflow: scroll;
 }
 
 div.commitDiffSBS div.SBSTOC a
@@ -457,8 +460,8 @@ div.commitDiffSBS div.SBSTOC a
 
 div.commitDiffSBS div.SBSTOC ul
 {
-	margin-left: 8px;
-	padding-left: 8px;
+	/* margin-left: 8px; */
+	/* padding-left: 8px; */
 }
 
 div.commitDiffSBS div.SBSTOC .listcount
@@ -481,6 +484,27 @@ div.commitDiffSBS .SBSFooter
 	clear: both;
 }
 
+.SBSComparison {
+	display: -webkit-flex;
+	display: flex;
+	-webkit-flex-direction: row;
+	flex-direction: row;
+	align-content: stretch;
+	height: 100%;
+	justify-content: stretch;
+}
+
+.SBSComparison .mergely-column {
+	flex: 1 1 auto;
+}
+
+.SBSComparison div.ch.d.CodeMirror-linebackground {
+	background-color: #ffecec;
+}
+
+.SBSComparison div.ch.a.CodeMirror-linebackground {
+	background: #eaffea;
+}
 
 /*
  * Blob/blame display
@@ -602,7 +626,7 @@ table.treeTable tr.is-loaded {
 }
 
 table.treeTable td a:visited {
-	color: #3a75bd;
+	color: #112339;
 }
 
 table.treeTable .folderName .expander,
@@ -680,3 +704,4 @@ ul.owners-list {
 	padding: 0;
 	margin: 0;
 	font-size: smaller;
+}

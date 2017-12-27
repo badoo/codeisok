@@ -83,12 +83,14 @@ function renderTreeDiff(fileList, container) {
         </ul>`;
 
     // Check if we need to display a pre-selected comment or blob
-    detectActiveBlobs();
+    if (!window.sbsDiff) {
+        detectActiveBlobs();
+        // Start listening for hash changes
+        window.onhashchange = detectActiveBlobs;
+    }
+
     enablePaneDragging();
     enableFolderCollapsing();
-
-    // Start listening for hash changes
-    window.onhashchange = detectActiveBlobs;
 
     $('.left-pane').removeClass('is-loading');
 }
@@ -133,7 +135,7 @@ function enablePaneDragging() {
             e.preventDefault();
 
             const offset = dragStart - e.clientX;
-            leftPane.css('min-width', Math.min(leftPaneWidth - offset, window.innerWidth / 2));
+            leftPane.css('min-width', Math.min(leftPaneWidth - offset, window.innerWidth / 3));
         });
 }
 
@@ -165,9 +167,15 @@ function renderFolder(folder) {
 }
 
 function renderFile(file) {
+    const fileData = file.data || {};
+
+    const fileDataString = Object.keys(fileData).map(key => {
+        return `data-${key}="${fileData[key]}"`;
+    }).join(' ');
+
     return `
         <li class="type-file status-${file.status} filetype-${file.fileType}">
-            <a href="#${file.path}">${file.name}</a>
+            <a href="#${file.path}" ${fileDataString}>${file.name}</a>
             <span class="review-comments" name="files_index_${file.path}"></span>
         </li>
     `;
@@ -193,9 +201,7 @@ function getFolderMap(fileList) {
                 currentFolder.push({
                     type: 'file',
                     name: folder,
-                    status: file.status,
-                    fileType: file.fileType,
-                    path: file.path
+                    ...file
                 })
             }
             // If no folder found then make one

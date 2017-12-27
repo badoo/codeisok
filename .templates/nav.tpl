@@ -54,7 +54,8 @@
         | <a href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=branchdiff&amp;branch={$branch_name}">{t}branchdiff{/t}</a>
     {/if}
     | <a href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=reviews">{t}reviews{/t}</a>
-    {if $review}
+
+    {if $review && $unified}
     | <a href="#" class="js-toggle-review-comments">toggle review comments</a>
     {/if}
 

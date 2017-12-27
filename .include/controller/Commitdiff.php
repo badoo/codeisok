@@ -44,13 +44,10 @@ class Commitdiff extends DiffBase
             $mode = '2';
         }
 
-        if (isset($this->params['treediff']) && ($this->params['treediff'] === true)) {
-            $mode = '3';
-        }
-
         $key = (isset($this->params['hash']) ? $this->params['hash'] : '')
             . '|' . (isset($this->params['hashparent']) ? $this->params['hashparent'] : '')
-            . '|' . $mode;
+            . '|' . $mode
+            . '|' . (isset($this->params['treediff']) ? 'treediff' : '');
 
         return $key;
     }
