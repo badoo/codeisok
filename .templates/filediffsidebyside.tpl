@@ -103,12 +103,12 @@
     function hideLoader(callback) {
         if (oneSideLoaded) {
             review.setCompareElement(compare);
-            compare.mergely('resize');
 
             var backup_function = compare.mergely('options').updated;
             compare.mergely('options').updated = function () {
                 compare.mergely('options').updated = backup_function;
                 review.restore();
+                compare.mergely('resize');
                 callback();
             };
 
@@ -123,7 +123,7 @@
     compare.mergely({
         cmsettings: { readOnly: 'nocursor', lineNumbers: true, viewportMargin: Infinity },
         editor_width: '40%',
-        editor_height: '100%',
+        editor_height: ($(window).height()-130)+'px',
 
  {/literal}
  {if $ignorewhitespace}

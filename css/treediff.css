@@ -3,9 +3,12 @@
 	display: flex;
 	-webkit-flex-direction: row;
 	flex-direction: row;
-	height: 100%;
 	align-content: stretch;
-	height: calc(100vh - 147px);
+	height: calc(100vh - 162px);
+}
+
+.has-review-block .two-panes {
+	height: calc(100vh - 220px);
 }
 
 .two-panes .left-pane {

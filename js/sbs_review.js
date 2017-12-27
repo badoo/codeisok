@@ -540,7 +540,6 @@ SideBySideReview.prototype = {
             '</div>';
 
             $('.page_body').append($(review_review));
-            $('#review_review').show();
             if (!this.review_id) {
                 $('#review_ticket').show();
             }
@@ -557,7 +556,7 @@ SideBySideReview.prototype = {
             });
 
             $('#review_review').show();
-            $('body').append('<div style="height:44px;" id="review_posfixedspace"></div>');
+            $('body').addClass('has-review-block');
 
             if (!this.finished) {
                 finish_review.hide();
@@ -579,7 +578,7 @@ SideBySideReview.prototype = {
 
     hideReviewStatus: function () {
         $('#review_review').hide();
-        $('#review_posfixedspace').remove();
+        $('body').removeClass('has-review-block');
     },
 
     finishReview: function () {

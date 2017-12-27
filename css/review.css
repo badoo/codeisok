@@ -1,3 +1,7 @@
+body.has-review-block {
+    padding-bottom: 40px;
+}
+
 #review_comment {
     display: none;
     position: relative !important;
@@ -336,7 +340,7 @@ span.review {
     max-width: calc(45vw - 155px);
 }
 
-.SBSContent .CodeMirror-linewidget { 
+.SBSContent .CodeMirror-linewidget {
     margin: 15px;
     box-shadow: 0px 10px 10px -6px rgba(0,0,0,0.3);
     max-width: calc(50vw - 100px);
