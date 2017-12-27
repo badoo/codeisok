@@ -14,7 +14,7 @@
  </div>
 
 {include file='title.tpl' target='summary'}
- 
+
  {* Display tags *}
 
  {include file='taglist.tpl'}

@@ -269,20 +269,22 @@ img.logo {
  * (main header with commit message)
  */
 div.title {
-	padding: 6px 8px;
-	background-color: #edece6;
-    overflow: auto;
+	overflow: auto;
+	font-size: 16px;
+	padding: 20px 0;
+	border-bottom: 1px solid #ddd;
+	margin: 0 50px;
 }
 
 div.title a.title {
 	font-weight: bold;
 	text-decoration: none;
-	color: #000000;
-    float: left;
+	color: #303030;
+	float: left;
 }
 
 div.title:hover {
-	background-color: #d9d8d1;
+	background-color: #fafafa;
 }
 
 div.title_text {
@@ -870,8 +872,6 @@ ul.owners-list {
 	border-bottom: 1px solid #ddd;
 	position: relative;
 }
-
-td.projectAge {}
 
 .git-table td > * {
 	line-height: 40px;

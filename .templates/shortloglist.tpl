@@ -58,15 +58,15 @@
 {/foreach}
 
 {if $hasmorerevs}
-<tr>
-{if $source == 'summary'}
-<td><a href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=shortlog">&hellip;</a></td>
-{elseif $source == 'shortlog'}
-<td><a href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=shortlog&amp;h={$commit->GetHash()}&amp;pg={$page+1}{if $mark}&amp;m={$mark->GetHash()}{/if}" title="Alt-n">{t}next{/t}</a></td>
-{elseif $source == 'branchlog'}
-<td><a href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=branchlog&amp;h={$commit->GetHash()}&amp;pg={$page+1}{if $mark}&amp;m={$mark->GetHash()}{/if}" title="Alt-n">{t}next{/t}</a></td>
-{/if}
-</tr>
+    <tr>
+        {if $source == 'summary'}
+            <td colspan="3"><a class="simple-button" href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=shortlog">Show More</a></td>
+        {elseif $source == 'shortlog'}
+            <td colspan="3"><a class="simple-button" href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=shortlog&amp;h={$commit->GetHash()}&amp;pg={$page+1}{if $mark}&amp;m={$mark->GetHash()}{/if}" title="Alt-n">{t}Next{/t}</a></td>
+        {elseif $source == 'branchlog'}
+            <td colspan="3"><a class="simple-button" href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=branchlog&amp;h={$commit->GetHash()}&amp;pg={$page+1}{if $mark}&amp;m={$mark->GetHash()}{/if}" title="Alt-n">{t}Next{/t}</a></td>
+        {/if}
+    </tr>
 {/if}
 </table>
 
