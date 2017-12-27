@@ -16,13 +16,13 @@
    {else}
      {t}HEAD{/t}
    {/if}
-     &sdot; 
+     &sdot;
    {if $page > 0}
      <a href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a={$controller}&amp;h={$commit->GetHash()}&amp;pg={$page-1}{if $mark}&amp;m={$mark->GetHash()}{/if}" accesskey="p" title="Alt-p">{t}prev{/t}</a>
    {else}
      {t}prev{/t}
    {/if}
-     &sdot; 
+     &sdot;
    {if $hasmorerevs}
      <a href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a={$controller}&amp;h={$commit->GetHash()}&amp;pg={$page+1}{if $mark}&amp;m={$mark->GetHash()}{/if}" accesskey="n" title="Alt-n">{t}next{/t}</a>
    {else}

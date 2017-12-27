@@ -1,20 +1,25 @@
 {include file='header.tpl' no_user_header=1}
 
-<form action="" method="POST">
-    <div style="margin: 10px;">
-        <div style="margin-bottom: 10px;">Please login with your tracker account:</div>
-    <label for="login">Login: </label><input name="login" autofocus value="{$cur_login|escape}" />
-    <label for="password">Password: </label><input type="password" name="password" value="{$cur_password|escape}" />
-    <input type="submit" value="Submit" />
-    <p>
-    <label for="remember">Remember me <input type='checkbox' name='remember' id='remember' value='1' checked="checked"></label>
-    </p>
-    </div>
-    {if $auth_error}
+<form class="login-form-container" action="" method="POST">
+    <div class="login-form {if $auth_error}has-error{/if}">
+        <a class="logo" href="index.php?a">NGit</a>
+        <strong>Please login with your tracker account</strong>
+
+        <input type="text" class="text-input" name="login" placeholder="Login" autofocus value="{$cur_login|escape}" />
+        <input type="password" class="text-input" placeholder="Password" name="password" value="{$cur_password|escape}" />
+
+        {if $auth_error}
+            <div class="login-error">
+                <strong class="error-text login-error">{$auth_error}</strong>
+            </div>
+        {/if}
+
         <div>
-            <span style="color: #ff0000;">{$auth_error}</span>
+            <input type='checkbox' class="checkbox-input" name='remember' id='remember' value='1' checked="checked"> <label for="remember">Remember me</label>
         </div>
-    {/if}
+
+        <input type="submit" value="Login" />
+    </div>
 </form>
 
-{include file='footer.tpl'}
+{* {include file='footer.tpl'} *}

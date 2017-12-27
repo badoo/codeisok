@@ -13,13 +13,19 @@
  * Base styles
  */
 body {
-	font-family: sans-serif;
+	font-family: Helvetica, Arial, sans-serif;
 	font-size: 14px;
-	margin: 10px;
-	background-color: #ffffff;
-	color: #000000;
+	background-color: white;
+	color: #303030;
 	margin: 0;
 	min-height: 100%;
+}
+
+* {
+	box-sizing: border-box;
+	-webkit-highlight: none;
+	-webkit-tap-highlight-color: transparent;
+	font-size: inherit;
 }
 
 a {
@@ -33,8 +39,8 @@ a:hover, a:active {
 }
 
 a:visited {
-	color: #880000;
-    text-decoration: none;
+	color: #6100c4;
+	text-decoration: none;
 }
 
 .empty {
@@ -42,21 +48,28 @@ a:visited {
 	color: gray;
 }
 
-
 /*
  * Page header
  * (topmost bar with project link, language bar, etc)
  */
 div.page_header {
-	height: 25px;
-	padding: 8px;
-	font-size: 18px;
-	font-weight: bold;
-	background-color: #d9d8d1;
+	padding: 10px 20px;
+	font-size: 14px;
+	overflow: hidden;
+	border-bottom: 1px solid #ebebeb;
+	margin: 0 10px;
+	line-height: 50px;
 }
 
-div.page_header a:visited, a.header {
-	color: #3a75aa;
+div.page_header .logo {
+	font-size: 36px;
+	line-height: 33px;
+}
+
+div.page_header .project-path {
+	line-height: 50px;
+	display: inline-block;
+	padding-left: 15px;
 }
 
 div.page_header a:hover {
@@ -64,7 +77,8 @@ div.page_header a:hover {
 }
 
 div.adminheader {
-    background-color: #ffcccc;
+    border-color: #6f2fe3;
+    border-width: 5px;
 }
 
 /*
@@ -146,35 +160,17 @@ div.diff_summary {
  */
 table {
 	padding: 8px 4px;
+	width: 100%;
 }
 
-th {
-	padding: 2px 5px;
-	font-size: 14px;
-	text-align: left;
+tr:hover {
+	background-color: #fafafa;
 }
 
-tr.list_header {
-    background-color:#d9d8d1;
-}
-
-tr.light:hover {
-	/* odd rows */
-	background-color: #edece6;
-}
-
-tr.dark {
-	/* even rows */
-	/*background-color: #f6f6f0;*/
-}
-
-tr.dark:hover {
-	background-color: #edece6;
-}
-
-td {
+td, th {
 	font-size: 14px;
 	margin: 0;
+	text-align: left;
 	line-height: 19px;
 }
 
@@ -255,12 +251,11 @@ span.tag {
 
 span.head {
 	/* head badge */
-	padding: 0px 4px;
-	font-size: 10px;
+	padding: 4px 10px;
+	font-size: 12px;
 	font-weight: normal;
-	background-color: #aaffaa;
-	border: 1px solid;
-	border-color: #ccffcc #00cc33 #00cc33 #ccffcc;
+	background-color: #17D417;
+	border-radius: 5px;
 }
 
 img.logo {
@@ -348,11 +343,6 @@ a.list {
 	/* Filename in list of changed files */
 	text-decoration: none;
 	color: #3a75bd;
-}
-
-a.list:hover, a.list:visited {
-	text-decoration: underline;
-	color: #880000;
 }
 
 span.newfile {
@@ -504,12 +494,12 @@ div.commitDiffSBS .SBSFooter
 	float: none;
 }
 
-.SBSComparison div.ch.d.CodeMirror-linebackground {
+.SBSComparison div.mergely.d.CodeMirror-linebackground {
 	background-color: #ffecec;
 }
 
-.SBSComparison div.ch.a.CodeMirror-linebackground {
-	background: #eaffea;
+.SBSComparison div.mergely.a.CodeMirror-linebackground {
+	background-color: #eaffea;
 }
 
 /*
@@ -563,13 +553,12 @@ td#blameData div.dark:hover {
 	background-color: #edece6;
 }
 
-
 /*
  * Project list page
  */
 div.index_header {
 	/* the customizable info header above the list of projects */
-	border: solid #d9d8d1;
+	/* border: solid #d9d8d1; */
 	border-width: 0px 0px 1px;
 	padding: 12px 8px;
 }
@@ -579,19 +568,66 @@ span.agehighlight {
 	color: #009900;
 }
 
-div.projectSearch {
+.projectSearch {
 	/* the project search box */
-	border: solid #d9d8d1;
-	border-width: 0px 0px 1px;
+	padding: 20px 50px;
+	overflow: hidden;
 }
 
-div.projectSearch table {
-	border: 0;
-	vertical-align: middle;
+.projectSearch form {
+	float: left;
 }
 
-div.projectSearch table td {
+.projectSearch .create-project {
+	float: right;
+}
+
+.project-filter-container,
+.project-search-container {
+	position: relative;
+}
+
+.project-search-container .search {
+	position: absolute;
+	right: 5px;
+	top: -12px;
+	height: 40px;
+	width: 40px;
+	display: block;
+	background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij4NCiAgPGcgZmlsbD0ibm9uZSIgZmlsbC1ydWxlPSJldmVub2RkIj4NCiAgICA8cmVjdCB3aWR0aD0iMjQiIGhlaWdodD0iMjQiLz4NCiAgICA8Y2lyY2xlIGN4PSIxMC44IiBjeT0iMTAuMiIgcj0iNi42IiBzdHJva2U9IiM5NDk0OTQiIHN0cm9rZS13aWR0aD0iMiIvPg0KICAgIDxwYXRoIHN0cm9rZT0iIzk0OTQ5NCIgc3Ryb2tlLWxpbmVjYXA9InNxdWFyZSIgc3Ryb2tlLXdpZHRoPSIyIiBkPSJNMTUuNiwxNS42IEwyMC40LDIwLjQiLz4NCiAgPC9nPg0KPC9zdmc+");
+	background-repeat: no-repeat;
 	border: 0;
+	background-color: transparent;
+	text-indent: -9999px;
+	background-position: 8px 7px;
+	cursor: pointer;
+	outline: none;
+}
+
+.project-filter-container .searchSpinner {
+	width: 15px;
+	height: 15px;
+	position: absolute;
+	user-select: none;
+	top: 0px;
+	margin-left: -30px;
+	right: 14px;
+}
+
+.project-filter-container .clearSearch {
+	position: absolute;
+	width: 40px;
+	text-align: center;
+	font-weight: bold;
+	font-size: 20px;
+	height: 38px;
+	right: 6px;
+	line-height: 1em;
+	top: -11px;
+	background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij4NCiAgPGcgZmlsbD0ibm9uZSIgZmlsbC1ydWxlPSJldmVub2RkIj4NCiAgICA8Y2lyY2xlIGN4PSIxMiIgY3k9IjEyIiByPSIxMiIgZmlsbD0iI0M0QzRDNCIvPg0KICAgIDxwYXRoIHN0cm9rZT0iI0ZGRiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2Utd2lkdGg9IjIiIGQ9Ik04LjQgOC40TDE1LjYgMTUuNk0xNS42IDguNEw4LjQgMTUuNiIvPg0KICA8L2c+DQo8L3N2Zz4=");
+	background-repeat: no-repeat;
+	text-indent: -9999px;
+	background-position: 10px 6px;
 }
 
 .projectName .indent {
@@ -647,7 +683,7 @@ table.treeTable .fileName .expander {
 	position: relative;
 	vertical-align: sub;
 	padding-right: 0px;
-	padding-left: 20px;
+	padding-left: 35px;
 	background-position-x: 17px;
 	display: inline-block;
 	user-select: none;
@@ -710,4 +746,234 @@ ul.owners-list {
 	padding: 0;
 	margin: 0;
 	font-size: smaller;
+}
+
+.logo {
+	display: inline-block;
+	margin: 0;
+	vertical-align: middle;
+	background: url(/images/ngit-logo.png) no-repeat;
+	background-size: contain;
+	width: 4em;
+	text-indent: -9999px;
+}
+
+/*
+	Login form
+*/
+
+.login-form-container {justify-content: center;align-items: center;display: flex;position: absolute;left: 0;top: 0;right: 0;bottom: 0;background: #f8f8f8;}
+
+.login-form {padding: 40px;background: white;border-radius: 10px;min-width: 30vw;box-shadow: 0 10px 20px -10px rgba(0,0,0,0.2);}
+
+.login-form .logo {
+	font-size: 36px;
+	line-height: 36px;
+	display: block;
+	margin-bottom: 15px;
+}
+
+.login-form label,
+.login-form strong {
+	line-height: 2em;
+	font-weight: normal;
+}
+
+.login-form label {
+	color: #747474;
+}
+
+.login-form .login-error {
+	margin-bottom: 10px;
+}
+
+.login-form .text-input {
+	display: block;
+	width: 100%;
+	line-height: 2em;
+	margin: 10px 0;
+}
+
+.login-form [type="submit"] {
+	display: block;
+	width: 100%;
+	background: #6f2fe3;
+	color: white;
+	padding: 10px 15px;
+	margin-top: 10px;
+	border-radius: 10px;
+}
+
+/*
+	Input Components
+*/
+
+.checkbox-input {
+	border-radius: 100%;
+	border: 1px solid #888;
+	background: white;
+	display: inline-block;
+	width: 24px;
+	-webkit-appearance: none;
+	height: 24px;
+	vertical-align: middle;
+	outline: none;
+	line-height: 24px;
+}
+
+.checkbox-input:checked {
+	background: #6f2fe3;
+}
+
+.checkbox-input:checked::after {
+	content: "";
+	background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMyIgaGVpZ2h0PSIxMCIgdmlld0JveD0iMCAwIDEzIDEwIj4NCiAgPHBvbHlsaW5lIGZpbGw9Im5vbmUiIHN0cm9rZT0iI0ZGRiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2Utd2lkdGg9IjEuNSIgcG9pbnRzPSI2Ljk1OCAxMS44NjUgMTAuNjg1IDE1LjU5MiAxNy44MjkgOC40NDgiIHRyYW5zZm9ybT0idHJhbnNsYXRlKC02IC03KSIvPg0KPC9zdmc+");
+	width: 24px;
+    height: 24px;
+    background-size: 13px 13px;
+    background-position: 5px 5px;
+    display: block;
+    background-repeat: no-repeat;
+}
+
+.has-error .text-input {
+	border-color: #FF4101;
+}
+
+.text-input {padding: 10px;border-radius: 10px;border: 1px solid #eee;min-width: 300px;font-size: inherit;outline: none;}
+
+.text-input:focus,
+.text-input:active,
+.text-input:focus,
+.text-input:active {
+	border-color: #6f2fe3;
+}
+
+
+/* Error Text Component */
+.error-text {
+	color: #FF4101;
+}
+
+/*
+	Project List
+*/
+
+.git-table {
+	width: 100%;
+	padding: 0 50px;
+}
+
+.git-table td {
+	padding: 10px 10px 10px 0;
+	vertical-align: middle;
+	border-bottom: 1px solid #ddd;
+	position: relative;
+}
+
+td.projectAge {}
+
+.git-table td > * {
+	line-height: 40px;
+}
+
+.git-table td a {
+	color: #303030;
+}
+
+.git-table th {
+	padding: 10px 0;
+	border-bottom: 1px solid #ddd;
+}
+
+.git-table tr .actions {
+	display: none;
+	overflow: hidden;
+	white-space: nowrap;
+	position: absolute;
+	right: 20px;
+	top: 50%;
+	margin-top: -20px;
+	text-align: right;
+	background: #fafafa;
+	padding-left: 20px;
+}
+
+.git-table tr:hover {
+	background-color: #fafafa;
+}
+
+.git-table tr:hover .actions {
+	display: block;
+}
+
+.git-table tr:hover .projectName a {
+	color: #6f2fe3;
+}
+
+.git-table .categoryName {
+	padding-top: 30px;
+	padding-bottom: 20px;
+	font-size: 20px;
+	font-weight: normal;
+}
+
+.git-table .categoryName::before {
+	content: "";
+	display: inline-block;
+	margin-right: 10px;
+	background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij4NCiAgPHBhdGggZmlsbD0iI0M5QzlDOSIgZD0iTTkuNiwwIEwyLjQsMCBDMS4wOCwwIDAsMS4wNjg3NSAwLDIuMzc1IEwwLDE2LjYyNSBDMCwxNy45MzEyNSAxLjA4LDE5IDIuNCwxOSBMMjEuNiwxOSBDMjIuOTIsMTkgMjQsMTcuOTMxMjUgMjQsMTYuNjI1IEwyNCw0IEMyNCwyLjY5Mzc1IDIyLjkyLDIgMjEuNiwyIEwxMiwyIEw5LjYsMCBaIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgwIDIpIi8+DQo8L3N2Zz4=");
+	width: 26px;
+	height: 20px;
+	background-repeat: no-repeat;
+}
+
+.simple-button {
+	padding: 10px 20px;
+	border: 1px solid #eee;
+	border-radius: 10px;
+	display: inline-block;
+	color: #303030;
+	background: white;
+	text-decoration: none;
+	line-height: 1.2em;
+}
+
+.simple-button:hover, .simple-button:active {
+	border-color: #888;
+	text-decoration: none;
+}
+
+.projectHeader a,
+.projectName a {
+	color: #303030;
+}
+
+.projectName a {
+	font-size: 16px;
+}
+
+.projectName span {
+	display: block;
+	line-height: 1.2em;
+	color: #888;
+}
+
+.git-table th.project-select {
+	width: 30px;
+}
+
+.git-table th.project-name {
+	width: 20%;
+	max-width: 40%;
+}
+
+.git-table th.project-desc {
+	width: 30%;
+	max-width: 40%;
+}
+
+.git-table th.project-owner {
+	width: 10%;
+	max-width: 20%;
 }

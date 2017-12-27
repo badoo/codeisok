@@ -75,7 +75,7 @@ class Login extends Base
                         'user_token' => md5($auth_user['name'] . $auth_user['password'] . microtime())
                     ];
                 } else {
-                    $err = 'User or password does not exists.';
+                    $err = 'Username or password does not exist.';
                 }
             } else if (\GitPHP_Config::GetInstance()->GetAuthMethod() == \GitPHP_Config::AUTH_METHOD_REDMINE) {
                 list ($auth_result, $err) = \GitPHP\Redmine::instance()->restAuthenticateByUsernameAndPassword($this->params['login'], $this->params['password']);
@@ -97,7 +97,7 @@ class Login extends Base
                 $Acl = new \GitPHP\Acl(\GitPHP\Jira::instance());
                 if (!$Acl->isCodeAccessAllowed($User)) {
                     $User = null;
-                    $err = 'You haven\'t permission to view code source!';
+                    $err = 'You don\'t have the permission to view source.';
                 }
             }
         }
