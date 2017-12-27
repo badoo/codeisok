@@ -82,19 +82,14 @@ div.adminheader {
     border-width: 5px;
 }
 
+.page_body {
+	margin: 0 50px;
+}
+
 /*
  * Navigation header links
  */
-div.page_nav {
-	padding: 8px;
-	font-size: 110%;
-}
-
-div.page_nav a:visited {
-	/* color: #0000cc; */
-}
-
-div.diff_modes {padding: 10px 0 0 0;}
+div.diff_modes {margin: 0 50px;}
 
 
 /*
@@ -145,14 +140,6 @@ div.page_footer_text {
 	float: left;
 	color: #555555;
 	font-style: italic;
-}
-
-
-/*
- * Diff summary
- */
-div.diff_summary {
-	padding: 0 8px;
 }
 
 
@@ -273,7 +260,7 @@ img.logo {
 div.title {
 	overflow: auto;
 	font-size: 16px;
-	padding: 20px 0;
+	padding: 20px 20px 20px 0;
 	border-bottom: 1px solid #ddd;
 	margin: 0 50px;
 }
@@ -297,15 +284,6 @@ div.title_text {
 div.title-right {
     float: right;
 }
-
-/*
- * Search box
- */
-div.search {
-	font-size: 12px;
-	font-weight: normal;
-}
-
 
 /*
  * Language selector
@@ -436,7 +414,6 @@ table.diffTable td.diff-left {
 div.commitDiffSBS
 {
 	width: 100%;
-	border-top: 2px solid #edece6;
 	min-height: 70vh;
 }
 
@@ -578,6 +555,11 @@ span.agehighlight {
 	overflow: hidden;
 }
 
+.projectSearch input[type="text"] {
+	min-width: 300px;
+	margin-right: 10px;
+}
+
 .projectSearch form {
 	float: left;
 }
@@ -593,7 +575,7 @@ span.agehighlight {
 
 .project-search-container .search {
 	position: absolute;
-	right: 5px;
+	right: 15px;
 	top: -12px;
 	height: 40px;
 	width: 40px;
@@ -615,7 +597,7 @@ span.agehighlight {
 	user-select: none;
 	top: 0px;
 	margin-left: -30px;
-	right: 14px;
+	right: 25px;
 }
 
 .project-filter-container .clearSearch {
@@ -625,7 +607,7 @@ span.agehighlight {
 	font-weight: bold;
 	font-size: 20px;
 	height: 38px;
-	right: 6px;
+	right: 16px;
 	line-height: 1em;
 	top: -11px;
 	background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij4NCiAgPGcgZmlsbD0ibm9uZSIgZmlsbC1ydWxlPSJldmVub2RkIj4NCiAgICA8Y2lyY2xlIGN4PSIxMiIgY3k9IjEyIiByPSIxMiIgZmlsbD0iI0M0QzRDNCIvPg0KICAgIDxwYXRoIHN0cm9rZT0iI0ZGRiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2Utd2lkdGg9IjIiIGQ9Ik04LjQgOC40TDE1LjYgMTUuNk0xNS42IDguNEw4LjQgMTUuNiIvPg0KICA8L2c+DQo8L3N2Zz4=");
@@ -844,18 +826,60 @@ ul.owners-list {
 	border-color: #FF4101;
 }
 
-.text-input {padding: 10px;border-radius: 10px;border: 1px solid #eee;min-width: 300px;font-size: inherit;outline: none;}
+.text-input,
+.select-input {
+	padding: 10px;
+	border-radius: 10px;
+	border: 1px solid #eee;
+	font-size: inherit;
+	outline: none;
+}
 
 .text-input:focus,
 .text-input:active,
 .text-input:focus,
-.text-input:active {
+.text-input:active,
+.select-input:focus,
+.select-input:active,
+.select-input:focus,
+.select-input:active {
 	border-color: #6f2fe3;
+}
+
+.select-input {
+	background: transparent;
+	-webkit-appearance: none;
+	background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij4NCiAgPGcgZmlsbD0ibm9uZSIgZmlsbC1ydWxlPSJldmVub2RkIj4NCiAgICA8cG9seWdvbiBmaWxsPSIjOTQ5NDk0IiBwb2ludHM9IjcuNDEgOCAxMiAxMi45NDUgMTYuNTkgOCAxOCA5LjUyMiAxMiAxNiA2IDkuNTIyIi8+DQogICAgPHBvbHlnb24gcG9pbnRzPSIwIDAgMjQgMCAyNCAyNCAwIDI0Ii8+DQogIDwvZz4NCjwvc3ZnPg==");
+	background-repeat: no-repeat;
+	background-position: 97% 50%;
+	padding-right: 30px;
 }
 
 /* Error Text Component */
 .error-text {
 	color: #FF4101;
+}
+
+/*
+	Page Search
+*/
+
+.page-search {
+	margin: 0 50px;
+	padding-bottom: 10px;
+}
+
+.page-search .search-panel {
+	display: inline-block;
+	vertical-align: middle;
+	line-height: 20px;
+	margin: 10px 10px 10px 0;
+	padding-right: 15px;
+	border-right: 1px solid #c0c0c0;
+}
+
+.page-search .search-panel:last-child {
+	border: 0;
 }
 
 /*
@@ -966,7 +990,7 @@ ul.owners-list {
 	border: 1px solid #eee;
 	border-radius: 10px;
 	display: inline-block;
-	color: #303030;
+	color: #303030 !important;
 	background: white;
 	text-decoration: none;
 	line-height: 1.2em;
@@ -1008,5 +1032,4 @@ ul.owners-list {
 
 .git-table th.project-owner {
 	width: 10%;
-	max-width: 20%;
-}
+	max-width

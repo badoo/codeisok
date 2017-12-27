@@ -46,15 +46,10 @@
  {include file='title.tpl' titlecommit=$commit}
 
  <div class="page_body">
-   <div class="diff_summary">
-   {assign var=bugpattern value=$project->GetBugPattern()}
-   {assign var=bugurl value=$project->GetBugUrl()}
-   {foreach from=$commit->GetComment() item=line}
-     {$line|htmlspecialchars|buglink:$bugpattern:$bugurl}<br />
-   {/foreach}
 
    <h2 class="only-comments-warning">Showing review comments only</h2>
 
+   <div class="diff_summary">
     {*
         UNIFIED
     *}

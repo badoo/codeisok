@@ -56,18 +56,6 @@ div.log_link {
 	white-space: pre;
 }
 
-
-/*
- * Search box
- */
-div.search {
-	margin: 4px 8px;
-	position: absolute;
-	top: 56px;
-	right: 12px;
-}
-
-
 /*
  * Badges
  */
@@ -203,14 +191,6 @@ p.too_large_diff img {
 
 div.suppressed {
     background-color: #d9d8d1;
-}
-
-div.diff_controls {
-    float: right;
-    margin-left: 1em;
-}
-.diff_controls.checkbox {
-    line-height: 22px;
 }
 
 .hidden {

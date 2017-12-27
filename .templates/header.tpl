@@ -112,52 +112,50 @@
                 {/if}
             {/if}
         </span>
-
-        {if $project}
-            <div class="search" style="overflow: auto;">
-                {if $enablesearch}
-                    <div class="diff_controls">
-                    <form method="get" action="index.php" enctype="application/x-www-form-urlencoded">
-                        <input type="hidden" name="p" value="{$project->GetProject()}" />
-                        <input type="hidden" name="a" value="search" />
-                        <input type ="hidden" name="h" value="{if $commit}{$commit->GetHash()}{else}HEAD{/if}" />
-                        <select name="st">
-                            <option {if $searchtype == 'commit'}selected="selected"{/if} value="commit">{t}commit{/t}</option>
-                            <option {if $searchtype == 'author'}selected="selected"{/if} value="author">{t}author{/t}</option>
-                            <option {if $searchtype == 'committer'}selected="selected"{/if} value="committer">{t}committer{/t}</option>
-                            {if $filesearch}
-                                <option {if $searchtype == 'file'}selected="selected"{/if} value="file">{t}file{/t}</option>
-                            {/if}
-                        </select> {t}search{/t}: <input class="text-input" type="text" name="s" {if $search}value="{$search|escape}"{/if} />
-                    </form>
-                    </div>
-                {/if}
-
-                {if $action == 'commitdiff' || $action == 'branchdiff'}
-                    <div class="diff_controls">Context: <input class="text-input" type="text" size="3" id="diff-context" {if $diffcontext}value="{$diffcontext}"{/if} /></div>
-                    <div class="diff_controls checkbox">Ignore whitespace: <input id="diff-ignore-whitespace" class="checkbox-input" type="checkbox" {if $ignorewhitespace}checked="checked"{/if}/></div>
-                    <div class="diff_controls checkbox">Ignore format: <input id="diff-ignore-format" class="checkbox-input" type="checkbox" {if $ignoreformat}checked="checked"{/if}/></div>
-                {/if}
-
-                {if $enablebase}
-                    <div class="diff_controls">
-                    <form action="{$SCRIPT_NAME}" method="get">
-                        {foreach from=$requestvars key=var item=val}
-                            {if $var != "base"}
-                                <input type="hidden" name="{$var|escape}" value="{$val|escape}" />
-                            {/if}
-                        {/foreach}
-                        Compare with branch: <select {if $base_disabled}disabled="disabled"{/if} name='base' onchange='this.form.submit();'>
-                            {foreach from=$base_branches item=branch}
-                                <option {if $branch == $base}selected="selected"{/if} value='{$branch}'>{$branch}</option>
-                            {/foreach}
-                        </select>
-                    </form>
-                    </div>
-                {/if}
-            </div>
-        {/if}
     </div>
+    {/if}
+
+    {if $project}
+        <div class="page-search" style="overflow: auto;">
+            {if $enablesearch}
+                <form class="search-panel" method="get" action="index.php" enctype="application/x-www-form-urlencoded">
+                    <input type="hidden" name="p" value="{$project->GetProject()}" />
+                    <input type="hidden" name="a" value="search" />
+                    <input type ="hidden" name="h" value="{if $commit}{$commit->GetHash()}{else}HEAD{/if}" />
+                    <select class="select-input" name="st">
+                        <option {if $searchtype == 'commit'}selected="selected"{/if} value="commit">{t}Commit{/t}</option>
+                        <option {if $searchtype == 'author'}selected="selected"{/if} value="author">{t}Author{/t}</option>
+                        <option {if $searchtype == 'committer'}selected="selected"{/if} value="committer">{t}Committer{/t}</option>
+                        {if $filesearch}
+                            <option {if $searchtype == 'file'}selected="selected"{/if} value="file">{t}File{/t}</option>
+                        {/if}
+                    </select>
+                    <input class="text-input" placeholder="Search" type="text" name="s" {if $search}value="{$search|escape}"{/if} />
+                </form>
+            {/if}
+
+            {if $action == 'commitdiff' || $action == 'branchdiff'}
+                <div class="search-panel">Context <input class="text-input" type="text" size="2" id="diff-context" {if $diffcontext}value="{$diffcontext}"{/if} /></div>
+                <div class="search-panel"><input id="diff-ignore-whitespace" class="checkbox-input" type="checkbox" {if $ignorewhitespace}checked="checked"{/if}/>Ignore whitespace</div>
+                <div class="search-panel"><input id="diff-ignore-format" class="checkbox-input" type="checkbox" {if $ignoreformat}checked="checked"{/if}/>Ignore format</div>
+            {/if}
+
+            {if $enablebase}
+                <form class="search-panel" action="{$SCRIPT_NAME}" method="get">
+                    {foreach from=$requestvars key=var item=val}
+                        {if $var != "base"}
+                            <input type="hidden" name="{$var|escape}" value="{$val|escape}" />
+                        {/if}
+                    {/foreach}
+                    Compare with branch
+                    <select class="select-input" {if $base_disabled}disabled="disabled"{/if} name='base' onchange='this.form.submit();'>
+                        {foreach from=$base_branches item=branch}
+                            <option {if $branch == $base}selected="selected"{/if} value='{$branch}'>{$branch}</option>
+                        {/foreach}
+                    </select>
+                </form>
+            {/if}
+        </div>
     {/if}
 
     <div id="notifications"></div>

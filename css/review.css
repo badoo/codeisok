@@ -292,10 +292,9 @@ span.review {
 
 #notifications {
     background-color: #ffff99;
-    padding-left: 5px;
-    height: 40px;
-    font-size: 120%;
+    padding: 10px 20;
     display: none;
+    margin: 0 50px;
 }
 
 .hoverable {
