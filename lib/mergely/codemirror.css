@@ -2,7 +2,7 @@
 
 .CodeMirror {
   /* Set height, width, borders, and global font properties here */
-  font-family: monospace;
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace !important;
   height: 100%;
 }
 .CodeMirror-scroll {
@@ -35,6 +35,7 @@
   min-width: 20px;
   text-align: right;
   color: #999;
+  white-space: nowrap;
 }
 
 /* CURSOR */

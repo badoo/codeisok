@@ -18,17 +18,18 @@ namespace GitPHP\Controller;
  */
 define('GITPHP_DIFF_UNIFIED', '1');
 define('GITPHP_DIFF_SIDEBYSIDE', '2');
-define('GITPHP_DIFF_TREEDIFF', '3');
 
 /**
  * Constant of the diff mode cookie in the user's browser
  */
 define('GITPHP_DIFF_MODE_COOKIE', 'GitPHPDiffMode');
+define('GITPHP_TREEDIFF_ENABLED_COOKIE', 'GitPHPTreeDiffEnabled');
 
 /**
  * Diff mode cookie lifetime
  */
 define('GITPHP_DIFF_MODE_COOKIE_LIFETIME', 60 * 60 * 24 * 365);           // 1 year
+define('GITPHP_TREEDIFF_ENABLED_COOKIE_LIFETIME', 60 * 60 * 24 * 365);           // 1 year
 
 /**
  * DiffBase controller class
@@ -52,12 +53,39 @@ abstract class DiffBase extends Base
 
             if ($diffcookie === GITPHP_DIFF_SIDEBYSIDE) {
                 $this->params['sidebyside'] = true;
-            } else if ($diffcookie === GITPHP_DIFF_TREEDIFF) {
-                $this->params['treediff'] = true;
             } else {
                 $this->params['unified'] = true;
             }
+
+            $treediffEnabled = $this->TreeDiffEnabled(isset($_GET['treediff']) ? $_GET['treediff'] : null);
+
+            if ($treediffEnabled) {
+                $this->params['treediff'] = true;
+            }
         }
+    }
+
+    protected function TreeDiffEnabled($overrideMode = null) {
+        $enabled = false;    // default
+
+        /*
+    	 * Check cookie
+    	 */
+        if (!empty($_COOKIE[GITPHP_TREEDIFF_ENABLED_COOKIE])) {
+            $enabled = $_COOKIE[GITPHP_TREEDIFF_ENABLED_COOKIE] === '1';
+        } else {
+            /*
+    		 * Create cookie to prevent browser delay
+    		 */
+            setcookie(GITPHP_TREEDIFF_ENABLED_COOKIE, $enabled ? '1' : '0', time() + GITPHP_TREEDIFF_ENABLED_COOKIE_LIFETIME);
+        }
+
+        if ($overrideMode !== null) {
+            $enabled = $overrideMode === '1';
+            setcookie(GITPHP_TREEDIFF_ENABLED_COOKIE, $overrideMode, time() + GITPHP_TREEDIFF_ENABLED_COOKIE_LIFETIME);
+        }
+
+        return $enabled;
     }
 
     /**
@@ -92,12 +120,9 @@ abstract class DiffBase extends Base
             if ($overrideMode == 'sidebyside') {
                 $mode = GITPHP_DIFF_SIDEBYSIDE;
                 setcookie(GITPHP_DIFF_MODE_COOKIE, GITPHP_DIFF_SIDEBYSIDE, time() + GITPHP_DIFF_MODE_COOKIE_LIFETIME);
-            } else if ($overrideMode == 'unified') {
+            }  else {
                 $mode = GITPHP_DIFF_UNIFIED;
                 setcookie(GITPHP_DIFF_MODE_COOKIE, GITPHP_DIFF_UNIFIED, time() + GITPHP_DIFF_MODE_COOKIE_LIFETIME);
-            } else if ($overrideMode == 'treediff') {
-                $mode = GITPHP_DIFF_TREEDIFF;
-                setcookie(GITPHP_DIFF_MODE_COOKIE, GITPHP_DIFF_TREEDIFF, time() + GITPHP_DIFF_MODE_COOKIE_LIFETIME);
             }
         }
 

@@ -118,7 +118,7 @@ SideBySideReview.prototype = {
                                     comment_side,
                                     {
                                         from: line_from,
-                                        to: Math.max(line_from, line_from + parseInt(comment_data.lines_count) - 1)
+                                        to: Math.max(1, line_from + parseInt(comment_data.lines_count) - 1)
                                     },
                                     comment_data.text,
                                     parseInt(comment_data.id),
@@ -168,7 +168,9 @@ SideBySideReview.prototype = {
                         }
                     );
                     for (var file_name in comments_counts) {
-                        $('a.SBSTOCItem:contains("'+file_name+'")').text(file_name+" ("+comments_counts[file_name]+" comment(s))");
+                        const link = $('.SBSFileList a[data-fromfile="'+file_name+'"] + .review-comments,.SBSFileList a[data-tofile="'+file_name+'"] + .review-comments');
+                        const commentCount = comments_counts[file_name];
+                        link.html(`<span>${commentCount} comment${commentCount > 1 ? 's' : ''}</span>`);
                     }
                 }
             });
@@ -196,17 +198,18 @@ SideBySideReview.prototype = {
 
         var node = document.createElement('div');
         node.id = 'review';
-        var review_width = 0.9 * $(editor.getScrollerElement()).width();
-        node.innerHTML = '<div class="sbs review_comment_block" style="display: block; width: ' + review_width + 'px;">' +
-        '<div id="review_comment_tab">' +
-        '<textarea class="sbs" name="text" rows="1" cols="2" id="review_text"></textarea>' +
-        '</div>' +
-        '<div id="review_ticket_tab">' +
-        '<div class="review_btn" id="review_save">OK</div>' +
-        '<div class="review_btn" id="review_cancel">Cancel</div>' +
-        '</div>' +
-        '<div id="review_msg"></div>' +
-        '</div>';
+
+        node.innerHTML =
+            '<div class="sbs review_comment_block" style="display: block;">' +
+                '<div id="review_comment_tab">' +
+                    '<textarea class="sbs" name="text" rows="1" cols="2" id="review_text"></textarea>' +
+                '</div>' +
+                '<div id="review_ticket_tab">' +
+                    '<div class="review_btn" id="review_save">OK</div>' +
+                    '<div class="review_btn" id="review_cancel">Cancel</div>' +
+                '</div>' +
+                '<div id="review_msg"></div>' +
+            '</div>';
 
         this.review = editor.addLineWidget(line, node);
 
@@ -264,28 +267,23 @@ SideBySideReview.prototype = {
         comment_text = comment_text.replace(new RegExp("\n",'g'), '<br />');
 
         var commentElement = document.createElement('div');
-        var reviewWidth = $(editor.getWrapperElement()).width() * 0.9;
-        commentElement.innerHTML = '<div class="sbs review_comment_block" style="display:block; width: ' + reviewWidth + 'px;" id="comment' + comment_id + '">' +
+        commentElement.innerHTML = '<div class="sbs review_comment_block" style="display:block;" id="comment' + comment_id + '">' +
                                    '<div class="sbs cloud_with_text">' + comment_text + '</div></div>';
         if (draft) {
+            commentElement.querySelector('.review_comment_block').classList.add('draft');
             var editButtons = document.createElement('div');
             editButtons.innerHTML = '<div class="review_btn comment_edit">edit</div><div class="review_btn comment_delete">delete</div>';
             editButtons.setAttribute('class', 'edit_buttons');
-            editButtons.setAttribute('style', 'padding: 0 0 10px 10px;');
             editButtons.setAttribute('data-id', comment_id);
 
             commentElement.appendChild(editButtons);
         } else if (date && author){
-            var info_panel = document.createElement('div');
-            info_panel.innerHTML = '<span class="date">{date}</span> <span class="author">{author}</span>'
-                .replace('{date}', date)
-                .replace('{author}', author);
-            info_panel.setAttribute('style', 'color: #000033');
-
-            commentElement.appendChild(info_panel);
+            commentElement.querySelector('.cloud_with_text').innerHTML =
+                `<span class="date">${date}</span> <span class="author">${author}:</span> <span class="text">${comment_text}</span>`;
         }
 
         var lineWidget = editor.addLineWidget(line, commentElement);
+
         this.compare.mergely('update');
 
         return lineWidget;
@@ -542,7 +540,6 @@ SideBySideReview.prototype = {
             '</div>';
 
             $('.page_body').append($(review_review));
-            $('#review_review').show();
             if (!this.review_id) {
                 $('#review_ticket').show();
             }
@@ -559,6 +556,7 @@ SideBySideReview.prototype = {
             });
 
             $('#review_review').show();
+            $('body').addClass('has-review-block');
 
             if (!this.finished) {
                 finish_review.hide();
@@ -580,6 +578,7 @@ SideBySideReview.prototype = {
 
     hideReviewStatus: function () {
         $('#review_review').hide();
+        $('body').removeClass('has-review-block');
     },
 
     finishReview: function () {
@@ -642,7 +641,12 @@ SideBySideReview.prototype = {
                 review.showReviewStatus();
             }
         }, 'json')
-            .fail(function (data) { review._saveFailureHandler(data); }).done(function (data) { review._commentSavedHandler(data); });
+            .fail(function (data) {
+                review._saveFailureHandler(data);
+            })
+            .done(function (data) {
+                review._commentSavedHandler(data);
+            });
     },
 
     _saveFailureHandler: function (data) {
@@ -655,7 +659,7 @@ SideBySideReview.prototype = {
     },
 
     _commentSavedHandler: function (data) {
-        if (data.error || !data.comment_id) {
+        if (data.error || typeof data.comment_id !== 'number') {
             return;
         }
         console.log(data);

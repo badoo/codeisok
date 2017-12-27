@@ -245,6 +245,7 @@ abstract class Base
             $stylesheet = 'gitphpskin.css';
         }
         $this->tpl->assign('stylesheet', $stylesheet);
+        $this->tpl->assign('libVersion', filemtime(GITPHP_LIBDIR));
         $this->tpl->assign('cssversion', filemtime(GITPHP_CSSDIR));
         $this->tpl->assign('jsversion', filemtime(GITPHP_JSDIR));
 

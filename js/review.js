@@ -396,7 +396,7 @@ var Review = (function() {
                         prev_line = line;
                     }
                     $('#review_review').show();
-                    $('body').append('<div style="height:44px;" id="review_posfixedspace"></div>');
+                    $('body').addClass('has-review-block');
                     $('#review_commentnav_next').show();
                     $('#review_commentnav_prev').show();
 
@@ -406,7 +406,7 @@ var Review = (function() {
                     Review.comments_count_draft = data.comments_count_draft;
                 } else {
                     $('#review_review').hide();
-                    $('#review_posfixedspace').remove();
+                    $('body').removeClass('has-review-block');
                     $('#review_commentnav_next').hide();
                     $('#review_commentnav_prev').hide();
                 }
@@ -418,7 +418,7 @@ var Review = (function() {
     Review.showForm = function(target) {
         $('l').removeClass('hoverable').hide();
         $('#review_review').show();
-        $('body').append('<div style="height:44px;" id="review_posfixedspace"></div>');
+        $('body').addClass('has-review-block');
         $('#review_posfixedspace').append($('#review_comment'));
         target.className += ' selected selected-multi';
         var $draft = $(target).find('.draft');
@@ -461,6 +461,7 @@ var Review = (function() {
             $('.commented .draft').show();
             if (!Review.review_id) {
                 $('#review_review').hide();
+                $('body').removeClass('has-review-block');
             }
             $('#review_posfixedspace').remove();
             e && e.stopPropagation && e.stopPropagation();
