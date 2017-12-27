@@ -270,6 +270,7 @@ SideBySideReview.prototype = {
         commentElement.innerHTML = '<div class="sbs review_comment_block" style="display:block;" id="comment' + comment_id + '">' +
                                    '<div class="sbs cloud_with_text">' + comment_text + '</div></div>';
         if (draft) {
+            commentElement.querySelector('.review_comment_block').classList.add('draft');
             var editButtons = document.createElement('div');
             editButtons.innerHTML = '<div class="review_btn comment_edit">edit</div><div class="review_btn comment_delete">delete</div>';
             editButtons.setAttribute('class', 'edit_buttons');

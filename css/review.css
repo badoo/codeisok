@@ -250,11 +250,13 @@ span.review {
 /* Side by side review */
 .review_comment_block.sbs {
     display: none;
-    /* position: relative !important; */
     padding: 0;
     border: 1px solid #ccc;
     border-radius: 2px;
-    /* white-space: normal !important; */
+}
+
+.review_comment_block.sbs.draft .cloud_with_text.sbs {
+    background-color:rgb(229, 254, 255) !important;
 }
 
 .review_comment_block.sbs .text {
