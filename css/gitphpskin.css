@@ -57,8 +57,9 @@ div.page_header {
 	font-size: 14px;
 	overflow: hidden;
 	border-bottom: 1px solid #ebebeb;
-	margin: 0 10px;
 	line-height: 50px;
+	margin-bottom: 10px;
+	box-shadow: 0 5px 10px rgba(0,0,0,0.05);
 }
 
 div.page_header .logo {
@@ -90,7 +91,7 @@ div.page_nav {
 }
 
 div.page_nav a:visited {
-	color: #0000cc;
+	/* color: #0000cc; */
 }
 
 div.diff_modes {padding: 10px 0 0 0;}
@@ -256,6 +257,7 @@ span.head {
 	font-weight: normal;
 	background-color: #17D417;
 	border-radius: 5px;
+	margin-left: 10px;
 }
 
 img.logo {
@@ -851,14 +853,13 @@ ul.owners-list {
 	border-color: #6f2fe3;
 }
 
-
 /* Error Text Component */
 .error-text {
 	color: #FF4101;
 }
 
 /*
-	Project List
+	Git table
 */
 
 .git-table {
@@ -926,6 +927,38 @@ ul.owners-list {
 	width: 26px;
 	height: 20px;
 	background-repeat: no-repeat;
+}
+
+/*
+	Tabs
+*/
+
+.git-tabs {
+	margin: 0 50px;
+	border-bottom: 1px solid #C9C9C9;
+}
+
+.git-tabs > a,
+.git-tabs > span {
+	padding: 20px 10px;
+	display: inline-block;
+	text-decoration: none;
+	color: #303030;
+}
+
+.git-tabs > a.inactive,
+.git-tabs > span.inactive {
+	opacity: 0.3;
+}
+
+.git-tabs > a.active,
+.git-tabs > span.active {
+	border-bottom: 3px solid #7000E3;
+}
+
+.git-tabs > a:hover,
+.git-tabs > span:hover {
+	background-color: #fafafa;
 }
 
 .simple-button {

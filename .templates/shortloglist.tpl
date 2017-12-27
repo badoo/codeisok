@@ -12,11 +12,11 @@
 <table cellspacing="0" class="git-table shortlog">
 {foreach from=$revlist item=rev}
     <tr>
-        <td title="{if $rev->GetAge() > 60*60*24*7*2}{$rev->GetAge()|agestring}{else}{$rev->GetCommitterEpoch()|date_format:"%Y-%m-%d"}{/if}">
+        <td width="10%" title="{if $rev->GetAge() > 60*60*24*7*2}{$rev->GetAge()|agestring}{else}{$rev->GetCommitterEpoch()|date_format:"%Y-%m-%d"}{/if}">
             {if $rev->GetAge() > 60*60*24*7*2}{$rev->GetCommitterEpoch()|date_format:"%Y-%m-%d"}{else}{$rev->GetAge()|agestring}{/if}
         </td>
 
-        <td>
+        <td width="10%">
             {$rev->GetAuthorName()}
         </td>
 

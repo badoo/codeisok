@@ -9,7 +9,6 @@
 
  <div class="page_nav">
    {include file='nav.tpl' logcommit=$commit treecommit=$commit current='commit'}
-   <br /><br />
  </div>
 
 {if $commit->GetParent()}
@@ -17,7 +16,7 @@
 {else}
 	{include file='title.tpl' titlecommit=$commit titletree=$tree target='tree'}
 {/if}
- 
+
  <div class="title_text">
    {* Commit data *}
    <table cellspacing="0">
@@ -27,7 +26,7 @@
      </tr>
      <tr>
        <td></td>
-       <td> {$commit->GetAuthorEpoch()|date_format:"%a, %d %b %Y %H:%M:%S %z"} 
+       <td> {$commit->GetAuthorEpoch()|date_format:"%a, %d %b %Y %H:%M:%S %z"}
        {assign var=hourlocal value=$commit->GetAuthorLocalEpoch()|date_format:"%H"}
        {if $hourlocal < 6}
        (<span class="latenight">{$commit->GetAuthorLocalEpoch()|date_format:"%R"}</span> {$commit->GetAuthorTimezone()})</td>
@@ -77,7 +76,7 @@
    {* Loop and show files changed *}
    {foreach from=$treediff item=diffline}
      <tr class="{cycle values="light,dark"}">
-	 
+
        {if $diffline->GetStatus() == "A"}
          <td>
 	   <a href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=blob&amp;h={$diffline->GetToHash()}&amp;hb={$commit->GetHash()}&amp;f={$diffline->GetFromFile()}" class="list">
@@ -99,7 +98,7 @@
 	 </td>
          <td class="link">
 	   <a href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=blob&amp;h={$diffline->GetToHash()}&amp;hb={$commit->GetHash()}&amp;f={$diffline->GetFromFile()}">{t}blob{/t}</a>
-	    | 
+	    |
 	   <a href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=blob_plain&amp;h={$diffline->GetToHash()}&amp;f={$diffline->GetFromFile()}">{t}plain{/t}</a>
 	 </td>
        {elseif $diffline->GetStatus() == "D"}
@@ -117,9 +116,9 @@
 	 </td>
          <td class="link">
 	   <a href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=blob&amp;h={$diffline->GetFromHash()}&amp;hb={$commit->GetHash()}&amp;f={$diffline->GetFromFile()}">{t}blob{/t}</a>
-	    | 
+	    |
 	   <a href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=history&amp;h={$parent->GetHash()}&amp;f={$diffline->GetFromFile()}">{t}history{/t}</a>
-	    | 
+	    |
 	   <a href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=blob_plain&amp;h={$diffline->GetFromHash()}&amp;f={$diffline->GetFromFile()}">{t}plain{/t}</a>
 	 </td>
        {elseif $diffline->GetStatus() == "M" || $diffline->GetStatus() == "T"}

@@ -10,13 +10,12 @@
  {* Page header *}
  <div class="page_nav">
    {include file='nav.tpl' treecommit=$commit}
-   <br /><br />
  </div>
 
  {include file='title.tpl' titlecommit=$commit}
 
  {include file='path.tpl' pathobject=$blob target='blob'}
- 
+
  <table cellspacing="0">
    {* Display each history line *}
    {foreach from=$blob->GetHistory() item=historyitem}

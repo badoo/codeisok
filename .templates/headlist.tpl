@@ -14,7 +14,7 @@
     {foreach from=$headlist item=head name=heads}
         {assign var=headcommit value=$head->GetCommit()}
         <tr>
-            <td><em>{$headcommit->GetAge()|agestring}</em></td>
+            <td width="10%"><em>{$headcommit->GetAge()|agestring}</em></td>
             <td>
                 <a href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=shortlog&amp;h=refs/heads/{$head->GetName()}" class="list"><strong>{$head->GetName()}</strong></a>
 

@@ -10,7 +10,6 @@
  {* Nav *}
  <div class="page_nav">
    {include file='nav.tpl' commit=$head treecommit=$head}
-   <br /><br />
  </div>
 
 {include file='title.tpl' target='summary'}

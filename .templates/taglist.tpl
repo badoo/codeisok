@@ -15,7 +15,7 @@
             {assign var=object value=$tag->GetObject()}
             {assign var=tagcommit value=$tag->GetCommit()}
             {assign var=objtype value=$tag->GetType()}
-            <td><em>{$tagcommit->GetAge()|agestring}</em></td>
+            <td width="10%"><em>{$tagcommit->GetAge()|agestring}</em></td>
 
             <td>
                 {if $objtype == 'commit'}

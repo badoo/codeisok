@@ -1,6 +1,10 @@
 
 {include file="header.tpl"}
 
+<div class="page_nav">
+    {include file='nav.tpl' commit=$head current='review'}
+</div>
+
 <table cellspacing="0">
     <thead>
     <tr class="list_header">

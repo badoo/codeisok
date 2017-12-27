@@ -10,7 +10,6 @@
  {* Nav *}
  <div class="page_nav">
    {include file='nav.tpl' commit=$head treecommit=$head}
-   <br /><br />
  </div>
  {* Tag data *}
  {assign var=object value=$tag->GetObject()}
@@ -37,7 +36,7 @@
        </tr>
        <tr>
          <td></td>
-	 <td> {$tag->GetTaggerEpoch()|date_format:"%a, %d %b %Y %H:%M:%S %z"} 
+	 <td> {$tag->GetTaggerEpoch()|date_format:"%a, %d %b %Y %H:%M:%S %z"}
 	 {assign var=hourlocal value=$tag->GetTaggerLocalEpoch()|date_format:"%H"}
 	 {if $hourlocal < 6}
 	 (<span class="latenight">{$tag->GetTaggerLocalEpoch()|date_format:"%R"}</span> {$tag->GetTaggerTimezone()})
