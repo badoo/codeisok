@@ -128,7 +128,7 @@
  {/literal}
  {if $ignorewhitespace}
  {literal}
-    ,ignorews: true
+    ignorews: true
  {/literal}
  {/if}
  {literal}
