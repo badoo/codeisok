@@ -898,6 +898,10 @@ ul.owners-list {
 	position: relative;
 }
 
+.git-table tr:last-child td {
+	border: 0;
+}
+
 .git-table td > * {
 	line-height: 40px;
 }
