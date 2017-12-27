@@ -11,7 +11,6 @@
  *}
  <script src="/js/sbs_review.js?v={$jsversion}"></script>
 
-
 {if !$noCompareBlock}
     <div id="compare" class="SBSComparison"></div>
 {/if}
@@ -24,7 +23,7 @@
  var reviewCache = new Object();
  {literal}
 
- $('.SBSFileList a').live('click', function (e) {
+ $(document).delegate('.SBSFileList a', 'click', function (e) {
     e.preventDefault();
 
     const link = $(this);

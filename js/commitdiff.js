@@ -1,6 +1,6 @@
 /*
  * GitPHP javascript commitdiff
- * 
+ *
  * Javascript enhancements to make side-by-side
  * commitdiff more usable
  *
@@ -46,7 +46,6 @@ function initSBSCommitDiff() {
 				scrollTop: $('div.SBSContent').offset().top
 			}, 200);
 		}
-		return false;
 	});
 	$('a.showAll').click(function() {
 		$('a.SBSTOCItem').parent().removeClass('activeItem');

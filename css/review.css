@@ -271,13 +271,6 @@ span.review {
     background: white;
 }
 
-.CodeMirror-linewidget .edit_buttons {
-    background: white;
-    border: 1px solid #ccc;
-    border-top: 0;
-    padding: 3px 10px 5px;
-}
-
 .cloud_with_text.sbs {
     padding: 10px;
     background: #ffffff;
@@ -335,4 +328,25 @@ span.review {
 .context-menu-button:hover {
     -webkit-transform: scale(1, 1);
     transform: scale(1, 1);
+}
+
+.two-panes .SBSContent .CodeMirror-linewidget {
+    max-width: calc(45vw - 155px);
+}
+
+.SBSContent .CodeMirror-linewidget { 
+    margin: 15px;
+    box-shadow: 0px 10px 10px -6px rgba(0,0,0,0.3);
+    max-width: calc(50vw - 100px);
+}
+
+.CodeMirror-linewidget .edit_buttons {
+    background: white;
+    border: 1px solid #ccc;
+    border-top: 0;
+    padding: 3px 10px 5px;
+}
+
+.SBSContent .CodeMirror-linewidget + .CodeMirror-linewidget {
+    margin-top: -17px;
 }

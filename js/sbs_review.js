@@ -556,6 +556,7 @@ SideBySideReview.prototype = {
             });
 
             $('#review_review').show();
+            $('body').append('<div style="height:44px;" id="review_posfixedspace"></div>');
 
             if (!this.finished) {
                 finish_review.hide();
@@ -577,6 +578,7 @@ SideBySideReview.prototype = {
 
     hideReviewStatus: function () {
         $('#review_review').hide();
+        $('#review_posfixedspace').remove();
     },
 
     finishReview: function () {

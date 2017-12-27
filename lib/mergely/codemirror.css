@@ -35,6 +35,7 @@
   min-width: 20px;
   text-align: right;
   color: #999;
+  white-space: nowrap;
 }
 
 /* CURSOR */
@@ -216,10 +217,6 @@ div.CodeMirror span.CodeMirror-nonmatchingbracket {color: #f22;}
   position: relative;
   z-index: 2;
   overflow: auto;
-}
-
-.CodeMirror-linewidget + .CodeMirror-linewidget {
-  margin-top: -12px;
 }
 
 .CodeMirror-widget {

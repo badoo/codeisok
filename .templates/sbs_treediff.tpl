@@ -21,7 +21,6 @@ var _file_list = [
 </script>
 
 <div class="two-panes SBSTOC">
-    {* This is rendered for non-JS support *}
     <div class="js-left-pane left-pane is-loading">
         <ul class="SBSFileList file-list">
         </ul>

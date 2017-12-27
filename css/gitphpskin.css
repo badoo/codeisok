@@ -496,6 +496,7 @@ div.commitDiffSBS .SBSFooter
 
 .SBSComparison .mergely-column {
 	flex: 1 1 auto;
+	float: none;
 }
 
 .SBSComparison div.ch.d.CodeMirror-linebackground {
