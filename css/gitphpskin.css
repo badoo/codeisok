@@ -277,9 +277,10 @@ div.title:hover {
 }
 
 div.title_text {
-	padding: 6px 0px;
+	/* padding: 6px 0px; */
 	border: solid #d9d8d1;
 	border-width: 0px 0px 1px;
+	margin: 0 50px;
 }
 div.title-right {
     float: right;
@@ -307,18 +308,6 @@ div.log_link {
 	font-size: 10px;
 	font-family: sans-serif;
 	font-style: normal;
-}
-
-
-/*
- * Commit view
- */
-div.list_head {
-	/* Header above commit's changed files (shows # of changed files) */
-	padding: 6px 8px 4px;
-	border: solid #d9d8d1;
-	border-width: 1px 0px 0px;
-	font-style: italic;
 }
 
 a.list {
