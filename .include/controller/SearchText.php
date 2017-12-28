@@ -90,7 +90,7 @@ class SearchText extends Base
                     } elseif (!empty($line) && !empty($url)) {
                         list($num, $code) = explode(':', $line);
                         $search[$key] = '[HIGHLIGHTFILENUMURL' . str_replace('/', '', strtoupper($file . $num)) . ']';
-                        $otherVars['fileurls'][$search[$key]] = '<a target="_blank" href="' . $url . '#' . $num . '">' . $num . '</a>:' . $code;
+                        $otherVars['fileurls'][$search[$key]] = '<a target="_blank" class="line-number" href="' . $url . '#' . $num . '">' . $num . '</a>:' . htmlspecialchars($code);
                     }
                 }
                 $response = implode("\n", $search);

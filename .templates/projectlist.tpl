@@ -13,6 +13,7 @@
 
         <span class="project-filter-container">
             <input type="text"
+                id="projectSearchForm"
                 name="s"
                 {if $searchmode == 1}disabled="disabled"{/if}
                 class="text-input projectSearchBox" {if $search}value="{$search|escape}"{/if}
@@ -32,7 +33,7 @@
                 name="t"
                 placeholder="Search text in project heads"
                 value="{$text}"
-                class="text-input projectSearchBox"
+                class="text-input"
                 onkeydown="keydownSearchField(this);"></input>
 
             <input class="search" type="button" onclick="submitSearchForm(this);" value="Go" />
@@ -50,7 +51,7 @@
     {/if}
 </div>
 
-<table cellspacing="0" class="git-table project-list">
+<table cellspacing="0" class="git-table git-table-expanded project-list">
   {foreach name=projects from=$projectlist item=proj}
 
     {if $smarty.foreach.projects.first}
@@ -93,7 +94,7 @@
         {/if}
     {/if}
 
-    <tr>
+    <tr class="projectRow">
         {assign var=currentproject value=$proj->GetProject()}
         <td><input class="checkbox-input projects_checkbox" type='checkbox' name='projects[{$currentproject}]' value='1' {if isset($projects.$currentproject) }checked="checked"{/if}></td>
 
@@ -138,7 +139,7 @@
 
     {if $searchmode == 1 && isset($projects.$currentproject)}
         <tr class="{$rowclass}">
-            <td colspan="6" id="searchresults[{$currentproject}]">
+            <td colspan="6" class="code-search-results" id="searchresults[{$currentproject}]">
                 <img src="/images/search-loader.gif" class="searchSpinner" onload='getSearchResults("{$text|urlencode}", "{$currentproject}", this);'/> Loading...
             </td>
         </tr>

@@ -17,7 +17,7 @@ function runSearch() {
 	oldSearchValue = search;
 	clearTimeout(searchTimeout);
 	searchTimeout = null;
-	
+
 	if (search.length == 0) {
 		$('a.clearSearch').hide();
 	} else {
@@ -28,7 +28,7 @@ function runSearch() {
 
 	var hasmatch = false;
 
-	$('table.projectList tr.projectRow').each(function() {
+	$('table.project-list tr.projectRow').each(function() {
 		if (search.length < 1) {
 			$(this).show();
 			hasmatch = true;
@@ -82,7 +82,7 @@ function runSearch() {
 		$(this).hide();
 	});
 
-	$('table.projectList tr.categoryRow').each(function() {
+	$('table.project-list tr.categoryRow').each(function() {
 		if (search.length < 1) {
 			$(this).show();
 			return;
@@ -106,7 +106,7 @@ function runSearch() {
 		if (msgDiv.length == 0) {
 			msgDiv = jQuery(document.createElement('div'));
 			msgDiv.addClass('message');
-			msgDiv.appendTo($('table.projectList'));
+			msgDiv.appendTo($('table.project-list'));
 		}
 
 		var msg = GITPHP_RES_NO_MATCHES_FOUND.replace(new RegExp('%1'), $('input.projectSearchBox').val());
@@ -126,7 +126,7 @@ function initProjectSearch() {
 		}
 	});
 
-	var rows = $('table.projectList tr');
+	var rows = $('table.project-list tr');
 
 	if (rows.length == 0) {
 		// No projects, just stop

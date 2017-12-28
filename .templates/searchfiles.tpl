@@ -42,7 +42,7 @@
 		  <a href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=tree&amp;h={$resultobject->GetHash()}&amp;hb={$commit->GetHash()}&amp;f={$path}" class="list"><strong>{$path}</strong></a>
 	      </td>
 	      <td class="link">
-		  <a href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=tree&amp;h={$resultobject->GetHash()}&amp;hb={$commit->GetHash()}&amp;f={$path}">{t}tree{/t}</a>
+		  <a href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=tree&amp;h={$resultobject->GetHash()}&amp;hb={$commit->GetHash()}&amp;f={$path}">{t}Tree{/t}</a>
 	      </td>
       {else}
 	      <td>

@@ -13,12 +13,12 @@
  * Base styles
  */
 body {
-	font-family: Helvetica, Arial, sans-serif;
 	font-size: 14px;
 	background-color: white;
 	color: #303030;
 	margin: 0;
 	min-height: 100%;
+	font-family: "SF UI Text", Helvetica, Arial, sans-serif;
 }
 
 * {
@@ -742,7 +742,7 @@ ul.owners-list {
 	Login form
 */
 
-.login-form-container {justify-content: center;align-items: center;display: flex;position: absolute;left: 0;top: 0;right: 0;bottom: 0;background: #f8f8f8;}
+.login-form-container {justify-content: center;align-items: center;display: flex;position: absolute;left: 0;top: 0;right: 0;bottom: 0;background: #f8f8f8;background-image: url(/images/login-pattern.png);}
 
 .login-form {padding: 40px;background: white;border-radius: 10px;min-width: 30vw;box-shadow: 0 10px 20px -10px rgba(0,0,0,0.2);}
 
@@ -803,6 +803,7 @@ ul.owners-list {
 
 .checkbox-input:checked {
 	background: #6f2fe3;
+	border-color: #6f2fe3;
 }
 
 .checkbox-input:checked::after {
@@ -877,6 +878,22 @@ ul.owners-list {
 }
 
 /*
+	Project Brief
+*/
+.project-brief {
+	margin: 0 0 0 50px;
+	width: 50%;
+}
+
+.project-brief td {
+	line-height: 30px;
+}
+
+.project-brief td:first-child {
+	font-weight: bold;
+}
+
+/*
 	Git table
 */
 
@@ -886,18 +903,18 @@ ul.owners-list {
 }
 
 .git-table td {
-	padding: 10px 10px 10px 0;
+	padding: 14px 10px 14px 0;
 	vertical-align: middle;
 	border-bottom: 1px solid #ddd;
 	position: relative;
 }
 
-.git-table tr:last-child td {
-	border: 0;
+.git-table.git-table-expanded td {
+	padding: 16px 10px 16px 0;
 }
 
-.git-table td > * {
-	line-height: 40px;
+.git-table tr:last-child td {
+	border: 0;
 }
 
 .git-table td a {
@@ -916,7 +933,7 @@ ul.owners-list {
 	position: absolute;
 	right: 20px;
 	top: 50%;
-	margin-top: -20px;
+	margin-top: -18px;
 	text-align: right;
 	background: #fafafa;
 	padding-left: 20px;
@@ -937,8 +954,7 @@ ul.owners-list {
 .git-table .categoryName {
 	padding-top: 30px;
 	padding-bottom: 20px;
-	font-size: 20px;
-	font-weight: normal;
+	font-size: 16px;
 }
 
 .git-table .categoryName::before {
@@ -949,6 +965,18 @@ ul.owners-list {
 	width: 26px;
 	height: 20px;
 	background-repeat: no-repeat;
+}
+
+.git-table td.code-search-results > * {
+	line-height: 14px;
+}
+
+.git-table td.code-search-results a {
+	font-weight: bold;
+}
+
+.git-table td.code-search-results a.line-number {
+	margin-left: 20px;
 }
 
 /*
@@ -984,7 +1012,7 @@ ul.owners-list {
 }
 
 .simple-button {
-	padding: 10px 20px;
+	padding: 9px 20px;
 	border: 1px solid #eee;
 	border-radius: 10px;
 	display: inline-block;

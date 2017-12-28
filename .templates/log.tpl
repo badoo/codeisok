@@ -47,7 +47,7 @@
    </div>
    <div class="title_text">
      <div class="log_link">
-       <a href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=commit&amp;h={$rev->GetHash()}">{t}commit{/t}</a> | <a href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=commitdiff&amp;h={$rev->GetHash()}">{t}commitdiff{/t}</a> | <a href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=tree&amp;h={$rev->GetHash()}&amp;hb={$rev->GetHash()}">{t}tree{/t}</a>
+       <a href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=commit&amp;h={$rev->GetHash()}">{t}Commit{/t}</a> | <a href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=commitdiff&amp;h={$rev->GetHash()}">{t}Commitdiff{/t}</a> | <a href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=tree&amp;h={$rev->GetHash()}&amp;hb={$rev->GetHash()}">{t}Tree{/t}</a>
        <br />
        {if $mark}
          {if $mark->GetHash() == $rev->GetHash()}
