@@ -7,7 +7,7 @@
  *
  * @version
  * 3.0.83 (July 02 2010)
- * 
+ *
  * @copyright
  * Copyright (C) 2004-2010 Alex Gorbatchev.
  *
@@ -16,8 +16,6 @@
  */
 .syntaxhighlighter {
   background-color: white !important;
-#  font-size: 110% !important;
-    overflow: visible !important;
 }
 .syntaxhighlighter .line.alt1 {
   background-color: white;
@@ -45,7 +43,7 @@
     border-right: 2px solid #080  !important;
     border-top: 2px solid #080 !important;
 }
-.syntaxhighlighter .line.selected-multi ~ .line.selected-multi, 
+.syntaxhighlighter .line.selected-multi ~ .line.selected-multi,
 .syntaxhighlighter .line.selected-multi ~ .line.selected {
     border-top: none !important;
 }

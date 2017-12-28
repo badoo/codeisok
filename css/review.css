@@ -34,8 +34,6 @@ div.review_btn {
     margin-right: 10px !important;
 }
 
-div#review_line_edit {}
-
 div.review_btn.review_cancel,
 div.review_btn.comment_delete,
 #review_abort,
@@ -94,10 +92,9 @@ span.btn_small {
 .comment-container > div {
     color: blue !important;
     background: #ffffff !important;
-    /* margin-left: 20px !important; */
     white-space: pre-line;
     padding: 5px !important;
-    /* max-width: 980px; */
+    max-width: calc(86vw - 200px);
     margin: 0 30px !important;
     border-left: 1px solid #ccc !important;
     border-right: 1px solid #ccc !important;
@@ -336,13 +333,13 @@ span.review {
 }
 
 .two-panes .SBSContent .CodeMirror-linewidget {
-    max-width: calc(45vw - 155px);
+    max-width: calc(43vw - 180px);
 }
 
 .SBSContent .CodeMirror-linewidget {
     margin: 15px;
     box-shadow: 0px 10px 10px -6px rgba(0,0,0,0.3);
-    max-width: calc(50vw - 100px);
+    max-width: calc(45vw - 100px);
 }
 
 .CodeMirror-linewidget .edit_buttons {

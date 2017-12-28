@@ -35,7 +35,6 @@
   line-height: 1.5em !important;
   margin: 0 !important;
   outline: 0 !important;
-  /*overflow: auto !important;*/
   padding: 0 !important;
   position: static;
   right: auto !important;
@@ -43,8 +42,6 @@
   top: auto;
   vertical-align: baseline !important;
   width: auto !important;
-  box-sizing: content-box !important;
-  #font-family: "Consolas", "Bitstream Vera Sans Mono", "Courier New", Courier, monospace !important;
   font-weight: normal !important;
   font-style: normal !important;
   font-size: 1em !important;
@@ -102,12 +99,10 @@
   padding: 0 0.2em 0 0.2em !important;
 }
 .syntaxhighlighter table td.code .line {
-  /*padding: 0 1em !important;*/
   width: auto;
 }
 .syntaxhighlighter table .line {
     width: auto;
-    /*height: 18px !important;*/
 }
 /*.syntaxhighlighter table .line, .syntaxhighlighter table .line code {*/
 .syntaxhighlighter table .line-number.after {

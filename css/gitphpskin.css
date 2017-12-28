@@ -77,6 +77,10 @@ div.page_header a:hover {
 	color: #880000;
 }
 
+div.page_nav {
+	margin-bottom: 10px;
+}
+
 div.adminheader {
     border-color: #6f2fe3;
     border-width: 5px;
@@ -111,6 +115,7 @@ div.page_footer {
 	height: 17px;
 	padding: 0px 4px 8px;
 	background-color: #d9d8d1;
+	display: none;
 }
 
 

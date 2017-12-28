@@ -1,7 +1,7 @@
 {foreach from=$diff_source item=filediff}
     {assign var="diff" value=$filediff->GetDiff('', true, true)}
     <div class="filetype-{$filediff->getToFileExtension()} status-{$filediff->getStatus()|lower} folder-{$filediff->getToFileRootFolder()|lower} diffBlob{if $filediff->getDiffTooLarge()} suppressed{/if}" id="{$filediff->GetFromHash()}_{$filediff->GetToHash()}">
-        <a name="{$filediff->getToFile()}"></a>
+        <a class="anchor" name="{$filediff->getToFile()}"></a>
         <div class="diff_info">
             {if ($filediff->GetStatus() == 'D') || ($filediff->GetStatus() == 'M') || ($filediff->GetStatus() == 'R')}
                 {assign var=localfromtype value=$filediff->GetFromFileType(1)}

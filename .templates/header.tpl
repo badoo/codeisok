@@ -12,9 +12,6 @@
         <link rel="alternate" title="{$project->GetProject()} log (RSS)" href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=rss" type="application/rss+xml" />
     {/if}
 
-    <link rel="stylesheet" href="/css/gitphp.css?v={$cssversion}" type="text/css" />
-    <link rel="stylesheet" href="/css/{$stylesheet}?v={$cssversion}" type="text/css" />
-    <link rel="stylesheet" href="/css/review.css?v={$cssversion}" type="text/css" />
     <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.png" />
 
     {if $extracss}
@@ -28,6 +25,10 @@
             <link rel="stylesheet" href="/{$css_file}?v={$cssversion}" type="text/css" />
         {/foreach}
     {/if}
+
+    <link rel="stylesheet" href="/css/gitphp.css?v={$cssversion}" type="text/css" />
+    <link rel="stylesheet" href="/css/{$stylesheet}?v={$cssversion}" type="text/css" />
+    <link rel="stylesheet" href="/css/review.css?v={$cssversion}" type="text/css" />
 
     {if $javascript}
         <script type="text/javascript">
