@@ -12,9 +12,9 @@
  </div>
 
 {if $commit->GetParent()}
- 	{include file='title.tpl' titlecommit=$commit target='commitdiff'}
+ 	{include file='title.tpl' titlecommit=$commit target='commitdiff' hasPageSearch=true}
 {else}
-	{include file='title.tpl' titlecommit=$commit titletree=$tree target='tree'}
+	{include file='title.tpl' titlecommit=$commit titletree=$tree target='tree' hasPageSearch=true}
 {/if}
 
 {* Commit data *}

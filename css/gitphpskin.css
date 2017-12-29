@@ -81,13 +81,6 @@ div.page_nav {
 	margin-bottom: 10px;
 }
 
-div.page_nav .stretch-evenly {
-	margin: 0 50px;
-	display: flex;
-	align-items: stretch;
-	flex-direction: row;
-}
-
 div.adminheader {
     border-color: #6f2fe3;
     border-width: 5px;
@@ -279,24 +272,44 @@ div.diff_modes a.is-active {
 	background: #fdfbff;
 }
 
-.stretch-evenly > div {flex: 1 1 auto;}
+.stretch-evenly {
+	margin: 0 50px;
+	display: flex;
+	align-items: stretch;
+	flex-direction: row;
+	justify-content: inherit;
+}
+
+.stretch-evenly > div {flex: 1 1 auto;align-self: center;}
+
+.diff-options {
+	padding-top: 20px;
+}
 
 /*
  * Title bar
  * (main header with commit message)
  */
 div.title {
-	overflow: auto;
+	overflow: visible;
 	font-size: 16px;
 	padding: 20px 20px 20px 0;
 	border-bottom: 1px solid #ddd;
 	margin: 0 50px;
 }
 
+div.title.stretch-evenly {
+	line-height: 40px;
+}
+
 div.title.compact {
 	padding: 10px 20px 10px 0;
 	border: 0;
 	font-size: 14px;
+}
+
+div.title .simple-button {
+	margin-right: 10px;
 }
 
 div.title.compact a.title {
@@ -315,7 +328,7 @@ div.title:hover {
 }
 
 div.title_text {
-	/* padding: 6px 0px; */
+	padding: 6px 0px;
 	border: solid #d9d8d1;
 	border-width: 0px 0px 1px;
 	margin: 0 50px;
@@ -346,6 +359,7 @@ div.log_link {
 	font-size: 10px;
 	font-family: sans-serif;
 	font-style: normal;
+	float: right;
 }
 
 a.list {
@@ -373,6 +387,18 @@ span.movedfile {
 span.latenight {
 	/* highlights the time if it's after hours */
 	color: #cc0000;
+}
+
+/*
+	Log List
+*/
+
+tr.commit-head td {
+	font-weight: bold;
+}
+
+tr.commit-body td {
+	padding: 5px;
 }
 
 
@@ -926,7 +952,7 @@ ul.owners-list {
 }
 
 .page-search .search-panel .select-input {
-	width: 120px;
+	max-width: 300px;
 }
 
 .page-search .gear-icon {
@@ -991,9 +1017,9 @@ ul.owners-list {
 /*
 	Project Brief
 */
+
 .project-brief {
-	margin: 0 0 0 50px;
-	width: 50%;
+	width: 50%
 }
 
 .project-brief td {
@@ -1095,8 +1121,9 @@ ul.owners-list {
 */
 
 .git-tabs {
-	margin: 0 50px 20px 50px;
+	margin: 0 50px 0 50px;
 	border-bottom: 1px solid #C9C9C9;
+	overflow: hidden;
 }
 
 .git-tabs > a,
@@ -1105,6 +1132,7 @@ ul.owners-list {
 	display: inline-block;
 	text-decoration: none;
 	color: #303030;
+	float: left;
 }
 
 .git-tabs > a.inactive,

@@ -13,7 +13,7 @@
 
     {include file='nav.tpl' current='branchdiff' logcommit=$commit treecommit=$commit}
 
-    <div class="stretch-evenly">
+    <div class="diff-options stretch-evenly">
         <div>
             <div class="diff_modes">
                 <a class="{if $unified}is-active{/if}" href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=branchdiff&amp;branch={$branch}{if $review}&amp;review={$review}{/if}{if $base}&amp;base={$base}{/if}&amp;o=unified">{t}Unified{/t}</a>

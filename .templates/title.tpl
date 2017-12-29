@@ -9,8 +9,8 @@
  * @subpackage Template
  *}
 
-{if $titlecommit || $target == 'shortlog' || $target == 'tags' || $target == 'heads' || $ticket || $reviews.length > 0}
-    <div class="title {if $compact}compact{/if}">
+{if $titlecommit || $target == 'shortlog' || $target == 'tags' || $target == 'heads' || $ticket || $reviews.length > 0 || $hasPageSearch}
+    <div class="title {if $compact}compact{/if} {if $hasPageSearch}stretch-evenly{/if}">
         {if $titlecommit}
             {if $target == 'commitdiff'}
                 <a href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=commitdiff&amp;h={$titlecommit->GetHash()}" class="title">{$titlecommit->GetTitle()|escape}</a>
@@ -51,5 +51,9 @@
                 {if $review.diff_link}<span> (<a href="{$review.diff_link}">show diff</a>)</span>{/if}
             {/foreach}
         </div>
+
+        {if $hasPageSearch}
+            <div class="page-search-container"></div>
+        {/if}
     </div>
 {/if}

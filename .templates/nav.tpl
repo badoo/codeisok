@@ -63,6 +63,6 @@
     {/if}
 
     {if $retbranch}
-        Current branch {$retbranch}
+        <span class="active">Current branch {$retbranch}</span>
     {/if}
 </div>

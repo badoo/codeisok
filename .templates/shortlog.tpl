@@ -7,39 +7,35 @@
  *}
 {include file='header.tpl'}
 
- {* Nav *}
- <div class="page_nav">
-   {include file='nav.tpl' current=$controller logcommit=$commit treecommit=$commit logmark=$mark}
-   <br />
-   {if ($commit && $head) && (($commit->GetHash() != $head->GetHash()) || ($page > 0))}
-     <a href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a={$controller}{if $mark}&amp;m={$mark->GetHash()}{/if}">{t}HEAD{/t}</a>
-   {else}
-     {t}HEAD{/t}
-   {/if}
-     &sdot;
-   {if $page > 0}
-     <a href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a={$controller}&amp;h={$commit->GetHash()}&amp;pg={$page-1}{if $mark}&amp;m={$mark->GetHash()}{/if}" accesskey="p" title="Alt-p">{t}prev{/t}</a>
-   {else}
-     {t}prev{/t}
-   {/if}
-     &sdot;
-   {if $hasmorerevs}
-     <a href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a={$controller}&amp;h={$commit->GetHash()}&amp;pg={$page+1}{if $mark}&amp;m={$mark->GetHash()}{/if}" accesskey="n" title="Alt-n">{t}next{/t}</a>
-   {else}
-     {t}next{/t}
-   {/if}
-   <br />
-   {if $mark}
-     {t}selected{/t} &sdot;
-     <a href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=commit&amp;h={$mark->GetHash()}" class="list commitTip" {if strlen($mark->GetTitle()) > 30}title="{$mark->GetTitle()|htmlspecialchars}"{/if}><strong>{$mark->GetTitle(30)}</strong></a>
-     &sdot;
-     <a href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a={$controller}&amp;h={$commit->GetHash()}&amp;pg={$page}">{t}deselect{/t}</a>
-   {/if}
- </div>
+{* Nav *}
+{include file='nav.tpl' current=$controller logcommit=$commit treecommit=$commit logmark=$mark}
 
- {include file='title.tpl' target='summary'}
+<div class="title compact stretch-evenly">
+    {if ($commit && $head) && (($commit->GetHash() != $head->GetHash()) || ($page > 0))}
+        <a class="simple-button" href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a={$controller}{if $mark}&amp;m={$mark->GetHash()}{/if}">{t}HEAD{/t}</a>
+    {/if}
 
- {include file='shortloglist.tpl' source=$controller}
+    {if $page > 0}
+        <a class="simple-button" href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a={$controller}&amp;h={$commit->GetHash()}&amp;pg={$page-1}{if $mark}&amp;m={$mark->GetHash()}{/if}" accesskey="p" title="Alt-p">{t}Prev{/t}</a>
+    {/if}
 
- {include file='footer.tpl'}
+    {if $hasmorerevs}
+        <a class="simple-button" href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a={$controller}&amp;h={$commit->GetHash()}&amp;pg={$page+1}{if $mark}&amp;m={$mark->GetHash()}{/if}" accesskey="n" title="Alt-n">{t}Next{/t}</a>
+    {/if}
+
+    {if $mark}
+        {t}Selected for diff: {/t}
+        <a href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=commit&amp;h={$mark->GetHash()}" class="list commitTip" {if strlen($mark->GetTitle()) > 30}title="{$mark->GetTitle()|htmlspecialchars}"{/if}><strong>{$mark->GetTitle(30)}</strong></a>
+        &sdot;
+        <a class="simple-button" href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a={$controller}&amp;h={$commit->GetHash()}&amp;pg={$page}">{t}Deselect{/t}</a>
+    {/if}
+
+    <div class="page-search-container"></div>
+</div>
+
+{include file='title.tpl' target='summary'}
+
+{include file='shortloglist.tpl' source=$controller}
+
+{include file='footer.tpl'}
 

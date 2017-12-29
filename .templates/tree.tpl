@@ -8,11 +8,9 @@
 {include file='header.tpl'}
 
 {* Nav *}
-<div class="page_nav">
-    {include file='nav.tpl' current='tree' logcommit=$commit}
-</div>
+{include file='nav.tpl' current='tree' logcommit=$commit}
 
-{include file='title.tpl' titlecommit=$commit}
+{include file='title.tpl' titlecommit=$commit hasPageSearch=true}
 
 {include file='path.tpl' pathobject=$tree target='tree'}
 

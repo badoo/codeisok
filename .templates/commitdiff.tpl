@@ -19,7 +19,7 @@
 
     {include file='nav.tpl' current='commitdiff' logcommit=$commit treecommit=$commit}
 
-    <div class="stretch-evenly">
+    <div class="diff-options stretch-evenly">
         <div>
             <div class="diff_modes">
                 <a class="{if $unified}is-active{/if}" href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=commitdiff&amp;h={$commit->GetHash()}{if $hashparent}&amp;hp={$hashparent}{/if}&amp;{if $review}review={$review}{/if}&amp;o=unified">{t}unified{/t}</a>
