@@ -809,7 +809,7 @@ ul.owners-list {
 
 .login-form-container {justify-content: center;align-items: center;display: flex;position: absolute;left: 0;top: 0;right: 0;bottom: 0;background: #f8f8f8;background-image: url(/images/login-pattern.png);}
 
-.login-form {padding: 40px;background: white;border-radius: 10px;min-width: 30vw;box-shadow: 0 10px 20px -10px rgba(0,0,0,0.2);}
+.login-form {padding: 40px;background: white;border-radius: 10px;width: 368px;box-shadow: 0 10px 20px -10px rgba(0,0,0,0.2);}
 
 .login-form .logo {
 	font-size: 36px;
