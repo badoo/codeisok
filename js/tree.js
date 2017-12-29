@@ -56,7 +56,7 @@ function initTree() {
 
 			depth++;
 
-			row.addClass('is-loading');
+			row.addClass('row-loading');
 
 			$.get(expandUrl, { o: 'js' }, function(data) {
 				var subRows = jQuery(data)
@@ -83,7 +83,7 @@ function initTree() {
 
 				row.after(subRows);
 				row.find('.expander').addClass('expanded');
-				row.removeClass('is-loading');
+				row.removeClass('row-loading');
 				subRows.addClass('is-loaded');
 			});
 		}

@@ -13,33 +13,28 @@
 
  {* Nav *}
  <div class="page_nav">
-   {if $commit}
-      {assign var=tree value=$commit->GetTree()}
-   {/if}
-   {include file='nav.tpl' current='commitdiff' logcommit=$commit treecommit=$commit}
-   <br />
+    {if $commit}
+        {assign var=tree value=$commit->GetTree()}
+    {/if}
 
-    <div class="diff_modes">
-        <strong>Change diff mode:</strong>
+    {include file='nav.tpl' current='commitdiff' logcommit=$commit treecommit=$commit}
 
-        {if $sidebyside}
-        <a href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=commitdiff&amp;h={$commit->GetHash()}{if $hashparent}&amp;hp={$hashparent}{/if}&amp;{if $review}review={$review}{/if}&amp;o=unified">{t}unified{/t}</a>
-        {else}
-        <a href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=commitdiff&amp;h={$commit->GetHash()}{if $hashparent}&amp;hp={$hashparent}{/if}&amp;{if $review}review={$review}{/if}&amp;o=sidebyside">{t}side by side{/t}</a>
-        {/if}
-
-    | <a href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=commitdiff_plain&amp;h={$commit->GetHash()}{if $hashparent}&amp;hp={$hashparent}{/if}">{t}plain{/t}</a>
-
-        <strong>{t}TreeDiff: {/t}</strong>
-        {if $treediff}
-            <div class="switcher checked">
-                <a href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=commitdiff&amp;h={$commit->GetHash()}{if $hashparent}&amp;hp={$hashparent}{/if}&amp;{if $review}review={$review}{/if}&amp;treediff=0"></a>
+    <div class="stretch-evenly">
+        <div>
+            <div class="diff_modes">
+                <a class="{if $unified}is-active{/if}" href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=commitdiff&amp;h={$commit->GetHash()}{if $hashparent}&amp;hp={$hashparent}{/if}&amp;{if $review}review={$review}{/if}&amp;o=unified">{t}unified{/t}</a>
+                <a class="{if $sidebyside}is-active{/if}" href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=commitdiff&amp;h={$commit->GetHash()}{if $hashparent}&amp;hp={$hashparent}{/if}&amp;{if $review}review={$review}{/if}&amp;o=sidebyside">{t}side by side{/t}</a>
+                <a href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=commitdiff_plain&amp;h={$commit->GetHash()}{if $hashparent}&amp;hp={$hashparent}{/if}">{t}plain{/t}</a>
             </div>
-        {else}
-            <div class="switcher">
-                <a href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=commitdiff&amp;h={$commit->GetHash()}{if $hashparent}&amp;hp={$hashparent}{/if}&amp;{if $review}review={$review}{/if}&amp;treediff=1"></a>
-            </div>
-        {/if}
+
+            <a class="switcher {if $treediff}checked{/if}" href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=commitdiff&amp;h={$commit->GetHash()}{if $hashparent}&amp;hp={$hashparent}{/if}&amp;{if $review}review={$review}{/if}&amp;treediff={if $treediff}0{else}1{/if}">
+                <span>Treediff</span>
+                <span class="switch"></span>
+            </a>
+        </div>
+
+        <div class="page-search-container">
+        </div>
     </div>
  </div>
 

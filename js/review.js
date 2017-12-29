@@ -666,7 +666,7 @@ var Review = (function() {
             dataType: 'json',
             success: function (data) {
                 if (!Review.getUrlParams().review && data.last_review !== undefined) {
-                    $('#notifications').html("<span data-url='" + data.last_review + "'>You have an unfinished review. You can <div class='review_btn' id='review_edit'>Edit</div> or <div class='review_btn' id='review_delete'>Delete</div> it.</span>");
+                    $('#notifications').html("<span data-url='" + data.last_review + "'>You have an unfinished review. You can <strong id='review_edit'>Continue reviewing</strong> or <strong id='review_delete'>Delete</strong> it.</span>");
                     $('#review_edit').click(function() {
                         document.location = $('#review_edit').parent('span').data('url');
                     });

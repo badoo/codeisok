@@ -64,7 +64,7 @@
 /* DEFAULT THEME */
 
 .cm-s-default .cm-keyword {
-    color: black;
+    color: #303030;
     font-weight: bold;
 }
 .cm-s-default .cm-atom {color: #0086B3;}

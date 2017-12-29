@@ -62,11 +62,11 @@
             <script type="text/javascript" src="/js/lang.js?v={$jsversion}"></script>
         {/if}
         {foreach from=$extrascripts item=script}
-            {if file_exists("js/$script.min.js")}
+            {* {if file_exists("js/$script.min.js")}
                 <script type="text/javascript" src="/js/{$script}.min.js?v={$jsversion}"></script>
-            {else}
+            {else} *}
                 <script type="text/javascript" src="/js/{$script}.js?v={$jsversion}"></script>
-            {/if}
+            {* {/if} *}
         {/foreach}
     {/if}
 
@@ -117,7 +117,36 @@
     {/if}
 
     {if $project}
-        <div class="page-search" style="overflow: auto;">
+        <div class="page-search">
+
+            {if $action == 'commitdiff' || $action == 'branchdiff' || $enablebase}
+                <div class="gear-icon js-show-extra-settings">
+                    <div class="extra-settings">
+                        {if $action == 'commitdiff' || $action == 'branchdiff'}
+                            <div class="search-panel">Ignore format <input id="diff-ignore-format" class="checkbox-input" type="checkbox" {if $ignoreformat}checked="checked"{/if}/></div>
+                            <div class="search-panel">Ignore whitespace <input id="diff-ignore-whitespace" class="checkbox-input" type="checkbox" {if $ignorewhitespace}checked="checked"{/if}/></div>
+                            <div class="search-panel">Context <input class="text-input" type="text" size="2" id="diff-context" {if $diffcontext}value="{$diffcontext}"{/if} /></div>
+                        {/if}
+
+                        {if $enablebase}
+                            <form class="search-panel" action="{$SCRIPT_NAME}" method="get">
+                                {foreach from=$requestvars key=var item=val}
+                                    {if $var != "base"}
+                                        <input type="hidden" name="{$var|escape}" value="{$val|escape}" />
+                                    {/if}
+                                {/foreach}
+                                Compare with
+                                <select class="select-input" {if $base_disabled}disabled="disabled"{/if} name='base' onchange='this.form.submit();'>
+                                    {foreach from=$base_branches item=branch}
+                                        <option {if $branch == $base}selected="selected"{/if} value='{$branch}'>{$branch}</option>
+                                    {/foreach}
+                                </select>
+                            </form>
+                        {/if}
+                    </div>
+                </div>
+            {/if}
+
             {if $enablesearch}
                 <form class="search-panel" method="get" action="index.php" enctype="application/x-www-form-urlencoded">
                     <input type="hidden" name="p" value="{$project->GetProject()}" />
@@ -135,27 +164,6 @@
                 </form>
             {/if}
 
-            {if $action == 'commitdiff' || $action == 'branchdiff'}
-                <div class="search-panel">Context <input class="text-input" type="text" size="2" id="diff-context" {if $diffcontext}value="{$diffcontext}"{/if} /></div>
-                <div class="search-panel"><input id="diff-ignore-whitespace" class="checkbox-input" type="checkbox" {if $ignorewhitespace}checked="checked"{/if}/>Ignore whitespace</div>
-                <div class="search-panel"><input id="diff-ignore-format" class="checkbox-input" type="checkbox" {if $ignoreformat}checked="checked"{/if}/>Ignore format</div>
-            {/if}
-
-            {if $enablebase}
-                <form class="search-panel" action="{$SCRIPT_NAME}" method="get">
-                    {foreach from=$requestvars key=var item=val}
-                        {if $var != "base"}
-                            <input type="hidden" name="{$var|escape}" value="{$val|escape}" />
-                        {/if}
-                    {/foreach}
-                    Compare with branch
-                    <select class="select-input" {if $base_disabled}disabled="disabled"{/if} name='base' onchange='this.form.submit();'>
-                        {foreach from=$base_branches item=branch}
-                            <option {if $branch == $base}selected="selected"{/if} value='{$branch}'>{$branch}</option>
-                        {/foreach}
-                    </select>
-                </form>
-            {/if}
         </div>
     {/if}
 

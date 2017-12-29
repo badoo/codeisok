@@ -32,7 +32,7 @@
   float: none !important;
   height: auto !important;
   left: auto;
-  line-height: 1.5em !important;
+  line-height: 1.7em !important;
   margin: 0 !important;
   outline: 0 !important;
   padding: 0 !important;
@@ -54,6 +54,7 @@
   position: relative !important;
   overflow: auto !important;
   font-size: 1em !important;
+  border-radius: 0 0 10px 10px;
 }
 .syntaxhighlighter.source {
   overflow: hidden !important;
@@ -261,4 +262,8 @@
 
 .syntaxhighlighter .added-row-container {
     background-color: #eaffea !important;
+}
+
+.syntaxhighlighter .added-row-container.selected-multi {
+    background-color: #fffdea !important;
 }

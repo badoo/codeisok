@@ -9,7 +9,7 @@
  * @subpackage Template
  *}
 
-{if $titlecommit || $target == 'summary' || $target == 'shortlog' || $target == 'tags' || $target == 'heads' || $ticket || $reviews.length > 0}
+{if $titlecommit || $target == 'shortlog' || $target == 'tags' || $target == 'heads' || $ticket || $reviews.length > 0}
     <div class="title">
         {if $titlecommit}
             {if $target == 'commitdiff'}
@@ -21,9 +21,7 @@
             {/if}
             {include file='refbadges.tpl' commit=$titlecommit}
         {else}
-            {if $target == 'summary'}
-                <a href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=summary" class="title">&nbsp;</a>
-            {elseif $target == 'shortlog'}
+            {if $target == 'shortlog'}
                 {if $disablelink}
                 {t}shortlog{/t}
                 {else}

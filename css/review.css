@@ -288,10 +288,15 @@ span.review {
 }
 
 #notifications {
-    background-color: #ffff99;
-    padding: 10px 20;
+    background-color: #ffffbd;
+    padding: 10px 20px;
     display: none;
     margin: 0 50px;
+}
+
+#notifications strong {
+    cursor: pointer;
+    display: inline-block;
 }
 
 .hoverable {

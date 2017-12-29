@@ -1,40 +1,34 @@
 {include file='header.tpl'}
+
 {if $commit}
-<input type="hidden" id="review_hash_head" value="{$commit->GetHash()}" />
-<input type="hidden" id="review_hash_base" value="{$branchdiff->GetFromHash()}" />
+    <input type="hidden" id="review_hash_head" value="{$commit->GetHash()}" />
+    <input type="hidden" id="review_hash_base" value="{$branchdiff->GetFromHash()}" />
 {/if}
 
 {* Nav *}
- <div class="page_nav">
-   {if $commit}
-   {assign var=tree value=$commit->GetTree()}
-   {/if}
-   {include file='nav.tpl' current='branchdiff' logcommit=$commit treecommit=$commit}
-   <br />
+<div class="page_nav">
+    {if $commit}
+        {assign var=tree value=$commit->GetTree()}
+    {/if}
 
-    <div class="diff_modes">
-        <strong>Change diff mode:</strong>
+    {include file='nav.tpl' current='branchdiff' logcommit=$commit treecommit=$commit}
 
-        {if $sidebyside}
-        <a href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=branchdiff&amp;branch={$branch}{if $review}&amp;review={$review}{/if}{if $base}&amp;base={$base}{/if}&amp;o=unified">{t}unified{/t}</a>
-        {/if}
-
-        {if $unified}
-        <a href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=branchdiff&amp;branch={$branch}{if $review}&amp;review={$review}{/if}{if $base}&amp;base={$base}{/if}&amp;o=sidebyside">{t}side by side{/t}</a>
-        {/if}
-
-        | <a href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=branchdiff_plain&amp;branch={$branch}">{t}plain{/t}</a>
-
-        <strong>{t}TreeDiff: {/t}</strong>
-        {if $treediff}
-            <div class="switcher checked">
-                <a href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=branchdiff&amp;branch={$branch}{if $review}&amp;review={$review}{/if}{if $base}&amp;base={$base}{/if}&amp;treediff=0"></a>
+    <div class="stretch-evenly">
+        <div>
+            <div class="diff_modes">
+                <a class="{if $unified}is-active{/if}" href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=branchdiff&amp;branch={$branch}{if $review}&amp;review={$review}{/if}{if $base}&amp;base={$base}{/if}&amp;o=unified">{t}Unified{/t}</a>
+                <a class="{if $sidebyside}is-active{/if}" href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=branchdiff&amp;branch={$branch}{if $review}&amp;review={$review}{/if}{if $base}&amp;base={$base}{/if}&amp;o=sidebyside">{t}Side by side{/t}</a>
+                <a href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=branchdiff_plain&amp;branch={$branch}">{t}plain{/t}</a>
             </div>
-        {else}
-            <div class="switcher">
-                <a href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=branchdiff&amp;branch={$branch}{if $review}&amp;review={$review}{/if}{if $base}&amp;base={$base}{/if}&amp;treediff=1"></a>
-            </div>
-        {/if}
+
+            <a class="switcher {if $treediff}checked{/if}" href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=branchdiff&amp;branch={$branch}{if $review}&amp;review={$review}{/if}{if $base}&amp;base={$base}{/if}&amp;treediff={if $treediff}0{else}1{/if}">
+                <span>Treediff</span>
+                <span class="switch"></span>
+            </a>
+        </div>
+
+        <div class="page-search-container">
+        </div>
     </div>
  </div>
 

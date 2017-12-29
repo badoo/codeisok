@@ -331,21 +331,34 @@ div.suppressed {
     position: relative;
     display: inline-block;
     vertical-align: top;
+    border: 1px solid #c9c9c9;
+    border-radius: 10px;
+    padding: 10px;
+    line-height: 20px;
 }
 
-.switcher a {
+.switcher:hover {
+	background: #fafafa;
+}
+
+.switcher span {
+    vertical-align: middle;
+}
+
+.switcher .switch {
     position: relative;
     top: 0;
     left: 0;
-    display: block;
+    display: inline-block;
     width: 35px;
     height: 20px;
     border-radius: 10px;
     background: #cdd7de;
+    vertical-align: middle;
     transition: background .2s;
 }
 
-.switcher a::before {
+.switcher .switch::before {
     position: absolute;
     top: 2px;
     left: 2px;
@@ -358,7 +371,7 @@ div.suppressed {
     transition: transform .2s;
 }
 
-.switcher a::after {
+.switcher .switch::after {
     position: absolute;
     top: -5px;
     right: -5px;
@@ -368,10 +381,9 @@ div.suppressed {
     cursor: pointer;
 }
 
-.switcher.checked a {
+.switcher.checked .switch {
     background: #7000e3;
 }
 
-.switcher.checked a::before {
+.switcher.checked .switch::before {
     transform: translate3d(15px, 0, 0);
-}

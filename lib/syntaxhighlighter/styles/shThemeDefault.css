@@ -24,7 +24,7 @@
   background-color: white;
 }
 .syntaxhighlighter .line.color3:hover, .syntaxhighlighter .line.color4:hover, .syntaxhighlighter .line.commentable:hover {
-    background-color: rgba(192, 192, 192, 0.3) !important;
+    /* background-color: rgba(192, 192, 192, 0.3) !important; */
 }
 .syntaxhighlighter .line.commentable .line-number {
     cursor: pointer;
@@ -95,7 +95,7 @@
   color: black !important;
 }
 .syntaxhighlighter .plain, .syntaxhighlighter .plain a {
-  color: black !important;
+  color: #303030 !important;
 }
 .syntaxhighlighter .comments, .syntaxhighlighter .comments a {
   color: #008200 !important;
