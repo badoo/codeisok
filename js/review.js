@@ -410,6 +410,7 @@ var Review = (function() {
                         Review.comments_ids_file.push({id: data.comments[i].id, file: file});
                         prev_line = line;
                     }
+                    $container.append($('#review_comment'));
                     $('#review_review').show();
                     $('body').addClass('has-review-block');
                     $('#review_commentnav_next').show();
