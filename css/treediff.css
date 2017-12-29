@@ -4,11 +4,11 @@
 	-webkit-flex-direction: row;
 	flex-direction: row;
 	align-content: stretch;
-	height: calc(100vh - 162px);
+	height: calc(100vh - 100px);
 }
 
 .has-review-block .two-panes {
-	height: calc(100vh - 220px);
+	height: calc(100vh - 120px);
 }
 
 .two-panes .left-pane {
@@ -19,12 +19,14 @@
 }
 
 .two-panes .pane-dragger {
-	width: 6px;
+	width: 26px;
 	background: #f7f6f6;
 	min-height: 100px;
 	align-self: stretch;
 	position: relative;
 	display: flex;
+	border-left: 5px solid white;
+	border-right: 15px solid white;
 	cursor: col-resize;
 }
 
@@ -42,7 +44,6 @@
 .two-panes .right-pane {
 	flex: 5 0 0;
 	overflow: scroll;
-	padding-left: 10px;
 }
 
 .right-pane .diffBlob {
@@ -188,4 +189,5 @@
 }
 
 .page_body.only-comments .right-pane .diffBlob.has-review-comment {
-    display:
+    display: block;
+}

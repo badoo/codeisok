@@ -10,7 +10,7 @@
  *}
 
 {if $titlecommit || $target == 'shortlog' || $target == 'tags' || $target == 'heads' || $ticket || $reviews.length > 0}
-    <div class="title">
+    <div class="title {if $compact}compact{/if}">
         {if $titlecommit}
             {if $target == 'commitdiff'}
                 <a href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=commitdiff&amp;h={$titlecommit->GetHash()}" class="title">{$titlecommit->GetTitle()|escape}</a>

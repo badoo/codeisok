@@ -7,7 +7,7 @@
  *
  * @version
  * 3.0.83 (July 02 2010)
- * 
+ *
  * @copyright
  * Copyright (C) 2004-2010 Alex Gorbatchev.
  *
@@ -264,6 +264,6 @@
     background-color: #eaffea !important;
 }
 
-.syntaxhighlighter .added-row-container.selected-multi {
+.syntaxhighlighter .selected-multi {
     background-color: #fffdea !important;
 }

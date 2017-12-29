@@ -1,6 +1,5 @@
 {if $extensions}
     <div class="file_filter">
-        <strong>Filter:</strong>
         {foreach from=$statuses item=st}
             <span class="status selected" data-status="{$st|lower}">{$st}</span>
         {/foreach}

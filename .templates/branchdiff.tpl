@@ -32,7 +32,7 @@
     </div>
  </div>
 
- {include file='title.tpl'}
+ {include file='title.tpl' compact=true}
 
  <div class="page_body">
 
@@ -49,10 +49,10 @@
                 {else}
                     {include file='extensions_filter.tpl' stasuses=$statuses extensions=$extensions folders=$folders}
 
-                    <table style="float: left; border: 0; padding: 0; margin: 0;">
+                    <table>
                         {if $branchdiff->hasHidden()}
                         <tr>
-                            <td>
+                            <td colspan="2">
                                 <a class="warning_hidden_files" href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=branchdiff&amp;branch={$branch}&amp;show_hidden=1">Some files were hidden. Click here to show them.</a>
                             </td>
                         </tr>
@@ -60,15 +60,12 @@
                         {foreach from=$branchdiff item=filediff}
                             <tr class="filetype-{$filediff->getToFileExtension()} status-{$filediff->getStatus()|lower} folder-{$filediff->getToFileRootFolder()|lower}">
                                 <td>
-                                    {$filediff->getStatus()}&nbsp;&nbsp;&nbsp;&nbsp;<a href="#{$filediff->getToFile()}">{$filediff->getToFile()}</a>
+                                    {$filediff->getStatus()} <a href="#{$filediff->getToFile()}">{$filediff->getToFile()}</a>
                                 </td>
-                                <td name="files_index_{$filediff->getToFile()}"></td>
+                                <td width="30%" name="files_index_{$filediff->getToFile()}"></td>
                             </tr>
                         {/foreach}
                     </table>
-
-                    <br style="clear: both;" />
-                    <br style="clear: both;" />
 
                     {include file='unified_diff_contents.tpl' diff_source=$branchdiff}
                 </div>

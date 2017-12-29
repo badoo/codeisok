@@ -276,8 +276,7 @@ div.diff_modes a:last-child {
 
 div.diff_modes a.is-active {
 	border-color: #7000e3;
-	background: #7000e3;
-	color: white;
+	background: #fdfbff;
 }
 
 .stretch-evenly > div {flex: 1 1 auto;}
@@ -290,8 +289,18 @@ div.title {
 	overflow: auto;
 	font-size: 16px;
 	padding: 20px 20px 20px 0;
-	/* border-bottom: 1px solid #ddd; */
+	border-bottom: 1px solid #ddd;
 	margin: 0 50px;
+}
+
+div.title.compact {
+	padding: 10px 20px 10px 0;
+	border: 0;
+	font-size: 14px;
+}
+
+div.title.compact a.title {
+	font-weight: normal;
 }
 
 div.title a.title {
@@ -964,7 +973,7 @@ ul.owners-list {
 	display: block;
 	margin: 0;
 	padding: 10px 0;
-	border-bottom: 1px solid #c0c0c0;
+	border-bottom: 1px solid #e0e0e0;
 	overflow: hidden;
 	line-height: 40px;
 }
@@ -1154,5 +1163,5 @@ ul.owners-list {
 }
 
 .git-table th.project-owner {
-	width: 10%;
-	m
+	width: 1
+}

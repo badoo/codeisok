@@ -200,7 +200,7 @@ SideBySideReview.prototype = {
         node.id = 'review';
 
         node.innerHTML =
-            '<div class="sbs review_comment_block" style="display: block;">' +
+            '<div class="sbs review_comment_block cloud_with_text" style="display: block;">' +
                 '<div id="review_comment_tab">' +
                     '<textarea class="sbs" name="text" rows="1" cols="2" id="review_text"></textarea>' +
                 '</div>' +
@@ -279,7 +279,9 @@ SideBySideReview.prototype = {
             commentElement.appendChild(editButtons);
         } else if (date && author){
             commentElement.querySelector('.cloud_with_text').innerHTML =
-                `<span class="date">${date}</span> <span class="author">${author}:</span> <span class="text">${comment_text}</span>`;
+                `<span class="author">${author}</span>
+                <span class="date">${date}</span>
+                <span class="text">${comment_text}</span>`;
         }
 
         var lineWidget = editor.addLineWidget(line, commentElement);

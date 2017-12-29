@@ -38,7 +38,7 @@
     </div>
  </div>
 
- {include file='title.tpl' titlecommit=$commit}
+ {include file='title.tpl' titlecommit=$commit compact=true}
 
  <div class="page_body">
 
@@ -52,26 +52,20 @@
         {if $treediff}
             {include file='unified_treediff.tpl' diff_source=$commit_tree_diff}
         {else}
-            <hr>
-
             {include file='extensions_filter.tpl' stasuses=$statuses extensions=$extensions folders=$folders}
 
-            <table style="float: left; border: 0; padding: 0; margin: 0;">
+            <table>
                 {foreach from=$commit_tree_diff item=filediff}
                     <tr class="filetype-{$filediff->getToFileExtension()} status-{$filediff->getStatus()|lower} folder-{$filediff->getToFileRootFolder()|lower}">
                         <td>
-                            {$filediff->getStatus()}&nbsp;&nbsp;&nbsp;&nbsp;<a href="#{$filediff->getToFile()}">{$filediff->getToFile()}</a>
+                            {$filediff->getStatus()} <a href="#{$filediff->getToFile()}">{$filediff->getToFile()}</a>
                         </td>
-                        <td name="files_index_{$filediff->getToFile()}"></td>
+                        <td width="30%" name="files_index_{$filediff->getToFile()}"></td>
                     </tr>
                 {/foreach}
             </table>
 
-            <br style="clear: both;" />
-            <br style="clear: both;" />
-
             {include file='unified_diff_contents.tpl' diff_source=$commit_tree_diff}
-
         {/if}
     {*
         SIDE BY SIDE

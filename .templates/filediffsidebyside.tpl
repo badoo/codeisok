@@ -34,7 +34,7 @@
     }
 
     loadSBS(data.fromhash, data.fromfile, data.tohash, data.tofile, function () {
-        $('.commitDiffSBS').removeClass('is-loading');
+        $('.SBSTOC').removeClass('is-loading');
     });
 
     $('.file-list li').removeClass('is-active');
@@ -61,7 +61,7 @@
         reviewCache[reviewKey] = review;
     }
 
-    $('.commitDiffSBS').addClass('is-loading');
+    $('.SBSTOC').addClass('is-loading');
 
     $.ajax({
         type: 'GET', async: true, dataType: 'text',

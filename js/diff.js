@@ -92,7 +92,7 @@ function renderTreeDiff(fileList, container) {
     enablePaneDragging();
     enableFolderCollapsing();
 
-    $('.left-pane').removeClass('is-loading');
+    $('.two-panes').removeClass('is-loading');
 }
 
 function enableFolderCollapsing() {
