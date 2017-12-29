@@ -90,7 +90,7 @@ var Review = (function() {
 
     Review.redrawReviewSelector = function(reviews, new_review, new_review_name) {
         var $reviewSelect = $('#review_ticket_select');
-        $reviewSelect.text('Review: ');
+        $reviewSelect.html('<strong>Review </strong>');
 
         if (reviews !== undefined) {
             var reviewSelectClickHandler = function() {
@@ -660,6 +660,7 @@ var Review = (function() {
 
     Review.toggleReviewComments = function (e) {
         e.preventDefault();
+        $('.js-toggle-review-comments').toggleClass('checked');
         $('.diffBlob.lines-visible').removeClass('lines-visible');
         $('.page_body').toggleClass('only-comments');
     }

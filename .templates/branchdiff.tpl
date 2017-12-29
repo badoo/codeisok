@@ -25,6 +25,13 @@
                 <span>Treediff</span>
                 <span class="switch"></span>
             </a>
+
+            {if $review && $unified}
+                <a href="#" class="js-toggle-review-comments switcher">
+                    <span>Review Comments Only</span>
+                    <span class="switch"></span>
+                </a>
+            {/if}
         </div>
 
         <div class="page-search-container">
@@ -35,8 +42,6 @@
  {include file='title.tpl' compact=true}
 
  <div class="page_body">
-
-    <h2 class="only-comments-warning">Showing review comments only</h2>
 
     {if $branchdiff}
         {*

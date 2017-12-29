@@ -530,16 +530,32 @@ SideBySideReview.prototype = {
             var review_review = '<div id="review_review" style="display: block; z-index: 1000;">';
 
             if (this.review_id) {
-                review_review = review_review + '<div id="review_ticket_select">Review: <div class="review-select review-selected" title="Id: ' + this.review_id + '">' + this.ticket + '(' + this.review_id + ')</div></div>';
+                review_review = `
+                    ${review_review}
+                    <div id="review_ticket_select">
+                        <strong>Review </strong>
+                        <div class="review-select review-selected" title="Id: ${this.review_id}">
+                            ${this.ticket}(${this.review_id})
+                        </div>
+                    </div>`;
             } else {
-                review_review = review_review + '<div id="review_ticket_select">Review: <div class="review-select review-selected">New</div></div>';
+                review_review = `
+                    ${review_review}
+                    <div id="review_ticket_select">
+                        <strong>Review </strong>
+                        <div class="review-select review-selected">New</div>
+                    </div>`;
             }
 
-            review_review = review_review + '<input type="text" id="review_ticket">' +
-            '<div class="review_btn" id="review_finish" style="">Finish</div>' +
-            '<div class="review_btn" id="review_abort" style="">Cancel</div>' +
-            '<div id="review_loader" style="background: url(\'/images/search-loader.gif\') transparent;height: 16px;line-height: 16px;width: 16px;display:none;">&nbsp;</div>' +
-            '</div>';
+            review_review = `
+                    ${review_review}
+                    <input type="text" id="review_ticket" />
+                    <div id="review_loader" style="background: url('/images/search-loader.gif') transparent;height: 16px;line-height: 16px;width: 16px;display:none;">&nbsp;</div>
+                    <div class="review-actions">
+                        <div class="review_btn" id="review_abort" style="">Discard</div>
+                        <div class="review_btn" id="review_finish" style="">Finish</div>
+                    </div>
+                </div>`;
 
             $('.page_body').append($(review_review));
             if (!this.review_id) {

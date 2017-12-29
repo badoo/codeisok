@@ -227,7 +227,6 @@ div.suppressed {
 	padding: 5px 10px;
 	cursor: pointer;
 	border-radius: 5px;
-	display: inline-block;
 	margin: 0 5px 5px 0;
 	color: white;
 	float: left;
@@ -250,15 +249,6 @@ div.suppressed {
 }
 
 /* Comment mode toggler */
-.page_body .only-comments-warning {
-	display: none;
-}
-.page_body.only-comments .only-comments-warning {
-	display: block;
-	text-align: center;
-	background: #ffffca;
-	padding: 10px;
-}
 .page_body.only-comments .line:not(.commented) {
     display: none;
 }

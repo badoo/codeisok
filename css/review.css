@@ -76,6 +76,7 @@ span.btn_small {
 }
 #review_ticket_select {
     display: inline-block;
+    line-height: 36px;
 }
 .syntaxhighlighter div.commented.line {
     background: #fffdea !important;
@@ -87,7 +88,7 @@ span.btn_small {
     background: #fff8ea !important;
 }
 .syntaxhighlighter div.commented.line.added-row-container {
-    background: #efffea !important;
+    background: #faffea !important;
 }
 
 .comment-container {
@@ -166,16 +167,25 @@ div.review-selected {
     font-weight: bold;
 }
 
-#review_review {
+#review_review,
+#notifications {
     position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    padding: 7px 4px;
+    bottom: 20px;
+    left: 20px;
+    right: 20px;
+    padding: 10px 20px;
     display: none;
-    background: #eee !important;
-    box-shadow: 0 -5px 20px 5px #EEE;
+    border-radius: 5px;
+    background: white;
+    border: 1px solid #c0c0c0;
+    box-shadow: 0px 10px 10px -6px rgba(0,0,0,0.3);
+    z-index: 1;
 }
+
+#review_review .review-actions {
+    float: right;
+}
+
 #review_alert {
     display: none;
     position: fixed;
@@ -188,15 +198,14 @@ div.review-selected {
     position: fixed;
     top: 20px;
     right: 20px;
-    background: rgba(240, 240, 240, 0.4);
+    background: rgba(240, 240, 240, 0.6);
     width: 40px;
     height: 40px;
     border-radius: 5px;
     text-decoration: none;
     line-height: 40px;
     text-align: center;
-    font: 36px/36px sans-serif;
-    color: #88F;
+    font: 30px/40px sans-serif;
 }
 .reivew_commentnav:hover {
     background: rgba(240, 240, 240, 0.9);
@@ -312,10 +321,9 @@ span.review {
 }
 
 #notifications {
-    background-color: #ffffbd;
-    padding: 10px 20px;
+    background-color: #ffffd7;
+    padding: 20px;
     display: none;
-    margin: 0 50px;
 }
 
 #notifications strong {

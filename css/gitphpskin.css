@@ -275,7 +275,7 @@ div.diff_modes a:last-child {
 }
 
 div.diff_modes a.is-active {
-	border-color: #7000e3;
+	border: 1px solid #7000e3;
 	background: #fdfbff;
 }
 
@@ -392,6 +392,9 @@ div.diff_info {
 	padding: 16px 20px;
 	border-radius: 10px 10px 0 0;
 	border-bottom: 1px solid #cfcfcf;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	overflow: hidden;
 }
 
 .diffplus {
@@ -448,8 +451,6 @@ div.commitDiffSBS
 div.commitDiffSBS div.SBSTOC
 {
 	word-wrap: break-word;
-	background-color: #ffffff;
-	border-bottom: 1px solid #edece6;
 	overflow: scroll;
 }
 
@@ -901,6 +902,10 @@ ul.owners-list {
 	display: flex;
 	flex-direction: row;
 	justify-content: flex-end;
+}
+
+.page_header + .page-search {
+	margin: 0 50px;
 }
 
 .page-search.settings-visible .extra-settings {

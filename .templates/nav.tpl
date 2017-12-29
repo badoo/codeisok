@@ -62,10 +62,6 @@
         <a href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=reviews">{t}Reviews{/t}</a>
     {/if}
 
-    {if $review && $unified}
-        <a href="#" class="js-toggle-review-comments">Toggle Review Comments</a>
-    {/if}
-
     {if $retbranch}
         Current branch {$retbranch}
     {/if}
