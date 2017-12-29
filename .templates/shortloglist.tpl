@@ -11,7 +11,7 @@
 
 <table cellspacing="0" class="git-table shortlog">
 {foreach from=$revlist item=rev}
-    <tr>
+    <tr {if $mark && $mark->GetHash() == $rev->GetHash()}class="selected"{/if}>
         <td width="15%" title="{if $rev->GetAge() > 60*60*24*7*2}{$rev->GetAge()|agestring}{else}{$rev->GetCommitterEpoch()|date_format:"%Y-%m-%d"}{/if}">
             {if $rev->GetAge() > 60*60*24*7*2}{$rev->GetCommitterEpoch()|date_format:"%Y-%m-%d"}{else}{$rev->GetAge()|agestring}{/if}
         </td>
@@ -35,7 +35,7 @@
                 {if $source == 'shortlog' || $source == 'branchlog'}
                     {if $mark}
                         {if $mark->GetHash() == $rev->GetHash()}
-                            <a class="simple-button" href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a={$source}&amp;h={$commit->GetHash()}&amp;pg={$page}">{t}deselect{/t}</a>
+                            <a class="simple-button" href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a={$source}&amp;h={$commit->GetHash()}&amp;pg={$page}">{t}Deselect{/t}</a>
                         {else}
                             {if $mark->GetCommitterEpoch() > $rev->GetCommitterEpoch()}
                                 {assign var=markbase value=$mark}
@@ -44,10 +44,10 @@
                                 {assign var=markbase value=$rev}
                                 {assign var=markparent value=$mark}
                             {/if}
-                        <a class="simple-button" href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=commitdiff&amp;h={$markbase->GetHash()}&amp;hp={$markparent->GetHash()}">{t}diff with selected{/t}</a>
+                        <a class="simple-button" href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=commitdiff&amp;h={$markbase->GetHash()}&amp;hp={$markparent->GetHash()}">{t}Diff with selected{/t}</a>
                         {/if}
                     {else}
-                        <a class="simple-button" href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a={$source}&amp;h={$commit->GetHash()}&amp;pg={$page}&amp;m={$rev->GetHash()}">{t}select for diff{/t}</a>
+                        <a class="simple-button" href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a={$source}&amp;h={$commit->GetHash()}&amp;pg={$page}&amp;m={$rev->GetHash()}">{t}Select for diff{/t}</a>
                     {/if}
                 {/if}
             </div>

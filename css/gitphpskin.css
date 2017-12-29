@@ -142,6 +142,7 @@ div.page_footer_text {
 table {
 	padding: 8px 4px;
 	width: 100%;
+	border-spacing: 0;
 }
 
 tr:hover {
@@ -222,12 +223,13 @@ span.refs a:hover {
 
 span.tag {
 	/* tag badge */
-	padding: 0px 4px;
+	padding: 0 4px;
+	display: inline-block;
 	font-size: 10px;
 	font-weight: normal;
 	background-color: #ffffaa;
-	border: 1px solid;
-	border-color: #ffffcc #ffee00 #ffee00 #ffffcc;
+	/* border: 1px solid; */
+	/* border-color: #ffffcc #ffee00 #ffee00 #ffffcc; */
 }
 
 span.head {
@@ -280,7 +282,11 @@ div.diff_modes a.is-active {
 	justify-content: inherit;
 }
 
-.stretch-evenly > div {flex: 1 1 auto;align-self: center;}
+.stretch-evenly > div,
+.stretch-evenly > span {
+	flex: 1 1 auto;
+	align-self: center;
+}
 
 .diff-options {
 	padding-top: 20px;
@@ -320,7 +326,9 @@ div.title a.title {
 	font-weight: bold;
 	text-decoration: none;
 	color: #303030;
-	/* float: left; */
+	line-height: 1em;
+	/* align-self: center; */
+	/* flex: 1 1 300px; */
 }
 
 div.title:hover {
@@ -334,7 +342,7 @@ div.title_text {
 	margin: 0 50px;
 }
 div.title-right {
-    float: right;
+    text-align: right;
 }
 
 /*
@@ -681,7 +689,6 @@ span.agehighlight {
  * Tree view
  */
 table.treeTable td {
-	padding: 8px 0;
 	border: 0;
 }
 table.treeTable td.filesize {
@@ -694,8 +701,10 @@ table.treeTable td.link {
 	width: 50%;
 }
 
-table.treeTable tr.row-loading {
-	background: #f3f3f3;
+table.treeTable tr.row-loading > td:first-child {
+	background-image: url("/images/tree-loader.gif");
+	background-repeat: no-repeat;
+	background-position: 97% 50%;
 }
 
 table.treeTable tr.is-loaded {
@@ -725,6 +734,7 @@ table.treeTable .fileName .expander {
 	background-size: contain;
 	display: inline-block;
 	line-height: 19px;
+	cursor: pointer;
 	position: relative;
 	vertical-align: sub;
 	padding-right: 0px;
@@ -1086,6 +1096,10 @@ ul.owners-list {
 
 .git-table tr:hover .projectName a {
 	color: #6f2fe3;
+}
+
+.git-table tr.selected td {
+	background: #ffffaa;
 }
 
 .git-table .categoryName {

@@ -188,11 +188,14 @@ div.CodeMirror span.CodeMirror-nonmatchingbracket {color: #f22;}
 }
 .CodeMirror pre {
   /* Reset some styles that the rest of the page might have set */
-  -moz-border-radius: 0; -webkit-border-radius: 0; -o-border-radius: 0; border-radius: 0;
+  -moz-border-radius: 0;
+  -webkit-border-radius: 0;
+  -o-border-radius: 0;
+  border-radius: 0;
   border-width: 0;
   background: transparent;
   font-family: inherit;
-  font-size: inherit;
+  font-size: 13px;
   margin: 0;
   white-space: pre;
   word-wrap: normal;
