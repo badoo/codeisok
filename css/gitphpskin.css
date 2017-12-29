@@ -320,7 +320,7 @@ div.title a.title {
 	font-weight: bold;
 	text-decoration: none;
 	color: #303030;
-	float: left;
+	/* float: left; */
 }
 
 div.title:hover {

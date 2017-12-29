@@ -18,7 +18,7 @@
 {/if}
 
 {* Commit data *}
-<table cellspacing="0" class="git-table">
+<table class="git-table">
     <tr>
         <td>{t}Author{/t}</td>
         <td>{$commit->GetAuthorName()}</td>
