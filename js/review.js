@@ -708,6 +708,9 @@ var Review = (function() {
 
         if (!Review.is_handlers_bound) {
             $('.js-toggle-review-comments').click(Review.toggleReviewComments);
+            $('.js-toggle-treediff').click(function () {
+                $(this).toggleClass('checked');
+            });
             $('.diffBlob').click(Review.expandBlobIfNeeded);
             $('#review_save').click(Review.commentSubmit);
             $('#review_cancel').click(Review.hideForm);
