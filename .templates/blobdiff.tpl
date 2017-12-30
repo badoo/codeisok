@@ -16,8 +16,7 @@
         <a href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=blobdiff_plain&amp;h={$blob->GetHash()}&amp;hp={$blobparent->GetHash()}&amp;f={$file}">{t}Plain{/t}</a>
     </div>
 
-    <div class="page-search-container">
-    </div>
+    <div class="page-search-container"></div>
 </div>
 
 {include file='title.tpl' titlecommit=$commit}

@@ -14,7 +14,7 @@
    {include file='nav.tpl' treecommit=$commit}
 </div>
 
-<div class="title compact">
+<div class="title compact stretch-evenly">
     <a class="simple-button" href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=blob_plain&amp;h={$blob->GetHash()}&amp;f={$blob->GetPath()}">{t}Plain{/t}</a>
     {if ($commit->GetHash() != $head->GetHash()) && ($head->PathToHash($blob->GetPath()))}
         <a class="simple-button" href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=blob&amp;hb=HEAD&amp;f={$blob->GetPath()}">{t}HEAD{/t}</a>
@@ -25,6 +25,8 @@
             {t}Blame{/t}
         </a>
     {/if}
+
+    <div class="page-search-container"></div>
 </div>
 
  {include file='title.tpl' titlecommit=$commit}

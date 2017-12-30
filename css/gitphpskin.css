@@ -406,7 +406,7 @@ tr.commit-head td {
 }
 
 tr.commit-body td {
-	padding: 5px;
+	padding: 5px 0;
 }
 
 
@@ -857,6 +857,7 @@ ul.owners-list {
 	padding: 10px 15px;
 	margin-top: 10px;
 	border-radius: 10px;
+	border: 0;
 }
 
 /*
