@@ -151,7 +151,9 @@ function detectActiveBlobs() {
     $(`.file-list a[href="#${fileName}"]`).parent().addClass('is-active is-visited');
 
     // Make sure it's in the view
-    foundElement.get(0).scrollIntoView();
+    if (foundElement.length > 0) {
+        foundElement.get(0).scrollIntoView();
+    }
 }
 
 function renderFolder(folder) {
