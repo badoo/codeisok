@@ -283,22 +283,22 @@ span.review {
     padding-bottom: 15px !important;
 }
 
-.syntaxhighlighter .comments a {
+.comment-container .comments a {
   display: block;
   white-space: nowrap;
 }
 
-.syntaxhighlighter .comments {
+.comment-container .comments {
   padding: 15px 15px 0 15px !important;
   white-space: normal;
 }
 
-.syntaxhighlighter .comments, .syntaxhighlighter .comments a {
+.comment-container .comments, .comment-container .comments a {
   font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace !important;
   text-decoration: none !important;
 }
 
-.syntaxhighlighter .comments .text,
+.comment-container .comments .text,
 .cloud_with_text.sbs .text {
   color: #303030;
   display: block;
