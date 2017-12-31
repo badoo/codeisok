@@ -18,7 +18,7 @@ body.has-review-block {
     display: none;
 }
 div.review_btn {
-    padding: 10px 20px 9px !important;
+    padding: 11px 20px 9px !important;
     border: 1px solid #7000E3 !important;
     border-radius: 10px !important;
     display: inline-block;
