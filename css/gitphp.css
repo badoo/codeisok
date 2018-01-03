@@ -25,7 +25,7 @@ td.code * {
  * (main header with commit message)
  */
 div.title a.title {
-	display: block;
+	/* display: block; */
 }
 
 
@@ -55,18 +55,6 @@ div.log_link {
 .pre {
 	white-space: pre;
 }
-
-
-/*
- * Search box
- */
-div.search {
-	margin: 4px 8px;
-	position: absolute;
-	top: 56px;
-	right: 12px
-}
-
 
 /*
  * Badges
@@ -118,7 +106,7 @@ td.code {
  */
 td#blameData {
 	white-space: nowrap;
-    line-height: 1.5em !important;
+	line-height: 22px !important;
 }
 
 /*
@@ -205,14 +193,6 @@ div.suppressed {
     background-color: #d9d8d1;
 }
 
-div.diff_controls {
-    float: right;
-    margin-left: 1em;
-}
-.diff_controls.checkbox {
-    line-height: 22px;
-}
-
 .hidden {
     display: none !important;
 }
@@ -230,35 +210,35 @@ div.diff_controls {
 }
 
 .file_filter {
-	margin: 7px;
-
-	-webkit-touch-callout: none;
-	-webkit-user-select: none;
-	-khtml-user-select: none;
-	-moz-user-select: none;
-	-ms-user-select: none;
 	user-select: none;
-
 }
+
 .file_filter .spacer {
 	margin: 0 5px;
 }
 
 .file_filter .hint {
 	color: silver;
+	display: block;
+	clear: both;
 }
 
 .file_filter .extension, .file_filter .status, .file_filter .folder {
-	font-family: "Courier New";
-	font-weight: bold;
-	padding: 2px 5px;
+	padding: 5px 10px;
 	cursor: pointer;
+	border-radius: 5px;
+	margin: 0 5px 5px 0;
+	color: white;
+	float: left;
+	background: #c0c0c0;
+	text-transform: uppercase;
+	font-size: 12px;
 }
 .file_filter .extension.selected {
-	background-color: pink;
+	background-color: #1AB0FF;
 }
 .file_filter .status.selected {
-	background-color: cornflowerblue;
+	background-color: #FF8201;
 }
 .file_filter .folder.selected {
 	background-color: darkseagreen;
@@ -269,15 +249,6 @@ div.diff_controls {
 }
 
 /* Comment mode toggler */
-.page_body .only-comments-warning {
-	display: none;
-}
-.page_body.only-comments .only-comments-warning {
-	display: block;
-	text-align: center;
-	background: #ffffca;
-	padding: 10px;
-}
 .page_body.only-comments .line:not(.commented) {
     display: none;
 }
@@ -310,7 +281,7 @@ div.diff_controls {
 	right: 0;
 	top: 0;
 	bottom: 0;
-	background: rgba(0,0,0,0.2);
+	background: rgba(255, 255, 255, 0.8);
 	z-index: 100;
 }
 
@@ -323,10 +294,11 @@ div.diff_controls {
 	margin-top: -10px;
 	width: 20px;
 	height: 20px;
-	background: white;
+	background: url('/images/favicon.png') 50% 50% no-repeat;
 	animation: sk-cubemove 2s infinite ease-in-out;
 	z-index: 200;
 	border-radius: 5px;
+	background-size: cover;
 }
 
 @keyframes sk-cubemove {
@@ -351,21 +323,34 @@ div.diff_controls {
     position: relative;
     display: inline-block;
     vertical-align: top;
+    border: 1px solid #c9c9c9;
+    border-radius: 10px;
+    padding: 10px;
+    line-height: 20px;
 }
 
-.switcher a {
+.switcher:hover {
+	background: #fafafa;
+}
+
+.switcher span {
+    vertical-align: middle;
+}
+
+.switcher .switch {
     position: relative;
     top: 0;
     left: 0;
-    display: block;
+    display: inline-block;
     width: 35px;
     height: 20px;
     border-radius: 10px;
     background: #cdd7de;
+    vertical-align: middle;
     transition: background .2s;
 }
 
-.switcher a::before {
+.switcher .switch::before {
     position: absolute;
     top: 2px;
     left: 2px;
@@ -378,7 +363,7 @@ div.diff_controls {
     transition: transform .2s;
 }
 
-.switcher a::after {
+.switcher .switch::after {
     position: absolute;
     top: -5px;
     right: -5px;
@@ -388,10 +373,9 @@ div.diff_controls {
     cursor: pointer;
 }
 
-.switcher.checked a {
+.switcher.checked .switch {
     background: #7000e3;
 }
 
-.switcher.checked a::before {
+.switcher.checked .switch::before {
     transform: translate3d(15px, 0, 0);
-}

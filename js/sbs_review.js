@@ -200,7 +200,7 @@ SideBySideReview.prototype = {
         node.id = 'review';
 
         node.innerHTML =
-            '<div class="sbs review_comment_block" style="display: block;">' +
+            '<div class="sbs review_comment_block cloud_with_text" style="display: block;">' +
                 '<div id="review_comment_tab">' +
                     '<textarea class="sbs" name="text" rows="1" cols="2" id="review_text"></textarea>' +
                 '</div>' +
@@ -279,7 +279,9 @@ SideBySideReview.prototype = {
             commentElement.appendChild(editButtons);
         } else if (date && author){
             commentElement.querySelector('.cloud_with_text').innerHTML =
-                `<span class="date">${date}</span> <span class="author">${author}:</span> <span class="text">${comment_text}</span>`;
+                `<span class="author">${author}</span>
+                <span class="date">${date}</span>
+                <span class="text">${comment_text}</span>`;
         }
 
         var lineWidget = editor.addLineWidget(line, commentElement);
@@ -528,16 +530,32 @@ SideBySideReview.prototype = {
             var review_review = '<div id="review_review" style="display: block; z-index: 1000;">';
 
             if (this.review_id) {
-                review_review = review_review + '<div id="review_ticket_select">Review: <div class="review-select review-selected" title="Id: ' + this.review_id + '">' + this.ticket + '(' + this.review_id + ')</div></div>';
+                review_review = `
+                    ${review_review}
+                    <div id="review_ticket_select">
+                        <strong>Review </strong>
+                        <div class="review-select review-selected" title="Id: ${this.review_id}">
+                            ${this.ticket}(${this.review_id})
+                        </div>
+                    </div>`;
             } else {
-                review_review = review_review + '<div id="review_ticket_select">Review: <div class="review-select review-selected">New</div></div>';
+                review_review = `
+                    ${review_review}
+                    <div id="review_ticket_select">
+                        <strong>Review </strong>
+                        <div class="review-select review-selected">New</div>
+                    </div>`;
             }
 
-            review_review = review_review + '<input type="text" id="review_ticket">' +
-            '<div class="review_btn" id="review_finish" style="">Finish</div>' +
-            '<div class="review_btn" id="review_abort" style="">Cancel</div>' +
-            '<div id="review_loader" style="background: url(\'/images/search-loader.gif\') transparent;height: 16px;line-height: 16px;width: 16px;display:none;">&nbsp;</div>' +
-            '</div>';
+            review_review = `
+                    ${review_review}
+                    <input type="text" id="review_ticket" />
+                    <div id="review_loader" style="background: url('/images/search-loader.gif') transparent;height: 16px;line-height: 16px;width: 16px;display:none;">&nbsp;</div>
+                    <div class="review-actions">
+                        <div class="review_btn" id="review_abort" style="">Discard</div>
+                        <div class="review_btn" id="review_finish" style="">Finish</div>
+                    </div>
+                </div>`;
 
             $('.page_body').append($(review_review));
             if (!this.review_id) {

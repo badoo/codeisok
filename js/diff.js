@@ -92,7 +92,7 @@ function renderTreeDiff(fileList, container) {
     enablePaneDragging();
     enableFolderCollapsing();
 
-    $('.left-pane').removeClass('is-loading');
+    $('.two-panes').removeClass('is-loading');
 }
 
 function enableFolderCollapsing() {
@@ -141,13 +141,19 @@ function enablePaneDragging() {
 
 function detectActiveBlobs() {
     const hash = window.location.hash.substr(1);
-    const closestBlob = $(`[name="${hash}"]`).closest('.diffBlob');
+    const foundElement = $(`[name="${hash}"]`);
+    const closestBlob = foundElement.closest('.diffBlob');
     closestBlob.addClass('is-visible').siblings().removeClass('is-visible');
 
     // Find the file name and highlight on the left pane
     const fileName = closestBlob.find('a.anchor').attr('name');
     $('.file-list li').removeClass('is-active');
     $(`.file-list a[href="#${fileName}"]`).parent().addClass('is-active is-visited');
+
+    // Make sure it's in the view
+    if (foundElement.length > 0) {
+        foundElement.get(0).scrollIntoView();
+    }
 }
 
 function renderFolder(folder) {

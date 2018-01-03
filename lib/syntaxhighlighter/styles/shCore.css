@@ -7,7 +7,7 @@
  *
  * @version
  * 3.0.83 (July 02 2010)
- * 
+ *
  * @copyright
  * Copyright (C) 2004-2010 Alex Gorbatchev.
  *
@@ -32,10 +32,9 @@
   float: none !important;
   height: auto !important;
   left: auto;
-  line-height: 1.5em !important;
+  line-height: 1.7em !important;
   margin: 0 !important;
   outline: 0 !important;
-  /*overflow: auto !important;*/
   padding: 0 !important;
   position: static;
   right: auto !important;
@@ -43,11 +42,9 @@
   top: auto;
   vertical-align: baseline !important;
   width: auto !important;
-  box-sizing: content-box !important;
-  #font-family: "Consolas", "Bitstream Vera Sans Mono", "Courier New", Courier, monospace !important;
   font-weight: normal !important;
   font-style: normal !important;
-  font-size: 1em !important;
+  font-size: 13px !important;
   min-height: inherit !important;
   min-height: auto !important;
 }
@@ -57,6 +54,7 @@
   position: relative !important;
   overflow: auto !important;
   font-size: 1em !important;
+  border-radius: 0 0 10px 10px;
 }
 .syntaxhighlighter.source {
   overflow: hidden !important;
@@ -102,12 +100,10 @@
   padding: 0 0.2em 0 0.2em !important;
 }
 .syntaxhighlighter table td.code .line {
-  /*padding: 0 1em !important;*/
   width: auto;
 }
 .syntaxhighlighter table .line {
     width: auto;
-    /*height: 18px !important;*/
 }
 /*.syntaxhighlighter table .line, .syntaxhighlighter table .line code {*/
 .syntaxhighlighter table .line-number.after {
@@ -266,4 +262,8 @@
 
 .syntaxhighlighter .added-row-container {
     background-color: #eaffea !important;
+}
+
+.syntaxhighlighter .selected-multi {
+    background-color: #fffdea !important;
 }

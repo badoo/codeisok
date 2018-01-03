@@ -90,7 +90,7 @@ var Review = (function() {
 
     Review.redrawReviewSelector = function(reviews, new_review, new_review_name) {
         var $reviewSelect = $('#review_ticket_select');
-        $reviewSelect.text('Review: ');
+        $reviewSelect.html('<strong>Review </strong>');
 
         if (reviews !== undefined) {
             var reviewSelectClickHandler = function() {
@@ -369,13 +369,28 @@ var Review = (function() {
                         if (prev_line == line) {
                             thread = ' thread';
                         }
-                        var commentsHtml = '<div class="comments' + thread + '">'
-                            + '<a name="' + data.comments[i].id + '" href="#' + data.comments[i].id + '"><span class="date">' + date + '</span> <span class="author">' + author + ':</span></a> '
-                            + '<span class="text">' + text + '</span></div>';
+                        let commentsHtml = `
+                            <div class="comments ${thread}">
+                                <a class="comment-user" name="${data.comments[i].id}" href="#${data.comments[i].id}">
+                                    <span class="author">${author}</span>
+                                    <span class="date">${date}</span>
+                                </a>
+                                <span class="text">${text}</span>
+                            </div>`;
 
                         if (data.comments[i].status == 'Draft') {
-                            commentsHtml = `<div class="comments draft ${thread}" title="draft, click to edit"><a name="${data.comments[i].id}" href="#${data.comments[i].id}"><span class="date">${date}</span> <span class="author">${author}:</span></a><span class="text">${text}</span><div>
-                                    <div class="btn_small review_btn review_save" id="review_line_edit" title="Edit this comment">Edit</div><div class="btn_small review_btn review_cancel" id="review_line_delete" title="delete this comment">Delete</div></div></div>`;
+                            commentsHtml = `
+                                <div class="comments draft ${thread}" title="draft, click to edit">
+                                    <a class="comment-user" name="${data.comments[i].id}" href="#${data.comments[i].id}">
+                                        <span class="author">${author} (draft)</span>
+                                        <span class="date">${date}</span>
+                                    </a>
+                                    <span class="text">${text}</span>
+                                    <div id="review_ticket_tab">
+                                        <div class="btn_small review_btn review_save" id="review_line_edit" title="Edit this comment">Edit</div>
+                                        <div class="btn_small review_btn review_cancel" id="review_line_delete" title="delete this comment">Delete</div>
+                                    </div>
+                                </div>`;
                         }
 
                         var $container = $line.children('.comment-container');
@@ -395,6 +410,7 @@ var Review = (function() {
                         Review.comments_ids_file.push({id: data.comments[i].id, file: file});
                         prev_line = line;
                     }
+                    $container.append($('#review_comment'));
                     $('#review_review').show();
                     $('body').addClass('has-review-block');
                     $('#review_commentnav_next').show();
@@ -645,6 +661,7 @@ var Review = (function() {
 
     Review.toggleReviewComments = function (e) {
         e.preventDefault();
+        $('.js-toggle-review-comments').toggleClass('checked');
         $('.diffBlob.lines-visible').removeClass('lines-visible');
         $('.page_body').toggleClass('only-comments');
     }
@@ -666,7 +683,7 @@ var Review = (function() {
             dataType: 'json',
             success: function (data) {
                 if (!Review.getUrlParams().review && data.last_review !== undefined) {
-                    $('#notifications').html("<span data-url='" + data.last_review + "'>You have an unfinished review. You can <div class='review_btn' id='review_edit'>Edit</div> or <div class='review_btn' id='review_delete'>Delete</div> it.</span>");
+                    $('#notifications').html("<span data-url='" + data.last_review + "'>You have an unfinished review. You can <strong id='review_edit'>Continue reviewing</strong> or <strong id='review_delete'>Delete</strong> it.</span>");
                     $('#review_edit').click(function() {
                         document.location = $('#review_edit').parent('span').data('url');
                     });
@@ -691,6 +708,9 @@ var Review = (function() {
 
         if (!Review.is_handlers_bound) {
             $('.js-toggle-review-comments').click(Review.toggleReviewComments);
+            $('.js-toggle-treediff').click(function () {
+                $(this).toggleClass('checked');
+            });
             $('.diffBlob').click(Review.expandBlobIfNeeded);
             $('#review_save').click(Review.commentSubmit);
             $('#review_cancel').click(Review.hideForm);

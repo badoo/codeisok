@@ -13,48 +13,43 @@
 
  {* Nav *}
  <div class="page_nav">
-   {if $commit}
-      {assign var=tree value=$commit->GetTree()}
-   {/if}
-   {include file='nav.tpl' current='commitdiff' logcommit=$commit treecommit=$commit}
-   <br />
+    {if $commit}
+        {assign var=tree value=$commit->GetTree()}
+    {/if}
 
-    <div class="diff_modes">
-        <strong>Change diff mode:</strong>
+    {include file='nav.tpl' current='commitdiff' logcommit=$commit treecommit=$commit}
 
-        {if $sidebyside}
-        <a href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=commitdiff&amp;h={$commit->GetHash()}{if $hashparent}&amp;hp={$hashparent}{/if}&amp;{if $review}review={$review}{/if}&amp;o=unified">{t}unified{/t}</a>
-        {else}
-        <a href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=commitdiff&amp;h={$commit->GetHash()}{if $hashparent}&amp;hp={$hashparent}{/if}&amp;{if $review}review={$review}{/if}&amp;o=sidebyside">{t}side by side{/t}</a>
-        {/if}
-
-    | <a href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=commitdiff_plain&amp;h={$commit->GetHash()}{if $hashparent}&amp;hp={$hashparent}{/if}">{t}plain{/t}</a>
-
-        <strong>{t}TreeDiff: {/t}</strong>
-        {if $treediff}
-            <div class="switcher checked">
-                <a href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=commitdiff&amp;h={$commit->GetHash()}{if $hashparent}&amp;hp={$hashparent}{/if}&amp;{if $review}review={$review}{/if}&amp;treediff=0"></a>
+    <div class="diff-options stretch-evenly">
+        <div>
+            <div class="diff_modes">
+                <a class="{if $unified}is-active{/if}" href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=commitdiff&amp;h={$commit->GetHash()}{if $hashparent}&amp;hp={$hashparent}{/if}&amp;{if $review}review={$review}{/if}&amp;o=unified">{t}unified{/t}</a>
+                <a class="{if $sidebyside}is-active{/if}" href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=commitdiff&amp;h={$commit->GetHash()}{if $hashparent}&amp;hp={$hashparent}{/if}&amp;{if $review}review={$review}{/if}&amp;o=sidebyside">{t}side by side{/t}</a>
+                <a href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=commitdiff_plain&amp;h={$commit->GetHash()}{if $hashparent}&amp;hp={$hashparent}{/if}">{t}plain{/t}</a>
             </div>
-        {else}
-            <div class="switcher">
-                <a href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=commitdiff&amp;h={$commit->GetHash()}{if $hashparent}&amp;hp={$hashparent}{/if}&amp;{if $review}review={$review}{/if}&amp;treediff=1"></a>
-            </div>
-        {/if}
+
+            <a class="switcher js-toggle-treediff {if $treediff}checked{/if}" href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=commitdiff&amp;h={$commit->GetHash()}{if $hashparent}&amp;hp={$hashparent}{/if}&amp;{if $review}review={$review}{/if}&amp;treediff={if $treediff}0{else}1{/if}">
+                <span>Treediff</span>
+                <span class="switch"></span>
+            </a>
+
+            {if $review && $unified}
+                <a href="#" class="js-toggle-review-comments switcher">
+                    <span>Review Comments Only</span>
+                    <span class="switch"></span>
+                </a>
+            {/if}
+        </div>
+
+        <div class="page-search-container">
+        </div>
     </div>
  </div>
 
- {include file='title.tpl' titlecommit=$commit}
+ {include file='title.tpl' titlecommit=$commit compact=true}
 
  <div class="page_body">
+
    <div class="diff_summary">
-   {assign var=bugpattern value=$project->GetBugPattern()}
-   {assign var=bugurl value=$project->GetBugUrl()}
-   {foreach from=$commit->GetComment() item=line}
-     {$line|htmlspecialchars|buglink:$bugpattern:$bugurl}<br />
-   {/foreach}
-
-   <h2 class="only-comments-warning">Showing review comments only</h2>
-
     {*
         UNIFIED
     *}
@@ -62,26 +57,20 @@
         {if $treediff}
             {include file='unified_treediff.tpl' diff_source=$commit_tree_diff}
         {else}
-            <hr>
-
             {include file='extensions_filter.tpl' stasuses=$statuses extensions=$extensions folders=$folders}
 
-            <table style="float: left; border: 0; padding: 0; margin: 0;">
+            <table>
                 {foreach from=$commit_tree_diff item=filediff}
                     <tr class="filetype-{$filediff->getToFileExtension()} status-{$filediff->getStatus()|lower} folder-{$filediff->getToFileRootFolder()|lower}">
                         <td>
-                            {$filediff->getStatus()}&nbsp;&nbsp;&nbsp;&nbsp;<a href="#{$filediff->getToFile()}">{$filediff->getToFile()}</a>
+                            {$filediff->getStatus()} <a href="#{$filediff->getToFile()}">{$filediff->getToFile()}</a>
                         </td>
-                        <td name="files_index_{$filediff->getToFile()}"></td>
+                        <td width="30%" name="files_index_{$filediff->getToFile()}"></td>
                     </tr>
                 {/foreach}
             </table>
 
-            <br style="clear: both;" />
-            <br style="clear: both;" />
-
             {include file='unified_diff_contents.tpl' diff_source=$commit_tree_diff}
-
         {/if}
     {*
         SIDE BY SIDE

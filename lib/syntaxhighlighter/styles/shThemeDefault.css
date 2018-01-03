@@ -7,7 +7,7 @@
  *
  * @version
  * 3.0.83 (July 02 2010)
- * 
+ *
  * @copyright
  * Copyright (C) 2004-2010 Alex Gorbatchev.
  *
@@ -16,8 +16,6 @@
  */
 .syntaxhighlighter {
   background-color: white !important;
-#  font-size: 110% !important;
-    overflow: visible !important;
 }
 .syntaxhighlighter .line.alt1 {
   background-color: white;
@@ -26,7 +24,7 @@
   background-color: white;
 }
 .syntaxhighlighter .line.color3:hover, .syntaxhighlighter .line.color4:hover, .syntaxhighlighter .line.commentable:hover {
-    background-color: rgba(192, 192, 192, 0.3) !important;
+    /* background-color: rgba(192, 192, 192, 0.3) !important; */
 }
 .syntaxhighlighter .line.commentable .line-number {
     cursor: pointer;
@@ -38,14 +36,14 @@
     user-select: none;
 }
 .syntaxhighlighter .line.selected {
-    border: 2px solid #080  !important;
+    /* border: 2px solid #080  !important; */
 }
 .syntaxhighlighter .line.selected-multi {
-    border-left: 2px solid #080  !important;
-    border-right: 2px solid #080  !important;
-    border-top: 2px solid #080 !important;
+    /* border-left: 2px solid #080  !important; */
+    /* border-right: 2px solid #080  !important; */
+    /* border-top: 2px solid #080 !important; */
 }
-.syntaxhighlighter .line.selected-multi ~ .line.selected-multi, 
+.syntaxhighlighter .line.selected-multi ~ .line.selected-multi,
 .syntaxhighlighter .line.selected-multi ~ .line.selected {
     border-top: none !important;
 }
@@ -97,12 +95,7 @@
   color: black !important;
 }
 .syntaxhighlighter .plain, .syntaxhighlighter .plain a {
-  color: black !important;
-}
-.syntaxhighlighter .comments, .syntaxhighlighter .comments a {
-  color: #008200 !important;
-  font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace !important;
-  text-decoration: none !important;
+  color: #303030 !important;
 }
 .syntaxhighlighter .string, .syntaxhighlighter .string a {
   color: blue !important;

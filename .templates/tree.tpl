@@ -7,22 +7,19 @@
  *}
 {include file='header.tpl'}
 
- {* Nav *}
-   <div class="page_nav">
-     {include file='nav.tpl' current='tree' logcommit=$commit}
-     <br /><br />
-   </div>
+{* Nav *}
+{include file='nav.tpl' current='tree' logcommit=$commit}
 
- {include file='title.tpl' titlecommit=$commit}
+{include file='title.tpl' titlecommit=$commit hasPageSearch=true}
 
- {include file='path.tpl' pathobject=$tree target='tree'}
+{include file='path.tpl' pathobject=$tree target='tree'}
 
- <div class="page_body">
-   {* List files *}
-<table cellspacing="0" class="treeTable">
-     {include file='treelist.tpl'}
-</table>
- </div>
+<div class="page_body">
+    {* List files *}
+    <table cellspacing="0" class="git-table treeTable">
+        {include file='treelist.tpl'}
+    </table>
+</div>
 
- {include file='footer.tpl'}
+{include file='footer.tpl'}
 

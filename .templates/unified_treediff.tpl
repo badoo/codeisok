@@ -12,9 +12,9 @@ var _file_list = [
 ];
 </script>
 
-<div class="two-panes">
+<div class="two-panes is-loading">
     {* This is rendered for non-JS support *}
-    <div class="js-left-pane left-pane is-loading">
+    <div class="js-left-pane left-pane">
 
         {include file='extensions_filter.tpl' stasuses=$statuses extensions=$extensions folders=$folders}
 

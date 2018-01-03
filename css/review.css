@@ -1,11 +1,11 @@
 body.has-review-block {
-    padding-bottom: 40px;
+    padding-bottom: 100px;
 }
 
 #review_comment {
     display: none;
     position: relative !important;
-    padding: 7px !important;
+    padding: 15px 15px 0 15px !important;
     background: #ffffff !important;
     white-space: normal !important;
     margin: 0 30px 30px !important;
@@ -18,31 +18,30 @@ body.has-review-block {
     display: none;
 }
 div.review_btn {
-    margin: 4px auto 0px !important;
-    padding: 4px 10px 3px 10px !important;
-    border: 1px solid #228839 !important;
-    border-radius: 3px !important;
+    padding: 11px 20px 9px !important;
+    border: 1px solid #7000E3 !important;
+    border-radius: 10px !important;
     display: inline-block;
     cursor: pointer !important;
     color: #333 !important;
     text-align: center !important;
     color: #fff !important;
-    background-color: #28a745 !important;
-    background-image: linear-gradient(-180deg, #34d058 0%, #28a745 90%);
+    background-color: #7000E3 !important;
     font-family: Helvetica, Arial, sans-serif !important;
     line-height: 1.5em !important;
-    margin-right: 10px !important;
+    margin-right: 5px !important;
 }
-
-div#review_line_edit {}
 
 div.review_btn.review_cancel,
 div.review_btn.comment_delete,
 #review_abort,
 #review_cancel {
-    color: #ffffff !important;
-    background-image: linear-gradient(-180deg, #ff5e5e 0%, #d33838 90%) !important;
-    border-color: #7e0000 !important;
+    /* color: #ffffff !important; */
+    /* background-image: linear-gradient(-180deg, #ff5e5e 0%, #d33838 90%) !important; */
+    /* border-color: #7e0000 !important; */
+    background: white !important;
+    color: #303030 !important;
+    border-color: #c0c0c0 !important;
 }
 
 span.btn_small {
@@ -58,17 +57,17 @@ span.btn_small {
     width: 100% !important;
     border: 1px solid #cacaca !important;
     box-sizing: border-box !important;
-    border-radius: 3px !important;
+    border-radius: 10px !important;
     display: block !important;
     position: relative !important;
-    /* margin: 3px auto !important; */
+    /* margin: 10px 0 !important; */
     min-height: 3em !important;
-    padding: 5px !important;
+    padding: 10px !important;
     font-size: 14px !important;
+    outline: none !important;
+    font-family: "SF UI Text", Helvetica, Arial, sans-serif !important;
 }
-.review_text:focus {
-    box-shadow: 0 0 2px 1px #08f !important;
-}
+#review_text:focus {border: 1px solid #7000e3 !important;}
 #review_msg {
     white-space: pre-line !important;
 }
@@ -77,27 +76,31 @@ span.btn_small {
 }
 #review_ticket_select {
     display: inline-block;
+    line-height: 36px;
 }
 .syntaxhighlighter div.commented.line {
-    background: #fffcce !important;
+    background: #fffdea !important;
 }
 .syntaxhighlighter div.commented.line:hover {
-    background: #fffbc2 !important;
+    background: #fffdea !important;
 }
 .syntaxhighlighter div.commented.line.deleted-row-container {
-    background: #ffebc2 !important;
+    background: #fff8ea !important;
 }
 .syntaxhighlighter div.commented.line.added-row-container {
-    background: #e6ffc2 !important;
+    background: #faffea !important;
+}
+
+.comment-container {
+    white-space: normal;
 }
 
 .comment-container > div {
     color: blue !important;
     background: #ffffff !important;
-    /* margin-left: 20px !important; */
     white-space: pre-line;
     padding: 5px !important;
-    /* max-width: 980px; */
+    max-width: calc(86vw - 200px);
     margin: 0 30px !important;
     border-left: 1px solid #ccc !important;
     border-right: 1px solid #ccc !important;
@@ -127,12 +130,6 @@ span.btn_small {
     border-radius: 0 0px 5px 5px !important;
 }
 
-.commented div.comments.draft {
-    background-color: rgb(229, 254, 255) !important;
-    padding-top: 10px !important;
-    padding-bottom: 10px !important;
-}
-
 .commented div.comments.draft.controls {
     /*background: #f88 !important;*/
     background-color: rgba(123, 19, 193, 0.2) !important;
@@ -160,21 +157,35 @@ div.review-selected {
     color: #000 !important;
     font-size: 14px !important;
 }
-.date {font-size: 12px !important;letter-spacing: -0.5px;}
+.date {
+    font-size: 12px !important;
+    letter-spacing: -0.5px;
+    color: #949494 !important;
+    margin-left: 20px;
+}
 .author {
     font-weight: bold;
 }
 
-#review_review {
+#review_review,
+#notifications {
     position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    padding: 7px 4px;
+    bottom: 20px;
+    left: 20px;
+    right: 20px;
+    padding: 10px 20px;
     display: none;
-    background: #eee !important;
-    box-shadow: 0 -5px 20px 5px #EEE;
+    border-radius: 5px;
+    background: white;
+    border: 1px solid #c0c0c0;
+    box-shadow: 0px 10px 10px -6px rgba(0,0,0,0.3);
+    z-index: 1;
 }
+
+#review_review .review-actions {
+    float: right;
+}
+
 #review_alert {
     display: none;
     position: fixed;
@@ -187,15 +198,14 @@ div.review-selected {
     position: fixed;
     top: 20px;
     right: 20px;
-    background: rgba(240, 240, 240, 0.4);
+    background: rgba(240, 240, 240, 0.6);
     width: 40px;
     height: 40px;
     border-radius: 5px;
     text-decoration: none;
     line-height: 40px;
     text-align: center;
-    font: 36px/36px sans-serif;
-    color: #88F;
+    font: 30px/40px sans-serif;
 }
 .reivew_commentnav:hover {
     background: rgba(240, 240, 240, 0.9);
@@ -259,22 +269,42 @@ span.review {
     border-radius: 2px;
 }
 
-.review_comment_block.sbs.draft .cloud_with_text.sbs {
-    background-color:rgb(229, 254, 255) !important;
-}
-
 .review_comment_block.sbs .text {
     color: #008200;
 }
 
 #review_comment_tab {
-    padding: 5px 5px 0 5px;
-    background: white;
+    /* padding: 5px 5px 0 5px !important; */
+    /* background: white; */
+    padding-bottom: 10px !important;
 }
 
 #review_ticket_tab {
-    padding: 1px 10px 5px 5px;
-    background: white;
+    padding-bottom: 15px !important;
+}
+
+.comment-container .comments a {
+  display: block;
+  white-space: nowrap;
+}
+
+.comment-container .comments {
+  padding: 15px 15px 0 15px !important;
+  white-space: normal;
+}
+
+.comment-container .comments, .comment-container .comments a {
+  font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace !important;
+  text-decoration: none !important;
+}
+
+.comment-container .comments .text,
+.cloud_with_text.sbs .text {
+  color: #303030;
+  display: block;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  font-family: "SF UI Text", Helvetica, Arial, sans-serif !important;
 }
 
 .cloud_with_text.sbs {
@@ -291,11 +321,14 @@ span.review {
 }
 
 #notifications {
-    background-color: #ffff99;
-    padding-left: 5px;
-    height: 40px;
-    font-size: 120%;
+    background-color: #ffffd7;
+    padding: 20px;
     display: none;
+}
+
+#notifications strong {
+    cursor: pointer;
+    display: inline-block;
 }
 
 .hoverable {
@@ -337,13 +370,13 @@ span.review {
 }
 
 .two-panes .SBSContent .CodeMirror-linewidget {
-    max-width: calc(45vw - 155px);
+    max-width: calc(43vw - 180px);
 }
 
 .SBSContent .CodeMirror-linewidget {
     margin: 15px;
     box-shadow: 0px 10px 10px -6px rgba(0,0,0,0.3);
-    max-width: calc(50vw - 100px);
+    max-width: calc(45vw - 100px);
 }
 
 .CodeMirror-linewidget .edit_buttons {
@@ -355,4 +388,4 @@ span.review {
 
 .SBSContent .CodeMirror-linewidget + .CodeMirror-linewidget {
     margin-top: -17px;
-}
+    

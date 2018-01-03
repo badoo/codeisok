@@ -7,51 +7,47 @@
  *}
 {include file='header.tpl'}
 
- <div class="page_nav">
- {include file='nav.tpl' commit=$head current='summary'}
- <br /><br />
- </div>
+<div class="page_nav">
+    {include file='nav.tpl' commit=$head current='summary'}
+</div>
 
- {include file='title.tpl'}
+{include file='title.tpl'}
 
- {* Project brief *}
- <table cellspacing="0">
-   <tr><td>{t}description{/t}</td><td>{$project->GetDescription()}</td></tr>
-   <tr><td>{t}owner{/t}</td><td>{$project->GetOwner()|escape:'html'}</td></tr>
-   {if $head}
-   <tr><td>{t}last change{/t}</td><td>{$head->GetCommitterEpoch()|date_format:"%a, %d %b %Y %H:%M:%S %z"}</td></tr>
-   {/if}
-   {if $project->GetCloneUrl()}
-     <tr><td>{t}clone url{/t}</td><td><a href="{$project->GetCloneUrl()}">{$project->GetCloneUrl()}</a></td></tr>
-   {/if}
-   {if $project->GetPushUrl()}
-     <tr><td>{t}push url{/t}</td><td><a href="{$project->GetPushUrl()}">{$project->GetPushUrl()}</a></td></tr>
-   {/if}
- </table>
+{* Project brief *}
+<div class="stretch-evenly">
+    <table class="project-brief" cellspacing="0">
+        <tr><td>{t}Description{/t}</td><td>{$project->GetDescription()}</td></tr>
+        <tr><td>{t}Owner{/t}</td><td>{$project->GetOwner()|escape:'html'}</td></tr>
+        {if $head}
+        <tr><td>{t}Last change{/t}</td><td>{$head->GetCommitterEpoch()|date_format:"%a, %d %b %Y %H:%M:%S %z"}</td></tr>
+        {/if}
+        {if $project->GetCloneUrl()}
+            <tr><td>{t}clone url{/t}</td><td><a href="{$project->GetCloneUrl()}">{$project->GetCloneUrl()}</a></td></tr>
+        {/if}
+        {if $project->GetPushUrl()}
+            <tr><td>{t}Push url{/t}</td><td><a href="{$project->GetPushUrl()}">{$project->GetPushUrl()}</a></td></tr>
+        {/if}
+    </table>
 
- {if !$head}
+    <div class="page-search-container"></div>
+</div>
+
+{if !$head}
    {include file='title.tpl' target='shortlog' disablelink=true}
- {else}
+{else}
    {include file='title.tpl' target='shortlog'}
- {/if}
+{/if}
 
- {include file='shortloglist.tpl' source='summary'}
- 
- {if $taglist}
-  
-  {include file='title.tpl' target='tags'}
+{include file='shortloglist.tpl' source='summary'}
 
-  {include file='taglist.tpl'}
-   
- {/if}
+{if $taglist}
+    {include file='title.tpl' target='tags'}
+    {include file='taglist.tpl'}
+{/if}
 
- {if $headlist}
+{if $headlist}
+    {include file='title.tpl' target='heads'}
+    {include file='headlist.tpl'}
+{/if}
 
-  {include file='title.tpl' target='heads'}
-
-  {include file='headlist.tpl'}
-
- {/if}
-
- {include file='footer.tpl'}
-
+{include file='footer.tpl'}

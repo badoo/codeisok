@@ -149,6 +149,22 @@ function keydownSearchField(el) {
         }
     }
 
+function initSearchContainer() {
+    const searchContainer = $('.page-search-container');
+    const pageSearch = $('.page-search');
+
+    if (searchContainer.length > 0) {
+        $('.page-search-container').append(pageSearch);
+    }
+
+    $('.js-show-extra-settings').click(function (e) {
+        if ($(e.target).hasClass('js-show-extra-settings')) {
+            $(this).parent().toggleClass('settings-visible');
+        }
+    });
+}
+
 $( document ).ready(function() {
     addLineFocus();
+    initSearchContainer();
 });
