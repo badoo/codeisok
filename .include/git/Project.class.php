@@ -1232,7 +1232,7 @@ class GitPHP_Project
         if ($exe->CanIgnoreRegexpCase()) $args[] = '--regexp-ignore-case';
         unset($exe);
 
-        $args[] = escapeshellarg("--grep='$pattern'");
+        $args[] = escapeshellarg("--grep=$pattern");
 
         $ret = $this->RevList($hash, $count, $skip, $args);
         $len = count($ret);
@@ -1265,7 +1265,7 @@ class GitPHP_Project
         if ($exe->CanIgnoreRegexpCase()) $args[] = '--regexp-ignore-case';
         unset($exe);
 
-        $args[] = escapeshellarg("--author='$pattern'");
+        $args[] = escapeshellarg("--author=$pattern");
 
         $ret = $this->RevList($hash, $count, $skip, $args);
         $len = count($ret);
@@ -1298,7 +1298,7 @@ class GitPHP_Project
         if ($exe->CanIgnoreRegexpCase()) $args[] = '--regexp-ignore-case';
         unset($exe);
 
-        $args[] = escapeshellarg("--committer='$pattern'");
+        $args[] = escapeshellarg("--committer=$pattern");
 
         $ret = $this->RevList($hash, $count, $skip, $args);
         $len = count($ret);
