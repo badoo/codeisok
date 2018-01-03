@@ -486,6 +486,7 @@ div.commitDiffSBS div.SBSTOC
 {
 	word-wrap: break-word;
 	overflow: scroll;
+	height: calc(100vh - 100px);
 }
 
 div.commitDiffSBS div.SBSTOC a

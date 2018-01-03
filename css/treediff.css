@@ -4,10 +4,9 @@
 	-webkit-flex-direction: row;
 	flex-direction: row;
 	align-content: stretch;
-	height: calc(100vh - 100px);
 }
 
-.has-review-block .two-panes {
+.has-review-block div.commitDiffSBS div.SBSTOC {
 	height: calc(100vh - 120px);
 }
 
@@ -16,6 +15,10 @@
 	overflow: scroll;
 	padding: 0 0 10px 0;
 	min-width: 200px;
+	position: sticky;
+	top: 0;
+	align-self: flex-start;
+	max-height: 90vh;
 }
 
 .two-panes .pane-dragger {
@@ -192,4 +195,3 @@
 
 .page_body.only-comments .right-pane .diffBlob.has-review-comment {
     display: block;
-}

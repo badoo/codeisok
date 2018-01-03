@@ -305,6 +305,7 @@ span.review {
   padding-top: 10px;
   padding-bottom: 10px;
   font-family: "SF UI Text", Helvetica, Arial, sans-serif !important;
+  white-space: pre-line;
 }
 
 .cloud_with_text.sbs {
