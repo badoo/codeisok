@@ -29,6 +29,7 @@ class Blob extends Base
         \SyntaxHighlighter::TYPE_RUBY => 'ruby',
         \SyntaxHighlighter::TYPE_CSHARP => 'text/x-csharp',
         \SyntaxHighlighter::TYPE_OBJC => 'text/x-objc',
+        \SyntaxHighlighter::TYPE_KOTLIN => 'text/x-kotlin',
     ];
 
     public function __construct()
