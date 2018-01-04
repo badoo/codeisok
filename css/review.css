@@ -69,7 +69,7 @@ span.btn_small {
 }
 #review_text:focus {border: 1px solid #7000e3 !important;}
 #review_msg {
-    white-space: pre-line !important;
+    white-space: pre-wrap !important;
 }
 #review_msg.error {
     color: red !important;
@@ -98,7 +98,7 @@ span.btn_small {
 .comment-container > div {
     color: blue !important;
     background: #ffffff !important;
-    white-space: pre-line;
+    white-space: pre-wrap;
     padding: 5px !important;
     max-width: calc(86vw - 200px);
     margin: 0 30px !important;
@@ -305,7 +305,7 @@ span.review {
   padding-top: 10px;
   padding-bottom: 10px;
   font-family: "SF UI Text", Helvetica, Arial, sans-serif !important;
-  white-space: pre-line;
+  white-space: pre-wrap;
 }
 
 .cloud_with_text.sbs {
@@ -389,4 +389,3 @@ span.review {
 
 .SBSContent .CodeMirror-linewidget + .CodeMirror-linewidget {
     margin-top: -17px;
-    
