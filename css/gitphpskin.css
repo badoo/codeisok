@@ -12,11 +12,17 @@
 /*
  * Base styles
  */
+html {
+	min-height: 100%;
+	height: 100%;
+}
+
 body {
 	font-size: 14px;
 	background-color: white;
 	color: #303030;
 	margin: 0;
+	height: 100%;
 	min-height: 100%;
 	font-family: "SF UI Text", Helvetica, Arial, sans-serif;
 }
@@ -93,7 +99,10 @@ div.adminheader {
 /*
  * Navigation header links
  */
-div.diff_modes {/* margin: 0 50px; */overflow: hidden;display: inline-block;/* border-radius: 10px; *//* border: 1px solid #C9C9C9; *//* border-width: 0 1px; */}
+div.diff_modes {
+	overflow: hidden;
+	display: inline-block;
+}
 
 
 /*
@@ -228,8 +237,6 @@ span.tag {
 	font-size: 10px;
 	font-weight: normal;
 	background-color: #ffffaa;
-	/* border: 1px solid; */
-	/* border-color: #ffffcc #ffee00 #ffee00 #ffffcc; */
 }
 
 span.head {
@@ -327,8 +334,6 @@ div.title a.title {
 	text-decoration: none;
 	color: #303030;
 	line-height: 1em;
-	/* align-self: center; */
-	/* flex: 1 1 300px; */
 }
 
 div.title:hover {
@@ -479,25 +484,17 @@ table.diffTable td.diff-left {
 div.commitDiffSBS
 {
 	width: 100%;
-	min-height: 70vh;
 }
 
 div.commitDiffSBS div.SBSTOC
 {
 	word-wrap: break-word;
 	overflow: scroll;
-	height: calc(100vh - 100px);
 }
 
 div.commitDiffSBS div.SBSTOC a
 {
 	text-decoration: none;
-}
-
-div.commitDiffSBS div.SBSTOC ul
-{
-	/* margin-left: 8px; */
-	/* padding-left: 8px; */
 }
 
 div.commitDiffSBS div.SBSTOC .listcount
@@ -513,10 +510,7 @@ div.commitDiffSBS div.SBSTOC .activeItem
 div.commitDiffSBS .SBSContent
 {
 	border-left: 1px solid #edece6;
-}
-
-.two-panes .right-pane.SBSContent > * {
-	height: 100% !important;
+	overflow: hidden;
 }
 
 div.commitDiffSBS .SBSFooter
@@ -603,7 +597,6 @@ td#blameData div.dark:hover {
  */
 div.index_header {
 	/* the customizable info header above the list of projects */
-	/* border: solid #d9d8d1; */
 	border-width: 0px 0px 1px;
 	padding: 12px 8px;
 }
@@ -841,6 +834,7 @@ ul.owners-list {
 
 .login-form .login-error {
 	margin-bottom: 10px;
+	line-height: 1em;
 }
 
 .login-form .text-input {
@@ -954,7 +948,6 @@ ul.owners-list {
 
 .page-search.settings-visible .gear-icon {
 	border-color: #7000e3;
-	position: relative;
 }
 
 .page-search .search-panel {
@@ -971,6 +964,7 @@ ul.owners-list {
 	width: 40px;
 	vertical-align: middle;
 	height: 40px;
+	position: relative;
 	line-height: 40px;
 	border: 1px solid #c9c9c9;
 	border-radius: 100%;

@@ -83,7 +83,7 @@ function renderTreeDiff(fileList, container) {
         </ul>`;
 
     // Check if we need to display a pre-selected comment or blob
-    if (!window.sbsDiff) {
+    if (!window.sbsTreeDiff) {
         detectActiveBlobs();
         // Start listening for hash changes
         window.onhashchange = detectActiveBlobs;
@@ -204,11 +204,10 @@ function getFolderMap(fileList) {
 
             // Last content is always a file
             if (idx === folders.length - 1) {
-                currentFolder.push({
+                currentFolder.push(Object.assign({}, file, {
                     type: 'file',
-                    name: folder,
-                    ...file
-                })
+                    name: folder
+                }));
             }
             // If no folder found then make one
             else if (!foundFolder) {

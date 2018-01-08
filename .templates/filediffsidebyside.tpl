@@ -120,10 +120,18 @@
  }
 
  $(document).ready(function () {
+    const bodyStyle = getComputedStyle(document.body);
+    const editorHeight = `${document.body.offsetHeight - compare.offset().top - parseInt(bodyStyle.paddingBottom) - 20}px`;
+
+    if (window.sbsTreeDiff) {
+        $('.SBSTOC').height(editorHeight);
+        $('.js-left-pane').height(editorHeight);
+    }
+
     compare.mergely({
         cmsettings: { readOnly: 'nocursor', lineNumbers: true, viewportMargin: Infinity },
         editor_width: '40%',
-        editor_height: ($(window).height()-130)+'px',
+        editor_height: window.sbsTreeDiff ? editorHeight : `${window.innerHeight - 150}px`,
 
  {/literal}
  {if $ignorewhitespace}
