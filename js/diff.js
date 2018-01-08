@@ -83,7 +83,7 @@ function renderTreeDiff(fileList, container) {
         </ul>`;
 
     // Check if we need to display a pre-selected comment or blob
-    if (!window.sbsDiff) {
+    if (!window.sbsTreeDiff) {
         detectActiveBlobs();
         // Start listening for hash changes
         window.onhashchange = detectActiveBlobs;

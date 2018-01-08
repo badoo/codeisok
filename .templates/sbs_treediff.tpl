@@ -1,7 +1,7 @@
 <link rel="stylesheet" href="/css/treediff.css?v={$cssversion}" type="text/css" />
 
 <script>
-window.sbsDiff = true;
+window.sbsTreeDiff = true;
 
 var _file_list = [
     {foreach from=$diff_source item=filediff}

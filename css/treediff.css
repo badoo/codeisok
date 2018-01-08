@@ -6,10 +6,6 @@
 	align-content: stretch;
 }
 
-.has-review-block div.commitDiffSBS div.SBSTOC {
-	height: calc(100vh - 120px);
-}
-
 .two-panes .left-pane {
 	flex: 1 0 0;
 	overflow: scroll;
@@ -18,7 +14,6 @@
 	position: sticky;
 	top: 0;
 	align-self: flex-start;
-	max-height: 90vh;
 }
 
 .two-panes .pane-dragger {

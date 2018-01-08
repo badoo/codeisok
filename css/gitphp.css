@@ -21,15 +21,6 @@ td.code * {
 }
 
 /*
- * Title bar
- * (main header with commit message)
- */
-div.title a.title {
-	/* display: block; */
-}
-
-
-/*
  * Full log view
  */
 div.log_body {
