@@ -71,6 +71,10 @@ class Review extends Base
         $to_start_link = $more_link = null;
         if ($this->params['review']) {
             $snapshots = $db->getSnapshotListByReview($this->params['review']);
+            if (!empty($snapshots[0]) && !empty($snapshots[0]['repo'])) {
+                $this->project = \GitPHP_ProjectList::GetInstance()->GetProject($snapshots[0]['repo']);
+                $this->tpl->assign('project', $this->project);
+            }
         } else {
             $limit = 50;
             $snapshots = $db->getSnapshotList($limit + 1, $this->params['max_id']);
