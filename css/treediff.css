@@ -4,6 +4,7 @@
 	-webkit-flex-direction: row;
 	flex-direction: row;
 	align-content: stretch;
+	min-height: calc(100vh - 100px);
 }
 
 .two-panes .left-pane {
@@ -12,8 +13,13 @@
 	padding: 0 0 10px 0;
 	min-width: 200px;
 	position: sticky;
-	top: 0;
+	top: 10px;
 	align-self: flex-start;
+	max-height: calc(100vh - 20px);
+}
+
+.has-review-block .two-panes .left-pane {
+	max-height: calc(100vh - 100px);
 }
 
 .two-panes .pane-dragger {
