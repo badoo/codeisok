@@ -21,26 +21,28 @@
 }
 
 .two-panes .pane-dragger {
+    flex: 0 0 auto;
     position: relative;
     display: flex;
     align-self: stretch;
-    width: 26px;
+    width: 5px;
     min-height: 100px;
-    border-right: 15px solid #fff;
-    border-left: 5px solid #fff;
-    background: #f7f6f6;
     cursor: col-resize;
+    margin-left: 14px;
+    margin-right: 5px;
 }
 
 .two-panes .pane-dragger::after {
     position: absolute;
-    top: 50%;
-    left: 1px;
-    width: 4px;
-    height: 40px;
-    margin-top: -20px;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    height: 36px;
+    margin: auto 0;
     content: '';
-    background: #c8c8c8;
+    border-right: 1px solid rgb(201, 201, 201);
+    border-left: 1px solid rgb(201, 201, 201);
 }
 
 .two-panes .right-pane {
