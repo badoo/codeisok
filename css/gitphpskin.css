@@ -102,6 +102,7 @@ div.adminheader {
 div.diff_modes {
 	overflow: hidden;
 	display: inline-block;
+	vertical-align: top;
 }
 
 
@@ -293,10 +294,6 @@ div.diff_modes a.is-active {
 .stretch-evenly > span {
 	flex: 1 1 auto;
 	align-self: center;
-}
-
-.diff-options {
-	padding-top: 20px;
 }
 
 /*
@@ -1273,4 +1270,70 @@ ul.owners-list {
 
 .git-table th.project-owner {
 	width: 1
+}
+
+.diff-controls {
+	display: flex;
+	flex-wrap: wrap;
+	margin: 0 50px;
+}
+
+.git-tabs + .diff-controls {
+	margin-top: 20px;
+}
+
+.diff-controls__options {
+	display: flex;
+	align-items: center;
+}
+
+.diff-controls__options + .diff-controls__options {
+	margin-left: auto;
+}
+
+.diff-controls__item {
+	display: block;
+	flex: 0 0 auto;
+}
+
+.diff-controls__item + .diff-controls__item {
+	margin-left: 24px;
+}
+
+.checkbox-link {
+	display: inline-flex;
+	vertical-align: middle;
+	align-items: center;
+	cursor: pointer;
+}
+
+.checkbox-link,
+.checkbox-link:visited,
+.checkbox-link:active {
+	color: #303030;
+}
+
+.checkbox-link:hover {
+	color: #7000e3;
+}
+
+.checkbox-link__control {
+	display: block;
+	flex: 0 0 auto;
+	pointer-events: none;
+}
+
+.checkbox-link__control .checkbox-input {
+	margin: 0;
+}
+
+.checkbox-link__label {
+	display: block;
+	flex: 1 1 auto;
+	font-size: 14px;
+	line-height: 24px;
+}
+
+.checkbox-link__control + .checkbox-link__label {
+	margin-left: 8px;
 }

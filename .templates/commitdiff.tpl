@@ -19,30 +19,41 @@
 
     {include file='nav.tpl' current='commitdiff' logcommit=$commit treecommit=$commit}
 
-    <div class="diff-options stretch-evenly">
-        <div>
-            <div class="diff_modes">
-                <a class="{if $unified}is-active{/if}" href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=commitdiff&amp;h={$commit->GetHash()}{if $hashparent}&amp;hp={$hashparent}{/if}&amp;{if $review}review={$review}{/if}&amp;o=unified">{t}unified{/t}</a>
-                <a class="{if $sidebyside}is-active{/if}" href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=commitdiff&amp;h={$commit->GetHash()}{if $hashparent}&amp;hp={$hashparent}{/if}&amp;{if $review}review={$review}{/if}&amp;o=sidebyside">{t}side by side{/t}</a>
-                <a href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=commitdiff_plain&amp;h={$commit->GetHash()}{if $hashparent}&amp;hp={$hashparent}{/if}">{t}plain{/t}</a>
-            </div>
+     <div class="diff-controls">
+         <div class="diff-controls__options">
+             <div class="diff-controls__item">
+                 <div class="diff_modes">
+                     <a class="{if $unified}is-active{/if}" href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=commitdiff&amp;h={$commit->GetHash()}{if $hashparent}&amp;hp={$hashparent}{/if}&amp;{if $review}review={$review}{/if}&amp;o=unified">{t}unified{/t}</a>
+                     <a class="{if $sidebyside}is-active{/if}" href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=commitdiff&amp;h={$commit->GetHash()}{if $hashparent}&amp;hp={$hashparent}{/if}&amp;{if $review}review={$review}{/if}&amp;o=sidebyside">{t}side by side{/t}</a>
+                     <a href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=commitdiff_plain&amp;h={$commit->GetHash()}{if $hashparent}&amp;hp={$hashparent}{/if}">{t}plain{/t}</a>
+                 </div>
+             </div>
 
-            <a class="switcher js-toggle-treediff {if $treediff}checked{/if}" href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=commitdiff&amp;h={$commit->GetHash()}{if $hashparent}&amp;hp={$hashparent}{/if}&amp;{if $review}review={$review}{/if}&amp;treediff={if $treediff}0{else}1{/if}">
-                <span>Treediff</span>
-                <span class="switch"></span>
-            </a>
+             <div class="diff-controls__item">
+                 <a class="checkbox-link js-toggle-treediff"
+                    href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=commitdiff&amp;h={$commit->GetHash()}{if $hashparent}&amp;hp={$hashparent}{/if}&amp;{if $review}review={$review}{/if}&amp;treediff={if $treediff}0{else}1{/if}">
+                    <span class="checkbox-link__control">
+                        <input class="checkbox-input" type='checkbox' id='selectall' {if $treediff}checked{/if} disabled/>
+                    </span>
+                     <span class="checkbox-link__label">{t}Treediff{/t}</span>
+                 </a>
+             </div>
 
-            {if $review && $unified}
-                <a href="#" class="js-toggle-review-comments switcher">
-                    <span>Review Comments Only</span>
-                    <span class="switch"></span>
-                </a>
-            {/if}
-        </div>
-
-        <div class="page-search-container">
-        </div>
-    </div>
+             {if $review && $unified}
+                 <div class="diff-controls__item">
+                     <a class="checkbox-link js-toggle-review-comments">
+                    <span class="checkbox-link__control">
+                        <input class="checkbox-input js-toggle-review-comments-input" type='checkbox'/>
+                    </span>
+                         <span class="checkbox-link__label">
+                        Review Comments Only
+                    </span>
+                     </a>
+                 </div>
+             {/if}
+         </div>
+         <div class="diff-controls__options page-search-container"></div>
+     </div>
  </div>
 
  {include file='title.tpl' titlecommit=$commit compact=true}
