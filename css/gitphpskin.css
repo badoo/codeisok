@@ -58,12 +58,13 @@ a:visited {
  * (topmost bar with project link, language bar, etc)
  */
 div.page_header {
+	position: relative;
+	z-index: 1;
 	padding: 10px 20px;
 	font-size: 14px;
 	overflow: hidden;
 	border-bottom: 1px solid #ebebeb;
 	line-height: 50px;
-	margin-bottom: 10px;
 	box-shadow: 0 5px 10px rgba(0,0,0,0.05);
 }
 
@@ -1130,33 +1131,101 @@ ul.owners-list {
 */
 
 .git-tabs {
-	margin: 0 50px 0 50px;
+	display: block;
+	margin: 0 50px;
+}
+
+.git-tabs__items {
+	display: flex;
 	border-bottom: 1px solid #C9C9C9;
-	overflow: hidden;
 }
 
-.git-tabs > a,
-.git-tabs > span {
-	padding: 20px 10px;
-	display: inline-block;
-	text-decoration: none;
+.git-tabs__item {
+	position: relative;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex: 0 0 auto;
+	height: 70px;
+	padding: 0 15px;
+	font-size: 12px;
+	line-height: 16px;
+}
+
+.git-tabs__item--branch {
+	margin-left: auto;
+	pointer-events: none;
+}
+
+.git-tabs__item,
+.git-tabs__item:active,
+.git-tabs__item:visited {
 	color: #303030;
-	float: left;
 }
 
-.git-tabs > a.inactive,
-.git-tabs > span.inactive {
-	opacity: 0.3;
+.git-tabs__item:hover {
+	color: #7000e3;
 }
 
-.git-tabs > a.active,
-.git-tabs > span.active {
-	border-bottom: 3px solid #7000E3;
+.git-tabs__item.is-active {
+	pointer-events: none;
 }
 
-.git-tabs > a:hover,
-.git-tabs > span:hover {
-	background-color: #fafafa;
+.git-tabs__item.is-active::before {
+	position: absolute;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	height: 3px;
+	background-color: #7000e3;
+	content: '';
+}
+
+.git-tabs__item.is-inactive {
+	opacity: .3;
+	pointer-events: none;
+}
+
+.git-tabs__icon {
+	display: block;
+	width: 24px;
+	height: 24px;
+	color: #6a6a6a;
+
+}
+.git-tabs__icon svg {
+	fill: currentColor;
+}
+
+.git-tabs__item:hover .git-tabs__icon {
+	color: currentColor;
+}
+
+.git-tabs__icon + .git-tabs__text {
+	margin-left: 8px;
+}
+
+@media (max-width: 1100px) {
+	.git-tabs__icon {
+		display: none;
+	}
+
+	.git-tabs__icon + .git-tabs__text {
+		margin-left: 0;
+	}
+}
+
+.git-tabs__branch {
+	display: block;
+	/*font-size: 14px;*/
+	/*line-height: 24px;*/
+	font-size: 12px;
+	line-height: 16px;
+	text-align: right;
+}
+
+.git-tabs__items + .git-tabs__branch {
+	margin-top: 10px;
 }
 
 .simple-button {
