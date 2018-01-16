@@ -1,61 +1,59 @@
 .two-panes {
-	display: -webkit-flex;
-	display: flex;
-	-webkit-flex-direction: row;
-	flex-direction: row;
-	align-content: stretch;
-	min-height: calc(100vh - 100px);
+    display: flex;
+    flex-direction: row;
+    align-content: stretch;
+    min-height: calc(100vh - 100px);
 }
 
 .two-panes .left-pane {
-	flex: 1 0 0;
-	overflow: scroll;
-	padding: 0 0 10px 0;
-	min-width: 200px;
-	position: sticky;
-	top: 10px;
-	align-self: flex-start;
-	max-height: calc(100vh - 20px);
+    position: sticky;
+    top: 10px;
+    overflow: scroll;
+    flex: 1 0 0;
+    align-self: flex-start;
+    min-width: 200px;
+    max-height: calc(100vh - 20px);
+    padding: 0 0 10px 0;
 }
 
 .has-review-block .two-panes .left-pane {
-	max-height: calc(100vh - 100px);
+    max-height: calc(100vh - 100px);
 }
 
 .two-panes .pane-dragger {
-	width: 26px;
-	background: #f7f6f6;
-	min-height: 100px;
-	align-self: stretch;
-	position: relative;
-	display: flex;
-	border-left: 5px solid white;
-	border-right: 15px solid white;
-	cursor: col-resize;
+    position: relative;
+    display: flex;
+    align-self: stretch;
+    width: 26px;
+    min-height: 100px;
+    border-right: 15px solid #fff;
+    border-left: 5px solid #fff;
+    background: #f7f6f6;
+    cursor: col-resize;
 }
 
-.two-panes .pane-dragger:after {
-    content: "";
-    width: 4px;
-    height: 40px;
-    background: #c8c8c8;
+.two-panes .pane-dragger::after {
     position: absolute;
     top: 50%;
-    margin-top: -20px;
     left: 1px;
+    width: 4px;
+    height: 40px;
+    margin-top: -20px;
+    content: '';
+    background: #c8c8c8;
 }
 
 .two-panes .right-pane {
-	flex: 5 0 0;
-	overflow: scroll;
+    overflow: scroll;
+    flex: 5 0 0;
 }
 
 .right-pane .diffBlob {
-	display: none;
+    display: none;
 }
 
 .right-pane .diffBlob.is-visible {
-	display: block;
+    display: block;
 }
 
 .left-pane .file_filter {
@@ -63,53 +61,54 @@
 }
 
 .file-list {
-	padding: 0;
-	margin: 0;
-	font-size: 14px;
-	line-height: 32px;
+    margin: 0;
+    padding: 0;
+    font-size: 14px;
+    line-height: 32px;
 }
 
 .file-list li {
-	white-space: nowrap;
-	list-style: none;
-	padding: 0 0 0 15px;
-	display: block;
-	position: relative;
+    position: relative;
+    display: block;
+    padding: 0 0 0 15px;
+    list-style: none;
+    white-space: nowrap;
 }
 
 .file-list li.type-file {
-	padding: 8px 0 8px 15px;
+    padding: 8px 0 8px 15px;
 }
 
 .file-list li > a {
-	text-decoration: none;
-	position: relative;
-	padding-left: 32px;
+    position: relative;
+    padding-left: 32px;
+    text-decoration: none;
 }
 
 .file-list li.is-active {
-	background: #f7f6f6;
+    background: #f7f6f6;
 }
 
 .file-list li.is-active > a {
-	color: black !important;
+    color: #303030 !important;
 }
 
 .file-list li.collapsed > .file-list {
-	display: none;
+    display: none;
 }
 
 .file-list .type-folder {
-	color: #333;
-	display: block;
-	position: relative;
-	padding: 8px 0 8px 32px;
+    position: relative;
+    display: block;
+    padding: 8px 0 8px 32px;
+    color: #333;
 }
 
 /* Added files */
 .file-list .status-a a {
     color: #008c00;
 }
+
 .file-list .status-a a:visited {
     color: #829f82;
 }
@@ -118,6 +117,7 @@
 .file-list .status-d a {
     color: #a50000;
 }
+
 .file-list .status-d a:visited {
     color: #ca9999;
 }
@@ -126,6 +126,7 @@
 .file-list .status-m a {
     color: #3a75bd;
 }
+
 .file-list .status-m a:visited {
     color: #91bef5;
 }
@@ -134,74 +135,75 @@
 .file-list .status-r a {
     color: #a400cf;
 }
+
 .file-list .status-r a:visited {
     color: #c991f5;
 }
 
 /* Visited files */
-.file-list li.is-visited > a:after {
-	position: absolute;
-	left: 11px;
-	bottom: -5px;
-	display: block;
-	width: 12px;
-	height: 12px;
-	background-image: url('data:image/svg+xml;charset=UTF-8,<svg width="12" height="12" xmlns="http://www.w3.org/2000/svg"><circle fill="#7000E3" cx="6" cy="6" r="6"/><path stroke="#FFF" stroke-width="1.5" stroke-linecap="round" d="M3.48 5.93L5.34 7.8l3.57-3.58"/></svg>');
-	content: '';
+.file-list li.is-visited > a::after {
+    position: absolute;
+    bottom: -5px;
+    left: 11px;
+    display: block;
+    width: 12px;
+    height: 12px;
+    content: '';
+    background-image: url('data:image/svg+xml;charset=UTF-8,<svg width="12" height="12" xmlns="http://www.w3.org/2000/svg"><circle fill="#7000E3" cx="6" cy="6" r="6"/><path stroke="#FFF" stroke-width="1.5" stroke-linecap="round" d="M3.48 5.93L5.34 7.8l3.57-3.58"/></svg>');
 }
 
 .file-list .type-file .review-comments a,
 .file-list .type-file .review-comments span {
-	background: #ffde00;
-	font-size: 12px;
-	line-height: 15px;
-	border-radius: 4px;
-	color: #000;
-	display: inline-block;
-	padding: 2px 4px 0px 4px;
+    display: inline-block;
+    padding: 2px 4px 0 4px;
+    border-radius: 4px;
+    background: #ffde00;
+    color: #000;
+    font-size: 12px;
+    line-height: 15px;
 }
 
 .file-list .type-file > a::before,
 .file-list .type-folder::before {
-	content: '';
-	width: 24px;
-	height: 24px;
-	position: absolute;
-	background-repeat: no-repeat;
-	background-size: contain;
-	left: 0;
-	top: 0;
-	bottom: 0;
-	margin: auto;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    width: 24px;
+    height: 24px;
+    margin: auto;
+    content: '';
+    background-repeat: no-repeat;
+    background-size: contain;
 }
 
 .file-list .type-file > a::before {
-	background-image: url('data:image/svg+xml;charset=UTF-8,<svg width="24" height="24" xmlns="http://www.w3.org/2000/svg"><path d="M6 20h12V8.83L13.17 4H6v16zM4.01 4A2 2 0 0 1 6 2h8l6 6v12a2 2 0 0 1-2 2H5.99A2 2 0 0 1 4 20l.01-16z" fill="#979797"/><path d="M13 9h5v2h-7V4h2v5z" fill="#979797"/></svg>');
+    background-image: url('data:image/svg+xml;charset=UTF-8,<svg width="24" height="24" xmlns="http://www.w3.org/2000/svg"><path d="M6 20h12V8.83L13.17 4H6v16zM4.01 4A2 2 0 0 1 6 2h8l6 6v12a2 2 0 0 1-2 2H5.99A2 2 0 0 1 4 20l.01-16z" fill="#979797"/><path d="M13 9h5v2h-7V4h2v5z" fill="#979797"/></svg>');
 }
 
 .file-list .type-folder::before {
-	background-image: url('data:image/svg+xml;charset=UTF-8,<svg width="24" height="24" xmlns="http://www.w3.org/2000/svg"><path d="M9.6 2H2.4A2.4 2.4 0 0 0 0 4.38v14.25A2.4 2.4 0 0 0 2.4 21h19.2a2.4 2.4 0 0 0 2.4-2.38V6c0-1.3-1.08-2-2.4-2H12L9.6 2z" fill="#C9C9C9"/></svg>');
+    background-image: url('data:image/svg+xml;charset=UTF-8,<svg width="24" height="24" xmlns="http://www.w3.org/2000/svg"><path d="M9.6 2H2.4A2.4 2.4 0 0 0 0 4.38v14.25A2.4 2.4 0 0 0 2.4 21h19.2a2.4 2.4 0 0 0 2.4-2.38V6c0-1.3-1.08-2-2.4-2H12L9.6 2z" fill="#C9C9C9"/></svg>');
 }
 
 .file-list li .type-folder::after {
-	content: "▼";
-	width: 10px;
-	height: 15px;
-	display: block;
-	position: absolute;
-	color: #666;
-	left: -15px;
-	top: 0;
-	bottom: 0;
-	margin: auto;
-	font-size: 10px;
-	line-height: 15px;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: -15px;
+    display: block;
+    width: 10px;
+    height: 15px;
+    margin: auto;
+    content: '▼';
+    color: #666;
+    font-size: 10px;
+    line-height: 15px;
 }
 
 .file-list li.collapsed .type-folder::after {
-	content: "▶︎";
+    content: '▶︎';
 }
 
 .page_body.only-comments .right-pane .diffBlob.has-review-comment {
-	display: block;
+    display: block;
 }
