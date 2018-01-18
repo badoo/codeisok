@@ -181,8 +181,7 @@ function renderFile(file) {
 
     return `
         <li class="type-file status-${file.status} filetype-${file.fileType}">
-            <a href="#${file.path}" ${fileDataString}>${file.name}</a>
-            <span class="review-comments" name="files_index_${file.path}"></span>
+            <a href="#${file.path}" ${fileDataString}>${file.name} <span class="review-comments" name="files_index_${file.path}"></span></a>
         </li>
     `;
 }

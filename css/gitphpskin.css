@@ -923,6 +923,7 @@ ul.owners-list {
 .select-input {
 	background: transparent;
 	-webkit-appearance: none;
+	-moz-appearance: none;
 	background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij4NCiAgPGcgZmlsbD0ibm9uZSIgZmlsbC1ydWxlPSJldmVub2RkIj4NCiAgICA8cG9seWdvbiBmaWxsPSIjOTQ5NDk0IiBwb2ludHM9IjcuNDEgOCAxMiAxMi45NDUgMTYuNTkgOCAxOCA5LjUyMiAxMiAxNiA2IDkuNTIyIi8+DQogICAgPHBvbHlnb24gcG9pbnRzPSIwIDAgMjQgMCAyNCAyNCAwIDI0Ii8+DQogIDwvZz4NCjwvc3ZnPg==");
 	background-repeat: no-repeat;
 	background-position: 97% 50%;
