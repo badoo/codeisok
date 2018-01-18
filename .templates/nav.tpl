@@ -59,8 +59,10 @@
             </span>
         </a>
 
-        <a class="git-tabs__item {if $current=='commit' || !$commit || $branch}{if !$commit || $branch}is-inactive{else}is-active{/if}{/if}"
-           href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=commit&amp;h={$commit->GetHash()}&amp;retbranch={if $retbranch}{$retbranch}&amp;z={/if}{if $branch_name}{$branch_name}{/if}">
+        <a class="git-tabs__item {if $current == 'commit' || !$commit || $branch}{if !$commit || $branch}is-inactive{else}is-active{/if}{/if}"
+            {if $commit}
+                href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=commit&amp;h={$commit->GetHash()}&amp;retbranch={if $retbranch}{$retbranch}&amp;z={/if}{if $branch_name}{$branch_name}{/if}">
+            {/if}
             <span class="git-tabs__icon">
                 <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg">
                     <path d="M12 4a8 8 0 1 0 0 16 8 8 0 0 0 0-16zm0 14a6 6 0 1 1 .01-12.01A6 6 0 0 1 12 18zM1 11h3v2H1v-2zm19 0h3v2h-3v-2z"/>
@@ -72,7 +74,9 @@
         </a>
 
         <a class="git-tabs__item {if $current=='commitdiff' || !$commit || $branch}{if !$commit || $branch}is-inactive{else}is-active{/if}{/if}"
-           href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=commitdiff&amp;h={$commit->GetHash()}&amp;retbranch={if $retbranch}{$retbranch}&amp;z={/if}{if $branch_name}{$branch_name}{/if}">
+            {if $commit}
+                href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=commitdiff&amp;h={$commit->GetHash()}&amp;retbranch={if $retbranch}{$retbranch}&amp;z={/if}{if $branch_name}{$branch_name}{/if}">
+            {/if}
             <span class="git-tabs__icon">
                 <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg">
                     <path d="M15 4a8 8 0 1 0 0 16 8 8 0 0 0 0-16zm0 14a6 6 0 1 1 .01-12.01A6 6 0 0 1 15 18z"/>
@@ -109,7 +113,7 @@
             </a>
         {/if}
 
-        <a class="git-tabs__item {if $current=='review'}is-active{/if}"
+        <a class="git-tabs__item {if $current == 'review'}is-active{/if}"
            href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=reviews">
             <span class="git-tabs__icon">
                 <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg">

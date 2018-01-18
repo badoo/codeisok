@@ -116,14 +116,16 @@ span.btn_small {
 
 .comment-container > div:first-child {
     margin-top: 10px !important;
-    border-radius: 5px 5px 0px 0px !important;
+    border-top-left-radius: 5px !important;
+    border-top-right-radius: 5px  !important;
 }
 
 /* Last comment */
 .comment-container > div:last-child {
     margin-bottom: 20px !important;
     box-shadow: 0px 10px 10px -6px rgba(0,0,0,0.3);
-    border-radius: 0 0px 5px 5px !important;
+    border-bottom-right-radius: 5px !important;
+    border-bottom-left-radius: 5px !important;
 }
 
 .commented div.comments.draft.controls {

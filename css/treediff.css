@@ -2,7 +2,7 @@
     display: flex;
     flex-direction: row;
     align-content: stretch;
-    min-height: calc(100vh - 100px);
+    min-height: 100vh;
 }
 
 .two-panes .left-pane {
@@ -28,18 +28,17 @@
     width: 5px;
     min-height: 100px;
     cursor: col-resize;
-    margin-left: 14px;
-    margin-right: 5px;
+    padding-left: 14px;
+    padding-right: 5px;
 }
 
 .two-panes .pane-dragger::after {
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
+    position: sticky;
+    top: 50vh;
     height: 36px;
-    margin: auto 0;
+    display: block;
+    width: 3px;
+    margin-left: -7px;
     content: '';
     border-right: 1px solid rgb(201, 201, 201);
     border-left: 1px solid rgb(201, 201, 201);
@@ -78,16 +77,23 @@
 }
 
 .file-list li.type-file {
-    padding: 8px 0 8px 15px;
+    padding: 5px 0 5px 15px;
 }
 
 .file-list li > a {
     position: relative;
     padding-left: 32px;
     text-decoration: none;
+    display: inline-block;
+    width: 100%;
 }
 
-.file-list li.is-active {
+.file-list li.type-file:hover, 
+.file-list span.type-folder:hover {
+    background: #fbfbfb;
+}
+
+.file-list li.type-file.is-active {
     background: #f7f6f6;
 }
 
@@ -145,7 +151,7 @@
 /* Visited files */
 .file-list li.is-visited > a::after {
     position: absolute;
-    bottom: -5px;
+    bottom: 3px;
     left: 11px;
     display: block;
     width: 12px;
