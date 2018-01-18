@@ -248,6 +248,7 @@ span.head {
 	background-color: #d1ffd1;
 	border-radius: 5px;
 	margin-left: 10px;
+    white-space: nowrap;
 }
 
 img.logo {
@@ -345,6 +346,7 @@ div.title_text {
 }
 div.title-right {
     text-align: right;
+    white-space: nowrap;
 }
 
 /*
