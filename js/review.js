@@ -75,7 +75,7 @@ var Review = (function() {
     };
 
     Review.getCommitMessage = function() {
-        return $('div.title > a').text();
+        return $('div > a.title').text();
     };
 
     Review.getUrlParams = function () {
