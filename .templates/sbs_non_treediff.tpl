@@ -26,8 +26,8 @@
                         {/if}
                         {$fromfilename}{if $fromfilename != $tofilename} -&gt; {$tofilename}{/if}
                     {/if}
+                    <span class="review-comments" name="files_index_{$filediff->GetFromFile()}"></span>
                 </a>
-                <span class="review-comments" name="files_index_{$filediff->GetFromFile()}"></span>
             </li>
         {/foreach}
     </ul>

@@ -661,7 +661,8 @@ var Review = (function() {
 
     Review.toggleReviewComments = function (e) {
         e.preventDefault();
-        $('.js-toggle-review-comments').toggleClass('checked');
+        var input = $('.js-toggle-review-comments-input')[0];
+        input.checked = !input.checked;
         $('.diffBlob.lines-visible').removeClass('lines-visible');
         $('.page_body').toggleClass('only-comments');
     }

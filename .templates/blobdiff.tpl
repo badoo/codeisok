@@ -9,14 +9,17 @@
 
 {include file='nav.tpl' treecommit=$commit}
 
-<div class="diff-options stretch-evenly">
-    <div class="diff_modes">
-        <a class="{if $unified}is-active{/if}" class="" href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=blobdiff&amp;h={$blob->GetHash()}&amp;hp={$blobparent->GetHash()}&amp;hb={$commit->GetHash()}&amp;f={$file}&amp;o=unified">{t}Unified{/t}</a>
-        <a class="{if $sidebyside}is-active{/if}" href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=blobdiff&amp;h={$blob->GetHash()}&amp;hp={$blobparent->GetHash()}&amp;hb={$commit->GetHash()}&amp;f={$file}&amp;o=sidebyside">{t}Side by side{/t}</a>
-        <a href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=blobdiff_plain&amp;h={$blob->GetHash()}&amp;hp={$blobparent->GetHash()}&amp;f={$file}">{t}Plain{/t}</a>
+<div class="diff-controls">
+    <div class="diff-controls__options">
+        <div class="diff-controls__item">
+            <div class="diff_modes">
+                <a class="{if $unified}is-active{/if}" class="" href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=blobdiff&amp;h={$blob->GetHash()}&amp;hp={$blobparent->GetHash()}&amp;hb={$commit->GetHash()}&amp;f={$file}&amp;o=unified">{t}Unified{/t}</a>
+                <a class="{if $sidebyside}is-active{/if}" href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=blobdiff&amp;h={$blob->GetHash()}&amp;hp={$blobparent->GetHash()}&amp;hb={$commit->GetHash()}&amp;f={$file}&amp;o=sidebyside">{t}Side by side{/t}</a>
+                <a href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=blobdiff_plain&amp;h={$blob->GetHash()}&amp;hp={$blobparent->GetHash()}&amp;f={$file}">{t}Plain{/t}</a>
+            </div>
+        </div>
     </div>
-
-    <div class="page-search-container"></div>
+    <div class="diff-controls__options page-search-container"></div>
 </div>
 
 {include file='title.tpl' titlecommit=$commit}
