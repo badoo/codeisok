@@ -58,12 +58,13 @@ a:visited {
  * (topmost bar with project link, language bar, etc)
  */
 div.page_header {
+	position: relative;
+	z-index: 1;
 	padding: 10px 20px;
 	font-size: 14px;
 	overflow: hidden;
 	border-bottom: 1px solid #ebebeb;
 	line-height: 50px;
-	margin-bottom: 10px;
 	box-shadow: 0 5px 10px rgba(0,0,0,0.05);
 }
 
@@ -101,6 +102,7 @@ div.adminheader {
 div.diff_modes {
 	overflow: hidden;
 	display: inline-block;
+	vertical-align: top;
 }
 
 
@@ -246,6 +248,7 @@ span.head {
 	background-color: #d1ffd1;
 	border-radius: 5px;
 	margin-left: 10px;
+    white-space: nowrap;
 }
 
 img.logo {
@@ -292,10 +295,6 @@ div.diff_modes a.is-active {
 .stretch-evenly > span {
 	flex: 1 1 auto;
 	align-self: center;
-}
-
-.diff-options {
-	padding-top: 20px;
 }
 
 /*
@@ -347,6 +346,7 @@ div.title_text {
 }
 div.title-right {
     text-align: right;
+    white-space: nowrap;
 }
 
 /*
@@ -718,28 +718,39 @@ table.treeTable td a:visited {
 	color: #112339;
 }
 
+table.treeTable {
+	font-size: 14px;
+	line-height: 24px;
+}
+
+table.treeTable .list a {
+	vertical-align: middle;
+}
+
 table.treeTable .folderName .expander,
 table.treeTable .fileName .expander {
 	/* the javascript tree expander cell */
-	width: 15px;
-	height: 15px;
+	width: 24px;
+	height: 24px;
 	background-repeat: no-repeat;
 	background-size: contain;
 	display: inline-block;
-	line-height: 19px;
+	line-height: 24px;
 	cursor: pointer;
 	position: relative;
-	vertical-align: sub;
-	padding-right: 0px;
-	padding-left: 35px;
+	vertical-align: middle;
+	padding-right: 0;
+	padding-left: 44px;
 	background-position-x: 17px;
-	display: inline-block;
 	user-select: none;
-	background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij4NCiAgPHBhdGggZmlsbD0iI0M5QzlDOSIgZD0iTTkuNiwwIEwyLjQsMCBDMS4wOCwwIDAsMS4wNjg3NSAwLDIuMzc1IEwwLDE2LjYyNSBDMCwxNy45MzEyNSAxLjA4LDE5IDIuNCwxOSBMMjEuNiwxOSBDMjIuOTIsMTkgMjQsMTcuOTMxMjUgMjQsMTYuNjI1IEwyNCw0IEMyNCwyLjY5Mzc1IDIyLjkyLDIgMjEuNiwyIEwxMiwyIEw5LjYsMCBaIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgwIDIpIi8+DQo8L3N2Zz4=");
+}
+
+table.treeTable .folderName .expander {
+	background-image: url('data:image/svg+xml;charset=UTF-8,<svg width="24" height="24" xmlns="http://www.w3.org/2000/svg"><path d="M9.6 2H2.4A2.4 2.4 0 0 0 0 4.38v14.25A2.4 2.4 0 0 0 2.4 21h19.2a2.4 2.4 0 0 0 2.4-2.38V6c0-1.3-1.08-2-2.4-2H12L9.6 2z" fill="#C9C9C9"/></svg>');
 }
 
 table.treeTable .fileName .expander {
-	background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNiIgaGVpZ2h0PSIyMCIgdmlld0JveD0iMCAwIDE2IDIwIj4NCiAgPHBhdGggZmlsbD0ibm9uZSIgc3Ryb2tlPSIjOTc5Nzk3IiBzdHJva2Utd2lkdGg9IjIiIGQ9Ik0xOSw4LjQxNDIxMzU2IEwxMy41ODU3ODY0LDMgTDYsMyBDNS40NTU3MzY0LDMgNS4wMSwzLjQ0ODgzMTc5IDUuMDEsNCBMNS4wMDk5OTk4LDQuMDAwNjI1IEw1LDIwIEM1LDIwLjU1MTE2ODIgNS40NDU3MzY0LDIxIDUuOTksMjEgTDE4LDIxIEMxOC41NDc3MTUzLDIxIDE5LDIwLjU0NzcxNTMgMTksMjAgTDE5LDguNDE0MjEzNTYgWiBNMTIsMS4wODU3ODY0NCBMMjAuOTE0MjEzNiwxMCBMMTIsMTAgTDEyLDEuMDg1Nzg2NDQgWiIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoLTQgLTIpIi8+DQo8L3N2Zz4=");
+	background-image: url('data:image/svg+xml;charset=UTF-8,<svg width="24" height="24" xmlns="http://www.w3.org/2000/svg"><path d="M6 20h12V8.83L13.17 4H6v16zM4.01 4A2 2 0 0 1 6 2h8l6 6v12a2 2 0 0 1-2 2H5.99A2 2 0 0 1 4 20l.01-16z" fill="#979797"/><path d="M13 9h5v2h-7V4h2v5z" fill="#979797"/></svg>');
 }
 
 table.treeTable {
@@ -914,6 +925,7 @@ ul.owners-list {
 .select-input {
 	background: transparent;
 	-webkit-appearance: none;
+	-moz-appearance: none;
 	background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij4NCiAgPGcgZmlsbD0ibm9uZSIgZmlsbC1ydWxlPSJldmVub2RkIj4NCiAgICA8cG9seWdvbiBmaWxsPSIjOTQ5NDk0IiBwb2ludHM9IjcuNDEgOCAxMiAxMi45NDUgMTYuNTkgOCAxOCA5LjUyMiAxMiAxNiA2IDkuNTIyIi8+DQogICAgPHBvbHlnb24gcG9pbnRzPSIwIDAgMjQgMCAyNCAyNCAwIDI0Ii8+DQogIDwvZz4NCjwvc3ZnPg==");
 	background-repeat: no-repeat;
 	background-position: 97% 50%;
@@ -1130,33 +1142,99 @@ ul.owners-list {
 */
 
 .git-tabs {
-	margin: 0 50px 0 50px;
+	display: block;
+	margin: 0 50px;
+}
+
+.git-tabs__items {
+	display: flex;
 	border-bottom: 1px solid #C9C9C9;
-	overflow: hidden;
 }
 
-.git-tabs > a,
-.git-tabs > span {
-	padding: 20px 10px;
-	display: inline-block;
-	text-decoration: none;
+.git-tabs__item {
+	position: relative;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex: 0 0 auto;
+	height: 70px;
+	padding: 0 15px;
+	font-size: 12px;
+	line-height: 16px;
+}
+
+.git-tabs__item--branch {
+	margin-left: auto;
+	pointer-events: none;
+}
+
+.git-tabs__item,
+.git-tabs__item:active,
+.git-tabs__item:visited {
 	color: #303030;
-	float: left;
 }
 
-.git-tabs > a.inactive,
-.git-tabs > span.inactive {
-	opacity: 0.3;
+.git-tabs__item:hover {
+	color: #7000e3;
 }
 
-.git-tabs > a.active,
-.git-tabs > span.active {
-	border-bottom: 3px solid #7000E3;
+.git-tabs__item.is-active {
+	pointer-events: none;
 }
 
-.git-tabs > a:hover,
-.git-tabs > span:hover {
-	background-color: #fafafa;
+.git-tabs__item.is-active::before {
+	position: absolute;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	height: 3px;
+	background-color: #7000e3;
+	content: '';
+}
+
+.git-tabs__item.is-inactive {
+	opacity: .3;
+	pointer-events: none;
+}
+
+.git-tabs__icon {
+	display: block;
+	width: 24px;
+	height: 24px;
+	color: #6a6a6a;
+
+}
+.git-tabs__icon svg {
+	fill: currentColor;
+}
+
+.git-tabs__item:hover .git-tabs__icon {
+	color: currentColor;
+}
+
+.git-tabs__icon + .git-tabs__text {
+	margin-left: 8px;
+}
+
+@media (max-width: 1100px) {
+	.git-tabs__icon {
+		display: none;
+	}
+
+	.git-tabs__icon + .git-tabs__text {
+		margin-left: 0;
+	}
+}
+
+.git-tabs__branch {
+	display: block;
+	font-size: 12px;
+	line-height: 16px;
+	text-align: right;
+}
+
+.git-tabs__items + .git-tabs__branch {
+	margin-top: 10px;
 }
 
 .simple-button {
@@ -1206,4 +1284,70 @@ ul.owners-list {
 
 .git-table th.project-owner {
 	width: 1
+}
+
+.diff-controls {
+	display: flex;
+	flex-wrap: wrap;
+	margin: 0 50px;
+}
+
+.git-tabs + .diff-controls {
+	margin-top: 20px;
+}
+
+.diff-controls__options {
+	display: flex;
+	align-items: center;
+}
+
+.diff-controls__options + .diff-controls__options {
+	margin-left: auto;
+}
+
+.diff-controls__item {
+	display: block;
+	flex: 0 0 auto;
+}
+
+.diff-controls__item + .diff-controls__item {
+	margin-left: 24px;
+}
+
+.checkbox-link {
+	display: inline-flex;
+	vertical-align: middle;
+	align-items: center;
+	cursor: pointer;
+}
+
+.checkbox-link,
+.checkbox-link:visited,
+.checkbox-link:active {
+	color: #303030;
+}
+
+.checkbox-link:hover {
+	color: #7000e3;
+}
+
+.checkbox-link__control {
+	display: block;
+	flex: 0 0 auto;
+	pointer-events: none;
+}
+
+.checkbox-link__control .checkbox-input {
+	margin: 0;
+}
+
+.checkbox-link__label {
+	display: block;
+	flex: 1 1 auto;
+	font-size: 14px;
+	line-height: 24px;
+}
+
+.checkbox-link__control + .checkbox-link__label {
+	margin-left: 8px;
 }

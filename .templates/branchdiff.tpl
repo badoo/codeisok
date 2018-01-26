@@ -13,29 +13,40 @@
 
     {include file='nav.tpl' current='branchdiff' logcommit=$commit treecommit=$commit}
 
-    <div class="diff-options stretch-evenly">
-        <div>
-            <div class="diff_modes">
-                <a class="{if $unified}is-active{/if}" href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=branchdiff&amp;branch={$branch}{if $review}&amp;review={$review}{/if}{if $base}&amp;base={$base}{/if}&amp;o=unified">{t}Unified{/t}</a>
-                <a class="{if $sidebyside}is-active{/if}" href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=branchdiff&amp;branch={$branch}{if $review}&amp;review={$review}{/if}{if $base}&amp;base={$base}{/if}&amp;o=sidebyside">{t}Side by side{/t}</a>
-                <a href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=branchdiff_plain&amp;branch={$branch}">{t}plain{/t}</a>
+    <div class="diff-controls">
+        <div class="diff-controls__options">
+            <div class="diff-controls__item">
+                <div class="diff_modes">
+                    <a class="{if $unified}is-active{/if}" href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=branchdiff&amp;branch={$branch}{if $review}&amp;review={$review}{/if}{if $base}&amp;base={$base}{/if}&amp;o=unified">{t}Unified{/t}</a>
+                    <a class="{if $sidebyside}is-active{/if}" href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=branchdiff&amp;branch={$branch}{if $review}&amp;review={$review}{/if}{if $base}&amp;base={$base}{/if}&amp;o=sidebyside">{t}Side by side{/t}</a>
+                    <a href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=branchdiff_plain&amp;branch={$branch}">{t}plain{/t}</a>
+                </div>
             </div>
 
-            <a class="switcher js-toggle-treediff switcher {if $treediff}checked{/if}" href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=branchdiff&amp;branch={$branch}{if $review}&amp;review={$review}{/if}{if $base}&amp;base={$base}{/if}&amp;treediff={if $treediff}0{else}1{/if}">
-                <span>Treediff</span>
-                <span class="switch"></span>
-            </a>
+            <div class="diff-controls__item">
+                <a class="checkbox-link js-toggle-treediff"
+                   href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=branchdiff&amp;branch={$branch}{if $review}&amp;review={$review}{/if}{if $base}&amp;base={$base}{/if}&amp;treediff={if $treediff}0{else}1{/if}">
+                    <span class="checkbox-link__control">
+                        <input class="checkbox-input" type='checkbox' id='selectall' {if $treediff}checked{/if} disabled/>
+                    </span>
+                    <span class="checkbox-link__label">{t}Treediff{/t}</span>
+                </a>
+            </div>
 
             {if $review && $unified}
-                <a href="#" class="js-toggle-review-comments switcher">
-                    <span>Review Comments Only</span>
-                    <span class="switch"></span>
+            <div class="diff-controls__item">
+                <a class="checkbox-link js-toggle-review-comments">
+                    <span class="checkbox-link__control">
+                        <input class="checkbox-input js-toggle-review-comments-input" type='checkbox'/>
+                    </span>
+                    <span class="checkbox-link__label">
+                        Review Comments Only
+                    </span>
                 </a>
+            </div>
             {/if}
         </div>
-
-        <div class="page-search-container">
-        </div>
+        <div class="diff-controls__options page-search-container"></div>
     </div>
  </div>
 

@@ -12,6 +12,7 @@
             <th>Review</th>
             <th>Ticket / Review Name</th>
             <th>Comments count</th>
+            <th>Type</th>
             <th>Link</th>
         </tr>
     </thead>
@@ -30,6 +31,9 @@
                 </td>
                 <td>
                     {$snapshot.count}
+                </td>
+                <td>
+                    {$snapshot.review_type}
                 </td>
                 <td style="font-family: Menlo, Monaco, 'Courier New', monospace;">
                     <a href="{$snapshot.url}">{$snapshot.title}</a>
