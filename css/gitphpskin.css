@@ -1237,8 +1237,9 @@ ul.owners-list {
 	margin-top: 10px;
 }
 
-.simple-button {
-	padding: 12px 20px 8px 20px;
+.simple-button,
+.simple-button-highlighted {
+	padding: 10px 20px 10px 20px;
 	border: 1px solid #eee;
 	border-radius: 10px;
 	display: inline-block;
@@ -1248,9 +1249,16 @@ ul.owners-list {
 	line-height: 1.2em;
 }
 
-.simple-button:hover, .simple-button:active {
+.simple-button:hover,
+.simple-button:active,
+.simple-button-highlighted:hover,
+.simple-button-highlighted:active {
 	border-color: #888;
 	text-decoration: none;
+}
+
+.simple-button-highlighted {
+	border-color: #6f2fe3;
 }
 
 .projectHeader a,
