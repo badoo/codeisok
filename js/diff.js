@@ -194,22 +194,22 @@ function renderFile(file) {
 
 function getFolderMap(fileList) {
     return fileList.reduce((contents, file) => {
-        let currentFolder = contents;
-
         const folders = file.path.split('/');
 
+        let currentFolder = contents;
         folders.forEach((folder, idx) => {
-            let foundFolder = currentFolder.find(item => item.name === folder);
-
             // Last content is always a file
             if (idx === folders.length - 1) {
                 currentFolder.push(Object.assign({}, file, {
                     type: 'file',
                     name: folder
                 }));
+                return;
             }
+
             // If no folder found then make one
-            else if (!foundFolder) {
+            let foundFolder = currentFolder.find(item => item.name === folder);
+            if (!foundFolder) {
                 foundFolder = {
                     type: 'folder',
                     name: folder,
@@ -218,7 +218,7 @@ function getFolderMap(fileList) {
                 currentFolder.push(foundFolder);
                 currentFolder = foundFolder.contents;
             }
-            // Move into the folder
+            // Move into the folder if found one
             else {
                 currentFolder = foundFolder.contents;
             }
@@ -227,11 +227,12 @@ function getFolderMap(fileList) {
         return contents;
     }, [])
     .map(folder => {
-        return flattenFolder(folder);
+        return flattenAndSortFolder(folder);
     });
 }
 
-function flattenFolder(folder) {
+function flattenAndSortFolder(folder) {
+    // It's a file or something else
     if (!folder || folder.type !== 'folder') {
         return folder;
     }
@@ -246,11 +247,24 @@ function flattenFolder(folder) {
                 contents: subFolder.contents
             };
 
-            return flattenFolder(newFolder);
+            return flattenAndSortFolder(newFolder);
         }
     }
 
-    folder.contents = folder.contents.map(flattenFolder);
+    folder.contents = folder.contents
+        .map(flattenAndSortFolder)
+        .sort((itemA, itemB) => {
+
+            // Folders at the top always
+            if (itemA.type !== 'folder' && itemB.type === 'folder') {
+                return 1;
+            }
+            if (itemA.type === 'folder' && itemB.type !== 'folder') {
+                return -1;
+            }
+
+            return itemA.name.localeCompare(itemB.name);
+        });
 
     return folder;
 }
