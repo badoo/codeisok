@@ -248,8 +248,7 @@ div.suppressed {
 }
 
 /* Clear fix for lines in code */
-.clearfix:after,
-.line:after {
+.clearfix:after {
     content: " ";
     display: block;
     height: 0;

@@ -45,6 +45,12 @@
                 </a>
             </div>
             {/if}
+
+            {if $branchdiff->hasHidden()}
+                <a class="diff-controls__item simple-button-highlighted" href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=branchdiff&amp;branch={$branch}{if $review}&amp;review={$review}{/if}{if $base}&amp;base={$base}{/if}&amp;show_hidden=1">
+                    Show hidden files
+                </a>
+            {/if}
         </div>
         <div class="diff-controls__options page-search-container"></div>
     </div>
@@ -66,13 +72,6 @@
                     {include file='extensions_filter.tpl' stasuses=$statuses extensions=$extensions folders=$folders}
 
                     <table>
-                        {if $branchdiff->hasHidden()}
-                        <tr>
-                            <td colspan="2">
-                                <a class="warning_hidden_files" href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=branchdiff&amp;branch={$branch}&amp;show_hidden=1">Some files were hidden. Click here to show them.</a>
-                            </td>
-                        </tr>
-                        {/if}
                         {foreach from=$branchdiff item=filediff}
                             <tr class="filetype-{$filediff->getToFileExtension()} status-{$filediff->getStatus()|lower} folder-{$filediff->getToFileRootFolder()|lower}">
                                 <td>

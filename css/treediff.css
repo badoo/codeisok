@@ -77,7 +77,7 @@
 }
 
 .file-list li.type-file {
-    padding: 5px 0 5px 15px;
+    padding: 0 0 0 15px;
 }
 
 .file-list li > a {
@@ -86,6 +86,7 @@
     text-decoration: none;
     display: inline-block;
     width: 100%;
+    padding: 5px 0 5px 32px;
 }
 
 .file-list li.type-file:hover, 
@@ -151,7 +152,7 @@
 /* Visited files */
 .file-list li.is-visited > a::after {
     position: absolute;
-    bottom: 3px;
+    bottom: 7px;
     left: 11px;
     display: block;
     width: 12px;

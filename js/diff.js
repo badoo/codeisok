@@ -84,13 +84,21 @@ function renderTreeDiff(fileList, container) {
 
     // Check if we need to display a pre-selected comment or blob
     if (!window.sbsTreeDiff) {
+        // Check for existing viewed file names and mark them as viewed
+        const viewedFiles = getViewedFiles();
+        viewedFiles.forEach(viewedFileName => {
+            $(`.file-list a[href="${viewedFileName}"]`).parent().addClass('is-active is-visited');
+        });
+
         detectActiveBlobs();
+
         // Start listening for hash changes
         window.onhashchange = detectActiveBlobs;
     }
 
     enablePaneDragging();
     enableFolderCollapsing();
+
 
     $('.two-panes').removeClass('is-loading');
 }
@@ -150,9 +158,52 @@ function detectActiveBlobs() {
     $('.file-list li').removeClass('is-active');
     $(`.file-list a[href="#${fileName}"]`).parent().addClass('is-active is-visited');
 
+    // Save the viewed files again
+    const viewedFiles = $('.type-file.is-visited a').get().map(el => el.getAttribute('href'));
+    setViewedFiles(viewedFiles);
+
     // Make sure it's in the view
     if (foundElement.length > 0) {
         foundElement.get(0).scrollIntoView();
+    }
+}
+
+function getReviewKey() {
+    return `${$('#review_hash_base').val()}:${$('#review_hash_head').val()}`;
+}
+
+function getViewedFiles() {
+    let viewedFiles = [];
+
+    try {
+        const viewedFileData = JSON.parse(sessionStorage.getItem('viewed-files'));
+        const reviewKey = viewedFileData.reviewKey;
+
+        if (reviewKey === getReviewKey() && viewedFileData.files) {
+            return viewedFileData.files;
+        }
+        else {
+            sessionStorage.removeItem('viewed-files');
+        }
+    }
+    catch(e) {
+        sessionStorage.removeItem('viewed-files');
+    }
+
+    return viewedFiles;
+}
+
+function setViewedFiles(files) {
+    files = files || [];
+
+    try {
+        sessionStorage.setItem('viewed-files', JSON.stringify({
+            reviewKey: getReviewKey(),
+            files: files
+        }));
+    }
+    catch(e) {
+        sessionStorage.removeItem('viewed-files');
     }
 }
 
@@ -194,22 +245,22 @@ function renderFile(file) {
 
 function getFolderMap(fileList) {
     return fileList.reduce((contents, file) => {
-        let currentFolder = contents;
-
         const folders = file.path.split('/');
 
+        let currentFolder = contents;
         folders.forEach((folder, idx) => {
-            let foundFolder = currentFolder.find(item => item.name === folder);
-
             // Last content is always a file
             if (idx === folders.length - 1) {
                 currentFolder.push(Object.assign({}, file, {
                     type: 'file',
                     name: folder
                 }));
+                return;
             }
+
             // If no folder found then make one
-            else if (!foundFolder) {
+            let foundFolder = currentFolder.find(item => item.name === folder);
+            if (!foundFolder) {
                 foundFolder = {
                     type: 'folder',
                     name: folder,
@@ -218,7 +269,7 @@ function getFolderMap(fileList) {
                 currentFolder.push(foundFolder);
                 currentFolder = foundFolder.contents;
             }
-            // Move into the folder
+            // Move into the folder if found one
             else {
                 currentFolder = foundFolder.contents;
             }
@@ -227,11 +278,12 @@ function getFolderMap(fileList) {
         return contents;
     }, [])
     .map(folder => {
-        return flattenFolder(folder);
+        return flattenAndSortFolder(folder);
     });
 }
 
-function flattenFolder(folder) {
+function flattenAndSortFolder(folder) {
+    // It's a file or something else
     if (!folder || folder.type !== 'folder') {
         return folder;
     }
@@ -246,11 +298,24 @@ function flattenFolder(folder) {
                 contents: subFolder.contents
             };
 
-            return flattenFolder(newFolder);
+            return flattenAndSortFolder(newFolder);
         }
     }
 
-    folder.contents = folder.contents.map(flattenFolder);
+    folder.contents = folder.contents
+        .map(flattenAndSortFolder)
+        .sort((itemA, itemB) => {
+
+            // Folders at the top always
+            if (itemA.type !== 'folder' && itemB.type === 'folder') {
+                return 1;
+            }
+            if (itemA.type === 'folder' && itemB.type !== 'folder') {
+                return -1;
+            }
+
+            return itemA.name.localeCompare(itemB.name);
+        });
 
     return folder;
 }
