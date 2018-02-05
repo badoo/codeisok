@@ -20,6 +20,6 @@ X-Git-Url: {scripturl}?p={$project->GetProject()|urlencode}&amp;a=commitdiff&amp
 ---
 
 
-{foreach from=$treediff item=filediff}
+{foreach from=$commit_tree_diff item=filediff}
 {$filediff->GetDiff('', true, false, false)}
 {/foreach}
