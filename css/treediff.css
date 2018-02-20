@@ -172,6 +172,16 @@
     line-height: 15px;
 }
 
+.file-list .type-file .review-comments a::before,
+.file-list .type-file .review-comments span::before {
+    content: "▶";
+    position: absolute;
+    left: -10px;
+    color: #f5d400;
+    font-weight: bold;
+    font-size: 14px;
+}
+
 .file-list .type-file > a::before,
 .file-list .type-folder::before {
     position: absolute;
