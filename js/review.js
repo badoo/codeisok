@@ -665,6 +665,21 @@ var Review = (function() {
         input.checked = !input.checked;
         $('.diffBlob.lines-visible').removeClass('lines-visible');
         $('.page_body').toggleClass('only-comments');
+        if (input.checked) { //expand suppressed diffs if those have review comments
+            var files = [];
+            Review.comments_ids_file.forEach(function(elem){
+                if (files.indexOf(elem.file) == -1) {
+                    files.push(elem.file);
+                }
+            });
+            files.forEach(function(name){
+                var $file = Review.getNodeFile(name);
+                var $expander = $file.find('.too_large_diff a');
+                if ($expander.size()) {
+                    show_suppressed_diff($expander);
+                }
+            })
+        }
     }
 
     Review.expandBlobIfNeeded = function (e) {
