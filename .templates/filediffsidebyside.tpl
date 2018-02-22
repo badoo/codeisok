@@ -72,7 +72,7 @@
                 {literal}
             success: function (response, textStatus, request) {
                 content_type = request.getResponseHeader('Content-Type');
-                if (content_type.indexOf("text") === -1) {
+                if (content_type.indexOf("text") === -1 && content_type.indexOf("xml") === -1) {
                     response = "Binary data...";
                 }
                 cm_mode = request.getResponseHeader('Cm-mode');
