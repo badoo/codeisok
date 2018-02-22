@@ -63,41 +63,33 @@
 
     $('.SBSTOC').addClass('is-loading');
 
-    $.ajax({
-        type: 'GET', async: true, dataType: 'text',
-        {/literal}
-        url: '{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&a=blob_plain&h=' + fromHash + '&f=' + fromFile,
-         {literal}
-        success: function (response, textStatus, request) {
-            cm_mode = request.getResponseHeader('Cm-mode');
-            compare.mergely('lhs', response);
-            var resp_length = 0;
-            if (response) {
-                resp_length = response.split("\n").length;
+    var modes = {'lhs':{"file":fromFile, "hash":fromHash}, 'rhs':{"file":toFile, "hash":toHash}};
+    function request(mode) {
+        $.ajax({
+            type: 'GET', async: true, dataType: 'text',
+            {/literal}
+            url: '{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&a=blob_plain&h=' + modes[mode].hash + '&f=' + modes[mode].file,
+                {literal}
+            success: function (response, textStatus, request) {
+                content_type = request.getResponseHeader('Content-Type');
+                if (content_type.indexOf("text") === -1) {
+                    response = "Binary data...";
+                }
+                cm_mode = request.getResponseHeader('Cm-mode');
+                compare.mergely(mode, response);
+                var resp_length = 0;
+                if (response) {
+                    resp_length = response.split("\n").length;
+                }
+                $('.page_body').prepend($('<input type="hidden" id="' + mode + '_length" value="' + resp_length + '">'));
+                compare.mergely('cm', mode).setOption('mode', cm_mode);
+                hideLoader(callback);
             }
-            $('.page_body').prepend($('<input type="hidden" id="lhs_length" value="' + resp_length + '">'));
-            compare.mergely('cm', 'lhs').setOption('mode', cm_mode);
-            hideLoader(callback);
-        }
-    });
-
-    $.ajax({
-        type: 'GET', async: true, dataType: 'text',
-         {/literal}
-        url: '{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&a=blob_plain&h=' + toHash + '&f=' + toFile,
-         {literal}
-        success: function (response, textStatus, request) {
-            cm_mode = request.getResponseHeader('Cm-mode');
-            compare.mergely('rhs', response);
-            var resp_length = 0;
-            if (response) {
-                resp_length = response.split("\n").length;
-            }
-            $('.page_body').prepend($('<input type="hidden" id="rhs_length" value="' + resp_length + '">'));
-            compare.mergely('cm', 'rhs').setOption('mode', cm_mode);
-            hideLoader(callback);
-        }
-    });
+        });
+    }
+    for (mode in modes) {
+        request(mode);
+    }
 
     var oneSideLoaded = false;
     function hideLoader(callback) {

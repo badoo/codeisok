@@ -233,10 +233,10 @@ class GitPHP_Blob extends GitPHP_FilesystemObject
 	 */
 	public function FileMime($short = false)
 	{
-		$mime = $this->FileMime_Fileinfo();
+		$mime = $this->FileMime_File();
 
 		if (empty($mime))
-			$mime = $this->FileMime_File();
+		    $mime = $this->FileMime_Fileinfo();
 
 		if (empty($mime))
 			$mime = $this->FileMime_Extension();
