@@ -9,8 +9,8 @@
  * @subpackage Template
  *}
 
-{if $titlecommit || $target == 'shortlog' || $target == 'tags' || $target == 'heads' || $ticket || $reviews.length > 0 || $hasPageSearch}
-    <div class="title stretch-evenly {if $compact}compact{/if}">
+{if $titlecommit || $target == 'shortlog' || $target == 'tags' || $target == 'heads' || $ticket || (!empty($reviews) && $reviews.length > 0) || (!empty($hasPageSearch) && $hasPageSearch)}
+    <div class="title stretch-evenly {if !empty($compact) && $compact}compact{/if}">
         <div>
             {if $titlecommit}
                 {if $target == 'commitdiff'}
@@ -54,7 +54,7 @@
             {/foreach}
         </div>
 
-        {if $hasPageSearch}
+        {if !empty($hasPageSearch) && $hasPageSearch}
             <div class="page-search-container"></div>
         {/if}
     </div>

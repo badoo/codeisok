@@ -76,8 +76,13 @@ class Log extends Base
      */
     protected function ReadQuery()
     {
-        if (isset($_GET['h'])) $this->params['hash'] = $_GET['h'];
-        else $this->params['hash'] = 'HEAD';
+        $hash = 'HEAD';
+        if (isset($_GET['h']) && $_GET['h'] !== 'refs/heads/HEAD') {
+            $hash = $_GET['h'];
+        }
+
+        $this->params['hash'] = $hash;
+
         if (isset($_GET['pg'])) $this->params['page'] = $_GET['pg'];
         else $this->params['page'] = 0;
         if (isset($_GET['m'])) $this->params['mark'] = $_GET['m'];
@@ -147,9 +152,11 @@ class Log extends Base
                 $revlist_hashes[] = $commit->GetHash();
                 $revlist_index[$commit->GetHash()] = $idx;
             }
-            $reviews = \GitPHP_Db::getInstance()->findSnapshotsByHash($revlist_hashes);
-            foreach ($reviews as $hash => $review) {
-                $revlist[$revlist_index[$hash]]->setReview($review);
+            foreach($revlist_hashes as $revlist_hash) {
+                $reviews = \GitPHP_Db::getInstance()->findSnapshotsByHash($revlist_hash);
+                foreach ($reviews as $hash => $review) {
+                    $revlist[$revlist_index[$hash]]->setReview($review);
+                }
             }
 
             $this->tpl->assign('revlist', $revlist);

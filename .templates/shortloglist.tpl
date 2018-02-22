@@ -11,7 +11,7 @@
 
 <table cellspacing="0" class="git-table shortlog">
 {foreach from=$revlist item=rev}
-    <tr {if $mark && $mark->GetHash() == $rev->GetHash()}class="selected"{/if}>
+    <tr {if !empty($mark) && $mark->GetHash() == $rev->GetHash()}class="selected"{/if}>
         <td width="15%" title="{if $rev->GetAge() > 60*60*24*7*2}{$rev->GetAge()|agestring}{else}{$rev->GetCommitterEpoch()|date_format:"%Y-%m-%d"}{/if}">
             {if $rev->GetAge() > 60*60*24*7*2}{$rev->GetCommitterEpoch()|date_format:"%Y-%m-%d"}{else}{$rev->GetAge()|agestring}{/if}
         </td>
@@ -33,7 +33,7 @@
                 <a class="simple-button" href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=tree&amp;h={$rev->GetHash()}&amp;hb={$rev->GetHash()}">{t}Tree{/t}</a>
                 <a class="simple-button" href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=snapshot&amp;h={$rev->GetHash()}" class="snapshotTip">{t}Snapshot{/t}</a>
                 {if $source == 'shortlog' || $source == 'branchlog'}
-                    {if $mark}
+                    {if !empty($mark)}
                         {if $mark->GetHash() == $rev->GetHash()}
                             <a class="simple-button" href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a={$source}&amp;h={$commit->GetHash()}&amp;pg={$page}">{t}Deselect{/t}</a>
                         {else}
@@ -62,9 +62,9 @@
         {if $source == 'summary'}
             <td colspan="3"><a class="simple-button" href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=shortlog">Show More</a></td>
         {elseif $source == 'shortlog'}
-            <td colspan="3"><a class="simple-button" href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=shortlog&amp;h={$commit->GetHash()}&amp;pg={$page+1}{if $mark}&amp;m={$mark->GetHash()}{/if}" title="Alt-n">{t}Next{/t}</a></td>
+            <td colspan="3"><a class="simple-button" href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=shortlog&amp;h={$commit->GetHash()}&amp;pg={$page+1}{if !empty($mark)}&amp;m={$mark->GetHash()}{/if}" title="Alt-n">{t}Next{/t}</a></td>
         {elseif $source == 'branchlog'}
-            <td colspan="3"><a class="simple-button" href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=branchlog&amp;h={$commit->GetHash()}&amp;pg={$page+1}{if $mark}&amp;m={$mark->GetHash()}{/if}" title="Alt-n">{t}Next{/t}</a></td>
+            <td colspan="3"><a class="simple-button" href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=branchlog&amp;h={$commit->GetHash()}&amp;pg={$page+1}{if !empty($mark)}&amp;m={$mark->GetHash()}{/if}" title="Alt-n">{t}Next{/t}</a></td>
         {/if}
     </tr>
 {/if}

@@ -236,14 +236,15 @@ class Blob extends Base
 
         switch ($this->params['hi']) {
             case 'sexy':
-                include_once(\GitPHP_Util::AddSlash('lib/\SyntaxHighlighter') . "\SyntaxHighlighter.php");
+                include_once('lib/syntaxhighlighter/syntaxhighlighter.php');
                 $SH = new \SyntaxHighlighter($blob->GetName());
                 $this->tpl->assign('sexy', 1);
                 $this->tpl->assign('extracss_files', $SH->getCssList());
                 $this->tpl->assign('extrajs_files', $SH->getJsList());
                 $this->tpl->assign('highlighter_brushes', $SH->getBrushesList());
                 $this->tpl->assign('highlighter_brush_name', $SH->getBrushName());
-                if ($blob->FileMime() !== 'application/octet-stream') {
+                $this->tpl->assign('blobstr', '');
+                if (strpos($blob->FileMime(), 'text') !== false || strpos($blob->FileMime(), 'xml') !== false) {
                     $this->tpl->assign('blobstr', $blob->getData(false));
                 }
                 return;

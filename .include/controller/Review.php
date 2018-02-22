@@ -76,6 +76,7 @@ class Review extends Base
                 $this->tpl->assign('project', $this->project);
             }
         } else {
+            $this->tpl->assign('head', '');
             $limit = 50;
             $snapshots = $db->getSnapshotList($limit + 1, $this->params['max_id']);
             if ($this->params['max_id']) {

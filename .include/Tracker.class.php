@@ -75,7 +75,7 @@ class Tracker
     public function parseTicketFromString($string)
     {
         $key = '';
-        if (preg_match($this->getTicketRegexp(), $string, $m)) {
+        if (!empty($this->getTicketRegexp()) && preg_match($this->getTicketRegexp(), $string, $m)) {
             $key = $m['ticket'];
         }
         return $key;
