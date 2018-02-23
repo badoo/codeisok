@@ -316,7 +316,7 @@ class GitPHP_Config
     }
 
     /**
-     * Get base branches for review. By default it's master and staging branches
+     * Get base branches for review. By default it's master.
      *
      * @param $category
      * @return array
@@ -324,7 +324,7 @@ class GitPHP_Config
     public function GetBaseBranchesByCategory($category)
     {
         $base_branches_per_category = \GitPHP_Config::GetInstance()->GetValue(\GitPHP_Config::BASE_BRANCHES_PER_CATEGORY, []);
-        return $base_branches_per_category[$category] ?? ['master', 'staging'];
+        return $base_branches_per_category[$category] ?? ['master'];
     }
 
     /**
