@@ -811,10 +811,9 @@ ul.owners-list {
 	display: inline-block;
 	margin: 0;
 	vertical-align: middle;
-	background: url(/images/ngit-logo.png) no-repeat;
-	background-size: contain;
-	width: 4em;
+	background: url(/images/codeisok-logo.svg) no-repeat;
 	text-indent: -9999px;
+    width:210px;
 }
 
 /*

@@ -2,7 +2,7 @@
 <html dir="ltr">
   <head>
     <title>
-        {if $project}{$project->GetProject()}{if $actionlocal}/{$actionlocal}{/if}{else}NGit{/if}
+        {if $project}{$project->GetProject()}{if $actionlocal}/{$actionlocal}{/if}{else}codeisok{/if}
     </title>
     <meta charset="utf-8">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -91,7 +91,7 @@
 
     {if !$no_user_header}
     <div class="page_header {if $adminarea}adminheader{/if}">
-        <a class="logo" href="index.php?a">NGit</a>
+        <a class="logo" href="index.php?a">codeisok</a>
 
         <div class="user_block">
             {if $Session->isAuthorized()}
