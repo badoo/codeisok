@@ -192,7 +192,7 @@ div.suppressed {
     background-color: #FFFF99;
 }
 
-.ticket {
+.ticket, .bold {
 	font-weight: bold;
 }
 
@@ -369,3 +369,19 @@ div.suppressed {
 
 .switcher.checked .switch::before {
     transform: translate3d(15px, 0, 0);
+}
+
+sup {
+    font-size: smaller;
+    font-style: italic;
+}
+
+.git-admin-table {
+    padding: 0 50px;
+    width: 100%;
+    border-spacing: 0;
+}
+
+.git-admin-table .text-input, .git-table .text-input {
+    min-width: 400px;
+}
