@@ -40,15 +40,17 @@
                 </td>
             </tr>
         {/foreach}
+        <tr>
+            <td colspan='5'>
+            {if $to_start_link}
+                <a class="simple-button" href="{$to_start_link}">&larr; to start</a>
+            {/if}
+            {if $more_link}
+                <a class="simple-button" href="{$more_link}">more &rarr;</a>
+            {/if}
+            </td>
+        </tr>
     </tbody>
 </table>
-
-{if $to_start_link}
-    <a href="{$to_start_link}">&larr; to start</a>
-{/if}
-
-{if $more_link}
-    <a href="{$more_link}">more &rarr;</a>
-{/if}
 
 {include file="footer.tpl"}

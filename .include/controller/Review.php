@@ -78,13 +78,17 @@ class Review extends Base
         } else {
             $this->tpl->assign('head', '');
             $limit = 50;
+            $p = '';
+            if (!empty($this->project)) {
+                $p = $this->project->GetProject();
+            }
             $snapshots = $db->getSnapshotList($limit + 1, $this->params['max_id']);
             if ($this->params['max_id']) {
-                $to_start_link = \GitPHP_Application::getUrl('reviews', ['max_id' => 0]);
+                $to_start_link = \GitPHP_Application::getUrl('reviews', ['max_id' => 0, 'p' => $p]);
             }
             if (count($snapshots) > $limit) {
                 $last = array_pop($snapshots);
-                $more_link = \GitPHP_Application::getUrl('reviews', ['max_id' => $last['id']]);
+                $more_link = \GitPHP_Application::getUrl('reviews', ['max_id' => $last['id'], 'p' => $p]);
             }
         }
         $this->tpl->assign('to_start_link', $to_start_link);
