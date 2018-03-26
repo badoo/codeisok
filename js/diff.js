@@ -148,7 +148,7 @@ function enablePaneDragging() {
 }
 
 function detectActiveBlobs() {
-    const hash = window.location.hash.substr(1);
+    const hash = decodeURIComponent(window.location.hash.substr(1));
     const foundElement = $(`[name="${hash}"]`);
     const closestBlob = foundElement.closest('.diffBlob');
     closestBlob.addClass('is-visible').siblings().removeClass('is-visible');
