@@ -1483,7 +1483,12 @@ class GitPHP_Project
             $this->commits_count_cache[$first_hash] = [];
         }
         if (!isset($this->commits_count_cache[$first_hash][$second_hash])) {
-            $this->commits_count_cache[$first_hash][$second_hash] = count($this->GetLog($second_hash, 1000, 0, $first_hash));
+            $Git = new GitPHP_GitExe($this);
+            $commits = $Git->Execute(
+                GIT_LOG,
+                array('-n 1', '--first-parent', '--oneline', ' ' . escapeshellarg($first_hash) . '..' . escapeshellarg($second_hash), '|wc -l')
+            );
+            $this->commits_count_cache[$first_hash][$second_hash] = intval($commits);
         }
         return $this->commits_count_cache[$first_hash][$second_hash];
     }
