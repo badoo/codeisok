@@ -9,9 +9,17 @@ class UpdateAuthKeys
         $Gitosis = new Model_Gitosis();
 
         $users = $Gitosis->getUsers();
+        if ($users === false) {
+            echo "Cannot receive users from DB";
+            return;
+        }
         $this->generateAuthKeys($users);
 
         $repositories = $Gitosis->getRepositories();
+        if ($repositories === false) {
+            echo "Cannot receive repositories from DB";
+            return;
+        }
         $this->createNewRepositories($repositories);
     }
 
@@ -30,6 +38,7 @@ class UpdateAuthKeys
         $auth_keys_tmp_path = $auth_keys_path . '.tmp';
         if (false === file_put_contents($auth_keys_tmp_path, $auth_keys)) {
             echo "Cannot write authorized_keys file\n";
+            return;
         }
         if (false === rename($auth_keys_tmp_path, $auth_keys_path)) {
             echo "Cannot rename tmp auth keys";
