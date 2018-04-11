@@ -4,11 +4,12 @@ namespace GitPHP\Controller;
 
 class GitosisUsers extends GitosisBase
 {
-    const ACCESS_MODE_NORMAL = 'normal';
-    const ACCESS_MODE_ALLOW_ALL = 'everywhere';
+    const ACCESS_MODE_NORMAL       = 'normal';
+    const ACCESS_MODE_ALLOW_ALL    = 'everywhere';
+    const ACCESS_MODE_ALLOW_ALL_RO = 'everywhere-ro';
 
     protected $edit_user;
-    protected $access_modes = [self::ACCESS_MODE_NORMAL, self::ACCESS_MODE_ALLOW_ALL];
+    protected $access_modes = [self::ACCESS_MODE_NORMAL, self::ACCESS_MODE_ALLOW_ALL, self::ACCESS_MODE_ALLOW_ALL_RO];
 
     protected function ReadQuery()
     {
@@ -63,9 +64,7 @@ class GitosisUsers extends GitosisBase
         parent::LoadData();
 
         $this->tpl->assign('users', $this->ModelGitosis->getUsers());
-
         $this->tpl->assign('access_modes', $this->access_modes);
-
         $this->tpl->assign('edit_user', $this->edit_user);
     }
 
