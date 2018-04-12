@@ -23,11 +23,11 @@
             <tr class="{cycle values="light,dark"}" id="{$user.username}">
                 <td>
                     <p>{$user.username}</p>
-                    {if $user.access_mode == 'everywhere'}<small class="warning">only restricted repos shown</small>{/if}
+                    {if $user.access_mode == 'everywhere' || $user.access_mode == 'everywhere-ro'}<small class="warning">only restricted repos shown</small>{/if}
                 </td>
                 <td>
                     <select name="projects_ids[]" multiple="" size="10" class='select-input'>
-                    {if $user.access_mode == 'everywhere'}
+                    {if $user.access_mode == 'everywhere' || $user.access_mode == 'everywhere-ro'}
                         {foreach from=$restricted_projects item=project}
                             <option value="{$project.id}">{$project.project}</option>
                         {/foreach}

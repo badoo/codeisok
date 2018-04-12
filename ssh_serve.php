@@ -66,10 +66,11 @@ class SSH_Serve
     public function run()
     {
         $ModelGitosis = new Model_Gitosis();
-        if ($this->isNormalUser($ModelGitosis, $this->user) || $this->isRestrictedRepository($ModelGitosis, $this->repository)) {
+        $global_mode = $this->getUserGlobalAccessMode($ModelGitosis, $this->user);
+        if (!$global_mode || ($global_mode === 'readonly' && in_array($this->command, self::COMMANDS_WRITE)) || $this->isRestrictedRepository($ModelGitosis, $this->repository)) {
             $access = $ModelGitosis->getUserAccessToRepository($this->user, $this->repository);
         } else {
-            $access = ['mode' => 'writable'];
+            $access = ['mode' => $global_mode];
         }
         if (!empty($access)) {
             if (in_array($this->command, self::COMMANDS_WRITE) && $access['mode'] !== 'writable') {
@@ -105,10 +106,16 @@ class SSH_Serve
         return $repository_info['restricted'] == 'Yes';
     }
 
-    protected function isNormalUser(Model_Gitosis $ModelGitosis, $username)
+    protected function getUserGlobalAccessMode(Model_Gitosis $Gitosis, $username)
     {
-        $user = $ModelGitosis->getUserByUsername($username);
-        return $user['access_mode'] == \GitPHP\Controller\GitosisUsers::ACCESS_MODE_NORMAL;
+        $user = $Gitosis->getUserByUsername($username);
+        if ($user['access_mode'] == \GitPHP\Controller\GitosisUsers::ACCESS_MODE_ALLOW_ALL) {
+            return 'writable';
+        } else if ($user['access_mode'] == \GitPHP\Controller\GitosisUsers::ACCESS_MODE_ALLOW_ALL_RO) {
+            return 'readonly';
+        } else {
+            return false;
+        }
     }
 
     protected function error($message)
