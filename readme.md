@@ -1,4 +1,7 @@
-## Badoo gitphp repository browsing and code review tool
+## Badoo repository browsing and code review tool
+
+![logo](https://raw.githubusercontent.com/uyga/codeisok/master/images/codeisok-logo.png "logo")
+
 
 The project was originally forked from https://github.com/xiphux/gitphp. 
 But we changed almost everything and added lot of new features.
@@ -14,19 +17,19 @@ But we changed almost everything and added lot of new features.
 * Side-by-side review using http://www.mergely.com
 * Filters in diffs on-the-fly for different file types and changes
 * Search in project heads
-* Access control, repositories management - no gitosis is reguired, everything is done inside gitphp
+* Access control, repositories management - no gitosis is reguired, everything is done inside codeisok
 * and even more
 
 ### Installation
 For manual installation explore .setup dir and find all nesessary scripts and tools. Service requires mysql, php and nginx to work. Setup scenario can be found in .setup/Dockerfile.
 
 ### Docker
-For docker build run "docker build -t gitphp .setup" from project root.
+For docker build run "docker build -t codeisok .setup" from project root.
 
 To run docker container use start.sh script in project root.
 Docker container exposes 2 ports:
- * 8080 for HTTP instance (http://localhost:8080/).
- * 2222 as ssh-source for git operations (ssh://git@localhost:2222/testrepo.git)
+ * 80 for HTTP instance (http://localhost/).
+ * 22 as ssh-source for git operations (ssh://git@localhost/testrepo.git)
 
 ### Internals
 
