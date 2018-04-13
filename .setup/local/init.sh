@@ -19,9 +19,9 @@ if [ ! -d "/home/git/.ssh" ]; then
     mkdir /home/git/.ssh && chmod 0700 /home/git/.ssh
     touch /home/git/.ssh/authorized_keys && chmod 0600 /home/git/.ssh/authorized_keys
     chown -R git.git /home/git
-    ln -s /local/gitphp/ssh_serve.php /home/git/ssh_serve.php
-    mkdir /local/gitphp/repositories
-    chown git.git /local/gitphp/repositories
+    ln -s /local/codeisok/ssh_serve.php /home/git/ssh_serve.php
+    mkdir /local/codeisok/repositories
+    chown git.git /local/codeisok/repositories
 fi
 
 

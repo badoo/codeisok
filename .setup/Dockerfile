@@ -36,7 +36,7 @@ COPY local/ /local/
 
 VOLUME /var/lib/mysql
 VOLUME /home/git
-VOLUME /local/gitphp
+VOLUME /local/codeisok
 
 EXPOSE 80 22
 CMD bash /local/init.sh && bash
