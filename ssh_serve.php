@@ -76,7 +76,7 @@ class SSH_Serve
             if (in_array($this->command, self::COMMANDS_WRITE) && $access['mode'] !== 'writable') {
                 $this->error('You don\' have write access to repo.');
             }
-            if (!extension_loaded('pcntl') && !dl('pcntl.so')) {
+            if (!function_exists('pcntl_exec') && !extension_loaded('pcntl') && !dl('pcntl.so')) {
                 // we've seen some strange git behaviour without using pcntl_exec
                 // nevertheless I've saved this part for back-compatibility with old php config
                 trigger_error('cannot load pcntl extension');

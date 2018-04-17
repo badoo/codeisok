@@ -21,6 +21,7 @@ RUN apt-get update -y \
         php7.0-mysqlnd \
         php7.0-soap \
         php7.0-xml \
+        php7.0-cli \
         strace \
         vim \
         openssh-server \
