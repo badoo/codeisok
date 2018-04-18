@@ -206,7 +206,7 @@
 .syntaxhighlighter.printing .plain, .syntaxhighlighter.printing .plain a {
   color: black !important;
 }
-.syntaxhighlighter.printing .comments, .syntaxhighlighter.printing .comments a {
+.syntaxhighlighter.printing .comments, .syntaxhighlighter.printing .comments a, .comments {
   color: #008200 !important;
 }
 .syntaxhighlighter.printing .string, .syntaxhighlighter.printing .string a {
