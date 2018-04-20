@@ -20,6 +20,8 @@ But we changed almost everything and added lot of new features.
 * Access control, repositories management - no gitosis is reguired, everything is done inside codeisok
 * and even more
 
+Please find the full documentation in [codeisok wiki](https://github.com/badoo/codeisok/wiki)
+
 ### Installation
 For manual installation explore .setup dir and find all nesessary scripts and tools. Service requires mysql, php and nginx to work. Setup scenario can be found in .setup/Dockerfile.
 
