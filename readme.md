@@ -1,6 +1,26 @@
-## Badoo repository browsing and code review tool
+# Badoo repository browsing and code review tool
 
 ![logo](https://raw.githubusercontent.com/uyga/codeisok/master/images/codeisok-logo.png "logo")
+
+### [Installation guide](https://github.com/badoo/codeisok/wiki/Installation)
+
+### [Authorisation](https://github.com/badoo/codeisok/wiki/Authorisation)
+
+### [Administration](https://github.com/badoo/codeisok/wiki/Administration)
+* [Users management](https://github.com/badoo/codeisok/wiki/Administration#users-management)
+* [Repositories management](https://github.com/badoo/codeisok/wiki/Administration#repositories-management)
+* [Access management](https://github.com/badoo/codeisok/wiki/Administration#access-management)
+
+### [Get started](https://github.com/badoo/codeisok/wiki/Get-started)
+
+### [Code review](https://github.com/badoo/codeisok/wiki/Code-review)
+* [Commitdiff review](https://github.com/badoo/codeisok/wiki/Code-review#commitdiff-review)
+   1. [Unified mode](https://github.com/badoo/codeisok/wiki/Code-review#unified-mode)
+   2. [Side-by-side mode](https://github.com/badoo/codeisok/wiki/Code-review#side-by-side-mode)
+* [Branchdiff review](https://github.com/badoo/codeisok/wiki/Code-review#branchdiff-review)
+* [Blob review](https://github.com/badoo/codeisok/wiki/Code-review#blob-review)
+* [Review for diff between two commits](https://github.com/badoo/codeisok/wiki/Code-review#review-for-diff-between-two-commits)
+
 
 
 The project was originally forked from https://github.com/xiphux/gitphp. 
