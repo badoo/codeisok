@@ -1477,7 +1477,7 @@ class GitPHP_Project
 
     protected $commits_count_cache = [];
 
-    protected function GetCommitsCountBetween($first_hash, $second_hash)
+    protected function GetCommitsCountBetween($first_hash, $second_hash, $limit = 100)
     {
         if (!isset($this->commits_count_cache[$first_hash])) {
             $this->commits_count_cache[$first_hash] = [];
@@ -1486,7 +1486,9 @@ class GitPHP_Project
             $Git = new GitPHP_GitExe($this);
             $commits = $Git->Execute(
                 GIT_LOG,
-                array('-n 1', '--first-parent', '--oneline', ' ' . escapeshellarg($first_hash) . '..' . escapeshellarg($second_hash), '|wc -l')
+                array(
+                    "-n {$limit}", '--first-parent', '--oneline', ' ' . escapeshellarg($first_hash) . '..' . escapeshellarg($second_hash), '|wc -l'
+                )
             );
             $this->commits_count_cache[$first_hash][$second_hash] = intval($commits);
         }
