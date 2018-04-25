@@ -68,7 +68,7 @@ class GitPHP_Util
         $ignored_emails = \GitPHP_Config::GetInstance()->GetValue(\GitPHP_Config::IGNORED_EMAIL_ADDRESSES, []);
         $to = array_filter($to, function ($address) use ($ignored_emails) { return !in_array($address, $ignored_emails); });
 
-        $subject = "[GITPHP] ($review_name) Comment from $from";
+        $subject = "[CODEISOK] ($review_name) Comment from $from";
 
         if ($changes_authors) {
             $title = 'Changes from the following authors has been reviewed';
