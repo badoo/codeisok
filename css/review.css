@@ -361,6 +361,10 @@ span.review {
     transform: scale(0.8, 0.8);
 }
 
+.context-menu-button::after {
+    content: "+";
+}
+
 .context-menu-button:hover {
     -webkit-transform: scale(1, 1);
     transform: scale(1, 1);

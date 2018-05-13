@@ -142,7 +142,7 @@ class ProjectList extends Base
 
         if ((empty($this->params['opml']) || ($this->params['opml'] !== true))
             && (empty($this->params['txt']) || ($this->params['txt'] !== true))) {
-            $this->tpl->assign('extrascripts', array('projectsearch'));
+            $this->tpl->assign('extrascripts', array('projectlist'));
         }
     }
 }
