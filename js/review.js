@@ -506,6 +506,9 @@ var Review = (function() {
             console.log(e.target, '!=', this);
             return false;
         }
+
+        $('body').on('mousemove', null, null, Review.selectMove);
+
         Review.hideForm();
         var params = Review.getClickTargetParams(this);
         Review.select_file = params.file;
@@ -519,10 +522,10 @@ var Review = (function() {
     };
 
     Review.selectEnd = function(e) {
+        $('body').off('mousemove', null, null, Review.selectMove);
+
         var $target = $(e.target);
-        if (!$target.hasClass('line-number') && !$target.hasClass('btn_small') && !$target.is('span') && !$target.hasClass('context-menu-button')) {
-            return;
-        }
+
         /* click onto existing comment */
         if (!Review.form_shown && ($target.hasClass('commented') || $target.parents('.commented').size() != 0) && $target.attr('id') != 'review_line_delete') {
             if (!$target.hasClass('commented')) {
@@ -543,6 +546,8 @@ var Review = (function() {
             Review.showForm($target[0]);
             return;
         }
+
+        // Check if the user clicked on delete button
         if ($target.attr('id') == 'review_line_delete' && $target.parents('.commented').size() != 0) {
             if (confirm('Are you sure?')) {
                 // (current comment container -> draft -> link).name
@@ -555,6 +560,7 @@ var Review = (function() {
             }
             return;
         }
+
         if (Review.select_active) {
             Review.select_active = false;
 
@@ -586,14 +592,15 @@ var Review = (function() {
         if (!Review.select_active || this == Review.last_mouse_over) {
             return true;
         }
-        var params = Review.getClickTargetParams(this);
-        if (!Review.commentableLine($(this)) || !params
-            || params.file != Review.select_file) {
+
+        const $nearestLine = $(e.target).closest('.line');
+        if ($nearestLine.length === 0) {
             return true;
         }
 
-        if (Math.abs(Review.select_line - params.line) > 1
-            && Math.abs(Review.select_start_line - params.line) > 1) {
+        var params = Review.getClickTargetParams($nearestLine.get(0));
+        if (!Review.commentableLine($nearestLine) || !params
+            || params.file != Review.select_file) {
             return true;
         }
 
@@ -605,7 +612,7 @@ var Review = (function() {
         Review.select_start_line = Math.min(params.line, Review.select_line, Review.select_start_line);
         Review.select_count = Review.select_line - Review.select_start_line;
         Review.selectReset();
-        Review.last_mouse_over = this;
+        Review.last_mouse_over = $nearestLine.get(0);
         return true;
     };
 
@@ -720,7 +727,7 @@ var Review = (function() {
         if ($('#review_file').size()) {
             $('.line').removeClass('commentable').addClass('commentable');
         }
-        $('.line-number').parent().prepend('<l class="hoverable context-menu-button">+</l>');
+        $('.line-number').parent().prepend('<l class="hoverable context-menu-button"></l>');
 
         if (!Review.is_handlers_bound) {
             $('.js-toggle-review-comments').click(Review.toggleReviewComments);
@@ -745,10 +752,11 @@ var Review = (function() {
             }).keyup(Review.adjustTextarea);
 
             $('body').on({
-                mousedown: Review.selectStart,
-                mousemove: Review.selectMove
+                mousedown: Review.selectStart
             }, 'div.line');
+
             $('body').on('mouseup', null, null, Review.selectEnd);
+
             $('body').on('keyup', null, null, function(e) {
                 if (e.keyCode == 27) {
                     Review.hideForm();

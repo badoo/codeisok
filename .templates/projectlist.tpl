@@ -89,7 +89,10 @@
         {assign var=currentcategory value=$proj->GetCategory()}
         {if $currentcategory != ''}
             <tr class="light categoryRow list_header">
-                <th class="categoryName" colspan="6">{$currentcategory}</th>
+                <th class="categoryName" colspan="6">
+                    <span class="expander-folder expanded"></span>
+                    {$currentcategory}
+                </th>
             </tr>
         {/if}
     {/if}

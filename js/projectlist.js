@@ -1,5 +1,5 @@
 /*
- * GitPHP javascript project search
+ * GitPHP javascript project search and listing
  *
  * Live search of project list
  *
@@ -166,6 +166,74 @@ function initProjectSearch() {
 	$('input.projectSearchBox').keyup(typeEvent).bind('input paste', typeEvent);
 };
 
+function initProjectToggle(params) {
+    var currentFolder = null;
+    var firstFolderRow = null;
+
+    // Render sub-folders and their collapsers
+    $('.projectRow').get().forEach(projectRow=>{
+        projectRow = $(projectRow);
+
+        const projectName = projectRow.children('.projectName').text().trim();
+        const folder = projectName.split('/')[0]
+
+        // No folder found
+        if (folder === projectName) {
+            currentFolder = null;
+            firstFolderRow = null;
+            return;
+        }
+
+        projectRow.addClass('subProjectFolder');
+
+        // This prevents addinng folders to projects with only one folder
+        if (firstFolderRow) {
+            $(`<tr class="light projectRow subProjectFolder list_header">
+                    <th class="folderName" colspan="6">
+                        <span class="expander-folder expanded"></span>
+                        ${folder}
+                    </th>
+                </tr>
+            `).insertBefore(firstFolderRow);
+            firstFolderRow = null;
+        } else {
+            firstFolderRow = projectRow;
+        }
+
+        currentFolder = folder;
+    });
+
+    // Bind events for collapsers
+    bindCollapser('.categoryRow .expander-folder', '.categoryRow', 'projectRow');
+    bindCollapser('.subProjectFolder .expander-folder', '.subProjectFolder', 'subProjectFolder');
+}
+
+function bindCollapser(expanderQuery, parentMatch, matchClass) {
+    $(expanderQuery).click(function () {
+        const $expander = $(this);
+        const $category = $expander.parents(parentMatch);
+        let $projects = $();
+
+        let nextProject = $category.next();
+        while (nextProject.length > 0 && nextProject.attr('class').search(matchClass) !== -1) {
+            $projects = $projects.add(nextProject);
+            nextProject = nextProject.next();
+        }
+
+        if ($expander.hasClass('expanded')) {
+            $projects.hide();
+            $projects.find('.expander-folder').removeClass('expanded');
+        }
+        else {
+            $projects.show();
+            $projects.find('.expander-folder').addClass('expanded');
+        }
+
+        $expander.toggleClass('expanded');
+    });
+}
+
 $(document).ready(function() {
-	initProjectSearch();
+    initProjectSearch();
+    initProjectToggle();
 });

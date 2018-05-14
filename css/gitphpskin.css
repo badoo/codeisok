@@ -728,7 +728,8 @@ table.treeTable .list a {
 }
 
 table.treeTable .folderName .expander,
-table.treeTable .fileName .expander {
+table.treeTable .fileName .expander,
+.expander-folder {
 	/* the javascript tree expander cell */
 	width: 24px;
 	height: 24px;
@@ -745,7 +746,8 @@ table.treeTable .fileName .expander {
 	user-select: none;
 }
 
-table.treeTable .folderName .expander {
+table.treeTable .folderName .expander,
+.expander-folder {
 	background-image: url('data:image/svg+xml;charset=UTF-8,<svg width="24" height="24" xmlns="http://www.w3.org/2000/svg"><path d="M9.6 2H2.4A2.4 2.4 0 0 0 0 4.38v14.25A2.4 2.4 0 0 0 2.4 21h19.2a2.4 2.4 0 0 0 2.4-2.38V6c0-1.3-1.08-2-2.4-2H12L9.6 2z" fill="#C9C9C9"/></svg>');
 }
 
@@ -757,7 +759,8 @@ table.treeTable {
 	padding: 10px;
 }
 
-table.treeTable .folderName .expander::before {
+table.treeTable .folderName .expander::before,
+.expander-folder::before {
 	content: "▶︎";
 	width: 10px;
 	height: 15px;
@@ -769,7 +772,8 @@ table.treeTable .folderName .expander::before {
 	font-size: 10px;
 }
 
-table.treeTable .folderName .expander.expanded::before {
+table.treeTable .folderName .expander.expanded::before,
+.expander-folder.expanded::before {
 	content: "▼";
 }
 
@@ -1057,14 +1061,16 @@ ul.owners-list {
 	padding: 0 50px;
 }
 
-.git-table td {
+.git-table td,
+.git-table th {
 	padding: 14px 10px 14px 0;
 	vertical-align: middle;
 	border-bottom: 1px solid #ddd;
 	position: relative;
 }
 
-.git-table.git-table-expanded td {
+.git-table.git-table-expanded td,
+.git-table.git-table-expanded th {
 	padding: 16px 10px 16px 0;
 }
 
@@ -1116,14 +1122,9 @@ ul.owners-list {
 	font-size: 16px;
 }
 
-.git-table .categoryName::before {
-	content: "";
-	display: inline-block;
-	margin-right: 10px;
-	background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij4NCiAgPHBhdGggZmlsbD0iI0M5QzlDOSIgZD0iTTkuNiwwIEwyLjQsMCBDMS4wOCwwIDAsMS4wNjg3NSAwLDIuMzc1IEwwLDE2LjYyNSBDMCwxNy45MzEyNSAxLjA4LDE5IDIuNCwxOSBMMjEuNiwxOSBDMjIuOTIsMTkgMjQsMTcuOTMxMjUgMjQsMTYuNjI1IEwyNCw0IEMyNCwyLjY5Mzc1IDIyLjkyLDIgMjEuNiwyIEwxMiwyIEw5LjYsMCBaIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgwIDIpIi8+DQo8L3N2Zz4=");
-	width: 26px;
-	height: 20px;
-	background-repeat: no-repeat;
+.git-table .subProjectFolder th,
+.git-table .subProjectFolder td:first-child {
+	border-left: 30px solid transparent;
 }
 
 .git-table td.code-search-results > * {
