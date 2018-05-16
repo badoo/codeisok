@@ -5,6 +5,7 @@ if [ ! -d "/var/lib/mysql/mysql" ]; then
     cd /local
     tar -xzf mysql.tgz
     mv mysql/* /var/lib/mysql/
+    chown mysql:mysql -R /var/lib/mysql
 fi
 
 service mysql start
