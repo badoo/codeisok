@@ -167,51 +167,64 @@ function initProjectSearch() {
 };
 
 function initProjectToggle(params) {
-    var currentFolder = null;
-    var firstFolderRow = null;
+    var currentFolder = null
+    var folderGroup = $();
 
     // Render sub-folders and their collapsers
     $('.projectRow').get().forEach(projectRow=>{
         projectRow = $(projectRow);
 
         const projectName = projectRow.children('.projectName').text().trim();
-        const folder = projectName.split('/')[0]
+        const folder = projectName.split('/')[0];
 
-        // No folder found
-        if (folder === projectName) {
-            currentFolder = null;
-            firstFolderRow = null;
-            return;
+        const hasSubFolder = folder !== projectName;
+        const subFolderChanged = currentFolder && currentFolder !== folder;
+
+        // No folder found or different folder found
+        if (!hasSubFolder || subFolderChanged) {
+
+            // If we have a group then render toggle for it
+            if (folderGroup.length > 1) {
+                appendCollapser();
+            }
+
+            folderGroup = $(hasSubFolder && subFolderChanged && projectRow);
         }
-
-        projectRow.addClass('subProjectFolder');
-
-        // This prevents addinng folders to projects with only one folder
-        if (firstFolderRow) {
-            $(`<tr class="light projectRow subProjectFolder list_header">
-                    <th class="folderName" colspan="6">
-                        <span class="expander-folder expanded"></span>
-                        ${folder}
-                    </th>
-                </tr>
-            `).insertBefore(firstFolderRow);
-            firstFolderRow = null;
-        } else if (currentFolder !== folder) {
-            firstFolderRow = projectRow;
+        else {
+            folderGroup = folderGroup.add(projectRow);
         }
 
         currentFolder = folder;
     });
 
+    if (folderGroup.length > 1) {
+        appendCollapser();
+    }
+
+    function appendCollapser() {
+        $(`<tr class="light projectRow subProjectFolder subProjectFolderHeader list_header">
+                <th class="categoryName" colspan="6">
+                    <span class="expander-folder expanded"></span>
+                    ${currentFolder}
+                </th>
+            </tr>
+        `).insertBefore(folderGroup.get(0));
+        folderGroup.addClass('subProjectFolder');
+        folderGroup.find('.projectName a').each(function (params) {
+            const text = $(this).text();
+            $(this).text(text.replace(`${currentFolder}/`, ''));
+        });
+    }
+
     // Bind events for collapsers
-    bindCollapser('.categoryRow .expander-folder', '.categoryRow', 'projectRow');
-    bindCollapser('.subProjectFolder .expander-folder', '.subProjectFolder', 'subProjectFolder');
+    bindCollapser('.categoryRow', 'projectRow');
+    bindCollapser('.subProjectFolderHeader', 'subProjectFolder');
 }
 
-function bindCollapser(expanderQuery, parentMatch, matchClass) {
-    $(expanderQuery).click(function () {
-        const $expander = $(this);
-        const $category = $expander.parents(parentMatch);
+function bindCollapser(rowQuery, matchClass) {
+    $(rowQuery).click(function () {
+        const $category = $(this);
+        const $expander = $(this).find('.expander-folder');
         let $projects = $();
 
         let nextProject = $category.next();
