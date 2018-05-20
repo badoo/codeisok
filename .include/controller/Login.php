@@ -94,7 +94,7 @@ class Login extends Base
         if ($auth_result) {
             $User = \GitPHP_User::fromAuthData($auth_result);
             if (\GitPHP_Config::CHECK_ACCESS_GROUP) {
-                $Acl = new \GitPHP\Acl(\GitPHP\Jira::instance());
+                $Acl = new \GitPHP\Acl(\GitPHP\Jira::instance(), \GitPHP\Redmine::instance());
                 if (!$Acl->isCodeAccessAllowed($User)) {
                     $User = null;
                     $err = 'You don\'t have the permission to view source.';

@@ -16,21 +16,25 @@ class Acl
     /** @var Jira */
     protected $Jira;
 
+    /** @var Redmine */
+    protected $Redmine;
+
     /**
      * @return static
      */
     static public function getInstance()
     {
         if (!isset(static::$instance)) {
-            static::$instance = new static(\GitPHP\Jira::instance());
+            static::$instance = new static(\GitPHP\Jira::instance(), \GitPHP\Redmine::instance());
         }
 
         return static::$instance;
     }
 
-    public function __construct($Jira)
+    public function __construct($Jira, $Redmine)
     {
         $this->Jira = $Jira;
+        $this->Redmine = $Redmine;
     }
 
     public function isGitosisAdmin(\GitPHP_User $User)
@@ -105,6 +109,8 @@ class Acl
                 $is_in_group = $this->Jira->restIsGroupMember($User->getId(), $group_name);
             } else if ($auth_method == \GitPHP_Config::AUTH_METHOD_CONFIG) {
                 $is_in_group = \GitPHP_Config::GetInstance()->GetAuthUser()['admin'];
+            } else if ($auth_method == \GitPHP_Config::AUTH_METHOD_REDMINE) {
+                $is_in_group = $this->Redmine->restIsGroupMember($User->getId(), $group_name);
             }
             $User->setInGroup($group_name, $is_in_group);
         }

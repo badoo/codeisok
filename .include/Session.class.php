@@ -95,7 +95,7 @@ class GitPHP_Session
     {
         $this->User = \GitPHP_User::fromAuthData($this->get(self::SESSION_AUTH_DATA));
         if ($this->User->getId()) {
-            $Acl = new \GitPHP\Acl(\GitPHP\Jira::instance());
+            $Acl = new \GitPHP\Acl(\GitPHP\Jira::instance(), GitPHP\Redmine::instance());
             $this->User->setIsGitosisAdmin($Acl->isGitosisAdmin($this->User));
         }
     }
