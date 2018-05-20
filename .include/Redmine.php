@@ -50,7 +50,7 @@ class Redmine
         ]);
 
         if (!empty(self::API_KEY)) {
-            array_push($headers, 'X-Redmine-API-Key: ' . self::APP_AUTH);
+            array_push($headers, 'X-Redmine-API-Key: ' . self::API_KEY);
         }
 
         $opts = [
