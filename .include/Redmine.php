@@ -5,7 +5,7 @@ namespace GitPHP;
 class Redmine
 {
     const API_KEY = '';
-    const URL = 'https://your.redmine.url/';
+    const URL = '';
 
     protected static $instance;
 
@@ -17,7 +17,6 @@ class Redmine
 
     public function restAuthenticateByUsernameAndPassword($username, $password)
     {
-        $data = json_encode(['username' => $username, 'password' => $password]);
         $Response = $this->request(
             self::URL,
             'GET',
@@ -33,12 +32,29 @@ class Redmine
         }
 
         $result = [
-            'user_id' => $Response->body['user']['login'],
+            'user_id' => $Response->body['user']['id'],
             'user_name' => $Response->body['user']['firstname'] . ' ' . $Response->body['user']['lastname'],
             'user_email' => empty($Response->body['user']['mail'])?'':$Response->body['user']['mail'],
             'user_token' => base64_encode($username . ':' . $password),
         ];
         return [$result, null];
+    }
+
+    public function restIsGroupMember($userId, $groupName)
+    {
+        $Response = $this->request(
+            self::URL,
+            'GET',
+            "users/{$userId}.json?include=groups"
+        );
+
+        foreach ($Response->body['user']['groups'] as $group) {
+            if ($group['name'] == $groupName) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     protected function request($url, $http_method, $method, $data = null, $headers = [])
