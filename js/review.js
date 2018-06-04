@@ -432,8 +432,8 @@ var Review = (function() {
     };
 
     Review.showForm = function(target) {
-        if (target.hasClass('line')==false) {
-            target = target.parents('.line');
+        if ($(target).hasClass('line')==false) {
+            target = $(target).parents('.line');
         }
         $('l').removeClass('hoverable').hide();
         $('#review_review').show();
