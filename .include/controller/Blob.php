@@ -195,10 +195,14 @@ class Blob extends Base
      * Loads data for this template
      *
      * @access protected
+     * @throws \GitPHP_MessageException
      */
     protected function LoadData()
     {
         $commit = $this->project->GetCommit($this->params['hashbase']);
+        if (!$commit) {
+            throw new \GitPHP_MessageException("Incorrect hash {$this->params['hashbase']}", true, 404);
+        }
         $this->tpl->assign('commit', $commit);
 
         if ((!isset($this->params['hash'])) && (isset($this->params['file']))) {
