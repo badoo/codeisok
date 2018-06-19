@@ -1462,13 +1462,14 @@ class GitPHP_Project
      * @param string $first_commit
      * @param string $second_commit
      * @return GitPHP_Commit|null
+     * @throws Exception
      */
     public function getMergeBase(string $first_commit, string $second_commit)
     {
         if (!$first_commit || !$second_commit) {
             return null;
         }
-        $hash = trim((new GitPHP_GitExe($this))->Execute(GIT_MERGE_BASE, [$first_commit, $second_commit]));
+        $hash = trim((new GitPHP_GitExe($this))->Execute(GIT_MERGE_BASE, [$first_commit, $second_commit, '2>/dev/null']));
         if (!$hash) {
             return null;
         }
