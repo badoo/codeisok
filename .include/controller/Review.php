@@ -69,6 +69,7 @@ class Review extends Base
         $db = \GitPHP_Db::getInstance();
 
         $to_start_link = $more_link = null;
+        $this->tpl->assign('head', '');
         if ($this->params['review']) {
             $snapshots = $db->getSnapshotListByReview($this->params['review']);
             if (!empty($snapshots[0]) && !empty($snapshots[0]['repo'])) {
@@ -76,7 +77,6 @@ class Review extends Base
                 $this->tpl->assign('project', $this->project);
             }
         } else {
-            $this->tpl->assign('head', '');
             $limit = 50;
             $p = '';
             if (!empty($this->project)) {
