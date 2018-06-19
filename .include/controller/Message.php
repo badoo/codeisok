@@ -109,6 +109,8 @@ class Message extends Base
     private function StatusCodeHeader($code)
     {
         switch ($code) {
+            case 404:
+                return '404 Not Found';
             case 500:
                 return '500 Internal Server Error';
         }

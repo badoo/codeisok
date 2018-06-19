@@ -96,7 +96,7 @@ abstract class Base
         \GitPHP_Log::GetInstance()->timerStop('checkUser');
 
         if (isset($_GET['p']) && !$this->project) {
-            throw new \GitPHP_MessageException(sprintf(__('Invalid project %1$s'), $_GET['p']), true);
+            throw new \GitPHP_MessageException(sprintf(__('Invalid project %1$s'), $_GET['p']), true, 404);
         }
 
         /* this is not a part of initialization */
