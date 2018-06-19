@@ -10,7 +10,7 @@ class GitPHP_Gitosis
     {
         if (!isset(self::$key_file_location)) {
             $key_file = \GitPHP_Config::GetInstance()->GetValue(self::CONFIG_AUTHORIZED_KEYS_FILE, '.ssh/authorized_keys');
-            self::$key_file_location = \GitPHP_Config::GIT_HOME . $key_file::KEYFILE;
+            self::$key_file_location = \GitPHP_Config::GIT_HOME . $key_file;
         }
         return self::$key_file_location;
     }
