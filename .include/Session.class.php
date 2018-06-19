@@ -98,5 +98,19 @@ class GitPHP_Session
             $Acl = new \GitPHP\Acl(\GitPHP\Jira::instance(), GitPHP\Redmine::instance());
             $this->User->setIsGitosisAdmin($Acl->isGitosisAdmin($this->User));
         }
+
+        if (!$this->isAuthorized()) {
+            $auth_token = $_GET['auth_token'] ?? false;
+            if (!$auth_token) {
+                return;
+            }
+
+            $user_data = \GitPHP_Config::GetInstance()->GetUserDataByApiToken($auth_token);
+            if (empty($user_data)) {
+                return;
+            }
+
+            $this->User = \GitPHP_User::fromAuthData($user_data);
+        }
     }
 }

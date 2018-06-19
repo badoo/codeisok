@@ -14,6 +14,9 @@ class GitPHP_Config
     // User-Password to use with AUTH_METHOD_CONFIG
     const CONFIG_AUTH_USER = 'config_auth_user';
 
+    // experimental: you can specify tokens to access codeisok's API from outside
+    const AUTH_API_TOKENS = "auth_api_tokens";
+
     // DB options
     const DB_HOST                      = 'localhost';
     const DB_USER                      = 'username';
@@ -337,5 +340,17 @@ class GitPHP_Config
     {
         $base_branch_patterns_per_category = \GitPHP_Config::GetInstance()->GetValue(\GitPHP_Config::BASE_BRANCHES_PATTERNS_PER_CATEGORY, []);
         return $base_branch_patterns_per_category[$category] ?? [];
+    }
+
+    /**
+     * Get user data by API token provided. Experimental method to support external requests to our API
+     *
+     * @param $token
+     * @return bool
+     */
+    public function GetUserDataByApiToken($token)
+    {
+        $tokens_list = $this->GetValue(self::AUTH_API_TOKENS, []);
+        return $tokens_list[$token] ?? false;
     }
 }
