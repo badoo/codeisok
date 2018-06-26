@@ -139,22 +139,22 @@ class GitPHP_BranchDiff implements Iterator
             '--oneline',
             '--merges',
             $this->fromBranch,
-            '--grep="' . $this->toBranch . '"',
-            '--format="%ct"',
+            escapeshellarg('--grep=' . $this->toBranch),
+            escapeshellarg('--format=%ct %H'),
         );
 
-        $merge_date = trim($this->exe->Execute(GIT_LOG, $args));
-        if (!$merge_date) return $diff_base_hash;
+        $result = trim($this->exe->Execute(GIT_LOG, $args));
+        if (!$result) return $diff_base_hash;
+        [$merge_date, $merge_hash] = explode(' ', $result);
 
         $merge_date = intval($merge_date) - 1;
         $args = array(
             '-1',
             '--oneline',
             '--before="' . $merge_date . '"',
-			// does it still work fine for us --grep="[SRV-123_branch]"??
             '--grep="\[' . $this->fromBranch . '\]"',
             '--format="%H"',
-            $this->fromBranch
+            $merge_hash
         );
         $base_commit = trim($this->exe->Execute(GIT_LOG, $args));
         $diff_base_hash = trim($this->exe->Execute(GIT_MERGE_BASE, array($base_commit, $this->toHash)));
