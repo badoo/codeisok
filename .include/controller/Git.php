@@ -171,11 +171,24 @@ class Git extends Base
         $first_commit  = $this->getVar('first');
         $second_commit = $this->getVar('second');
 
+        if (!$first_commit) {
+            $first_commit = $this->getVar('to');
+        }
+
+        if (!$second_commit) {
+            $second_commit = $this->getVar('from');
+        }
+
+        $no_merges = $this->getVar('no-merges');
+
         $log = "Can't get short log for requested commits";
         if (!empty($this->project) && $first_commit && $second_commit) {
             $exe = new \GitPHP_GitExe($this->project);
 
             $args = ['--oneline', $first_commit, "^{$second_commit}", '--'];
+            if ($no_merges) {
+                array_unshift($args, '--no-merges');
+            }
             $log  = $exe->Execute(GIT_LOG, $args);
         }
         $this->tpl->assign('result', $log);
