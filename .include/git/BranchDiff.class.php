@@ -17,52 +17,52 @@
 class GitPHP_BranchDiff implements Iterator
 {
     /**
-	 * fromHash
-	 *
-	 * Stores the from hash
-	 *
-	 * @access protected
-	 */
-	    protected $fromBranch;
+     * fromHash
+     *
+     * Stores the from hash
+     *
+     * @access protected
+     */
+    protected $fromBranch;
 
     /**
-	 * toHash
-	 *
-	 * Stores the to hash
-	 *
-	 * @access protected
-	 */
-	    protected $toBranch;
+     * toHash
+     *
+     * Stores the to hash
+     *
+     * @access protected
+     */
+    protected $toBranch;
 
     /**
-	 * project
-	 *
-	 * Stores the project
-	 *
+     * project
+     *
+     * Stores the project
+     *
      * @var GitPHP_Project
-	 * @access protected
-	 */
-	    protected $project;
+     * @access protected
+     */
+    protected $project;
 
     /**
-	 * fileDiffs
-	 *
-	 * Stores the individual file diffs
-	 *
-	 * @access protected
+     * fileDiffs
+     *
+     * Stores the individual file diffs
+     *
+     * @access protected
      * @var GitPHP_FileDiff[]
-	 */
-	    protected $fileDiffs = array();
+     */
+    protected $fileDiffs = array();
 
     /**
-	 * dataRead
-	 *
-	 * Stores whether data has been read
-	 *
+     * dataRead
+     *
+     * Stores whether data has been read
+     *
      * @var bool
-	 * @access protected
-	 */
-	    protected $dataRead = false;
+     * @access protected
+     */
+    protected $dataRead = false;
 
     /**
      * @var GitPHP_GitExe
@@ -92,7 +92,7 @@ class GitPHP_BranchDiff implements Iterator
      * @param string $fromBranch
      * @param DiffContext $DiffContext
      */
-	    public function __construct($project, $toBranch, $fromBranch = '', DiffContext $DiffContext)
+    public function __construct($project, $toBranch, $fromBranch, DiffContext $DiffContext)
     {
         $this->project = $project;
 
@@ -163,13 +163,13 @@ class GitPHP_BranchDiff implements Iterator
     }
 
     /**
-	 * ReadData
-	 *
-	 * Reads the tree diff data
-	 *
-	 * @access private
-	 */
-	    private function ReadData()
+     * ReadData
+     *
+     * Reads the tree diff data
+     *
+     * @access private
+     */
+    private function ReadData()
     {
         $this->dataRead = true;
 
@@ -211,27 +211,27 @@ class GitPHP_BranchDiff implements Iterator
     }
 
     /**
-	 * GetFromHash
-	 *
-	 * Gets the from hash for this treediff
-	 *
-	 * @access public
-	 * @return string from hash
-	 */
-	    public function GetFromHash()
+     * GetFromHash
+     *
+     * Gets the from hash for this treediff
+     *
+     * @access public
+     * @return string from hash
+     */
+    public function GetFromHash()
     {
         return $this->fromHash;
     }
 
     /**
-	 * GetToHash
-	 *
-	 * Gets the to hash for this treediff
-	 *
-	 * @access public
-	 * @return string to hash
-	 */
-	    public function GetToHash()
+     * GetToHash
+     *
+     * Gets the to hash for this treediff
+     *
+     * @access public
+     * @return string to hash
+     */
+    public function GetToHash()
     {
         return $this->toHash;
     }
@@ -242,11 +242,11 @@ class GitPHP_BranchDiff implements Iterator
     }
 
     /**
-	 * rewind
-	 *
-	 * Rewinds the iterator
-	 */
-	    function rewind()
+     * rewind
+     *
+     * Rewinds the iterator
+     */
+    public function rewind()
     {
         if (!$this->dataRead) $this->ReadData();
 
@@ -254,11 +254,11 @@ class GitPHP_BranchDiff implements Iterator
     }
 
     /**
-	 * current
-	 *
-	 * Returns the current element in the array
-	 */
-	    function current()
+     * current
+     *
+     * Returns the current element in the array
+     */
+    public function current()
     {
         if (!$this->dataRead) $this->ReadData();
 
@@ -266,11 +266,11 @@ class GitPHP_BranchDiff implements Iterator
     }
 
     /**
-	 * key
-	 *
-	 * Returns the current key
-	 */
-	    function key()
+     * key
+     *
+     * Returns the current key
+     */
+    public function key()
     {
         if (!$this->dataRead) $this->ReadData();
 
@@ -278,11 +278,11 @@ class GitPHP_BranchDiff implements Iterator
     }
 
     /**
-	 * next
-	 *
-	 * Advance the pointer
-	 */
-	    function next()
+     * next
+     *
+     * Advance the pointer
+     */
+    public function next()
     {
         if (!$this->dataRead) $this->ReadData();
 
@@ -290,11 +290,11 @@ class GitPHP_BranchDiff implements Iterator
     }
 
     /**
-	 * valid
-	 *
-	 * Test for a valid pointer
-	 */
-	    function valid()
+     * valid
+     *
+     * Test for a valid pointer
+     */
+    public function valid()
     {
         if (!$this->dataRead) $this->ReadData();
 
@@ -302,14 +302,14 @@ class GitPHP_BranchDiff implements Iterator
     }
 
     /**
-	 * Count
-	 *
-	 * Gets the number of file changes in this treediff
-	 *
-	 * @access public
-	 * @return integer count of file changes
-	 */
-	    public function Count()
+     * Count
+     *
+     * Gets the number of file changes in this treediff
+     *
+     * @access public
+     * @return integer count of file changes
+     */
+    public function Count()
     {
         if (!$this->dataRead) $this->ReadData();
 
