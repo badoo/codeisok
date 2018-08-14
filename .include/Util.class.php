@@ -376,14 +376,14 @@ class GitPHP_Util
         if ($snapshot['hash_base'] == 'blob') {
             $params['h'] = $snapshot['hash_head'];
             $params['f'] = $file;
-            $url = GitPHP_Application::getUrl('blob', $params);
+            $url = GitPHP\Application::getUrl('blob', $params);
         } else if ($snapshot['hash_base']) {
             $params['branch'] = $snapshot['hash_head'];
             $params['base'] = $snapshot['hash_base'];
-            $url = GitPHP_Application::getUrl('branchdiff', $params);
+            $url = GitPHP\Application::getUrl('branchdiff', $params);
         } else {
             $params['h'] = $snapshot['hash_head'];
-            $url = GitPHP_Application::getUrl('commitdiff', $params);
+            $url = GitPHP\Application::getUrl('commitdiff', $params);
         }
         return $url;
     }

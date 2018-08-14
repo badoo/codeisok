@@ -177,10 +177,10 @@ abstract class DiffBase extends Base
         }
 
         foreach ($reviews as $review_id => &$review) {
-            $review['link'] = \GitPHP_Application::getUrl('reviews', ['review' => $review_id]);
+            $review['link'] = \GitPHP\Application::getUrl('reviews', ['review' => $review_id]);
             $review['diff_link'] = '';
             if ($review['hash_base'] && $review['hash_base'] != 'blob' && isset($this->params['branch']) && !preg_match('#^[0-9a-f]{40}$#', $this->params['branch'])) {
-                $review['diff_link'] = \GitPHP_Application::getUrl(
+                $review['diff_link'] = \GitPHP\Application::getUrl(
                     'branchdiff',
                     [
                         'p' => $this->project->GetProject(),

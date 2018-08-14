@@ -1,5 +1,8 @@
 <?php
-class GitPHP_Application
+
+namespace GitPHP;
+
+class Application
 {
     const GITPHP_LOCALE_COOKIE = 'GitPHPLocale';
     const GITPHP_LOCALE_COOKIE_LIFETIME = 31536000; //60 * 60 * 24 * 365 = 1 year
@@ -36,23 +39,23 @@ class GitPHP_Application
     {
         if (!empty($_GET['l'])) {
             setcookie(self::GITPHP_LOCALE_COOKIE, $_GET['l'], time() + self::GITPHP_LOCALE_COOKIE_LIFETIME);
-            GitPHP_Resource::Instantiate($_GET['l']);
+            \GitPHP_Resource::Instantiate($_GET['l']);
         } else if (!empty($_COOKIE[self::GITPHP_LOCALE_COOKIE])) {
-            GitPHP_Resource::Instantiate($_COOKIE[self::GITPHP_LOCALE_COOKIE]);
+            \GitPHP_Resource::Instantiate($_COOKIE[self::GITPHP_LOCALE_COOKIE]);
         } else {
             if (isset($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
-                if ($preferredLocale = GitPHP_Resource::FindPreferredLocale($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
+                if ($preferredLocale = \GitPHP_Resource::FindPreferredLocale($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
                     setcookie(self::GITPHP_LOCALE_COOKIE, $preferredLocale, time() + self::GITPHP_LOCALE_COOKIE_LIFETIME);
-                    GitPHP_Resource::Instantiate($preferredLocale);
+                    \GitPHP_Resource::Instantiate($preferredLocale);
                 }
             }
-            if (!GitPHP_Resource::Instantiated()) {
+            if (!\GitPHP_Resource::Instantiated()) {
                 setcookie(self::GITPHP_LOCALE_COOKIE, 0, time() + self::GITPHP_LOCALE_COOKIE_LIFETIME);
             }
         }
 
-        if (!GitPHP_Resource::Instantiated()) {
-            GitPHP_Resource::Instantiate(GitPHP_Config::GetInstance()->GetValue('locale', 'en_US'));
+        if (!\GitPHP_Resource::Instantiated()) {
+            \GitPHP_Resource::Instantiate(\GitPHP_Config::GetInstance()->GetValue('locale', 'en_US'));
         }
 
         if (isset($_GET['fix_lineheight'])) {
@@ -63,7 +66,7 @@ class GitPHP_Application
 
     public function initDebug()
     {
-        if (GitPHP_Config::DEBUG_ENABLED) {
+        if (\GitPHP_Config::DEBUG_ENABLED) {
             if (isset($_GET['debug_mode'])) {
                 setcookie('debug_mode', $_GET['debug_mode'], (int)$_GET['debug_mode'] == 0 ? time() - 3600 : null);
                 $_COOKIE['debug_mode'] = $_GET['debug_mode'];
@@ -73,10 +76,10 @@ class GitPHP_Application
                 $_COOKIE['debug_js'] = $_GET['debug_js'];
             }
             if (isset($_COOKIE['debug_mode']) && (int)$_COOKIE['debug_mode'] == 1) {
-                GitPHP_Config::GetInstance()->SetValue('debug', (bool)(int)$_COOKIE['debug_mode']);
-                GitPHP_Log::GetInstance()->SetEnabled((bool)(int)$_COOKIE['debug_mode']);
+                \GitPHP_Config::GetInstance()->SetValue('debug', (bool)(int)$_COOKIE['debug_mode']);
+                \GitPHP_Log::GetInstance()->SetEnabled((bool)(int)$_COOKIE['debug_mode']);
             }
-            if (GitPHP_Config::GetInstance()->GetValue('debug', false)) {
+            if (\GitPHP_Config::GetInstance()->GetValue('debug', false)) {
                 ini_set('display_errors', 1);
             } else {
                 ini_set('display_errors', 0);
@@ -93,18 +96,18 @@ class GitPHP_Application
                 $config = $tmpConfig;
             }
         }
-        GitPHP_Config::GetInstance()->LoadConfig($config);
+        \GitPHP_Config::GetInstance()->LoadConfig($config);
     }
 
     private function initProject()
     {
-        if (!GitPHP_Config::GetInstance()->GetValue('projectroot', null)) {
-            throw new GitPHP_MessageException(__('A projectroot must be set in the config'), true, 500);
+        if (!\GitPHP_Config::GetInstance()->GetValue('projectroot', null)) {
+            throw new \GitPHP_MessageException(__('A projectroot must be set in the config'), true, 500);
         }
 
-        $exe = new GitPHP_GitExe(null);
+        $exe = new \GitPHP_GitExe(null);
         if (!$exe->Valid()) {
-            throw new GitPHP_MessageException(
+            throw new \GitPHP_MessageException(
                 sprintf(
                     __('Could not run the git executable "%1$s".  You may need to set the "%2$s" config value.'),
                     $exe->GetBinary(),
@@ -114,9 +117,9 @@ class GitPHP_Application
                 500
             );
         }
-        $exe = new GitPHP_DiffExe();
+        $exe = new \GitPHP_DiffExe();
         if (!$exe->Valid()) {
-            throw new GitPHP_MessageException(
+            throw new \GitPHP_MessageException(
                 sprintf(
                     __('Could not run the diff executable "%1$s".  You may need to set the "%2$s" config value.'),
                     $exe->GetBinary(),
@@ -128,39 +131,39 @@ class GitPHP_Application
         }
 
         if (file_exists(GITPHP_CONFIGDIR . 'projects.conf.php')) {
-            GitPHP_ProjectList::Instantiate(GITPHP_CONFIGDIR . 'projects.conf.php', false);
+            \GitPHP_ProjectList::Instantiate(GITPHP_CONFIGDIR . 'projects.conf.php', false);
         }
     }
 
     public function run()
     {
-        GitPHP_Log::GetInstance()->SetStartTime(GITPHP_START_TIME);
-        GitPHP_Log::GetInstance()->SetStartMemory(GITPHP_START_MEM);
+        \GitPHP_Log::GetInstance()->SetStartTime(GITPHP_START_TIME);
+        \GitPHP_Log::GetInstance()->SetStartMemory(GITPHP_START_MEM);
 
         try {
-            GitPHP_Log::GetInstance()->timerStart();
+            \GitPHP_Log::GetInstance()->timerStart();
             $controller = $this->getController(isset($_GET['a']) ? $_GET['a'] : null);
-            GitPHP_Log::GetInstance()->timerStop('getController');
+            \GitPHP_Log::GetInstance()->timerStop('getController');
             if ($controller) {
-                GitPHP_Log::GetInstance()->timerStart();
+                \GitPHP_Log::GetInstance()->timerStart();
                 $controller->RenderHeaders();
-                GitPHP_Log::GetInstance()->timerStop('RenderHeaders');
-                GitPHP_Log::GetInstance()->timerStart();
+                \GitPHP_Log::GetInstance()->timerStop('RenderHeaders');
+                \GitPHP_Log::GetInstance()->timerStart();
                 $controller->Render();
-                GitPHP_Log::GetInstance()->timerStop('Render');
+                \GitPHP_Log::GetInstance()->timerStop('Render');
             }
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             trigger_error($e);
             $this->showExceptionMessage($e);
         }
     }
 
-    protected function showExceptionMessage(Exception $e)
+    protected function showExceptionMessage(\Exception $e)
     {
         try {
             $controller = new \GitPHP\Controller\Message();
             $controller->SetParam('message', $e->getMessage());
-            if ($e instanceof GitPHP_MessageException) {
+            if ($e instanceof \GitPHP_MessageException) {
                 $controller->SetParam('error', $e->Error);
                 $controller->SetParam('statuscode', $e->StatusCode);
             } else {
@@ -168,8 +171,8 @@ class GitPHP_Application
             }
             $controller->RenderHeaders();
             $controller->Render();
-        } catch (Exception $e) {
-            if (GitPHP_Config::GetInstance()->GetValue('debug', false)) throw $e;
+        } catch (\Exception $e) {
+            if (\GitPHP_Config::GetInstance()->GetValue('debug', false)) throw $e;
         }
     }
 
@@ -325,10 +328,10 @@ class GitPHP_Application
                     $controller = new \GitPHP\Controller\ProjectList();
                 }
         }
-        GitPHP_Log::GetInstance()->Log('controller', get_class($controller));
-        GitPHP_Log::GetInstance()->Log('REQUEST_URI', $_SERVER['REQUEST_URI']);
-        GitPHP_Log::GetInstance()->Log('REQUEST_METHOD', $_SERVER['REQUEST_METHOD']);
-        GitPHP_Log::GetInstance()->Log('phpversion', phpversion());
+        \GitPHP_Log::GetInstance()->Log('controller', get_class($controller));
+        \GitPHP_Log::GetInstance()->Log('REQUEST_URI', $_SERVER['REQUEST_URI']);
+        \GitPHP_Log::GetInstance()->Log('REQUEST_METHOD', $_SERVER['REQUEST_METHOD']);
+        \GitPHP_Log::GetInstance()->Log('phpversion', phpversion());
         return $controller;
     }
 

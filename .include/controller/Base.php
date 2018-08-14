@@ -328,9 +328,9 @@ abstract class Base
         /* header.tpl */
         $this->tpl->assign('user_name', $this->Session->getUser()->getName());
         $this->tpl->assign('is_gitosis_admin', $this->Session->getUser()->isGitosisAdmin());
-        $this->tpl->assign('url_gitosis', \GitPHP_Application::getUrl('gitosis'));
-        $this->tpl->assign('url_logout', \GitPHP_Application::getUrl('logout'));
-        $this->tpl->assign('url_login', \GitPHP_Application::getUrl('login', ['back' => $_SERVER['REQUEST_URI']]));
+        $this->tpl->assign('url_gitosis', \GitPHP\Application::getUrl('gitosis'));
+        $this->tpl->assign('url_logout', \GitPHP\Application::getUrl('logout'));
+        $this->tpl->assign('url_login', \GitPHP\Application::getUrl('login', ['back' => $_SERVER['REQUEST_URI']]));
 
         $ticketContollers = ['branchdiff', 'branchlog', 'commitdiff', 'commit', 'shortlog', 'log', 'tree'];
         $ticket = in_array($this->GetName(), $ticketContollers) ? $this->guesssTicket() : '';
@@ -338,7 +338,7 @@ abstract class Base
         $this->tpl->assign('ticket_href', \GitPHP\Tracker::instance()->getTicketUrl($ticket));
         $this->tpl->assign(
             'fixlineheight',
-            isset($_COOKIE[\GitPHP_Application::GITPHP_FIX_LINEHEIGHT_COOKIE]) && $_COOKIE[\GitPHP_Application::GITPHP_FIX_LINEHEIGHT_COOKIE]
+            isset($_COOKIE[\GitPHP\Application::GITPHP_FIX_LINEHEIGHT_COOKIE]) && $_COOKIE[\GitPHP_Application::GITPHP_FIX_LINEHEIGHT_COOKIE]
         );
     }
 

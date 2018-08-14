@@ -65,7 +65,7 @@ class UpdateAuthKeys
     }
 }
 
-$Application = new GitPHP_Application();
+$Application = new GitPHP\Application();
 $Application->init();
 
 $Script = new UpdateAuthKeys();

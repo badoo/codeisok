@@ -125,7 +125,7 @@ class SSH_Serve
     }
 }
 
-$Application = new GitPHP_Application();
+$Application = new GitPHP\Application();
 $Application->init();
 
 $Serve = new SSH_Serve();

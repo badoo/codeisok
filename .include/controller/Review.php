@@ -84,11 +84,11 @@ class Review extends Base
             }
             $snapshots = $db->getSnapshotList($limit + 1, $this->params['max_id']);
             if ($this->params['max_id']) {
-                $to_start_link = \GitPHP_Application::getUrl('reviews', ['max_id' => 0, 'p' => $p]);
+                $to_start_link = \GitPHP\Application::getUrl('reviews', ['max_id' => 0, 'p' => $p]);
             }
             if (count($snapshots) > $limit) {
                 $last = array_pop($snapshots);
-                $more_link = \GitPHP_Application::getUrl('reviews', ['max_id' => $last['id'], 'p' => $p]);
+                $more_link = \GitPHP\Application::getUrl('reviews', ['max_id' => $last['id'], 'p' => $p]);
             }
         }
         $this->tpl->assign('to_start_link', $to_start_link);

@@ -1,6 +1,5 @@
 <?php
 return array(
-    'GitPHP_Application'                          => GITPHP_INCLUDEDIR . 'Application.php',
     'GitPHP_Db'                                   => GITPHP_INCLUDEDIR . 'Db.class.php',
     'GitPHP_Config'                               => GITPHP_INCLUDEDIR . 'Config.class.php',
     'GitPHP_Log'                                  => GITPHP_INCLUDEDIR . 'Log.class.php',
