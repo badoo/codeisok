@@ -18,9 +18,9 @@ class Jira
     {
         if (!self::$instance) {
             self::$instance = new self();
-            self::$instance->url = \GitPHP_Config::GetInstance()->GetJiraUrl();
-            self::$instance->crowd_url = \GitPHP_Config::GetInstance()->GetCrowdUrl();
-            self::$instance->crowd_token = \GitPHP_Config::GetInstance()->GetCrowdToken();
+            self::$instance->url = \GitPHP\Config::GetInstance()->GetJiraUrl();
+            self::$instance->crowd_url = \GitPHP\Config::GetInstance()->GetCrowdUrl();
+            self::$instance->crowd_token = \GitPHP\Config::GetInstance()->GetCrowdToken();
         }
         return self::$instance;
     }
@@ -28,7 +28,7 @@ class Jira
     public static function getCookieName()
     {
         $cookie_name = self::CROWD_COOKIE_NAME;
-        if (\GitPHP_Config::GetInstance()->GetAuthMethod() == \GitPHP_Config::AUTH_METHOD_JIRA) {
+        if (\GitPHP\Config::GetInstance()->GetAuthMethod() == \GitPHP\Config::AUTH_METHOD_JIRA) {
             $cookie_name = self::REST_COOKIE_NAME;
         }
         return $cookie_name;

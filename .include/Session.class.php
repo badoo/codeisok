@@ -105,7 +105,7 @@ class GitPHP_Session
                 return;
             }
 
-            $user_data = \GitPHP_Config::GetInstance()->GetUserDataByApiToken($auth_token);
+            $user_data = GitPHP\Config::GetInstance()->GetUserDataByApiToken($auth_token);
             if (empty($user_data)) {
                 return;
             }

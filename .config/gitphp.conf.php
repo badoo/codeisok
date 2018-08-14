@@ -4,25 +4,25 @@ return array(
      * projectroot
      * Full directory on server where projects are located
      */
-    \GitPHP_Config::PROJECT_ROOT            => '/local/codeisok/repositories/',
-    \GitPHP_Config::DB_HOST                 => 'localhost',
-    \GitPHP_Config::DB_USER                 => 'root',
-    \GitPHP_Config::DB_PASSWORD             => 'root',
-    \GitPHP_Config::DB_NAME                 => 'gitphp',
-    \GitPHP_Config::ACCESS_GROUP            => 'developers',
-    \GitPHP_Config::CHECK_ACCESS_GROUP      => false,
-    \GitPHP_Config::GIT_USER                => 'git',
-    \GitPHP_Config::GIT_HOME                => '/home/git/',
+    GitPHP\Config::PROJECT_ROOT            => '/local/codeisok/repositories/',
+    GitPHP\Config::DB_HOST                 => 'localhost',
+    GitPHP\Config::DB_USER                 => 'root',
+    GitPHP\Config::DB_PASSWORD             => 'root',
+    GitPHP\Config::DB_NAME                 => 'gitphp',
+    GitPHP\Config::ACCESS_GROUP            => 'developers',
+    GitPHP\Config::CHECK_ACCESS_GROUP      => false,
+    GitPHP\Config::GIT_USER                => 'git',
+    GitPHP\Config::GIT_HOME                => '/home/git/',
 
     /*
      * Authentication method to use. See \GitPHP_Config::AUTH_METHOD_* constants to get list of supported methods
      */
-    \GitPHP_Config::AUTH_METHOD             => \GitPHP_Config::AUTH_METHOD_CONFIG,
+    GitPHP\Config::AUTH_METHOD             => GitPHP\Config::AUTH_METHOD_CONFIG,
 
     /*
      * Credentials for AUTH_METHOD_CONFIG auth method
      */
-     \GitPHP_Config::CONFIG_AUTH_USER => ['name' => 'user', 'password' => 'password', 'admin' => true],
+     GitPHP\Config::CONFIG_AUTH_USER => ['name' => 'user', 'password' => 'password', 'admin' => true],
 
     /**
      * ===== JIRA =====
@@ -54,25 +54,25 @@ return array(
      * See \GitPHP_Config::TRACKER_TYPE_* or \GitPHP\Tracker::TRACKER_TYPE_* constants
      * to get list of supported trackers
      */
-    \GitPHP_Config::TRACKER_TYPE => '',
+    GitPHP\Config::TRACKER_TYPE => '',
 
     /*
      * ignored emails
      * Skip this emails when sending review notifications. May be useful to prevent spam in some cases
      */
-    \GitPHP_Config::IGNORED_EMAIL_ADDRESSES => [],
+    GitPHP\Config::IGNORED_EMAIL_ADDRESSES => [],
 
     /*
      * allow all users to create repositories from page with repositories list
      */
-    \GitPHP_Config::ALLOW_USER_CREATE_REPOS => true,
+    GitPHP\Config::ALLOW_USER_CREATE_REPOS => true,
 
     /*
      * if we can update .ssh/authorized_keys file right from web context
      * It might be insecure in some cases but much faster/easier.
      * If you set this to false you'll need to include update_auth_keys.php script in crontab under proper user.
      */
-    \GitPHP_Config::UPDATE_AUTH_KEYS_FROM_WEB => true,
+    GitPHP\Config::UPDATE_AUTH_KEYS_FROM_WEB => true,
 
     //'debug' => true,
     /*

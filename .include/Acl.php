@@ -4,9 +4,9 @@ namespace GitPHP;
 
 class Acl
 {
-    const CONF_PROJECT_ACCESS_GROUPS_KEY = \GitPHP_Config::PROJECT_ACCESS_GROUPS;
+    const CONF_PROJECT_ACCESS_GROUPS_KEY = \GitPHP\Config::PROJECT_ACCESS_GROUPS;
 
-    const CONF_ACCESS_GROUP_KEY = \GitPHP_Config::ACCESS_GROUP;
+    const CONF_ACCESS_GROUP_KEY = \GitPHP\Config::ACCESS_GROUP;
 
     const GITOSIS_ADMIN_GROUP = 'gitosis-admin';
 
@@ -48,7 +48,7 @@ class Acl
             return false;
         }
 
-        return $this->isGroupMemberCached(\GitPHP_Config::GetInstance()->GetValue(self::CONF_ACCESS_GROUP_KEY), $User);
+        return $this->isGroupMemberCached(\GitPHP\Config::GetInstance()->GetValue(self::CONF_ACCESS_GROUP_KEY), $User);
     }
 
     /**
@@ -58,7 +58,7 @@ class Acl
      */
     public function isProjectAllowed($project, \GitPHP_User $User)
     {
-        $project_access_groups = \GitPHP_Config::GetInstance()->GetValue(self::CONF_PROJECT_ACCESS_GROUPS_KEY);
+        $project_access_groups = \GitPHP\Config::GetInstance()->GetValue(self::CONF_PROJECT_ACCESS_GROUPS_KEY);
         if (!is_array($project_access_groups) || empty($project_access_groups[$project])) {
             return true;
         }
@@ -91,7 +91,7 @@ class Acl
         if (!isset($User)) $User = \GitPHP_Session::instance()->getUser();
 
         if (empty($User->getId())) {
-            return in_array($action, \GitPHP_Config::GetInstance()->GetGitNoAuthActions($Project->GetProject()));
+            return in_array($action, \GitPHP\Config::GetInstance()->GetGitNoAuthActions($Project->GetProject()));
         } else {
             return $this->isProjectAllowed($Project->GetProject(), $User);
         }
@@ -102,14 +102,14 @@ class Acl
         $is_in_group = $User->isInGroup($group_name);
         if ($is_in_group === null) {
             $is_in_group = false;
-            $auth_method = \GitPHP_Config::GetInstance()->GetAuthMethod();
-            if ($auth_method == \GitPHP_Config::AUTH_METHOD_CROWD) {
+            $auth_method = \GitPHP\Config::GetInstance()->GetAuthMethod();
+            if ($auth_method == \GitPHP\Config::AUTH_METHOD_CROWD) {
                 $is_in_group = $this->Jira->crowdIsGroupMember($User->getId(), $group_name);
-            } else if ($auth_method == \GitPHP_Config::AUTH_METHOD_JIRA) {
+            } else if ($auth_method == \GitPHP\Config::AUTH_METHOD_JIRA) {
                 $is_in_group = $this->Jira->restIsGroupMember($User->getId(), $group_name);
-            } else if ($auth_method == \GitPHP_Config::AUTH_METHOD_CONFIG) {
-                $is_in_group = \GitPHP_Config::GetInstance()->GetAuthUser()['admin'];
-            } else if ($auth_method == \GitPHP_Config::AUTH_METHOD_REDMINE) {
+            } else if ($auth_method == \GitPHP\Config::AUTH_METHOD_CONFIG) {
+                $is_in_group = \GitPHP\Config::GetInstance()->GetAuthUser()['admin'];
+            } else if ($auth_method == \GitPHP\Config::AUTH_METHOD_REDMINE) {
                 $is_in_group = $this->Redmine->restIsGroupMember($User->getId(), $group_name);
             }
             $User->setInGroup($group_name, $is_in_group);

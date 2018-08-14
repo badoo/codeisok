@@ -58,6 +58,7 @@ class GitPHP_Cache
 	 * Smarty instance
 	 *
 	 * @access protected
+     * @var \Smarty
 	 */
 	protected $tpl = null;
 
@@ -76,12 +77,12 @@ class GitPHP_Cache
 	 * Constructor
 	 *
 	 * @access public
-	 * @return mixed cache object
 	 */
 	public function __construct()
 	{
-		if (GitPHP_Config::GetInstance()->GetValue('objectcache', false))
-			$this->SetEnabled(true);
+		if (\GitPHP\Config::GetInstance()->GetValue('objectcache', false)) {
+            $this->SetEnabled(true);
+        }
 	}
 
 	/**
@@ -125,7 +126,7 @@ class GitPHP_Cache
 	 *
 	 * @access public
 	 * @param string $key cache key
-	 * @return the cached object, or false
+	 * @return mixed the cached object, or false
 	 */
 	public function Get($key = null)
 	{
@@ -240,9 +241,9 @@ class GitPHP_Cache
 
 		$this->tpl->caching = 2;
 
-		$this->tpl->cache_lifetime = GitPHP_Config::GetInstance()->GetValue('objectcachelifetime', 86400);
+		$this->tpl->cache_lifetime = \GitPHP\Config::GetInstance()->GetValue('objectcachelifetime', 86400);
 
-		$servers = GitPHP_Config::GetInstance()->GetValue('memcache', null);
+		$servers = \GitPHP\Config::GetInstance()->GetValue('memcache', null);
 		if (isset($servers) && is_array($servers) && (count($servers) > 0)) {
 			require_once(GITPHP_CACHEDIR . 'Memcache.class.php');
 			GitPHP_Memcache::GetInstance()->AddServers($servers);

@@ -354,11 +354,11 @@ class GitPHP_Archive
 
         switch ($this->format) {
             case self::GITPHP_COMPRESS_BZ2:
-                $data = bzcompress($data, GitPHP_Config::GetInstance()->GetValue('compresslevel', 4));
+                $data = bzcompress($data, \GitPHP\Config::GetInstance()->GetValue('compresslevel', 4));
                 break;
 
             case self::GITPHP_COMPRESS_GZ:
-                $data = gzencode($data, GitPHP_Config::GetInstance()->GetValue('compresslevel', -1));
+                $data = gzencode($data, \GitPHP\Config::GetInstance()->GetValue('compresslevel', -1));
                 break;
         }
 

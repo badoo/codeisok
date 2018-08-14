@@ -55,7 +55,7 @@ class Application
         }
 
         if (!\GitPHP_Resource::Instantiated()) {
-            \GitPHP_Resource::Instantiate(\GitPHP_Config::GetInstance()->GetValue('locale', 'en_US'));
+            \GitPHP_Resource::Instantiate(\GitPHP\Config::GetInstance()->GetValue('locale', 'en_US'));
         }
 
         if (isset($_GET['fix_lineheight'])) {
@@ -66,7 +66,7 @@ class Application
 
     public function initDebug()
     {
-        if (\GitPHP_Config::DEBUG_ENABLED) {
+        if (\GitPHP\Config::DEBUG_ENABLED) {
             if (isset($_GET['debug_mode'])) {
                 setcookie('debug_mode', $_GET['debug_mode'], (int)$_GET['debug_mode'] == 0 ? time() - 3600 : null);
                 $_COOKIE['debug_mode'] = $_GET['debug_mode'];
@@ -76,10 +76,10 @@ class Application
                 $_COOKIE['debug_js'] = $_GET['debug_js'];
             }
             if (isset($_COOKIE['debug_mode']) && (int)$_COOKIE['debug_mode'] == 1) {
-                \GitPHP_Config::GetInstance()->SetValue('debug', (bool)(int)$_COOKIE['debug_mode']);
+                \GitPHP\Config::GetInstance()->SetValue('debug', (bool)(int)$_COOKIE['debug_mode']);
                 \GitPHP_Log::GetInstance()->SetEnabled((bool)(int)$_COOKIE['debug_mode']);
             }
-            if (\GitPHP_Config::GetInstance()->GetValue('debug', false)) {
+            if (\GitPHP\Config::GetInstance()->GetValue('debug', false)) {
                 ini_set('display_errors', 1);
             } else {
                 ini_set('display_errors', 0);
@@ -96,12 +96,12 @@ class Application
                 $config = $tmpConfig;
             }
         }
-        \GitPHP_Config::GetInstance()->LoadConfig($config);
+        \GitPHP\Config::GetInstance()->LoadConfig($config);
     }
 
     private function initProject()
     {
-        if (!\GitPHP_Config::GetInstance()->GetValue('projectroot', null)) {
+        if (!\GitPHP\Config::GetInstance()->GetValue('projectroot', null)) {
             throw new \GitPHP_MessageException(__('A projectroot must be set in the config'), true, 500);
         }
 
@@ -172,7 +172,7 @@ class Application
             $controller->RenderHeaders();
             $controller->Render();
         } catch (\Exception $e) {
-            if (\GitPHP_Config::GetInstance()->GetValue('debug', false)) throw $e;
+            if (\GitPHP\Config::GetInstance()->GetValue('debug', false)) throw $e;
         }
     }
 

@@ -150,7 +150,7 @@ class Branchdiff extends DiffBase
             ->setRenames($renames)
             ->setShowHidden($this->params['show_hidden']);
 
-        if (in_array($this->project->GetCategory(), \GitPHP_Config::GetInstance()->GetValue(\GitPHP_Config::SKIP_SUPPRESS_FOR_CATEGORY, []))) {
+        if (in_array($this->project->GetCategory(), \GitPHP\Config::GetInstance()->GetValue(\GitPHP\Config::SKIP_SUPPRESS_FOR_CATEGORY, []))) {
             $DiffContext->setSkipSuppress(true);
         }
         $branchdiff = new \GitPHP_BranchDiff($this->project, $this->params['branch'], $this->params['base'], $DiffContext);

@@ -125,8 +125,8 @@ class Blob extends Base
     protected function checkGeshi()
     {
         $result = false;
-        if (\GitPHP_Config::GetInstance()->GetValue('geshi', true)) {
-            include_once(\GitPHP_Util::AddSlash(\GitPHP_Config::GetInstance()->GetValue('geshiroot', 'lib/geshi/')) . "geshi.php");
+        if (\GitPHP\Config::GetInstance()->GetValue('geshi', true)) {
+            include_once(\GitPHP_Util::AddSlash(\GitPHP\Config::GetInstance()->GetValue('geshiroot', 'lib/geshi/')) . "geshi.php");
             if (class_exists('GeSHi')) {
                 $result = true;
             }
@@ -154,7 +154,7 @@ class Blob extends Base
                 $headers = array();
 
                 $mime = null;
-                if (\GitPHP_Config::GetInstance()->GetValue('filemimetype', true)) {
+                if (\GitPHP\Config::GetInstance()->GetValue('filemimetype', true)) {
                     if ((!isset($this->params['hash'])) && (isset($this->params['file']))) {
                         $commit = $this->project->GetCommit($this->params['hashbase']);
                         $this->params['hash'] = $commit->PathToHash($this->params['file']);
@@ -223,7 +223,7 @@ class Blob extends Base
 
         $this->tpl->assign('tree', $commit->GetTree());
 
-        if (\GitPHP_Config::GetInstance()->GetValue('filemimetype', true)) {
+        if (\GitPHP\Config::GetInstance()->GetValue('filemimetype', true)) {
             $mime = $blob->FileMime();
             if ($mime) {
                 $mimetype = strtok($mime, '/');

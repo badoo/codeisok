@@ -56,8 +56,8 @@ class GitosisRepositories extends GitosisBase
                     $owner
                 );
                 //creating the repo
-                $base_path = \GitPHP_Config::GetInstance()->GetValue(\GitPHP_Config::PROJECT_ROOT);
-                if (\GitPHP_Config::GetInstance()->GetValue(\GitPHP_Config::UPDATE_AUTH_KEYS_FROM_WEB)) {
+                $base_path = \GitPHP\Config::GetInstance()->GetValue(\GitPHP\Config::PROJECT_ROOT);
+                if (\GitPHP\Config::GetInstance()->GetValue(\GitPHP\Config::UPDATE_AUTH_KEYS_FROM_WEB)) {
                     exec("cd " . $base_path . ";git init --bare " . escapeshellarg($project), $out, $retval);
                     if ($retval) {
                         $this->_form_errors[] = 'Can\'t init bare repo in ' . $base_path;

@@ -105,7 +105,6 @@ class GitPHP_Blob extends GitPHP_FilesystemObject
 	 * @access public
 	 * @param mixed $project the project
 	 * @param string $hash object hash
-	 * @return mixed blob object
 	 * @throws Exception exception on invalid hash
 	 */
 	public function __construct($project, $hash)
@@ -120,7 +119,7 @@ class GitPHP_Blob extends GitPHP_FilesystemObject
 	 *
 	 * @access public
 	 * @param boolean $explode true to explode data into an array of lines
-	 * @return string blob data
+	 * @return string|string[] blob data
 	 */
 	public function GetData($explode = false)
 	{
@@ -269,7 +268,7 @@ class GitPHP_Blob extends GitPHP_FilesystemObject
 
 		$mime = '';
 
-		$magicdb = GitPHP_Config::GetInstance()->GetValue('magicdb', null);
+		$magicdb = \GitPHP\Config::GetInstance()->GetValue('magicdb', null);
 		if (empty($magicdb)) {
 			if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
 				$magicdb = 'C:\\wamp\\php\\extras\\magic';

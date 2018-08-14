@@ -63,11 +63,10 @@ class GitPHP_GitExe
      * Constructor
      *
      * @param string $project project to operate on
-     * @return \GitPHP_GitExe git executable class
      */
     public function __construct($project = null)
     {
-        $binary = GitPHP_Config::GetInstance()->GetValue('gitbin');
+        $binary = \GitPHP\Config::GetInstance()->GetValue('gitbin');
         if (empty($binary)) {
             $this->binary = GitPHP_GitExe::DefaultBinary();
         } else {
@@ -232,9 +231,7 @@ class GitPHP_GitExe
     {
         if (empty($this->binary)) return false;
 
-        $code = 0;
-        $out = exec($this->binary . ' --version', $tmp, $code);
-
+        exec($this->binary . ' --version', $tmp, $code);
         return $code == 0;
     }
 

@@ -19,7 +19,7 @@ class Search extends Base
 {
     public function __construct()
     {
-        if (!\GitPHP_Config::GetInstance()->GetValue('search', true)) {
+        if (!\GitPHP\Config::GetInstance()->GetValue('search', true)) {
             throw new \GitPHP_MessageException(__('Search has been disabled'), true);
         }
 
@@ -88,7 +88,7 @@ class Search extends Base
         if (!isset($this->params['searchtype'])) $this->params['searchtype'] = GITPHP_SEARCH_COMMIT;
 
         if ($this->params['searchtype'] == GITPHP_SEARCH_FILE) {
-            if (!\GitPHP_Config::GetInstance()->GetValue('filesearch', true)) {
+            if (!\GitPHP\Config::GetInstance()->GetValue('filesearch', true)) {
                 throw new \GitPHP_MessageException(__('File search has been disabled'), true);
             }
         }

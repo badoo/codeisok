@@ -59,7 +59,7 @@ class GitPHP_DiffExe
 	 */
 	public function __construct()
 	{
-		$this->binary = GitPHP_Config::GetInstance()->GetValue('diffbin');
+		$this->binary = \GitPHP\Config::GetInstance()->GetValue('diffbin');
 		if (empty($this->binary)) {
 			if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
 				$this->binary = 'C:\\Progra~1\\Git\\bin\\diff.exe';
@@ -211,29 +211,28 @@ class GitPHP_DiffExe
 	 */
 	public function Valid()
 	{
-		if (empty($this->binary))
-			return false;
+		if (empty($this->binary)) {
+            return false;
+        }
 
-		$code = 0;
-		$out = exec($this->binary . ' --version', $tmp, $code);
-
+		exec($this->binary . ' --version', $tmp, $code);
 		return $code == 0;
 	}
 
-	/**
-	 * Diff
-	 *
-	 * Convenience function to run diff with the default settings
-	 * and immediately discard the object
-	 *
-	 * @access public
-	 * @static
-	 * @param string $fromFile source file
-	 * @param string $fromName source file display name
-	 * @param string $toFile destination file
-	 * @param string $toName destination file display name
-	 * @return string diff output
-	 */
+    /**
+     * Diff
+     *
+     * Convenience function to run diff with the default settings
+     * and immediately discard the object
+     *
+     * @param string $fromFile source file
+     * @param string $fromName source file display name
+     * @param string $toFile destination file
+     * @param string $toName destination file display name
+     * @param bool $context
+     * @param bool $ignoreWhitespace
+     * @return string diff output
+     */
 	public static function Diff($fromFile = null, $fromName = null, $toFile = null, $toName = null, $context = true, $ignoreWhitespace = false)
 	{
         GitPHP_Log::GetInstance()->Log(__METHOD__, var_export(func_get_args(), true));
@@ -241,43 +240,11 @@ class GitPHP_DiffExe
         $obj->SetUnified($context);
         $obj->setIgnoreWhitespace($ignoreWhitespace);
         $ret = $obj->Execute($fromFile, $fromName, $toFile, $toName);
-		unset($obj);
 		return $ret;
 	}
 
-	/**
-	 * DefaultBinary
-	 *
-	 * Gets the default binary for the platform
-	 *
-     * @deprecated
-	 * @access public
-	 * @static
-	 * @return string binary
-	 */
-	public static function DefaultBinary()
-	{
-        trigger_error(__METHOD__ . ' too strange', E_USER_ERROR);
-		if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
-			// windows
-
-			$arch = php_uname('m');
-			if (strpos($arch, '64') !== false) {
-				// match x86_64 and x64 (64 bit)
-				// C:\Program Files (x86)\Git\bin\diff.exe
-				return 'C:\\Progra~2\\Git\\bin\\diff.exe';
-			} else {
-				// 32 bit
-				// C:\Program Files\Git\bin\diff.exe
-				return 'C:\\Progra~1\\Git\\bin\\diff.exe';
-			}
-		} else {
-			// *nix, just use PATH
-//			$this->binary = 'diff';
-		}
-	}
-
-    public function setIgnoreWhitespace($ignore = true) {
+    public function setIgnoreWhitespace($ignore = true)
+    {
         $this->ignoreWhitespace = $ignore;
     }
 }

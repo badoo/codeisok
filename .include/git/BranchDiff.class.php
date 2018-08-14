@@ -189,7 +189,7 @@ class GitPHP_BranchDiff implements Iterator
         $args[] = $this->fromHash;
         $args[] = $this->toHash;
 
-        $hide_files_per_category = GitPHP_Config::GetInstance()->GetValue(\GitPHP_Config::HIDE_FILES_PER_CATEGORY, []);
+        $hide_files_per_category = \GitPHP\Config::GetInstance()->GetValue(\GitPHP\Config::HIDE_FILES_PER_CATEGORY, []);
         $diffBranchLines = explode("\n", $this->exe->Execute(GIT_DIFF_TREE, $args));
         foreach ($diffBranchLines as $line) {
             $trimmed = trim($line);

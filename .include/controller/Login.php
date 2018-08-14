@@ -61,12 +61,12 @@ class Login extends Base
         $err = $auth_result = false;
 
         if ($this->params['post'] && !empty($this->params['login']) && !empty($this->params['password'])) {
-            if (\GitPHP_Config::GetInstance()->GetAuthMethod() == \GitPHP_Config::AUTH_METHOD_CROWD) {
+            if (\GitPHP\Config::GetInstance()->GetAuthMethod() == \GitPHP\Config::AUTH_METHOD_CROWD) {
                 list ($auth_result, $err) = \GitPHP\Jira::instance()->crowdAuthenticatePrincipal($this->params['login'], $this->params['password']);
-            } else if (\GitPHP_Config::GetInstance()->GetAuthMethod() == \GitPHP_Config::AUTH_METHOD_JIRA) {
+            } else if (\GitPHP\Config::GetInstance()->GetAuthMethod() == \GitPHP\Config::AUTH_METHOD_JIRA) {
                 list ($auth_result, $err) = \GitPHP\Jira::instance()->restAuthenticateByUsernameAndPassword($this->params['login'], $this->params['password']);
-            } else if (\GitPHP_Config::GetInstance()->GetAuthMethod() == \GitPHP_Config::AUTH_METHOD_CONFIG) {
-                $auth_user = \GitPHP_Config::GetInstance()->GetAuthUser();
+            } else if (\GitPHP\Config::GetInstance()->GetAuthMethod() == \GitPHP\Config::AUTH_METHOD_CONFIG) {
+                $auth_user = \GitPHP\Config::GetInstance()->GetAuthUser();
                 if ($auth_user['name'] === $this->params['login'] && $auth_user['password'] === $this->params['password']) {
                     $auth_result = [
                         'user_id' => $auth_user['name'],
@@ -77,15 +77,15 @@ class Login extends Base
                 } else {
                     $err = 'Username or password does not exist.';
                 }
-            } else if (\GitPHP_Config::GetInstance()->GetAuthMethod() == \GitPHP_Config::AUTH_METHOD_REDMINE) {
+            } else if (\GitPHP\Config::GetInstance()->GetAuthMethod() == \GitPHP\Config::AUTH_METHOD_REDMINE) {
                 list ($auth_result, $err) = \GitPHP\Redmine::instance()->restAuthenticateByUsernameAndPassword($this->params['login'], $this->params['password']);
             } else {
                 $err = 'Auth method is not defined. Please check config file.';
             }
         } else if ($this->params['crowd_token_key']) {
-            if (\GitPHP_Config::GetInstance()->GetAuthMethod() == \GitPHP_Config::AUTH_METHOD_CROWD) {
+            if (\GitPHP\Config::GetInstance()->GetAuthMethod() == \GitPHP\Config::AUTH_METHOD_CROWD) {
                 list ($auth_result, $err) = \GitPHP\Jira::instance()->crowdAuthenticatePrincipalByCookie($this->params['crowd_token_key']);
-            } else if (\GitPHP_Config::GetInstance()->GetAuthMethod() == \GitPHP_Config::AUTH_METHOD_JIRA) {
+            } else if (\GitPHP\Config::GetInstance()->GetAuthMethod() == \GitPHP\Config::AUTH_METHOD_JIRA) {
                 list ($auth_result, $err) = \GitPHP\Jira::instance()->restAuthenticateByCookie($this->params['crowd_token_key']);
             }
         }
@@ -93,7 +93,7 @@ class Login extends Base
         $User = null;
         if ($auth_result) {
             $User = \GitPHP_User::fromAuthData($auth_result);
-            if (\GitPHP_Config::CHECK_ACCESS_GROUP) {
+            if (\GitPHP\Config::CHECK_ACCESS_GROUP) {
                 $Acl = new \GitPHP\Acl(\GitPHP\Jira::instance(), \GitPHP\Redmine::instance());
                 if (!$Acl->isCodeAccessAllowed($User)) {
                     $User = null;
@@ -107,7 +107,7 @@ class Login extends Base
             if (!empty($this->params['remember'])) {
                 $expire = time() + 60 * 60 * 24 * 30 * 12;
                 $domain = $_SERVER['HTTP_HOST'];
-                if (in_array(\GitPHP_Config::GetInstance()->GetAuthMethod(), [\GitPHP_Config::AUTH_METHOD_CROWD, \GitPHP_Config::AUTH_METHOD_JIRA])) {
+                if (in_array(\GitPHP\Config::GetInstance()->GetAuthMethod(), [\GitPHP\Config::AUTH_METHOD_CROWD, \GitPHP\Config::AUTH_METHOD_JIRA])) {
                     setcookie(\GitPHP\Jira::getCookieName(), $User->getToken(), $expire, '/', $domain, false, true);
                 }
             }

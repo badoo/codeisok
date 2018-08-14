@@ -221,12 +221,12 @@ class GitPHP_Project
      *
      * Attempts to set the project
      *
-     * @access private
+     * @param $project
      * @throws Exception if project is invalid or outside of projectroot
      */
     private function SetProject($project)
     {
-        $projectRoot = GitPHP_Util::AddSlash(GitPHP_Config::GetInstance()->GetValue(\GitPHP_Config::PROJECT_ROOT));
+        $projectRoot = GitPHP_Util::AddSlash(\GitPHP\Config::GetInstance()->GetValue(\GitPHP\Config::PROJECT_ROOT));
 
         $realProjectRoot = realpath($projectRoot);
         $path = $projectRoot . $project;
@@ -356,7 +356,7 @@ class GitPHP_Project
      */
     public function GetPath()
     {
-        $projectRoot = GitPHP_Util::AddSlash(GitPHP_Config::GetInstance()->GetValue(\GitPHP_Config::PROJECT_ROOT));
+        $projectRoot = GitPHP_Util::AddSlash(\GitPHP\Config::GetInstance()->GetValue(GitPHP\Config::PROJECT_ROOT));
 
         return $projectRoot . $this->project;
     }
@@ -451,7 +451,7 @@ class GitPHP_Project
     {
         if ($this->cloneUrl !== null) return $this->cloneUrl;
 
-        $cloneurl = GitPHP_Util::AddSlash(GitPHP_Config::GetInstance()->GetValue('cloneurl', ''), false);
+        $cloneurl = GitPHP_Util::AddSlash(\GitPHP\Config::GetInstance()->GetValue('cloneurl', ''), false);
         if (!empty($cloneurl)) $cloneurl .= $this->project;
 
         return $cloneurl;
@@ -482,7 +482,7 @@ class GitPHP_Project
     {
         if ($this->pushUrl !== null) return $this->pushUrl;
 
-        $pushurl = GitPHP_Util::AddSlash(GitPHP_Config::GetInstance()->GetValue('pushurl', ''), false);
+        $pushurl = GitPHP_Util::AddSlash(\GitPHP\Config::GetInstance()->GetValue('pushurl', ''), false);
         if (!empty($pushurl)) $pushurl .= $this->project;
 
         return $pushurl;
@@ -513,7 +513,7 @@ class GitPHP_Project
     {
         if ($this->bugUrl != null) return $this->bugUrl;
 
-        return GitPHP_Config::GetInstance()->GetValue('bugurl', '');
+        return \GitPHP\Config::GetInstance()->GetValue('bugurl', '');
     }
 
     /**
@@ -541,7 +541,7 @@ class GitPHP_Project
     {
         if ($this->bugPattern != null) return $this->bugPattern;
 
-        return GitPHP_Config::GetInstance()->GetValue('bugpattern', '');
+        return \GitPHP\Config::GetInstance()->GetValue('bugpattern', '');
     }
 
     /**
@@ -576,8 +576,8 @@ class GitPHP_Project
      * Gets the head commit for this project
      * Shortcut for getting the tip commit of the HEAD branch
      *
-     * @access public
      * @return mixed head commit
+     * @throws Exception
      */
     public function GetHeadCommit()
     {
@@ -609,8 +609,9 @@ class GitPHP_Project
      *
      * Get a commit for this project
      *
+     * @param $hash
      * @return GitPHP_Commit
-     * @access public
+     * @throws Exception
      */
     public function GetCommit($hash)
     {
@@ -828,6 +829,7 @@ class GitPHP_Project
     {
         $this->readRefs = true;
 
+        /** @noinspection PhpUnusedLocalVariableInspection need this to count execution time */
         $LogCount = new CountClass(__FUNCTION__);
 
         if (false) {
@@ -924,6 +926,7 @@ class GitPHP_Project
      * @access public
      * @param string $tag tag to find
      * @return mixed tag object
+     * @throws Exception
      */
     public function GetTag($tag)
     {
@@ -943,13 +946,16 @@ class GitPHP_Project
      *
      * Attempts to load a cached tag, or creates a new object
      *
-     * @access private
      * @param string $tag tag to find
+     * @param string $hash
      * @return mixed tag object
+     * @throws Exception
      */
     private function LoadTag($tag, $hash = '')
     {
-        if (empty($tag)) return;
+        if (empty($tag)) {
+            return null;
+        }
 
         $cacheKey = 'project|' . $this->project . '|tag|' . $tag;
         $cached = GitPHP_Cache::GetInstance()->Get($cacheKey);
@@ -967,6 +973,7 @@ class GitPHP_Project
      *
      * @access public
      * @param integer $count number of tags to load
+     * @param string $mask
      * @return GitPHP_Head[]
      */
     public function GetHeads($count = 0, $mask = '')
@@ -1010,6 +1017,7 @@ class GitPHP_Project
      * @access public
      * @param string $head head to find
      * @return GitPHP_Head head object
+     * @throws Exception
      */
     public function GetHead($head)
     {
@@ -1050,6 +1058,7 @@ class GitPHP_Project
     public function BatchReadData(array $hashes)
     {
         if (!count($hashes)) return array();
+        /** @noinspection PhpUnusedLocalVariableInspection */
         $LogCount = new CountClass(__FUNCTION__);
 
         $outfile = tempnam('/tmp', 'objlist');
@@ -1128,9 +1137,11 @@ class GitPHP_Project
      * @param integer $skip number of entries to skip
      * @param string $hashBase
      * @return GitPHP_Commit[]
+     * @throws Exception
      */
     public function GetLog($hash, $count = 50, $skip = 0, $hashBase = null)
     {
+        /** @noinspection PhpUnusedLocalVariableInspection */
         $LogCount = new CountClass(__FUNCTION__);
         $log = $this->GetLogHash($hash, $count, $skip, $hashBase);
         if (!$log) return $log;
@@ -1159,6 +1170,8 @@ class GitPHP_Project
      *
      * @access public
      * @param string $hash blob hash
+     * @return GitPHP_Blob|null
+     * @throws Exception
      */
     public function GetBlob($hash)
     {
@@ -1179,6 +1192,7 @@ class GitPHP_Project
      * @access public
      * @param string $hash tree hash
      * @return GitPHP_Tree
+     * @throws Exception
      */
     public function GetTree($hash)
     {
@@ -1221,10 +1235,13 @@ class GitPHP_Project
      * @param integer $count number of results to get
      * @param integer $skip number of results to skip
      * @return array array of matching commits
+     * @throws Exception
      */
     public function SearchCommit($pattern, $hash = 'HEAD', $count = 50, $skip = 0)
     {
-        if (empty($pattern)) return;
+        if (empty($pattern)) {
+            return null;
+        }
 
         $args = array();
 
@@ -1254,10 +1271,13 @@ class GitPHP_Project
      * @param integer $count number of results to get
      * @param integer $skip number of results to skip
      * @return array array of matching commits
+     * @throws Exception
      */
     public function SearchAuthor($pattern, $hash = 'HEAD', $count = 50, $skip = 0)
     {
-        if (empty($pattern)) return;
+        if (empty($pattern)) {
+            return null;
+        }
 
         $args = array();
 
@@ -1287,10 +1307,13 @@ class GitPHP_Project
      * @param integer $count number of results to get
      * @param integer $skip number of results to skip
      * @return array array of matching commits
+     * @throws Exception
      */
     public function SearchCommitter($pattern, $hash = 'HEAD', $count = 50, $skip = 0)
     {
-        if (empty($pattern)) return;
+        if (empty($pattern)) {
+            return null;
+        }
 
         $args = array();
 
@@ -1324,7 +1347,9 @@ class GitPHP_Project
      */
     private function RevList($hash, $count = 50, $skip = 0, $args = array(), $hashBase = null)
     {
-        if ($count < 1) return;
+        if ($count < 1) {
+            return null;
+        }
 
         $exe = new GitPHP_GitExe($this);
 
@@ -1437,11 +1462,11 @@ class GitPHP_Project
     public function GetBaseBranches($branch)
     {
         $main_branches = array_filter(
-            \GitPHP_Config::GetInstance()->GetBaseBranchesByCategory($this->GetCategory()),
+            GitPHP\Config::GetInstance()->GetBaseBranchesByCategory($this->GetCategory()),
             function ($branch_name) { return $this->GetHead($branch_name)->Exists(); }
         );
         $build_branches = [];
-        foreach (\GitPHP_config::GetInstance()->GetBaseBranchPatternsPerCategory($this->GetCategory()) as $pattern) {
+        foreach (GitPHP\Config::GetInstance()->GetBaseBranchPatternsPerCategory($this->GetCategory()) as $pattern) {
             $new_heads = array_map(function (\GitPHP_Head $Head) { return $Head->GetName(); }, $this->GetHeads(3, $pattern));
             $build_branches = array_merge($new_heads, $build_branches);
         }

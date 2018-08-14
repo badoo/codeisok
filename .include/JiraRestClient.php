@@ -64,9 +64,9 @@ class JiraRestClient
     {
         if (empty(self::$instance)) {
             self::$instance = new self();
-            self::$instance->jira_url = \GitPHP_Config::GetInstance()->GetJiraUrl();
-            self::$instance->jira_user = \GitPHP_Config::GetInstance()->GetJiraUser();
-            self::$instance->jira_password = \GitPHP_Config::GetInstance()->GetJiraPassword();
+            self::$instance->jira_url = \GitPHP\Config::GetInstance()->GetJiraUrl();
+            self::$instance->jira_user = \GitPHP\Config::GetInstance()->GetJiraUser();
+            self::$instance->jira_password = \GitPHP\Config::GetInstance()->GetJiraPassword();
         }
         return self::$instance;
     }
@@ -674,7 +674,7 @@ class JiraRestClient
             'X-Atlassian-Token' => 'nocheck',
         ];
 
-        if (\GitPHP_Config::GetInstance()->GetAuthMethod() == \GitPHP_Config::AUTH_METHOD_JIRA) {
+        if (\GitPHP\Config::GetInstance()->GetAuthMethod() == \GitPHP\Config::AUTH_METHOD_JIRA) {
             //auth by crowd auth token got via rest authorisation
             $User = \GitPHP_Session::instance()->getUser();
             if (!empty($User) && !empty($User->getToken())) {

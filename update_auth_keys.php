@@ -50,7 +50,7 @@ class UpdateAuthKeys
      */
     public function createNewRepositories($repositories)
     {
-        $root_directory = \GitPHP_Config::GetInstance()->GetValue(\GitPHP_Config::PROJECT_ROOT);
+        $root_directory = GitPHP\Config::GetInstance()->GetValue(GitPHP\Config::PROJECT_ROOT);
         foreach ($repositories as $repository) {
             $full_path = $root_directory . '/' . $repository['project'];
             if (is_dir($full_path)) {

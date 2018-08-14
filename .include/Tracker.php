@@ -26,9 +26,9 @@ class Tracker
     public function __construct()
     {
         $res = self::TRACKER_TYPE_DISABLED;
-        if (\GitPHP_Config::GetInstance()->GetUseJiraTracker()) {
+        if (\GitPHP\Config::GetInstance()->GetUseJiraTracker()) {
             $res = self::TRACKER_TYPE_JIRA;
-        } elseif (\GitPHP_Config::GetInstance()->GetUseRedmineTracker()) {
+        } elseif (\GitPHP\Config::GetInstance()->GetUseRedmineTracker()) {
             $res = self::TRACKER_TYPE_REDMINE;
         }
         $this->tracker_type = $res;
@@ -63,7 +63,7 @@ class Tracker
         $url = '';
         switch ($this->tracker_type) {
             case self::TRACKER_TYPE_JIRA:
-                $url = \GitPHP_Config::GetInstance()->GetJiraUrl() . 'browse/' . $ticket_key;
+                $url = \GitPHP\Config::GetInstance()->GetJiraUrl() . 'browse/' . $ticket_key;
                 break;
             case self::TRACKER_TYPE_REDMINE:
                 $url = \GitPHP\Redmine::URL . 'issues/' . $ticket_key;

@@ -1,15 +1,18 @@
 <?php
-class GitPHP_Config
+
+namespace GitPHP;
+
+class Config
 {
     const PROJECT_ROOT = 'projectroot';
 
     // Authentication methods that are supported. Change method in .config/gitphp.conf.php file
-    const AUTH_METHOD         = 'auth_method';
-    const AUTH_METHOD_NONE    = 'none';
-    const AUTH_METHOD_CROWD   = 'crowd';
-    const AUTH_METHOD_JIRA    = 'jira';
+    const AUTH_METHOD = 'auth_method';
+    const AUTH_METHOD_NONE = 'none';
+    const AUTH_METHOD_CROWD = 'crowd';
+    const AUTH_METHOD_JIRA = 'jira';
     const AUTH_METHOD_REDMINE = 'redmine';
-    const AUTH_METHOD_CONFIG  = 'config';
+    const AUTH_METHOD_CONFIG = 'config';
 
     // User-Password to use with AUTH_METHOD_CONFIG
     const CONFIG_AUTH_USER = 'config_auth_user';
@@ -18,48 +21,48 @@ class GitPHP_Config
     const AUTH_API_TOKENS = "auth_api_tokens";
 
     // DB options
-    const DB_HOST                      = 'localhost';
-    const DB_USER                      = 'username';
-    const DB_PASSWORD                  = 'userpass';
-    const DB_NAME                      = 'dbname';
+    const DB_HOST = 'localhost';
+    const DB_USER = 'username';
+    const DB_PASSWORD = 'userpass';
+    const DB_NAME = 'dbname';
 
     // Jira options
-    const JIRA_URL      = 'jira_url';
-    const JIRA_USER     = 'jira_user';
+    const JIRA_URL = 'jira_url';
+    const JIRA_USER = 'jira_user';
     const JIRA_PASSWORD = 'jira_password';
 
     // Crowd options
-    const CROWD_URL       = 'crowd_url';
+    const CROWD_URL = 'crowd_url';
     const CROWD_APP_TOKEN = 'crowd_token';
 
     // Access options
-    const CHECK_ACCESS_GROUP           = false;
-    const ACCESS_GROUP                 = 'access_group';
-    const PROJECT_ACCESS_GROUPS        = 'project_access_groups';
-    const GIT_NO_AUTH_ACTIONS          = 'git_no_auth_actions';
-    const GIT_USER                     = 'git';
-    const GIT_HOME                     = '/home/git/';
+    const CHECK_ACCESS_GROUP = false;
+    const ACCESS_GROUP = 'access_group';
+    const PROJECT_ACCESS_GROUPS = 'project_access_groups';
+    const GIT_NO_AUTH_ACTIONS = 'git_no_auth_actions';
+    const GIT_USER = 'git';
+    const GIT_HOME = '/home/git/';
 
     // Git access options
-    const UPDATE_AUTH_KEYS_FROM_WEB    = 'update_auth_keys_from_web';
-    const ALLOW_USER_CREATE_REPOS      = 'allow_user_create_repos';
+    const UPDATE_AUTH_KEYS_FROM_WEB = 'update_auth_keys_from_web';
+    const ALLOW_USER_CREATE_REPOS = 'allow_user_create_repos';
 
     // Tracker options
-    const TRACKER_TYPE         = 'tracker_type';
-    const TRACKER_TYPE_JIRA    = \GitPHP\Tracker::TRACKER_TYPE_JIRA;
+    const TRACKER_TYPE = 'tracker_type';
+    const TRACKER_TYPE_JIRA = \GitPHP\Tracker::TRACKER_TYPE_JIRA;
     const TRACKER_TYPE_REDMINE = \GitPHP\Tracker::TRACKER_TYPE_REDMINE;
 
     // Review options
-    const COLLECT_CHANGES_AUTHORS             = 'collect_changes_authors';
-    const COLLECT_CHANGES_AUTHORS_SKIP        = 'collect_changes_authors_skip';
-    const HIDE_FILES_PER_CATEGORY             = 'hide_files_per_category';
-    const BASE_BRANCHES_PER_CATEGORY          = 'base_branches_per_category';
+    const COLLECT_CHANGES_AUTHORS = 'collect_changes_authors';
+    const COLLECT_CHANGES_AUTHORS_SKIP = 'collect_changes_authors_skip';
+    const HIDE_FILES_PER_CATEGORY = 'hide_files_per_category';
+    const BASE_BRANCHES_PER_CATEGORY = 'base_branches_per_category';
     const BASE_BRANCHES_PATTERNS_PER_CATEGORY = 'base_branches_patterns_per_category';
-    const SKIP_SUPPRESS_FOR_CATEGORY          = 'skip_suppress_for_category';
-    const IGNORED_EMAIL_ADDRESSES             = 'ignored_email_addresses';
+    const SKIP_SUPPRESS_FOR_CATEGORY = 'skip_suppress_for_category';
+    const IGNORED_EMAIL_ADDRESSES = 'ignored_email_addresses';
 
     // Debug
-    const DEBUG_ENABLED                = true;
+    const DEBUG_ENABLED = true;
 
     /**
      * instance
@@ -96,12 +99,12 @@ class GitPHP_Config
      *
      * @access public
      * @static
-     * @return GitPHP_Config
+     * @return Config
      */
     public static function GetInstance()
     {
         if (!self::$instance) {
-            self::$instance = new GitPHP_Config();
+            self::$instance = new Config();
         }
         return self::$instance;
     }
@@ -113,16 +116,17 @@ class GitPHP_Config
      *
      * @access public
      * @param string $configFile config file to load
-     * @throws Exception on failure
+     * @throws \Exception on failure
      */
     public function LoadConfig($configFile)
     {
         if (!is_file($configFile)) {
-            throw new GitPHP_MessageException('Could not load config file ' . $configFile, true, 500);
+            throw new \GitPHP_MessageException('Could not load config file ' . $configFile, true, 500);
         }
 
+        /** @noinspection PhpIncludeInspection */
         if (($gitphp_conf = include($configFile)) === false) {
-            throw new GitPHP_MessageException('Could not read config file ' . $configFile, true, 500);
+            throw new \GitPHP_MessageException('Could not read config file ' . $configFile, true, 500);
         }
         if (is_array($gitphp_conf)) {
             $this->values = array_merge($this->values, $gitphp_conf);
@@ -326,7 +330,7 @@ class GitPHP_Config
      */
     public function GetBaseBranchesByCategory($category)
     {
-        $base_branches_per_category = \GitPHP_Config::GetInstance()->GetValue(\GitPHP_Config::BASE_BRANCHES_PER_CATEGORY, []);
+        $base_branches_per_category = static::GetInstance()->GetValue(static::BASE_BRANCHES_PER_CATEGORY, []);
         return $base_branches_per_category[$category] ?? ['master'];
     }
 
@@ -338,7 +342,7 @@ class GitPHP_Config
      */
     public function GetBaseBranchPatternsPerCategory($category)
     {
-        $base_branch_patterns_per_category = \GitPHP_Config::GetInstance()->GetValue(\GitPHP_Config::BASE_BRANCHES_PATTERNS_PER_CATEGORY, []);
+        $base_branch_patterns_per_category = static::GetInstance()->GetValue(static::BASE_BRANCHES_PATTERNS_PER_CATEGORY, []);
         return $base_branch_patterns_per_category[$category] ?? [];
     }
 

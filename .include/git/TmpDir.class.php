@@ -101,7 +101,7 @@ class GitPHP_TmpDir
 			$tmpfile = tempnam(__FILE__, '');
 			if (file_exists($tmpfile)) {
 				unlink($tmpfile);
-				$tmpdir = dirname($temp);
+				$tmpdir = dirname($tmpfile);
 			}
 		}
 
@@ -126,7 +126,7 @@ class GitPHP_TmpDir
 	 */
 	public function __construct()
 	{
-		$this->dir = GitPHP_Util::AddSlash(GitPHP_Config::GetInstance()->GetValue('gittmp'));
+		$this->dir = GitPHP_Util::AddSlash(\GitPHP\Config::GetInstance()->GetValue('gittmp'));
 
 		if (empty($this->dir)) {
 			$this->dir = GitPHP_TmpDir::SystemTmpDir();

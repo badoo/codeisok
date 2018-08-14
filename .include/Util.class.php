@@ -1,4 +1,5 @@
 <?php
+
 class GitPHP_Util
 {
     const DEBUG_EMAIL = '';
@@ -65,7 +66,7 @@ class GitPHP_Util
             }
         }
         $to = array_unique($to);
-        $ignored_emails = \GitPHP_Config::GetInstance()->GetValue(\GitPHP_Config::IGNORED_EMAIL_ADDRESSES, []);
+        $ignored_emails = \GitPHP\Config::GetInstance()->GetValue(\GitPHP\Config::IGNORED_EMAIL_ADDRESSES, []);
         $to = array_filter($to, function ($address) use ($ignored_emails) { return !in_array($address, $ignored_emails); });
 
         $subject = "[CODEISOK] ($review_name) Comment from $from";
@@ -181,7 +182,7 @@ class GitPHP_Util
 
         $changes_authors = array_unique($changes_authors);
         foreach ($changes_authors as $idx => $author) {
-            foreach (GitPHP_Config::GetInstance()->GetValue(\GitPHP_Config::COLLECT_CHANGES_AUTHORS_SKIP, []) as $skip_author) {
+            foreach (\GitPHP\Config::GetInstance()->GetValue(\GitPHP\Config::COLLECT_CHANGES_AUTHORS_SKIP, []) as $skip_author) {
                 if (strpos($author, $skip_author) !== false) unset($changes_authors[$idx]);
             }
         }
@@ -196,7 +197,7 @@ class GitPHP_Util
             list($hash_head, $hash_base) = explode('-', $hash);
             if (empty($hash_base)) {
                 $diffs[$hash] = new GitPHP_TreeDiff($Project, $hash_head, '', $DiffContext);
-                if (GitPHP_Config::GetInstance()->GetValue(\GitPHP_Config::COLLECT_CHANGES_AUTHORS, false)) {
+                if (\GitPHP\Config::GetInstance()->GetValue(\GitPHP\Config::COLLECT_CHANGES_AUTHORS, false)) {
                     $changes_authors[] = $Project->GetCommit($hash_head)->GetAuthor();
                 }
             } else if ($hash_base == 'blob') {
@@ -204,7 +205,7 @@ class GitPHP_Util
             } else {
                 $diffs[$hash] = new GitPHP_BranchDiff($Project, $hash_head, $hash_base, $DiffContext);
 
-                if (GitPHP_Config::GetInstance()->GetValue(\GitPHP_Config::COLLECT_CHANGES_AUTHORS, false)) {
+                if (\GitPHP\Config::GetInstance()->GetValue(\GitPHP\Config::COLLECT_CHANGES_AUTHORS, false)) {
                     $log = $Project->GetLog($hash_head, 50, 0, $hash_base);
                     if (is_array($log)) {
                         foreach ($log as $commit) {

@@ -1,4 +1,5 @@
 <?php
+
 class GitPHP_Log
 {
 	/**
@@ -75,14 +76,13 @@ class GitPHP_Log
 	 * Constructor
 	 *
 	 * @access public
-	 * @return Log object
 	 */
 	public function __construct()
 	{
 		$this->startTime = microtime(true);
 		$this->startMem = memory_get_usage();
 
-		$this->enabled = GitPHP_Config::GetInstance()->GetValue('debug', false);
+		$this->enabled = \GitPHP\Config::GetInstance()->GetValue('debug', false);
 	}
 
 	/**
@@ -111,14 +111,15 @@ class GitPHP_Log
 		$this->startMem = $start;
 	}
 
-	/**
-	 * Log
-	 *
-	 * Log an entry
-	 *
-	 * @access public
-	 * @param string $message message to log
-	 */
+    /**
+     * Log
+     *
+     * Log an entry
+     *
+     * @param $name
+     * @param null $value
+     * @param null $time
+     */
 	public function Log($name, $value = null, $time = null)
 	{
 		if (!$this->enabled)

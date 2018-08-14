@@ -1,5 +1,6 @@
 #!/usr/bin/env php
 <?php
+
 require_once(dirname(__FILE__) . '/bootstrap.php');
 
 class SSH_Serve
@@ -33,7 +34,7 @@ class SSH_Serve
                 if (!empty($cmd) && !empty($arg) && (in_array($cmd, self::COMMANDS_WRITE) || in_array($cmd, self::COMMANDS_READONLY))) {
                     $this->full_path = $this->repository = $m['path'];
 
-                    $project_root = GitPHP_Config::GetInstance()->getValue(GitPHP_Config::PROJECT_ROOT);
+                    $project_root = \GitPHP\Config::GetInstance()->getValue(\GitPHP\Config::PROJECT_ROOT);
 
                     if (strpos($this->full_path, $project_root) === false) {
                         $this->full_path = $project_root . $this->full_path;

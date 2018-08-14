@@ -1,4 +1,5 @@
 <?php
+
 class GitPHP_Db
 {
     const TBL_HEADS = 'Heads';
@@ -129,11 +130,11 @@ class GitPHP_Db
 
     public function __construct()
     {
-        $config   = GitPHP_Config::GetInstance();
-        $host     = $config->GetValue(\GitPHP_Config::DB_HOST);
-        $user     = $config->GetValue(\GitPHP_Config::DB_USER);
-        $password = $config->GetValue(\GitPHP_Config::DB_PASSWORD);
-        $this->db = $config->GetValue(\GitPHP_Config::DB_NAME);
+        $config   = \GitPHP\Config::GetInstance();
+        $host     = $config->GetValue(GitPHP\Config::DB_HOST);
+        $user     = $config->GetValue(GitPHP\Config::DB_USER);
+        $password = $config->GetValue(GitPHP\Config::DB_PASSWORD);
+        $this->db = $config->GetValue(GitPHP\Config::DB_NAME);
         if (substr($host, 0, 1) == ':') {
             $this->link = mysqli_connect(null, $user, $password, '', 0, substr($host, 1));
         } else {

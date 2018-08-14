@@ -52,7 +52,7 @@ class GitPHP_ProjectListFile extends GitPHP_ProjectListBase
             throw new Exception(sprintf(__('Failed to open project list file %1$s'), $this->projectConfig));
         }
 
-        $projectRoot = GitPHP_Util::AddSlash(GitPHP_Config::GetInstance()->GetValue(\GitPHP_Config::PROJECT_ROOT));
+        $projectRoot = GitPHP_Util::AddSlash(\GitPHP\Config::GetInstance()->GetValue(\GitPHP\Config::PROJECT_ROOT));
 
         while (!feof($fp) && ($line = fgets($fp))) {
             if (preg_match('/^([^\s]+)(\s.+)?$/', $line, $regs)) {
