@@ -11,6 +11,8 @@ define('GITPHP_CSSDIR', GITPHP_BASEDIR . 'css/');
 define('GITPHP_JSDIR', GITPHP_BASEDIR . 'js/');
 define('GITPHP_LIBDIR', GITPHP_BASEDIR . 'lib/');
 
+define('GITPHP_BASE_NS', 'GitPHP');
+
 spl_autoload_register(
     function($class) {
         static $map;
@@ -18,6 +20,19 @@ spl_autoload_register(
             $map = require_once 'autoload.php';
         }
 
+        // psr4 autoload
+        $namespaces = explode('\\', $class);
+        if (count($namespaces) > 1 && $namespaces[0] == GITPHP_BASE_NS) {
+            $file_name = array_pop($namespaces) . ".php";
+            unset($namespaces[0]);
+
+            $file_name = GITPHP_INCLUDEDIR . join(DIRECTORY_SEPARATOR, array_map('strtolower', $namespaces)) . DIRECTORY_SEPARATOR . $file_name;
+            if (file_exists($file_name)) {
+                require_once $file_name;
+            }
+        }
+
+        // old autoload
         if (isset($map[$class]) && file_exists($map[$class])) {
             require_once $map[$class];
         }
