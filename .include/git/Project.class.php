@@ -212,7 +212,9 @@ class GitPHP_Project
     {
         $User = GitPHP_Session::instance()->getUser();
         $Acl = \GitPHP\Acl::getInstance();
-        if (!$Acl->isProjectAllowed($project, $User)) throw new \Exception();
+        if (!$Acl->isProjectAllowed($project, $User)) {
+            throw new \Exception();
+        }
         $this->SetProject($project);
     }
 
@@ -615,13 +617,19 @@ class GitPHP_Project
      */
     public function GetCommit($hash)
     {
-        if (empty($hash)) return null;
+        if (empty($hash)) {
+            return null;
+        }
 
-        if ($hash === 'HEAD') return $this->GetHeadCommit();
+        if ($hash === 'HEAD') {
+            return $this->GetHeadCommit();
+        }
 
         if (substr_compare($hash, 'refs/heads/', 0, 11) === 0) {
             $head = $this->GetHead(substr($hash, 11));
-            if ($head != null) return $head->GetCommit();
+            if ($head != null) {
+                return $head->GetCommit();
+            }
             return null;
         } else if (substr_compare($hash, 'refs/tags/', 0, 10) === 0) {
             $tag = $this->GetTag(substr($hash, 10));
@@ -638,18 +646,27 @@ class GitPHP_Project
             if (!isset($this->commitCache[$hash])) {
                 $cacheKey = 'project|' . $this->project . '|commit|' . $hash;
                 $cached = GitPHP_Cache::GetInstance()->Get($cacheKey);
-                if ($cached) $this->commitCache[$hash] = $cached;
-                else $this->commitCache[$hash] = new GitPHP_Commit($this, $hash);
+                if ($cached) {
+                    $this->commitCache[$hash] = $cached;
+                } else {
+                    $this->commitCache[$hash] = new GitPHP_Commit($this, $hash);
+                }
             }
 
             return $this->commitCache[$hash];
         }
 
-        if (!$this->readRefs) $this->ReadRefList();
+        if (!$this->readRefs) {
+            $this->ReadRefList();
+        }
 
-        if (isset($this->heads['refs/heads/' . $hash])) return $this->heads['refs/heads/' . $hash]->GetCommit();
+        if (isset($this->heads['refs/heads/' . $hash])) {
+            return $this->heads['refs/heads/' . $hash]->GetCommit();
+        }
 
-        if (isset($this->tags['refs/tags/' . $hash])) return $this->tags['refs/tags/' . $hash]->GetCommit();
+        if (isset($this->tags['refs/tags/' . $hash])) {
+            return $this->tags['refs/tags/' . $hash]->GetCommit();
+        }
 
         return null;
     }
@@ -1258,6 +1275,33 @@ class GitPHP_Project
             $ret[$i] = $this->GetCommit($ret[$i]);
         }
         return $ret;
+    }
+
+    /**
+     * Search full hash by abbreviated version. Might be useful to filter user's input
+     *
+     * @param string $abbreviated_hash
+     * @param string $object_type filter object type. See git-rev-parse's documentation for more info
+     * @return null|string
+     */
+    public function GetObjectHash($abbreviated_hash, $object_type = "")
+    {
+        if (empty($abbreviated_hash)) {
+            return null;
+        }
+
+        if (empty($object_type)) {
+            $object_type = "object";
+        }
+
+        $search_for = escapeshellarg("{$abbreviated_hash}^{{$object_type}}");
+
+        $exe = new GitPHP_GitExe($this);
+        $hash = $exe->Execute(GIT_REV_PARSE, ['--quiet', '--verify', $search_for, '2>/dev/null']);
+        if ($hash) {
+            return trim($hash);
+        }
+        return $hash;
     }
 
     /**
