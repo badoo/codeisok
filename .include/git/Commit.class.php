@@ -267,6 +267,21 @@ class GitPHP_Commit extends GitPHP_GitObject
     }
 
     /**
+     * GetAuthorEmail
+     *
+     * Gets the author's email only
+     *
+     * @access public
+     * @return string author email
+     */
+    public function GetAuthorEmail()
+    {
+        if (!$this->dataRead) $this->ReadData();
+
+        return rtrim(preg_replace('/.*</', '', $this->author), '>');
+    }
+
+    /**
      * GetAuthorEpoch
      *
      * Gets the author's epoch
@@ -507,7 +522,7 @@ class GitPHP_Commit extends GitPHP_GitObject
                 } catch (Exception $e) {}
             } else if (preg_match('/^author (.*) ([0-9]+) (.*)$/', $line, $regs)) {
                 /* author data */
-    	                $this->author = $regs[1];
+                $this->author = $regs[1];
                 $this->authorEpoch = $regs[2];
                 $this->authorTimezone = $regs[3];
             } else if (preg_match('/^committer (.*) ([0-9]+) (.*)$/', $line, $regs)) {
@@ -629,7 +644,7 @@ class GitPHP_Commit extends GitPHP_GitObject
      * Diffs this commit with its immediate parent
      *
      * @access public
-     * @return mixed Tree diff
+     * @return GitPHP_TreeDiff Tree diff
      */
     public function DiffToParent()
     {
