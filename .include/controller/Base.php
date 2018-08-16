@@ -1,7 +1,7 @@
 <?php
 namespace GitPHP\Controller;
 
-abstract class Base
+abstract class Base implements ControllerInterface
 {
     /**
      * tpl
@@ -369,6 +369,10 @@ abstract class Base
      */
     public function Render()
     {
+        \GitPHP_Log::GetInstance()->timerStart();
+        $this->RenderHeaders();
+        \GitPHP_Log::GetInstance()->timerStop(__METHOD__ . 'RenderHeaders');
+
         \GitPHP_Log::GetInstance()->timerStart();
         $cache = \GitPHP\Config::GetInstance()->GetValue('cache', false);
         $cacheexpire = \GitPHP\Config::GetInstance()->GetValue('cacheexpire', true);

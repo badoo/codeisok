@@ -142,12 +142,12 @@ class Application
 
         try {
             \GitPHP_Log::GetInstance()->timerStart();
-            $controller = $this->getController(isset($_GET['a']) ? $_GET['a'] : null);
+
+            $uri = $_SERVER['DOCUMENT_URI'] ?? "";
+            $action = $_GET['a'] ?? null;
+            $controller = $this->getController($uri, $action);
             \GitPHP_Log::GetInstance()->timerStop('getController');
             if ($controller) {
-                \GitPHP_Log::GetInstance()->timerStart();
-                $controller->RenderHeaders();
-                \GitPHP_Log::GetInstance()->timerStop('RenderHeaders');
                 \GitPHP_Log::GetInstance()->timerStart();
                 $controller->Render();
                 \GitPHP_Log::GetInstance()->timerStop('Render');
@@ -176,7 +176,45 @@ class Application
         }
     }
 
-    protected function getController($action)
+    /**
+     * @param $uri
+     * @param $action
+     * @return \GitPHP\Controller\ControllerInterface?
+     * @throws \Exception
+     */
+    protected function getController($uri, $action)
+    {
+        $uri = array_values(array_filter(explode("/", $uri)));
+        if (count($uri) == 0 || ($uri[0] ?? "") == "index.php") {
+            $controller = $this->getOldController($action);
+        } else {
+            $controller_ns = "\\GitPHP\\Controller\\";
+            $controller = $controller_ns . ucfirst(array_shift($uri));
+            if (class_exists($controller)) {
+                $controller = new $controller($uri);
+            } else {
+                $controller = new \GitPHP\Controller\ProjectList();
+            }
+        }
+
+        \GitPHP_Log::GetInstance()->Log('controller', get_class($controller));
+        \GitPHP_Log::GetInstance()->Log('REQUEST_URI', $_SERVER['REQUEST_URI']);
+        \GitPHP_Log::GetInstance()->Log('REQUEST_METHOD', $_SERVER['REQUEST_METHOD']);
+        \GitPHP_Log::GetInstance()->Log('phpversion', phpversion());
+        return $controller;
+    }
+
+    public static function getUrl($controller, array $params = [])
+    {
+        return '/index.php?' . http_build_query(['a' => $controller] + $params);
+    }
+
+    /**
+     * @param $action
+     * @return \GitPHP\Controller\ControllerInterface?
+     * @throws \Exception
+     */
+    protected function getOldController($action)
     {
         $controller = null;
 
@@ -328,16 +366,7 @@ class Application
                     $controller = new \GitPHP\Controller\ProjectList();
                 }
         }
-        \GitPHP_Log::GetInstance()->Log('controller', get_class($controller));
-        \GitPHP_Log::GetInstance()->Log('REQUEST_URI', $_SERVER['REQUEST_URI']);
-        \GitPHP_Log::GetInstance()->Log('REQUEST_METHOD', $_SERVER['REQUEST_METHOD']);
-        \GitPHP_Log::GetInstance()->Log('phpversion', phpversion());
         return $controller;
-    }
-
-    public static function getUrl($controller, array $params = [])
-    {
-        return '/index.php?' . http_build_query(['a' => $controller] + $params);
     }
 }
 
