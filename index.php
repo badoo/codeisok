@@ -23,5 +23,3 @@ GitPHP_Log::GetInstance()->Log('debug', \GitPHP\Config::GetInstance()->GetValue(
 GitPHP_Log::GetInstance()->printHtmlHeader();
 GitPHP_Log::GetInstance()->printHtml();
 GitPHP_Log::GetInstance()->printHtmlFooter();
-
-
