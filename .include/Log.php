@@ -1,6 +1,8 @@
 <?php
 
-class GitPHP_Log
+namespace GitPHP;
+
+class Log
 {
 	/**
 	 * instance
@@ -59,12 +61,12 @@ class GitPHP_Log
 	 *
 	 * @access public
 	 * @static
-	 * @return GitPHP_Log
+	 * @return \GitPHP\Log
 	 */
 	public static function GetInstance()
 	{
 		if (!self::$instance) {
-			self::$instance = new GitPHP_Log();
+			self::$instance = new \GitPHP\Log();
 		}
 
 		return self::$instance;
@@ -130,7 +132,7 @@ class GitPHP_Log
 		$entry['mem'] = memory_get_usage();
 		$entry['name'] = $name;
 		$entry['value'] = $value;
-        $bt = explode("\n", new Exception());
+        $bt = explode("\n", new \Exception());
         array_shift($bt);
         array_shift($bt);
         $entry['bt'] = implode("\n", $bt);

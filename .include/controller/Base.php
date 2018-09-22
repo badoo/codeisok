@@ -55,9 +55,9 @@ abstract class Base implements ControllerInterface
      */
     public function __construct()
     {
-        \GitPHP_Log::GetInstance()->timerStart();
+        \GitPHP\Log::GetInstance()->timerStart();
         require_once(\GitPHP_Util::AddSlash(\GitPHP\Config::GetInstance()->GetValue('smarty_prefix', 'lib/smarty/libs/')) . 'Smarty.class.php');
-        \GitPHP_Log::GetInstance()->timerStop('require Smarty.class.php');
+        \GitPHP\Log::GetInstance()->timerStop('require Smarty.class.php');
         $this->tpl = new \Smarty;
         $this->tpl->plugins_dir[] = GITPHP_INCLUDEDIR . 'smartyplugins';
         $this->tpl->template_dir = GITPHP_TEMPLATESDIR;
@@ -88,21 +88,21 @@ abstract class Base implements ControllerInterface
         if (isset($_GET['s'])) $this->params['search'] = $_GET['s'];
         if (isset($_GET['st'])) $this->params['searchtype'] = $_GET['st'];
 
-        \GitPHP_Log::GetInstance()->timerStart();
+        \GitPHP\Log::GetInstance()->timerStart();
         $this->initSession();
-        \GitPHP_Log::GetInstance()->timerStop('initSession');
-        \GitPHP_Log::GetInstance()->timerStart();
+        \GitPHP\Log::GetInstance()->timerStop('initSession');
+        \GitPHP\Log::GetInstance()->timerStart();
         $this->checkUser();
-        \GitPHP_Log::GetInstance()->timerStop('checkUser');
+        \GitPHP\Log::GetInstance()->timerStop('checkUser');
 
         if (isset($_GET['p']) && !$this->project) {
             throw new \GitPHP_MessageException(sprintf(__('Invalid project %1$s'), $_GET['p']), true, 404);
         }
 
         /* this is not a part of initialization */
-        \GitPHP_Log::GetInstance()->timerStart();
+        \GitPHP\Log::GetInstance()->timerStart();
         $this->ReadQuery();
-        \GitPHP_Log::GetInstance()->timerStop('ReadQuery');
+        \GitPHP\Log::GetInstance()->timerStop('ReadQuery');
     }
 
     /**
@@ -369,30 +369,30 @@ abstract class Base implements ControllerInterface
      */
     public function Render()
     {
-        \GitPHP_Log::GetInstance()->timerStart();
+        \GitPHP\Log::GetInstance()->timerStart();
         $this->RenderHeaders();
-        \GitPHP_Log::GetInstance()->timerStop(__METHOD__ . 'RenderHeaders');
+        \GitPHP\Log::GetInstance()->timerStop(__METHOD__ . 'RenderHeaders');
 
-        \GitPHP_Log::GetInstance()->timerStart();
+        \GitPHP\Log::GetInstance()->timerStart();
         $cache = \GitPHP\Config::GetInstance()->GetValue('cache', false);
         $cacheexpire = \GitPHP\Config::GetInstance()->GetValue('cacheexpire', true);
         if ($cache && ($cacheexpire === true)) {
             $this->CacheExpire();
         }
-        \GitPHP_Log::GetInstance()->timerStop(__METHOD__ . ' cache', null);
+        \GitPHP\Log::GetInstance()->timerStop(__METHOD__ . ' cache', null);
 
         if (!$this->tpl->is_cached($this->GetTemplate(), $this->GetFullCacheKey())) {
-            \GitPHP_Log::GetInstance()->timerStart();
+            \GitPHP\Log::GetInstance()->timerStart();
             $this->LoadCommonData();
-            \GitPHP_Log::GetInstance()->timerStop(__METHOD__ . ' LoadCommonData', null);
+            \GitPHP\Log::GetInstance()->timerStop(__METHOD__ . ' LoadCommonData', null);
 
-            \GitPHP_Log::GetInstance()->timerStart();
+            \GitPHP\Log::GetInstance()->timerStart();
             $this->LoadData();
-            \GitPHP_Log::GetInstance()->timerStop(__METHOD__ . ' LoadData', null);
+            \GitPHP\Log::GetInstance()->timerStop(__METHOD__ . ' LoadData', null);
         }
-        \GitPHP_Log::GetInstance()->timerStart();
+        \GitPHP\Log::GetInstance()->timerStart();
         $this->tpl->display($this->GetTemplate(), $this->GetFullCacheKey());
-        \GitPHP_Log::GetInstance()->timerStop(__METHOD__ . ' display', null);
+        \GitPHP\Log::GetInstance()->timerStop(__METHOD__ . ' display', null);
     }
 
     /**
@@ -436,9 +436,9 @@ abstract class Base implements ControllerInterface
         if (\GitPHP\Config::GetInstance()->GetValue('debug', false)) {
             echo '<a href="' . $url . '">' . htmlspecialchars($url) . '</a>';
 
-            \GitPHP_Log::GetInstance()->printHtmlHeader();
-            \GitPHP_Log::GetInstance()->printHtml();
-            \GitPHP_Log::GetInstance()->printHtmlFooter();
+            \GitPHP\Log::GetInstance()->printHtmlHeader();
+            \GitPHP\Log::GetInstance()->printHtml();
+            \GitPHP\Log::GetInstance()->printHtmlFooter();
 
             static::finishScript();
         }

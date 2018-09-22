@@ -99,11 +99,11 @@ class ProjectList extends Base
     {
         if (isset($this->params['opml']) && ($this->params['opml'] === true)) {
             $this->headers[] = "Content-type: text/xml; charset=UTF-8";
-            \GitPHP_Log::GetInstance()->SetEnabled(false);
+            \GitPHP\Log::GetInstance()->SetEnabled(false);
         } else if (isset($this->params['txt']) && ($this->params['txt'] === true)) {
             $this->headers[] = "Content-type: text/plain; charset=utf-8";
             $this->headers[] = "Content-Disposition: inline; filename=\"index.aux\"";
-            \GitPHP_Log::GetInstance()->SetEnabled(false);
+            \GitPHP\Log::GetInstance()->SetEnabled(false);
         }
     }
 

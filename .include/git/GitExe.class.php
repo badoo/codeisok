@@ -106,10 +106,10 @@ class GitPHP_GitExe
 
         $fullCommand = $this->binary . ' ' . $gitDir . ' ' . $command . ' ' . implode(' ', $args);
 
-        GitPHP_Log::GetInstance()->timerStart();
+        \GitPHP\Log::GetInstance()->timerStart();
 
         $ret = shell_exec($fullCommand);
-        GitPHP_Log::GetInstance()->timerStop('exec', $fullCommand . "\n\n" . (in_array($command, array('cat-file')) ? substr($ret, 0, 100) : $ret));
+        \GitPHP\Log::GetInstance()->timerStop('exec', $fullCommand . "\n\n" . (in_array($command, array('cat-file')) ? substr($ret, 0, 100) : $ret));
 
         return $ret;
     }

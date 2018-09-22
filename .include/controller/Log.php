@@ -111,7 +111,7 @@ class Log extends Base
             if (!$co) return;
             $toHash = $co->GetHash();
         }
-        \GitPHP_Log::GetInstance()->Log(__METHOD__, is_object($co) ? get_class($co) : var_export($co, true));
+        \GitPHP\Log::GetInstance()->Log(__METHOD__, is_object($co) ? get_class($co) : var_export($co, true));
         $this->tpl->assign('commit', $co);
         $this->tpl->assign('head', $this->project->GetHeadCommit());
         $this->tpl->assign('page', $this->params['page']);

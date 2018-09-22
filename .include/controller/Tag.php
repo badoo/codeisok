@@ -72,7 +72,7 @@ class Tag extends Base
 
         if (isset($_GET['o']) && ($_GET['o'] == 'jstip')) {
             $this->params['jstip'] = true;
-            \GitPHP_Log::GetInstance()->SetEnabled(false);
+            \GitPHP\Log::GetInstance()->SetEnabled(false);
         }
     }
 

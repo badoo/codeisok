@@ -139,7 +139,7 @@ abstract class DiffBase extends Base
     protected function LoadHeaders()
     {
         if (isset($this->params['plain']) && ($this->params['plain'] === true)) {
-            \GitPHP_Log::GetInstance()->SetEnabled(false);
+            \GitPHP\Log::GetInstance()->SetEnabled(false);
             $this->headers[] = 'Content-type: text/plain; charset=UTF-8';
         }
     }

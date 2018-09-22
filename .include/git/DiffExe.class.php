@@ -195,9 +195,9 @@ class GitPHP_DiffExe
 		$args[] = $toFile;
 
         $command = $this->binary . ' ' . implode(' ', $args);
-        GitPHP_Log::GetInstance()->timerStart();
+        \GitPHP\Log::GetInstance()->timerStart();
         $result = shell_exec($command);
-        GitPHP_Log::GetInstance()->timerStop('exec', "$command\n\n$result");
+        \GitPHP\Log::GetInstance()->timerStop('exec', "$command\n\n$result");
         return $result;
 	}
 
@@ -235,7 +235,7 @@ class GitPHP_DiffExe
      */
 	public static function Diff($fromFile = null, $fromName = null, $toFile = null, $toName = null, $context = true, $ignoreWhitespace = false)
 	{
-        GitPHP_Log::GetInstance()->Log(__METHOD__, var_export(func_get_args(), true));
+        \GitPHP\Log::GetInstance()->Log(__METHOD__, var_export(func_get_args(), true));
 		$obj = new GitPHP_DiffExe();
         $obj->SetUnified($context);
         $obj->setIgnoreWhitespace($ignoreWhitespace);

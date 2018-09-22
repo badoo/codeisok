@@ -82,7 +82,7 @@ class Snapshot extends Base
             $this->params['format'] = \GitPHP\Config::GetInstance()->GetValue('compressformat', \GitPHP_Archive::GITPHP_COMPRESS_ZIP);
         }
 
-        \GitPHP_Log::GetInstance()->SetEnabled(false);
+        \GitPHP\Log::GetInstance()->SetEnabled(false);
     }
 
     /**

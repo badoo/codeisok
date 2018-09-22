@@ -94,7 +94,7 @@ class GitPHP_ProjectListDirectory extends GitPHP_ProjectListBase
 			}
 			closedir($dh);
 		} else {
-            GitPHP_Log::GetInstance()->log('Could not open repository directory ' . $dir);
+            \GitPHP\Log::GetInstance()->log('Could not open repository directory ' . $dir);
         }
 	}
 

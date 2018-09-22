@@ -77,7 +77,7 @@ class Application
             }
             if (isset($_COOKIE['debug_mode']) && (int)$_COOKIE['debug_mode'] == 1) {
                 \GitPHP\Config::GetInstance()->SetValue('debug', (bool)(int)$_COOKIE['debug_mode']);
-                \GitPHP_Log::GetInstance()->SetEnabled((bool)(int)$_COOKIE['debug_mode']);
+                \GitPHP\Log::GetInstance()->SetEnabled((bool)(int)$_COOKIE['debug_mode']);
             }
             if (\GitPHP\Config::GetInstance()->GetValue('debug', false)) {
                 ini_set('display_errors', 1);
@@ -137,20 +137,20 @@ class Application
 
     public function run()
     {
-        \GitPHP_Log::GetInstance()->SetStartTime(GITPHP_START_TIME);
-        \GitPHP_Log::GetInstance()->SetStartMemory(GITPHP_START_MEM);
+        \GitPHP\Log::GetInstance()->SetStartTime(GITPHP_START_TIME);
+        \GitPHP\Log::GetInstance()->SetStartMemory(GITPHP_START_MEM);
 
         try {
-            \GitPHP_Log::GetInstance()->timerStart();
+            \GitPHP\Log::GetInstance()->timerStart();
 
             $uri = $_SERVER['DOCUMENT_URI'] ?? "";
             $action = $_GET['a'] ?? null;
             $controller = $this->getController($uri, $action);
-            \GitPHP_Log::GetInstance()->timerStop('getController');
+            \GitPHP\Log::GetInstance()->timerStop('getController');
             if ($controller) {
-                \GitPHP_Log::GetInstance()->timerStart();
+                \GitPHP\Log::GetInstance()->timerStart();
                 $controller->Render();
-                \GitPHP_Log::GetInstance()->timerStop('Render');
+                \GitPHP\Log::GetInstance()->timerStop('Render');
             }
         } catch (\Exception $e) {
             trigger_error($e);
@@ -197,10 +197,10 @@ class Application
             }
         }
 
-        \GitPHP_Log::GetInstance()->Log('controller', get_class($controller));
-        \GitPHP_Log::GetInstance()->Log('REQUEST_URI', $_SERVER['REQUEST_URI']);
-        \GitPHP_Log::GetInstance()->Log('REQUEST_METHOD', $_SERVER['REQUEST_METHOD']);
-        \GitPHP_Log::GetInstance()->Log('phpversion', phpversion());
+        \GitPHP\Log::GetInstance()->Log('controller', get_class($controller));
+        \GitPHP\Log::GetInstance()->Log('REQUEST_URI', $_SERVER['REQUEST_URI']);
+        \GitPHP\Log::GetInstance()->Log('REQUEST_METHOD', $_SERVER['REQUEST_METHOD']);
+        \GitPHP\Log::GetInstance()->Log('phpversion', phpversion());
         return $controller;
     }
 

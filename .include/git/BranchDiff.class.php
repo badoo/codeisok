@@ -130,7 +130,7 @@ class GitPHP_BranchDiff implements Iterator
 
             /* if merge-base commit message contains reference to something similiar to branch ticket
              then this is not final base hash and use scanning algo */
-            GitPHP_Log::GetInstance()->Log(__METHOD__, $ticket);
+            \GitPHP\Log::GetInstance()->Log(__METHOD__, $ticket);
             if (stripos($diff_base_message, $ticket) === false) return $diff_base_hash;
         }
 

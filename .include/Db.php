@@ -143,7 +143,7 @@ class Db
             $this->link = mysqli_connect($host, $user, $password);
         }
         if (!$this->link) {
-            \GitPHP_Log::GetInstance()->Log('mysqli_connect', "$user@$host");
+            \GitPHP\Log::GetInstance()->Log('mysqli_connect', "$user@$host");
         }
     }
 
@@ -155,16 +155,16 @@ class Db
     public function query($sql, $params)
     {
         $sql = $this->bind($sql, $params);
-        \GitPHP_Log::GetInstance()->timerStart();
+        \GitPHP\Log::GetInstance()->timerStart();
         $result = mysqli_query($this->link, $sql);
-        \GitPHP_Log::GetInstance()->timerStop('mysqli_query', $sql);
+        \GitPHP\Log::GetInstance()->timerStop('mysqli_query', $sql);
 
         if (!$result) {
             $this->errno = mysqli_errno($this->link);
             $this->error = mysqli_error($this->link);
             $msg = "db_error: $this->errno:$this->error " . (new \Exception());
             trigger_error($msg);
-            \GitPHP_Log::GetInstance()->Log('mysqli_error', "$this->errno: $this->error");
+            \GitPHP\Log::GetInstance()->Log('mysqli_error', "$this->errno: $this->error");
         } else {
             $this->numRows = mysqli_num_rows($result);
             $this->affectedRows = mysqli_affected_rows($this->link);

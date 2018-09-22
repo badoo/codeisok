@@ -130,9 +130,9 @@ class Git extends Base
 
             echo json_encode($response);
 
-//            GitPHP_Log::GetInstance()->printHtmlHeader();
-//            GitPHP_Log::GetInstance()->printHtml();
-//            GitPHP_Log::GetInstance()->printHtmlFooter();
+//            \GitPHP\Log::GetInstance()->printHtmlHeader();
+//            \GitPHP\Log::GetInstance()->printHtml();
+//            \GitPHP\Log::GetInstance()->printHtmlFooter();
 
             die;
         }

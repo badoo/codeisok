@@ -909,9 +909,9 @@ class GitPHP_FileDiff
             ' 2>&1',
         );
         $cmd = implode(' ', $cmd);
-        GitPHP_Log::GetInstance()->timerStart();
+        \GitPHP\Log::GetInstance()->timerStart();
         exec($cmd, $out, $ret);
-        GitPHP_Log::GetInstance()->timerStop('exec', $cmd . "\n\n" . implode("\n", $out) . ' ret:' . $ret);
+        \GitPHP\Log::GetInstance()->timerStop('exec', $cmd . "\n\n" . implode("\n", $out) . ' ret:' . $ret);
 
         $this->diffData = GitPHP_DiffExe::Diff(
             (empty($fromTmpFile) ? null : ($tmpdir->GetDir() . $fromTmpFile)),

@@ -144,7 +144,7 @@ class Blob extends Base
     protected function LoadHeaders()
     {
         if (isset($this->params['plain']) && $this->params['plain']) {
-            \GitPHP_Log::GetInstance()->SetEnabled(false);
+            \GitPHP\Log::GetInstance()->SetEnabled(false);
 
     		// XXX: Nasty hack to cache headers
             if (!$this->tpl->is_cached('blobheaders.tpl', $this->GetFullCacheKey())) {

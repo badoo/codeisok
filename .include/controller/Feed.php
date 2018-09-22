@@ -93,7 +93,7 @@ class Feed extends Base
      */
     protected function ReadQuery()
     {
-        \GitPHP_Log::GetInstance()->SetEnabled(false);
+        \GitPHP\Log::GetInstance()->SetEnabled(false);
     }
 
     /**

@@ -377,7 +377,7 @@ class GitPHP_Project
         if (!$this->readDescription) {
             $this->description = @file_get_contents($this->GetPath() . '/description');
             if ($this->description === false) {
-                GitPHP_Log::GetInstance()->Log('Could not get description for project ' . $this->project);
+                \GitPHP\Log::GetInstance()->Log('Could not get description for project ' . $this->project);
             }
         }
 

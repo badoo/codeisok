@@ -47,12 +47,12 @@ class CountClass
     {
         $this->name = $name;
         $this->value = $value;
-        GitPHP_Log::GetInstance()->timerStart();
+        \GitPHP\Log::GetInstance()->timerStart();
     }
 
     public function __destruct()
     {
-        GitPHP_Log::GetInstance()->timerStop($this->name, $this->value);
+        \GitPHP\Log::GetInstance()->timerStop($this->name, $this->value);
     }
 }
 

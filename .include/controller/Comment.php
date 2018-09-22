@@ -116,7 +116,7 @@ class Comment extends Base
 
         header('Content-Type: application/json; charset=UTF-8');
 
-        $this->setResponse('log', \GitPHP_Log::GetInstance()->getForJson());
+        $this->setResponse('log', \GitPHP\Log::GetInstance()->getForJson());
 
         echo json_encode($this->response);
         die;
