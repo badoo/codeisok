@@ -338,7 +338,7 @@ abstract class Base implements ControllerInterface
         $this->tpl->assign('ticket_href', \GitPHP\Tracker::instance()->getTicketUrl($ticket));
         $this->tpl->assign(
             'fixlineheight',
-            isset($_COOKIE[\GitPHP\Application::GITPHP_FIX_LINEHEIGHT_COOKIE]) && $_COOKIE[\GitPHP_Application::GITPHP_FIX_LINEHEIGHT_COOKIE]
+            isset($_COOKIE[\GitPHP\Application::GITPHP_FIX_LINEHEIGHT_COOKIE]) && $_COOKIE[\GitPHP\Application::GITPHP_FIX_LINEHEIGHT_COOKIE]
         );
     }
 
@@ -490,7 +490,7 @@ END;
             }
         }
         if ($review) {
-            $reviewObj = \GitPHP_Db::getInstance()->findReviewById($review);
+            $reviewObj = \GitPHP\Db::getInstance()->findReviewById($review);
             $ticket = \GitPHP\Tracker::instance()->parseTicketFromString($reviewObj['ticket']);
         }
         return $ticket;

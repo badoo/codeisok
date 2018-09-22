@@ -106,7 +106,7 @@ class Log extends Base
         $co = $this->project->GetCommit($this->params['hash']);
         $toHash = null;
         if (!$co) {
-            $co = \GitPHP_Db::getInstance()->getBranchHead($this->params['hash']);
+            $co = \GitPHP\Db::getInstance()->getBranchHead($this->params['hash']);
             if ($co) $co = $this->project->GetCommit($co);
             if (!$co) return;
             $toHash = $co->GetHash();
@@ -153,7 +153,7 @@ class Log extends Base
                 $revlist_index[$commit->GetHash()] = $idx;
             }
             foreach($revlist_hashes as $revlist_hash) {
-                $reviews = \GitPHP_Db::getInstance()->findSnapshotsByHash($revlist_hash);
+                $reviews = \GitPHP\Db::getInstance()->findSnapshotsByHash($revlist_hash);
                 foreach ($reviews as $hash => $review) {
                     $revlist[$revlist_index[$hash]]->setReview($review);
                 }

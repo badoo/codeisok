@@ -66,7 +66,7 @@ class Review extends Base
      */
     protected function LoadData()
     {
-        $db = \GitPHP_Db::getInstance();
+        $db = \GitPHP\Db::getInstance();
 
         $to_start_link = $more_link = null;
         $this->tpl->assign('head', '');

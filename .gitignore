@@ -3,3 +3,4 @@
 .unrealsync
 repositories/*
 .setup/storage/*
+php_errors.log

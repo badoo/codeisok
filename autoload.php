@@ -1,6 +1,5 @@
 <?php
 return array(
-    'GitPHP_Db'                                   => GITPHP_INCLUDEDIR . 'Db.class.php',
     'GitPHP_Log'                                  => GITPHP_INCLUDEDIR . 'Log.class.php',
     'GitPHP_MessageException'                     => GITPHP_INCLUDEDIR . 'MessageException.class.php',
     'GitPHP_Resource'                             => GITPHP_INCLUDEDIR . 'Resource.class.php',

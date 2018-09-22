@@ -14,14 +14,14 @@ class Comment extends Base
     private $response;
 
     /**
-     * @var \GitPHP_Db
+     * @var \GitPHP\Db
      */
     private $db;
 
     public function __construct()
     {
         parent::__construct();
-        $this->db = \GitPHP_Db::getInstance();
+        $this->db = \GitPHP\Db::getInstance();
     }
 
     /**

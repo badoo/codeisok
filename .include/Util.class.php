@@ -302,7 +302,7 @@ class GitPHP_Util
             $result['TOP_COMMENT'][] = [
                 'date' => self::formatDate(strtotime($comment['date'])),
                 'author' => $comment['author'],
-                'comment' => $comment['text'] /* already escaped, see \GitPHP_Db::addComment */,
+                'comment' => $comment['text'] /* already escaped, see \GitPHP\Db::addComment */,
             ];
         }
 
@@ -345,8 +345,8 @@ class GitPHP_Util
                 foreach ($commentLines[$i] as $commentId) {
                     $current_line['COMMENT'][] = [
                         'date' => self::formatDate(strtotime($comments[$commentId]['date'])),
-                        'author' => $comments[$commentId]['author']/* already escaped, see \GitPHP_Db::addComment */,
-                        'comment' => $comments[$commentId]['text']/* already escaped, see \GitPHP_Db::addComment */,
+                        'author' => $comments[$commentId]['author']/* already escaped, see \GitPHP\Db::addComment */,
+                        'comment' => $comments[$commentId]['text']/* already escaped, see \GitPHP\Db::addComment */,
                     ];
                 }
             }

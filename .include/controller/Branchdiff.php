@@ -136,7 +136,7 @@ class Branchdiff extends DiffBase
         $co = $this->project->GetCommit($this->params['branch']);
         $toHash = null;
         if (!$co) {
-            $co = \GitPHP_Db::getInstance()->getBranchHead($this->params['branch']);
+            $co = \GitPHP\Db::getInstance()->getBranchHead($this->params['branch']);
             if ($co) $co = $this->project->GetCommit($co);
             if (!$co) return;
             $toHash = $co->GetHash();

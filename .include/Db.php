@@ -1,11 +1,13 @@
 <?php
 
-class GitPHP_Db
+namespace GitPHP;
+
+class Db
 {
-    const TBL_HEADS = 'Heads';
-    const TBL_COMMENT = 'Comment';
-    const TBL_SNAPSHOT = 'Snapshot';
-    const TBL_REVIEW = 'Review';
+    const TBL_HEADS      = 'Heads';
+    const TBL_COMMENT    = 'Comment';
+    const TBL_SNAPSHOT   = 'Snapshot';
+    const TBL_REVIEW     = 'Review';
     const TBL_USER       = 'User';
     const TBL_ACCESS     = 'Access';
     const TBL_REPOSITORY = 'Repository';
@@ -130,18 +132,18 @@ class GitPHP_Db
 
     public function __construct()
     {
-        $config   = \GitPHP\Config::GetInstance();
-        $host     = $config->GetValue(GitPHP\Config::DB_HOST);
-        $user     = $config->GetValue(GitPHP\Config::DB_USER);
-        $password = $config->GetValue(GitPHP\Config::DB_PASSWORD);
-        $this->db = $config->GetValue(GitPHP\Config::DB_NAME);
+        $config   = Config::GetInstance();
+        $host     = $config->GetValue(Config::DB_HOST);
+        $user     = $config->GetValue(Config::DB_USER);
+        $password = $config->GetValue(Config::DB_PASSWORD);
+        $this->db = $config->GetValue(Config::DB_NAME);
         if (substr($host, 0, 1) == ':') {
             $this->link = mysqli_connect(null, $user, $password, '', 0, substr($host, 1));
         } else {
             $this->link = mysqli_connect($host, $user, $password);
         }
         if (!$this->link) {
-            GitPHP_Log::GetInstance()->Log('mysqli_connect', "$user@$host");
+            \GitPHP_Log::GetInstance()->Log('mysqli_connect', "$user@$host");
         }
     }
 
@@ -153,21 +155,21 @@ class GitPHP_Db
     public function query($sql, $params)
     {
         $sql = $this->bind($sql, $params);
-        GitPHP_Log::GetInstance()->timerStart();
+        \GitPHP_Log::GetInstance()->timerStart();
         $result = mysqli_query($this->link, $sql);
-        GitPHP_Log::GetInstance()->timerStop('mysqli_query', $sql);
+        \GitPHP_Log::GetInstance()->timerStop('mysqli_query', $sql);
 
         if (!$result) {
             $this->errno = mysqli_errno($this->link);
             $this->error = mysqli_error($this->link);
             $msg = "db_error: $this->errno:$this->error " . (new \Exception());
             trigger_error($msg);
-            GitPHP_Log::GetInstance()->Log('mysqli_error', "$this->errno: $this->error");
+            \GitPHP_Log::GetInstance()->Log('mysqli_error', "$this->errno: $this->error");
         } else {
-            if (is_resource($result)) $this->numRows = mysqli_num_rows($result);
+            $this->numRows = mysqli_num_rows($result);
             $this->affectedRows = mysqli_affected_rows($this->link);
             $this->insert_id = mysqli_insert_id($this->link);
-            $result = new \GitPHP\Db_Result($result);
+            $result = new Db_Result($result);
         }
         return $result;
     }
@@ -508,7 +510,7 @@ class GitPHP_Db
         if (!isset($tables)) {
             $tables = [];
 
-            $refl = new ReflectionClass(get_class($this));
+            $refl = new \ReflectionClass(get_class($this));
 
             $prefix = 'TBL_';
 
@@ -519,5 +521,4 @@ class GitPHP_Db
         }
         return $tables;
     }
-
 }

@@ -6,7 +6,7 @@ class Model_Gitosis
 
     public function __construct()
     {
-        $this->db = GitPHP_Db::getInstance();
+        $this->db = \GitPHP\Db::getInstance();
     }
 
     /* User */

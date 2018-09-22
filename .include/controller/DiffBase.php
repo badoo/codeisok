@@ -158,7 +158,7 @@ abstract class DiffBase extends Base
             $ticket = \GitPHP\Tracker::instance()->getReviewTicketPrefix() . $key;
         }
 
-        $Db = \GitPHP_Db::getInstance();
+        $Db = \GitPHP\Db::getInstance();
         $reviews = $Db->getReview($ticket, $co->GetHash());
 
         $comments_count = $Db->getCommentsCountForReviews(array_keys($reviews), $this->Session->getUser()->getId());

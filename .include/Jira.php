@@ -54,9 +54,16 @@ class Jira
         return [null, $err];
     }
 
-    public function restAuthenticateByCookie($cookie) {
+    public function restAuthenticateByCookie($cookie)
+    {
         $err = null;
-        $Myself = $this->request($this->url, 'GET', 'rest/api/2/myself', null, ['X-Atlassian-Token: nocheck', 'Cookie: ' . self::getCookieName() . '=' . $cookie]);
+        $Myself = $this->request(
+            $this->url,
+            'GET',
+            'rest/api/2/myself',
+            null,
+            ['X-Atlassian-Token: nocheck', 'Cookie: ' . self::getCookieName() . '=' . $cookie]
+        );
         if ($Myself->status_code != 200) {
             $err = 'REST authentication failure!';
         }
@@ -181,10 +188,13 @@ class Jira
     protected function request($url, $http_method, $method, $data = null, $headers = [])
     {
         $Counter = new \CountClass(__METHOD__, "$http_method $method");
-        $headers = array_merge($headers, [
-            'Accept: application/json',
-            'Content-Type: application/json',
-        ]);
+        $headers = array_merge(
+            $headers,
+            [
+                'Accept: application/json',
+                'Content-Type: application/json',
+            ]
+        );
 
         if (!empty($this->crowd_token)) {
             array_push($headers, 'Authorization: Basic ' . $this->crowd_token);
