@@ -166,7 +166,7 @@ class Db
             trigger_error($msg);
             \GitPHP\Log::GetInstance()->Log('mysqli_error', "$this->errno: $this->error");
         } else {
-            $this->numRows = mysqli_num_rows($result);
+            if ($result instanceof \mysqli_result) $this->numRows = mysqli_num_rows($result);
             $this->affectedRows = mysqli_affected_rows($this->link);
             $this->insert_id = mysqli_insert_id($this->link);
             $result = new Db_Result($result);
