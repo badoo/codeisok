@@ -36,6 +36,10 @@ class Api implements ControllerInterface
                 $this->handleLogRequest();
                 break;
 
+            case "branch-log":
+                $this->handleBranchLogRequest();
+                break;
+
             default:
                 $this->renderNotFound();
         }
@@ -112,6 +116,24 @@ class Api implements ControllerInterface
         }
 
         $this->renderNotFound("Nothing to get log for");
+    }
+
+    protected function handleBranchLogRequest()
+    {
+        $branch = $_REQUEST['name'] ?? false;
+        if (empty($branch)) {
+            $this->renderNotFound("No branch name provided");
+        }
+
+        $compare_with = $_REQUEST['compare-with'] ?? 'master';
+        $this->sendResponse(
+            [
+                'commits' => array_map(
+                    function (\GitPHP_Commit $Commit) { return $this->renderCommit($Commit); },
+                    $this->getProject()->GetLog($branch, 1000, 0, $compare_with)
+                )
+            ]
+        );
     }
 
     protected function renderNotFound($custom_error = "")
