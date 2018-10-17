@@ -126,11 +126,17 @@ class Api implements ControllerInterface
         }
 
         $compare_with = $_REQUEST['compare-with'] ?? 'master';
+
+        $rev_list_options = [];
+        if ($_REQUEST['no-merges'] ?? false) {
+            $rev_list_options[] = '--no-merges';
+        }
+
         $this->sendResponse(
             [
                 'commits' => array_map(
                     function (\GitPHP_Commit $Commit) { return $this->renderCommit($Commit); },
-                    $this->getProject()->GetLog($branch, 1000, 0, $compare_with)
+                    $this->getProject()->GetLog($branch, 1000, 0, $compare_with, $rev_list_options)
                 )
             ]
         );

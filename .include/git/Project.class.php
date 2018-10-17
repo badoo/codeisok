@@ -1059,11 +1059,12 @@ class GitPHP_Project
      * @param integer $count number of entries to get
      * @param integer $skip number of entries to skip
      * @param null $hashBase
+     * @param array $revListOptions
      * @return array array of hashes
      */
-    public function GetLogHash($hash, $count = 50, $skip = 0, $hashBase = null)
+    public function GetLogHash($hash, $count = 50, $skip = 0, $hashBase = null, $revListOptions = [])
     {
-        return $this->RevList($hash, $count, $skip, array(), $hashBase);
+        return $this->RevList($hash, $count, $skip, $revListOptions, $hashBase);
     }
 
     /**
@@ -1153,14 +1154,15 @@ class GitPHP_Project
      * @param integer $count number of entries to get
      * @param integer $skip number of entries to skip
      * @param string $hashBase
+     * @param array $revListOptions
      * @return GitPHP_Commit[]
      * @throws Exception
      */
-    public function GetLog($hash, $count = 50, $skip = 0, $hashBase = null)
+    public function GetLog($hash, $count = 50, $skip = 0, $hashBase = null, $revListOptions = [])
     {
         /** @noinspection PhpUnusedLocalVariableInspection */
         $LogCount = new CountClass(__FUNCTION__);
-        $log = $this->GetLogHash($hash, $count, $skip, $hashBase);
+        $log = $this->GetLogHash($hash, $count, $skip, $hashBase, $revListOptions);
         if (!$log) return $log;
 
         $result = $this->BatchReadData($log);
