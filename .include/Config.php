@@ -36,7 +36,7 @@ class Config
     const CROWD_APP_TOKEN = 'crowd_token';
 
     // Access options
-    const CHECK_ACCESS_GROUP = false;
+    const CHECK_ACCESS_GROUP = 'check_access_group';
     const ACCESS_GROUP = 'access_group';
     const PROJECT_ACCESS_GROUPS = 'project_access_groups';
     const GIT_NO_AUTH_ACTIONS = 'git_no_auth_actions';

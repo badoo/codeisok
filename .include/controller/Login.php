@@ -93,7 +93,7 @@ class Login extends Base
         $User = null;
         if ($auth_result) {
             $User = \GitPHP_User::fromAuthData($auth_result);
-            if (\GitPHP\Config::CHECK_ACCESS_GROUP) {
+            if (\GitPHP\Config::GetInstance()->GetValue(\GitPHP\Config::CHECK_ACCESS_GROUP)) {
                 $Acl = new \GitPHP\Acl(\GitPHP\Jira::instance(), \GitPHP\Redmine::instance());
                 if (!$Acl->isCodeAccessAllowed($User)) {
                     $User = null;
