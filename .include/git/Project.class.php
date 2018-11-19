@@ -1224,6 +1224,17 @@ class GitPHP_Project
         return new GitPHP_Tree($this, $hash);
     }
 
+    /**
+     * @param $first_tree
+     * @param $second_tree
+     * @return string
+     */
+    public function GetDiffTree($first_tree, $second_tree)
+    {
+        $exe = new GitPHP_GitExe($this);
+        return trim($exe->Execute(GIT_DIFF_TREE, ['-r', escapeshellarg($first_tree), escapeshellarg($second_tree), '2>/dev/null']));
+    }
+
     public function SearchText($text, $branch = 'master')
     {
         $result = '';

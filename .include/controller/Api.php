@@ -40,6 +40,10 @@ class Api implements ControllerInterface
                 $this->handleBranchLogRequest();
                 break;
 
+            case "diff-tree":
+                $this->handleDiffTreeRequest();
+                break;
+
             default:
                 $this->renderNotFound();
         }
@@ -137,6 +141,38 @@ class Api implements ControllerInterface
                 'commits' => array_map(
                     function (\GitPHP_Commit $Commit) { return $this->renderCommit($Commit); },
                     $this->getProject()->GetLog($branch, 1000, 0, $compare_with, $rev_list_options)
+                )
+            ]
+        );
+    }
+
+    protected function handleDiffTreeRequest()
+    {
+        $tree = $_REQUEST['tree-ish'];
+        if (empty($tree)) {
+            $this->renderNotFound("No tree-ish provided");
+        }
+
+        $compare_with = $_REQUEST['compare-with'] ?? $tree . '^';
+
+        $diff = explode("\n", $this->getProject()->GetDiffTree($compare_with, $tree));
+        $this->sendResponse(
+            [
+                "diff" => array_map(
+                    function ($diff_line) {
+                        list($change, $file) = explode("\t", $diff_line);
+                        list($old_mode, $new_mode, $old_blob, $new_blob, $status) = explode(" ", $change);
+                        $old_mode = ltrim($old_mode, ":");
+                        return [
+                            'file'     => $file,
+                            'old_mode' => $old_mode,
+                            'new_mode' => $new_mode,
+                            'status'   => $status,
+                            'old_blob' => $old_blob,
+                            'new_blob' => $new_blob,
+                        ];
+                    },
+                    $diff
                 )
             ]
         );
