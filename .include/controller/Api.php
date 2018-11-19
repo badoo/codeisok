@@ -44,6 +44,10 @@ class Api implements ControllerInterface
                 $this->handleDiffTreeRequest();
                 break;
 
+            case "merge-base":
+                $this->handleMergeBaseRequest();
+                break;
+
             default:
                 $this->renderNotFound();
         }
@@ -176,6 +180,18 @@ class Api implements ControllerInterface
                 )
             ]
         );
+    }
+
+    protected function handleMergeBaseRequest()
+    {
+        $first = $_REQUEST['first-commit'] ?? false;
+        $second = $_REQUEST['second-commit'] ?? false;
+
+        if (!$first || !$second) {
+            $this->renderNotFound("Need to specify 'first-commit' and 'second-commit'");
+        }
+
+        $this->sendResponse(['hash' => $this->getProject()->getMergeBase($first, $second)->GetHash()]);
     }
 
     protected function renderNotFound($custom_error = "")
