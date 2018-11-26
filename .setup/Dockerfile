@@ -27,6 +27,8 @@ RUN apt-get update -y \
         openssh-server \
         git \
         sendmail \
+        imagemagick \
+        exiftool \
     && rm -rf /var/lib/apt/lists/*
 
 RUN useradd -ms /bin/bash  git && usermod -G www-data git

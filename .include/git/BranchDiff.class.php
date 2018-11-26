@@ -145,7 +145,7 @@ class GitPHP_BranchDiff implements Iterator
 
         $result = trim($this->exe->Execute(GIT_LOG, $args));
         if (!$result) return $diff_base_hash;
-        [$merge_date, $merge_hash] = explode(' ', $result);
+        list($merge_date, $merge_hash) = explode(' ', $result);
 
         $merge_date = intval($merge_date) - 1;
         $args = array(

@@ -398,4 +398,56 @@ class GitPHP_Util
         }
         return round($size, $precision).' '.['B','kB','MB','GB','TB','PB','EB','ZB','YB'][$i];
     }
+
+    public static function getImagesDiff($fromBlob, $toBlob, $fromName, $toName)
+    {
+        $tmpdir = GitPHP_TmpDir::GetInstance();
+        $pid = rand();
+        $fromTmpFile = 'gitphp_' . $pid . '_from';
+        $toTmpFile = 'gitphp_' . $pid . '_to';
+        $fromIndex = $tmpdir->GetDir() . $fromTmpFile;
+        if (stripos($fromName, 'gif')!==0) {
+            $fromIndex .= '[0]';
+        }
+        $toIndex = $tmpdir->GetDir() . $toTmpFile;
+        if (stripos($toName, 'gif')!==0) {
+            $toIndex .= '[0]';
+        }
+        $dstFile = 'gitphp_' . $pid . '_dst';
+        $tmpdir->AddFile($fromTmpFile, $fromBlob->GetData());
+        $tmpdir->AddFile($toTmpFile, $toBlob->GetData());
+        $tmpdir->AddFile($dstFile);
+
+        self::getExecResult('compare -fuzz 5% "' . $fromIndex . '" "' . $toIndex
+            . '" png:- | montage -geometry 400x400>+4+4 "' . $fromIndex . '" - "' . $toIndex
+            . '" png:- > "' . $tmpdir->GetDir() . $dstFile . '" 2>/dev/null');
+
+        $diffData = base64_encode(file_get_contents($tmpdir->GetDir() . $dstFile));
+
+        $fromFileProps = self::getExecResult('exiftool ' . $tmpdir->GetDir() . $fromTmpFile
+            . '|grep -E "File Size|Image Size|Image Width|Image Height"');
+        file_put_contents($tmpdir->GetDir() . $fromTmpFile, $fromFileProps);
+
+        $toFileProps = self::getExecResult('exiftool ' . $tmpdir->GetDir() . $toTmpFile
+            . '|grep -E "File Size|Image Size|Image Width|Image Height"');
+        file_put_contents($tmpdir->GetDir() . $toTmpFile, $toFileProps);
+
+        $imagePropsDiff = self::getExecResult('diff -u "' . $tmpdir->GetDir() . $fromTmpFile . '" --label "' . $fromName . '" "'
+            . $tmpdir->GetDir() . $toTmpFile . '" --label "' . $toName . '" 2>&1');
+
+        $diffData = '<img src="data:image/png;base64,' . $diffData . '" /><hr><pre class="brush:text">' . $imagePropsDiff . '</pre>';
+
+        if (!empty($fromTmpFile)) $tmpdir->RemoveFile($fromTmpFile);
+        if (!empty($toTmpFile)) $tmpdir->RemoveFile($toTmpFile);
+        if (!empty($dstFile)) $tmpdir->RemoveFile($dstFile);
+        return $diffData;
+    }
+
+    private static function getExecResult($cmd)
+    {
+        $out = '';
+        $ret = 0;
+        exec($cmd, $out, $ret);
+        return implode("\n", $out);
+    }
 }
