@@ -426,11 +426,11 @@ class GitPHP_Util
 
         $fromFileProps = self::getExecResult('exiftool ' . $tmpdir->GetDir() . $fromTmpFile
             . '|grep -E "File Size|Image Size|Image Width|Image Height"');
-        file_put_contents($tmpdir->GetDir() . $fromTmpFile, $fromFileProps);
+        $tmpdir->AddFile($fromTmpFile, $fromFileProps);
 
         $toFileProps = self::getExecResult('exiftool ' . $tmpdir->GetDir() . $toTmpFile
             . '|grep -E "File Size|Image Size|Image Width|Image Height"');
-        file_put_contents($tmpdir->GetDir() . $toTmpFile, $toFileProps);
+        $tmpdir->AddFile($toTmpFile, $toFileProps);
 
         $imagePropsDiff = self::getExecResult('diff -u "' . $tmpdir->GetDir() . $fromTmpFile . '" --label "' . $fromName . '" "'
             . $tmpdir->GetDir() . $toTmpFile . '" --label "' . $toName . '" 2>&1');
