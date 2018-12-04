@@ -191,7 +191,11 @@ class Api implements ControllerInterface
             $this->renderNotFound("Need to specify 'first-commit' and 'second-commit'");
         }
 
-        $this->sendResponse(['hash' => $this->getProject()->getMergeBase($first, $second)->GetHash()]);
+        $Commit = $this->getProject()->getMergeBase($first, $second);
+        if (!$Commit) {
+            $this->sendResponse(['error' => 'Can\'t find merge-base for requested commits']);
+        }
+        $this->sendResponse(['hash' => $Commit->GetHash()]);
     }
 
     protected function renderNotFound($custom_error = "")
