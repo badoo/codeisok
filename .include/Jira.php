@@ -37,7 +37,7 @@ class Jira
     public function restAuthenticateByUsernameAndPassword($username, $password)
     {
         $data = json_encode(['username' => $username, 'password' => $password]);
-        $Response = $this->request($this->url, 'POST', 'rest/auth/1/session', $data, ['X-Atlassian-Token: nocheck']);
+        $Response = $this->request($this->url, 'POST', 'rest/auth/1/session', $data, ['X-Atlassian-Token: no-check']);
 
         $err = null;
         if ($Response->status_code != 200) {
@@ -62,7 +62,7 @@ class Jira
             'GET',
             'rest/api/2/myself',
             null,
-            ['X-Atlassian-Token: nocheck', 'Cookie: ' . self::getCookieName() . '=' . $cookie]
+            ['X-Atlassian-Token: no-check', 'Cookie: ' . self::getCookieName() . '=' . $cookie]
         );
         if ($Myself->status_code != 200) {
             $err = 'REST authentication failure!';
@@ -172,7 +172,7 @@ class Jira
                 'GET',
                 'rest/api/2/user?username=' . urlencode($user_id) . '&expand=groups',
                 null,
-                ['X-Atlassian-Token: nocheck', 'Cookie: ' . $auth_cookie]
+                ['X-Atlassian-Token: no-check', 'Cookie: ' . $auth_cookie]
             );
             if ($User->status_code == 200 && !empty($User->body['groups']) && !empty($User->body['groups']['items'])) {
                 foreach ($User->body['groups']['items'] as $Group) {
