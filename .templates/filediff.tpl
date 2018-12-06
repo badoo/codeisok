@@ -6,6 +6,9 @@
  *  Copyright (C) 2009 Christopher Han <xiphux@gmail.com>
  *}
 {assign var="decoration" value=$filediff->GetDecorationData()}
+{if $filediff->getDiffTypeImage()}
+{$diff}
+{else}
 {if $filediff->getDiffTooLarge() && $sexy}
 <p class="too_large_diff">
     <img src="/images/diff-loader.gif" alt="Please wait" />
@@ -29,5 +32,6 @@
 {/if}
 {/foreach}
 </div>
+{/if}
 {/if}
 {/if}
