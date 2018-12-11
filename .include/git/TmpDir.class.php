@@ -58,7 +58,7 @@ class GitPHP_TmpDir
 	 *
 	 * @access public
 	 * @static
-	 * @return mixed instance of tmpdir class
+	 * @return $this instance of tmpdir class
 	 */
 	public static function GetInstance()
 	{

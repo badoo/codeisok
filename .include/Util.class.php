@@ -416,7 +416,7 @@ class GitPHP_Util
         $dstFile = 'gitphp_' . $pid . '_dst';
         $tmpdir->AddFile($fromTmpFile, $fromBlob->GetData());
         $tmpdir->AddFile($toTmpFile, $toBlob->GetData());
-        $tmpdir->AddFile($dstFile);
+        $tmpdir->AddFile($dstFile, '');
 
         self::getExecResult('compare -fuzz 5% "' . $fromIndex . '" "' . $toIndex
             . '" png:- | montage -geometry 400x400>+4+4 "' . $fromIndex . '" - "' . $toIndex
