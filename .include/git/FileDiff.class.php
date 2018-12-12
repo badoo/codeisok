@@ -16,7 +16,6 @@
  * @package GitPHP
  * @subpackage Git
  */
-
 class GitPHP_FileDiff
 {
     const LARGE_DIFF_SIZE = 10000;
@@ -474,10 +473,7 @@ class GitPHP_FileDiff
 
         if (is_null($this->root_folder)) {
             $filename_arr = explode('/', $this->GetToFile());
-            $this->root_folder =
-                ($filename_arr[0] == $skip_parent_folder && isset($filename_arr[1]))
-                    ? $filename_arr[1]
-                    : $filename_arr[0];
+            $this->root_folder = ($filename_arr[0] == $skip_parent_folder && isset($filename_arr[1])) ? $filename_arr[1] : $filename_arr[0];
         }
         return $this->root_folder;
     }

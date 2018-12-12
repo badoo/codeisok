@@ -19,15 +19,15 @@
 class GitPHP_ProjectListFile extends GitPHP_ProjectListBase
 {
     /**
-	 * __construct
-	 *
-	 * constructor
-	 *
-	 * @param string $projectFile file to read
-	 * @throws Exception if parameter is not a readable file
-	 * @access public
-	 */
-	    public function __construct($projectFile)
+     * __construct
+     *
+     * constructor
+     *
+     * @param string $projectFile file to read
+     * @throws Exception if parameter is not a readable file
+     * @access public
+     */
+    public function __construct($projectFile)
     {
         if (!(is_string($projectFile) && is_file($projectFile))) {
             throw new Exception(sprintf(__('%1$s is not a file'), $projectFile));
@@ -39,14 +39,14 @@ class GitPHP_ProjectListFile extends GitPHP_ProjectListBase
     }
 
     /**
-	 * PopulateProjects
-	 *
-	 * Populates the internal list of projects
-	 *
-	 * @access protected
-	 * @throws Exception if file cannot be read
-	 */
-	    protected function PopulateProjects()
+     * PopulateProjects
+     *
+     * Populates the internal list of projects
+     *
+     * @access protected
+     * @throws Exception if file cannot be read
+     */
+    protected function PopulateProjects()
     {
         if (!($fp = fopen($this->projectConfig, 'r'))) {
             throw new Exception(sprintf(__('Failed to open project list file %1$s'), $this->projectConfig));

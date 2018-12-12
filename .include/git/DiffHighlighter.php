@@ -17,7 +17,7 @@ class DiffHighlighter
             if (isset($ln[0]) && $ln[0] == '-' && mb_orig_strpos($ln, '---') !== 0 && (!mb_orig_strlen($lines[$i - 1]) || $lines[$i - 1][0] != '-')) {
                 $next_line = $lines[$i + 1];
                 if (!mb_orig_strlen($next_line) || $next_line[0] != '+'
-                    || isset($lines[$i + 2]) && mb_orig_strlen($lines[$i + 2]) && $lines[$i + 2][0] == '+') continue;
+                    || isset($lines[$i + 2]) && mb_orig_strlen($lines[$i + 2]) && $lines[$i + 2][0] == '+')continue;
 
                 list($ln, $next_line) = $DiffHighlighter->get_with_markers($ln, $next_line);
                 $lines[$i] = $ln;

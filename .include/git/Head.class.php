@@ -18,7 +18,6 @@
  */
 class GitPHP_Head extends GitPHP_Ref
 {
-
     /**
      * commit
      *
