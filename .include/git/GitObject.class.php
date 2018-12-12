@@ -19,6 +19,8 @@
  */
 abstract class GitPHP_GitObject
 {
+    const ALL_ZEROS_HASH = '0000000000000000000000000000000000000000';
+
     /**
      * project
      *
