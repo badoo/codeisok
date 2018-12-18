@@ -109,13 +109,18 @@ class Api implements ControllerInterface
         $range_to = $_REQUEST['range-to'] ?? null;
         if ($range_to) { // at least one of them is set
             $range_from = $_REQUEST['range-from'] ?? null;
-            $limit = $_REQUEST['limit'] ?? 1000;
+            $rev_list_opts = $_REQUEST['opts'] ?? [];
+            $limit = $_REQUEST['limit'] ?? $this->getDefaultLogLimit();
+
+            if (!is_array($rev_list_opts)) {
+                $rev_list_opts = [$rev_list_opts];
+            }
 
             $this->sendResponse(
                 [
                     'commits' => array_map(
                         function (\GitPHP_Commit $Commit) { return $this->renderCommit($Commit); },
-                        $this->getProject()->GetLog($range_to, $limit, 0, $range_from)
+                        $this->getProject()->GetLog($range_to, $limit, 0, $range_from, $rev_list_opts)
                     )
                 ]
             );
@@ -124,6 +129,14 @@ class Api implements ControllerInterface
         }
 
         $this->renderNotFound("Nothing to get log for");
+    }
+
+    protected function getDefaultLogLimit()
+    {
+        if (!empty($_REQUEST['include'])) {
+            return 100;
+        }
+        return 1000;
     }
 
     protected function handleBranchLogRequest()
