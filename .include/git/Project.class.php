@@ -998,7 +998,7 @@ class GitPHP_Project
         if (!$this->readRefs) $this->ReadRefList();
 
         $exe = new GitPHP_GitExe($this);
-        $args = array();
+        $args = [];
         $args[] = '--sort=-committerdate';
         $args[] = '--format="%(refname)"';
         if ($count > 0) {
@@ -1012,17 +1012,20 @@ class GitPHP_Project
 
         $lines = explode("\n", $ret);
 
-        $heads = array();
+        $heads = [];
+        $hashes = [];
 
         foreach ($lines as $ref) {
             if (isset($this->heads[$ref])) {
                 /** @var $Head GitPHP_Head */
                 $Head = $this->heads[$ref];
-                $heads[$Head->GetHash()] = $Head;
+                // one hash <-> many heads
+                $hashes[$Head->GetHash()] = true;
+                $heads[] = $Head;
             }
         }
 
-        $this->batchLoadHeads($heads);
+        $this->batchLoadHeads(array_keys($hashes), $heads);
         return array_values($heads);
     }
 
@@ -1130,13 +1133,15 @@ class GitPHP_Project
     /**
      * Loads data for heads all-at-once
      *
-     * @param array $hash_heads array(hash => GitPHP_Head)
+     * @param string[] $hashes
+     * @param GitPHP_Head[] $heads
      */
-    public function BatchLoadHeads(array $hash_heads)
+    public function BatchLoadHeads(array $hashes, array $heads)
     {
-        $result = $this->BatchReadData(array_keys($hash_heads));
+        $result = $this->BatchReadData($hashes);
         /** @var $Head GitPHP_Head */
-        foreach ($hash_heads as $hash => $Head) {
+        foreach ($heads as $Head) {
+            $hash = $Head->GetHash();
             if (!isset($result['contents'][$hash])) continue;
             $Head->getCommit()->ReadData($result['contents'][$hash]);
         }
