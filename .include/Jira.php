@@ -100,6 +100,10 @@ class Jira
             'user_token' => $crowd_token_key,
         ];
 
+        if ($domain = \GitPHP\Config::GetInstance()->GetValue(\GitPHP\Config::CROWD_SSO_DOMAIN)) {
+            $result['cookie_domain'] = $domain; // store it here to reuse in Login controller
+        }
+
         return [$result, null];
     }
 
@@ -138,6 +142,10 @@ class Jira
         if ($err) return [null, $err];
 
         $result['user_token'] = $Response->body['token'];
+
+        if ($domain = \GitPHP\Config::GetInstance()->GetValue(\GitPHP\Config::CROWD_SSO_DOMAIN)) {
+            $result['cookie_domain'] = $domain; // store it here to reuse in Login controller
+        }
 
         return [$result, null];
     }

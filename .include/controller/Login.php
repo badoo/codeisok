@@ -106,7 +106,7 @@ class Login extends Base
             $this->Session->setUser($User);
             if (!empty($this->params['remember'])) {
                 $expire = time() + 60 * 60 * 24 * 30 * 12;
-                $domain = $_SERVER['HTTP_HOST'];
+                $domain = $auth_result['cookie_domain'] ?? $_SERVER['HTTP_HOST'];
                 if (in_array(\GitPHP\Config::GetInstance()->GetAuthMethod(), [\GitPHP\Config::AUTH_METHOD_CROWD, \GitPHP\Config::AUTH_METHOD_JIRA])) {
                     setcookie(\GitPHP\Jira::getCookieName(), $User->getToken(), $expire, '/', $domain, false, true);
                 }

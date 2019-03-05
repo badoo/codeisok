@@ -32,8 +32,9 @@ class Config
     const JIRA_PASSWORD = 'jira_password';
 
     // Crowd options
-    const CROWD_URL = 'crowd_url';
-    const CROWD_APP_TOKEN = 'crowd_token';
+    const CROWD_URL        = 'crowd_url';
+    const CROWD_APP_TOKEN  = 'crowd_token';
+    const CROWD_SSO_DOMAIN = 'crowd_domain';
 
     // Access options
     const CHECK_ACCESS_GROUP = 'check_access_group';
