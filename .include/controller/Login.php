@@ -37,7 +37,7 @@ class Login extends Base
 
     protected function ReadQuery()
     {
-        $this->params['back'] = isset($_GET['back']) ? $_GET['back'] : '';
+        $this->params['back'] = !empty($_GET['back']) ? $_GET['back'] : '/';
         $php_format_cookie = str_replace('.', '_', \GitPHP\Jira::getCookieName());
         $this->params['crowd_token_key'] = (isset($_COOKIE[$php_format_cookie])) ? $_COOKIE[$php_format_cookie] : false;
         $this->params['post'] = false;
