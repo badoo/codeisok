@@ -1,6 +1,6 @@
 # Badoo repository browsing and code review tool
 
-![logo](https://raw.githubusercontent.com/uyga/codeisok/master/images/codeisok-logo.png "logo")
+![logo](https://raw.githubusercontent.com/badoo/codeisok/master/images/codeisok-logo.png "logo")
 
 ### [Installation guide](https://github.com/badoo/codeisok/wiki/Installation)
 
