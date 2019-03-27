@@ -24,29 +24,6 @@ class JiraRestClient
         EXP_CHANGELOG       = 'changelog',
         EXP_RENDERED_FIELDS = 'renderedFields';
 
-    /**
-     * Мап, какие шаги к каким статусам приводят (только шаги чьи имена отличны от имён статусов).
-     * TODO нужно придумать что-то более красивое.
-     *
-     * @var array
-     */
-    protected $_step_status_map = array(
-        'Reopen'                          => 'Reopened',
-        'Start'                           => 'In Progress',
-        'Resolved (In Dev), go to Review' => 'On Review',
-        'Merged'                          => 'In Build',
-        'To Branch QA'                    => 'In Branch QA',
-        'To Dev'                          => 'In Dev',
-        'To Integration'                  => 'In Integration',
-        'To Release branch'               => 'In Release branch',
-        'To Master'                       => 'In Master',
-        'To Live'                         => 'On Live',
-        'Submitted to store'              => 'Waiting',
-        'Close'                           => 'Closed',
-        'In Shot - Ok!'                   => 'In Shot - Ok',
-        'Resolve'                         => 'Resolved',
-    );
-
     protected static $instance = null;
 
     protected $all_fields = null;
@@ -221,9 +198,6 @@ class JiraRestClient
         if (is_array($actions)) {
             foreach ($actions as $act) {
                 if ($act->name === $step) {
-                    if (isset($this->_step_status_map[$step])) {
-                        $step = $this->_step_status_map[$step];
-                    }
                     $status_id = $this->getStatusIdByName($step);
                     if ($issue->fields->status->name != $step || $force) {
                         $issue->status = $status_id;
