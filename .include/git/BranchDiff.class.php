@@ -134,31 +134,28 @@ class GitPHP_BranchDiff implements Iterator
             if (stripos($diff_base_message, $ticket) === false) return $diff_base_hash;
         }
 
-        $args = array(
-            '-1',
-            '--oneline',
-            '--merges',
-            $this->fromBranch,
-            escapeshellarg('--grep=' . $this->toBranch),
-            escapeshellarg('--format=%ct %H'),
-        );
+        $args = [
+            '--ancestry-path',
+            '--parents',
+            "{$this->toBranch}..{$this->fromBranch}",
+        ];
+        $history = array_reverse(explode(PHP_EOL, trim($this->exe->Execute(GIT_REV_LIST, $args))));
+        $look_for = $this->toHash;
+        foreach ($history as $commit) {
+            $hashes = explode(' ', $commit);
+            if (in_array($look_for, array_slice($hashes, 2))) {
+                // this is merge commit and $look_for is from the merged branch (not the first-parent)
+                // this means that first-parent commit is what we are looking for
+                $base_commit = $hashes[1];
+                $look_for = $base_commit; // it might be so that we're not in the master branch yet
+            } else if ($look_for === $hashes[1]) {
+                // we should go forward the tree and look for next commit in order to find when it was merged into master
+                $look_for = $hashes[0];
+            } // actually, with --ancestry-path there just couldn't be anything `} else {`
+        }
 
-        $result = trim($this->exe->Execute(GIT_LOG, $args));
-        if (!$result) return $diff_base_hash;
-        list($merge_date, $merge_hash) = explode(' ', $result);
-
-        $merge_date = intval($merge_date) - 1;
-        $args = array(
-            '-1',
-            '--oneline',
-            '--before="' . $merge_date . '"',
-            '--grep="\[' . $this->fromBranch . '\]"',
-            '--format="%H"',
-            $merge_hash
-        );
-        $base_commit = trim($this->exe->Execute(GIT_LOG, $args));
+        if (!isset($base_commit)) return $diff_base_hash;
         $diff_base_hash = trim($this->exe->Execute(GIT_MERGE_BASE, array($base_commit, $this->toHash)));
-
         return $diff_base_hash;
     }
 
