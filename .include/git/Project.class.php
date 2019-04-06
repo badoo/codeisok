@@ -92,6 +92,13 @@ class GitPHP_Project
     protected $epochRead = false;
 
     /**
+     * Stores symbolic-ref HEAD destination branch
+     *
+     * @var string
+     */
+    protected $default_branch;
+
+    /**
      * head
      *
      * Stores the head hash internally
@@ -1030,6 +1037,38 @@ class GitPHP_Project
     }
 
     /**
+     * Gets default branch for repository
+     * It's the branch where HEAD symbolic-ref is pointing
+     *
+     * @return string
+     */
+    public function GetDefaultBranch()
+    {
+        if (empty($this->default_branch)) {
+            $this->default_branch = $this->SymbolicRef("HEAD");
+            if (strpos($this->default_branch, "refs/heads/") !== 0) {
+                $this->default_branch = 'master';
+            } else {
+                $this->default_branch = explode("/", $this->default_branch, 3)[2] ?? 'master';
+            }
+        }
+        return $this->default_branch;
+    }
+
+    /**
+     * Reads symbolic-ref link and returns it's content
+     *
+     * @param $link
+     * @return string
+     */
+    public function SymbolicRef($link)
+    {
+        $exe = new GitPHP_GitExe($this);
+        $object = trim($exe->Execute("symbolic-ref", [$link, '2>/dev/null']));
+        return $object;
+    }
+
+    /**
      * GetHead
      *
      * Gets a single head
@@ -1527,19 +1566,37 @@ class GitPHP_Project
             GitPHP\Config::GetInstance()->GetBaseBranchesByCategory($this->GetCategory()),
             function ($branch_name) { return $this->GetHead($branch_name)->Exists(); }
         );
-        $build_branches = [];
-        foreach (GitPHP\Config::GetInstance()->GetBaseBranchPatternsPerCategory($this->GetCategory()) as $pattern) {
-            $new_heads = array_map(function (\GitPHP_Head $Head) { return $Head->GetName(); }, $this->GetHeads(3, $pattern));
-            $build_branches = array_merge($new_heads, $build_branches);
+
+        if (!in_array($this->GetDefaultBranch(), $main_branches)) {
+            $main_branches[] = $this->GetDefaultBranch();
         }
 
-        $base_branches = array_merge($main_branches, $build_branches);
+        $branch_rev_list = [];
+        foreach ($this->GetRevList([$branch, '^master']) as $hash) $branch_rev_list[$hash] = true; // a bit faster to search
+
+        // weights == count of common commits between ancestor and current branch
+        $ancestors_weights = [];
+        foreach ($this->GetUnmergedCommitsCache() as $name => $ref_info) {
+            $rev_list = $ref_info['commits'] ?? [];
+            if ($branch == $name) continue;
+            foreach ($rev_list as $hash) {
+                if (isset($branch_rev_list[$hash])) {
+                    $ancestors_weights[$name] = ($ancestors_weights[$name] ?? 0) + 1;
+                }
+            }
+        }
+
+        $base_branches = array_merge($main_branches, array_keys($ancestors_weights));
 
         // sort them so that branch with the least diff length will be first
         usort(
             $base_branches,
-            function ($first_branch, $second_branch) use ($branch) {
-                return $this->GetCommitsCountBetween($first_branch, $branch) <=> $this->GetCommitsCountBetween($second_branch, $branch);
+            function ($first_branch, $second_branch) use ($branch, $ancestors_weights) {
+                $weight_diff = ($ancestors_weights[$first_branch] ?? 0) <=> ($ancestors_weights[$second_branch] ?? 0);
+                if ($weight_diff == 0) {
+                    return $this->GetCommitsCountBetween($first_branch, $branch) <=> $this->GetCommitsCountBetween($second_branch, $branch);
+                }
+                return -$weight_diff;
             }
         );
         return $base_branches;
@@ -1563,6 +1620,92 @@ class GitPHP_Project
         return new GitPHP_Commit($this, $hash);
     }
 
+    /**
+     * If unmerged commits cache is enabled, we will get associative array in form
+     * ['branch_name' => ['head' => head, 'commits' => git-rev-list]]
+     *
+     * we will use this to populate base-branch list with branches
+     *
+     * If cache is disabled (e.g. not generated), this function will return empty array.
+     * In this case there will be only default bases in the list because it's hard
+     * to search for unmerged commits on big repository in runtime
+     *
+     * @see \GitPHP\Config::GetBaseBranchesByCategory()
+     *
+     * @return array|mixed
+     */
+    public function GetUnmergedCommitsCache()
+    {
+        $file = $this->GetPath() . "/.codeisok_cache.php";
+        if (!is_file($file)) return [];
+        $raw_cache = file_get_contents($this->GetPath() . "/.codeisok_cache.php");
+        $cache = json_decode($raw_cache, 1);
+        if (!$cache) return [];
+        return $cache;
+    }
+
+    public function GetRevList($args)
+    {
+        $args[] = '2>/dev/null';
+        $hashes = trim((new GitPHP_GitExe($this))->Execute(GIT_REV_LIST, $args));
+        return array_map('trim', explode("\n", $hashes));
+    }
+
+    /**
+     * Update cache stored on FS
+     *
+     * @see GitPHP_Project::GetUnmergedCommitsCache()
+     */
+    public function UpdateUnmergedCommitsCache()
+    {
+        // load previous cache
+        $cache = $this->GetUnmergedCommitsCache();
+        if (!isset($cache['HEAD']) || $cache['HEAD'] !== $this->GetDefaultBranch()) {
+            $cache = [];
+        }
+
+        // note: don't use quotes in --format arguments. They are not needed because of escapeshellarg call inside ForEachRef
+        $unmerged_branches = $this->ForEachRef(["--format=%(objectname)\t%(refname)", '--no-merge', $this->GetDefaultBranch(), 'refs/heads/*']);
+        $commits_per_branch = [];
+        foreach ($unmerged_branches as $line) {
+            $line = explode("\t", $line);
+            if (count($line) < 2) continue;
+
+            $head = $line[0];
+            $branch = explode("/", $line[1], 3)[2] ?? '';
+            if (!$head || !$branch) continue;
+
+            $previous_head = $cache[$branch]['head'] ?? '';
+            if ($previous_head == $head) {
+                $commits_per_branch[$branch] = $cache[$branch];
+            } else {
+                $commits_per_branch[$branch] = ['head' => $head, 'commits' => $this->GetRevList([$branch, '^' . $this->GetDefaultBranch()])];
+            }
+        }
+        $commits_per_branch['HEAD'] = $this->GetDefaultBranch();
+
+        file_put_contents(
+            $this->GetPath() . "/.codeisok_cache.php",
+            json_encode($commits_per_branch)
+        );
+    }
+
+    /**
+     * Shorthand for git-for-each-ref call
+     * Output information on each ref
+     *
+     * @param array $args
+     * @return array
+     */
+    public function ForEachRef($args)
+    {
+        $args = array_map('escapeshellarg', $args);
+        $args[] = '2>/dev/null';
+        $Exec = new GitPHP_GitExe($this);
+        $results = trim($Exec->execute(GIT_FOR_EACH_REF, $args));
+        return array_filter(array_map('trim', explode("\n", $results)));
+    }
+
     protected $commits_count_cache = [];
 
     protected function GetCommitsCountBetween($first_hash, $second_hash, $limit = 100)
@@ -1575,7 +1718,7 @@ class GitPHP_Project
             $commits = $Git->Execute(
                 GIT_LOG,
                 array(
-                    "-n {$limit}", '--first-parent', '--oneline', ' ' . escapeshellarg($first_hash) . '..' . escapeshellarg($second_hash), '|wc -l'
+                    "-n {$limit}", '--oneline', ' ' . escapeshellarg($first_hash) . '..' . escapeshellarg($second_hash), '|wc -l'
                 )
             );
             $this->commits_count_cache[$first_hash][$second_hash] = intval($commits);

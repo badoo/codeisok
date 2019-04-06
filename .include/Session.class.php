@@ -14,6 +14,9 @@ class GitPHP_Session
 
     protected static $instance = null;
 
+    /**
+     * @return GitPHP_Session
+     */
     public static function instance()
     {
         if (!isset(self::$instance)) {

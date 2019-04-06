@@ -58,6 +58,9 @@ class Acl
      */
     public function isProjectAllowed($project, \GitPHP_User $User)
     {
+        if (\GitPHP\Config::GetInstance()->IsCli()) {
+            return true;
+        }
         $project_access_groups = \GitPHP\Config::GetInstance()->GetValue(self::CONF_PROJECT_ACCESS_GROUPS_KEY);
         if (!is_array($project_access_groups) || empty($project_access_groups[$project])) {
             return true;

@@ -82,12 +82,12 @@ class Branchdiff extends DiffBase
         $this->params['branch'] = isset($_GET['branch']) ? $_GET['branch'] : '';
         $this->params['review'] = isset($_GET['review']) ? (int)$_GET['review'] : 0;
         // it looks like a possibly wrong code
-        $this->params['base'] = $this->Session->get($this->project->GetProject() . \GitPHP_Session::SESSION_BASE_BRANCH, '');
+        $this->params['base'] = $this->Session->get($this->project->GetProject() . \GitPHP_Session::SESSION_BASE_BRANCH . $this->params['branch'], '');
 
         if (isset($_REQUEST['base'])) {
             $this->params['base'] = $_REQUEST['base'];
             if (empty($this->params['review'])) {
-                $this->Session->set($this->project->GetProject() . \GitPHP_Session::SESSION_BASE_BRANCH, $this->params['base']);
+                $this->Session->set($this->project->GetProject() . \GitPHP_Session::SESSION_BASE_BRANCH . $this->params['branch'], $this->params['base']);
             }
         } else if (empty($this->params['base'])) {
             $base_branches = $this->project->GetBaseBranches($this->params['branch']);
@@ -215,6 +215,7 @@ class Branchdiff extends DiffBase
         $this->tpl->assign('enablebase', true);
         $this->tpl->assign('base', $this->params['base']);
         $base_branches = $this->project->GetBaseBranches($this->params['branch']);
+        if ($this->params['base'] && !in_array($this->params['base'], $base_branches)) array_unshift($base_branches, $this->params['base']);
         $this->tpl->assign('base_branches', $base_branches);
 
         $this->loadReviewsLinks($co, $this->params['branch']);

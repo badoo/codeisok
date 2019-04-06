@@ -29,6 +29,7 @@ define('GIT_DIFF',         'diff');
 define('GIT_LOG',          'log');
 define('GIT_SHOW',         'show');
 define('GIT_MERGE_BASE',   'merge-base');
+define('GIT_BRANCH',       'branch');
 
 /**
  * Git Executable class

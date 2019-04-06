@@ -58,7 +58,6 @@ class Config
     const COLLECT_CHANGES_AUTHORS_SKIP = 'collect_changes_authors_skip';
     const HIDE_FILES_PER_CATEGORY = 'hide_files_per_category';
     const BASE_BRANCHES_PER_CATEGORY = 'base_branches_per_category';
-    const BASE_BRANCHES_PATTERNS_PER_CATEGORY = 'base_branches_patterns_per_category';
     const SKIP_SUPPRESS_FOR_CATEGORY = 'skip_suppress_for_category';
     const IGNORED_EMAIL_ADDRESSES = 'ignored_email_addresses';
 
@@ -108,6 +107,11 @@ class Config
             self::$instance = new Config();
         }
         return self::$instance;
+    }
+
+    public function IsCli()
+    {
+        return php_sapi_name() !== 'cli';
     }
 
     /**
@@ -333,18 +337,6 @@ class Config
     {
         $base_branches_per_category = static::GetInstance()->GetValue(static::BASE_BRANCHES_PER_CATEGORY, []);
         return $base_branches_per_category[$category] ?? ['master'];
-    }
-
-    /**
-     * Get patterns to search for more base branches though the latest branches
-     *
-     * @param $category
-     * @return array
-     */
-    public function GetBaseBranchPatternsPerCategory($category)
-    {
-        $base_branch_patterns_per_category = static::GetInstance()->GetValue(static::BASE_BRANCHES_PATTERNS_PER_CATEGORY, []);
-        return $base_branch_patterns_per_category[$category] ?? [];
     }
 
     /**

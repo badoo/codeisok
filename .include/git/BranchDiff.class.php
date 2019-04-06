@@ -137,9 +137,23 @@ class GitPHP_BranchDiff implements Iterator
         $args = [
             '--ancestry-path',
             '--parents',
+            '--first-parent',
             "{$this->toBranch}..{$this->fromBranch}",
+            '2>/dev/null',
         ];
-        $history = array_reverse(explode(PHP_EOL, trim($this->exe->Execute(GIT_REV_LIST, $args))));
+        $history = trim($this->exe->Execute(GIT_REV_LIST, $args));
+        if (empty($history)) {
+            // it might be so that we won't be able to get history with --first-parent
+            // if there is "brother" commit for merge commit that we're looking for
+            $args = [
+                '--ancestry-path',
+                '--parents',
+                "{$this->toBranch}..{$this->fromBranch}",
+                '2>/dev/null',
+            ];
+            $history = trim($this->exe->Execute(GIT_REV_LIST, $args));
+        }
+        $history = array_reverse(explode(PHP_EOL, $history));
         $look_for = $this->toHash;
         foreach ($history as $commit) {
             $hashes = explode(' ', $commit);
