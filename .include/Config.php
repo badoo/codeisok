@@ -111,7 +111,7 @@ class Config
 
     public function IsCli()
     {
-        return php_sapi_name() !== 'cli';
+        return php_sapi_name() === 'cli';
     }
 
     /**
