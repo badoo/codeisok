@@ -172,25 +172,33 @@ class Api implements ControllerInterface
 
         $compare_with = $_REQUEST['compare-with'] ?? $tree . '^';
 
-        $diff = explode("\n", $this->getProject()->GetDiffTree($compare_with, $tree));
+        $diff = $this->getProject()->GetDiffTree($compare_with, $tree);
+
+        $diff_lines = [];
+        if (!empty(trim($diff))) {
+            $diff_lines = explode("\n", $diff);
+        }
+
+        $response = [];
+
+        foreach ($diff_lines as $diff_line) {
+            list($change, $file) = explode("\t", $diff_line);
+            list($old_mode, $new_mode, $old_blob, $new_blob, $status) = explode(" ", $change);
+            $old_mode = ltrim($old_mode, ":");
+
+            $response[] = [
+                'file'     => $file,
+                'old_mode' => $old_mode,
+                'new_mode' => $new_mode,
+                'status'   => $status,
+                'old_blob' => $old_blob,
+                'new_blob' => $new_blob,
+            ];
+        }
+
         $this->sendResponse(
             [
-                "diff" => array_map(
-                    function ($diff_line) {
-                        list($change, $file) = explode("\t", $diff_line);
-                        list($old_mode, $new_mode, $old_blob, $new_blob, $status) = explode(" ", $change);
-                        $old_mode = ltrim($old_mode, ":");
-                        return [
-                            'file'     => $file,
-                            'old_mode' => $old_mode,
-                            'new_mode' => $new_mode,
-                            'status'   => $status,
-                            'old_blob' => $old_blob,
-                            'new_blob' => $new_blob,
-                        ];
-                    },
-                    $diff
-                )
+                'diff' => $response
             ]
         );
     }
