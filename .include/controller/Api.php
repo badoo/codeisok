@@ -168,6 +168,7 @@ class Api implements ControllerInterface
         $tree = $_REQUEST['tree-ish'];
         if (empty($tree)) {
             $this->renderNotFound("No tree-ish provided");
+            return;
         }
 
         $compare_with = $_REQUEST['compare-with'] ?? $tree . '^';
