@@ -1,17 +1,23 @@
-FROM ubuntu:14.04
+FROM ubuntu:18.04
 MAINTAINER Ilya Ageev <iamuyga@gmail.com>
 
 ENV MYSQL_ROOT_PASSWORD root
+ENV DEBIAN_FRONTEND noninteractive
 
-RUN echo "deb http://ppa.launchpad.net/ondrej/php/ubuntu trusty main" > /etc/apt/sources.list.d/ondrej-php-trusty.list \
+RUN apt-get update -y \
+    && apt-get install -y --no-install-recommends \
+        gnupg
+
+RUN echo "deb http://ppa.launchpad.net/ondrej/php/ubuntu bionic main" > /etc/apt/sources.list.d/ondrej-php-bionic.list \
     && apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 4F4EA0AAE5267A6C \
-    && bash -c "debconf-set-selections <<< 'mysql-server-5.6 mysql-server/root_password password $MYSQL_ROOT_PASSWORD'" \
-    && bash -c "debconf-set-selections <<< 'mysql-server-5.6 mysql-server/root_password_again password $MYSQL_ROOT_PASSWORD'"
+    && bash -c "debconf-set-selections <<< 'mysql-server-5.7 mysql-server/root_password password $MYSQL_ROOT_PASSWORD'" \
+    && bash -c "debconf-set-selections <<< 'mysql-server-5.7 mysql-server/root_password_again password $MYSQL_ROOT_PASSWORD'" \
+    && echo "Etc/UTC" > /etc/timezone
 
 RUN apt-get update -y \
     && apt-get install -y --no-install-recommends \
         nginx \
-        mysql-server-5.6 \
+        mysql-server-5.7 \
         php7.0-curl \
         php7.0-fpm \
         php7.0-gd \
@@ -43,4 +49,3 @@ VOLUME /local/codeisok
 
 EXPOSE 80 22
 CMD bash /local/init.sh && bash
-
