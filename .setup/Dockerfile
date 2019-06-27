@@ -2,19 +2,20 @@ FROM ubuntu:18.04
 MAINTAINER Ilya Ageev <iamuyga@gmail.com>
 
 ENV MYSQL_ROOT_PASSWORD root
-ENV DEBIAN_FRONTEND noninteractive
 
-RUN apt-get update -y \
+RUN export DEBIAN_FRONTEND=noninteractive \
+    && apt-get update -y \
     && apt-get install -y --no-install-recommends \
-        gnupg
+        gnupg \
+        software-properties-common
 
-RUN echo "deb http://ppa.launchpad.net/ondrej/php/ubuntu bionic main" > /etc/apt/sources.list.d/ondrej-php-bionic.list \
-    && apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 4F4EA0AAE5267A6C \
+RUN add-apt-repository ppa:ondrej/php \
     && bash -c "debconf-set-selections <<< 'mysql-server-5.7 mysql-server/root_password password $MYSQL_ROOT_PASSWORD'" \
     && bash -c "debconf-set-selections <<< 'mysql-server-5.7 mysql-server/root_password_again password $MYSQL_ROOT_PASSWORD'" \
-    && echo "Etc/UTC" > /etc/timezone
+    && echo "UTC" > /etc/timezone
 
-RUN apt-get update -y \
+RUN export DEBIAN_FRONTEND=noninteractive \
+    && apt-get update -y \
     && apt-get install -y --no-install-recommends \
         nginx \
         mysql-server-5.7 \
