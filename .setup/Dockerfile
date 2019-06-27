@@ -49,4 +49,4 @@ VOLUME /home/git
 VOLUME /local/codeisok
 
 EXPOSE 80 22
-CMD bash /local/init.sh && bash
+CMD bash /local/init.sh
