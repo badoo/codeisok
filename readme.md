@@ -53,6 +53,8 @@ Docker container exposes 2 ports:
  * 80 for HTTP instance (http://localhost/).
  * 22 as ssh-source for git operations (ssh://git@localhost/testrepo.git)
 
+To run container in non-interactive mode (background) - replace `-it` options with `-d` one in `docker run` command
+
 ### Internals
 
 Default authorisation is just config-based. You can use 'user' user and 'password' password. To change it look for \GitPHP_Config::AUTH_METHOD and \GitPHP_Config::CONFIG_AUTH_USER fields in .config/gitphp.conf.php file.
