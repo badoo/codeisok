@@ -214,11 +214,13 @@ class Api implements ControllerInterface
         }
 
         $Commit = $this->getProject()->getMergeBase($first, $second);
+
         if (!$Commit) {
-            $this->sendResponse(['error' => 'Can\'t find merge-base for requested commits']);
-        } else {
-            $this->sendResponse(['hash' => $Commit->GetHash()]);
+            $this->renderNotFound("Can't find merge-base for requested commits");
+            return;
         }
+
+        $this->sendResponse(['hash' => $Commit->GetHash()]);
     }
 
     protected function renderNotFound($custom_error = "")
