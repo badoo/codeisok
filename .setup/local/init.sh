@@ -10,7 +10,6 @@ fi
 
 service mysql start
 service php7.0-fpm start
-service nginx start
 service ssh start
 
 mysql -uroot -proot < /local/schema.sql
@@ -31,3 +30,11 @@ hostname=$(hostname)
 localhost=$(head -n 1 /etc/hosts | awk '{print $2}')
 echo "127.0.0.1 $localhost $localhost.localdomain $hostname $hostname.localdomain" >> /etc/hosts
 service sendmail start
+
+if [ -t 1 ]; then
+    // Interactive mode, stdout is terminal
+    service nginx start
+    bash
+else
+    nginx -g 'daemon off;'
+fi
