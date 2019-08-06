@@ -18,7 +18,8 @@ CREATE TABLE IF NOT EXISTS `Comment` (
   `real_line_before_start` int(10) unsigned DEFAULT NULL,
   `lines_count` int(10) unsigned DEFAULT '0',
   `side` enum('lhs','rhs') COLLATE utf8_unicode_ci DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `snapshot_id` (`snapshot_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 CREATE TABLE IF NOT EXISTS `Heads` (
