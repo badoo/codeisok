@@ -122,29 +122,30 @@ function enablePaneDragging() {
     let dragStart = 0;
     let leftPaneWidth;
 
-    $(document.body)
-        .mousedown(function (e) {
-            if (e.target !== dragger.get(0)) {
-                return;
-            }
+    dragger.on('mousedown', function (e) {
+        isDragging = true;
+        dragStart = e.clientX;
+        leftPaneWidth = leftPane.width();
+        
+        $(document.body)
+            .on('mouseup', onMouseUp)
+            .on('mousemove', onMouseMove);
+    });
 
-            isDragging = true;
-            dragStart = e.clientX;
-            leftPaneWidth = leftPane.width();
-        })
-        .mouseup(function () {
-            isDragging = false;
-        })
-        .mousemove(function (e) {
-            if (!isDragging) {
-                return;
-            }
+    function onMouseUp() {
+        isDragging = false;
+        
+        $(document.body)
+            .off('mouseup', onMouseUp)
+            .off('mousemove', onMouseMove);
+    }
 
-            e.preventDefault();
+    function onMouseMove(e) {
+        e.preventDefault();
 
-            const offset = dragStart - e.clientX;
-            leftPane.css('min-width', Math.min(leftPaneWidth - offset, window.innerWidth / 3));
-        });
+        const offset = dragStart - e.clientX;
+        leftPane.css('min-width', Math.min(leftPaneWidth - offset, window.innerWidth / 3));
+    }
 }
 
 function detectActiveBlobs() {
