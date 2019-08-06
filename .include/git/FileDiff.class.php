@@ -599,15 +599,6 @@ class GitPHP_FileDiff
             return null;
         }
 
-        $fromBlob = $this->GetFromBlob();
-        $toBlob = $this->GetToBlob();
-
-        if (strpos($fromBlob->FileMime(), 'image') !== false || strpos($toBlob->FileMime(), 'image') !== false) {
-            $this->diffData = GitPHP_Util::getImagesDiff($fromBlob, $toBlob, $this->GetFromFile(), $this->GetToFile());
-            $this->diffTypeImage = 1;
-            return $this->diffData;
-        }
-
         if (!$this->DiffContext->getIgnoreFormatting() && !empty($this->branch)) {
             $args = array();
             if (is_numeric($this->DiffContext->getContext())) {
@@ -718,6 +709,15 @@ class GitPHP_FileDiff
             }
             if (!empty($fromTmpFile)) $tmpdir->RemoveFile($fromTmpFile);
             if (!empty($toTmpFile)) $tmpdir->RemoveFile($toTmpFile);
+        }
+
+        $fromBlob = $this->GetFromBlob();
+        $toBlob = $this->GetToBlob();
+
+        if (GitPHP_Util::checkFileIsImage($this->fromFile) || GitPHP_Util::checkFileIsImage($this->toFile)) {
+            $this->diffData = GitPHP_Util::getImagesDiff($fromBlob, $toBlob, $this->GetFromFile(), $this->GetToFile());
+            $this->diffTypeImage = 1;
+            return $this->diffData;
         }
 
         if (!$this->DiffContext->getSkipSuppress()) $this->diffTooLarge = mb_strlen($this->diffData) > static::LARGE_DIFF_SIZE;

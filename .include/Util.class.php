@@ -399,6 +399,19 @@ class GitPHP_Util
         return round($size, $precision).' '.['B','kB','MB','GB','TB','PB','EB','ZB','YB'][$i];
     }
 
+    public static function checkFileIsImage($fileName)
+    {
+        $supportedImages = array(
+            'jpeg',
+            'jpg',
+            'png',
+            'gif',
+            'bmp'
+        );
+        $ext = strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
+        return in_array($ext, $supportedImages);
+    }
+
     public static function getImagesDiff($fromBlob, $toBlob, $fromName, $toName)
     {
         $tmpdir = GitPHP_TmpDir::GetInstance();
