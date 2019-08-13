@@ -84,10 +84,6 @@ class Commitdiff extends DiffBase
         if (isset($_GET['hp'])) $this->params['hashparent'] = $_GET['hp'];
         $this->params['review'] = isset($_GET['review']) ? $_GET['review'] : '';
         $this->params['retbranch'] = isset($_GET['retbranch']) ? $_GET['retbranch'] : null;
-        $this->params['context'] = isset($_COOKIE['diff_context']) ? (int)$_COOKIE['diff_context'] : true;
-        if ($this->params['context'] < 1 || $this->params['context'] > 9999) {
-            $this->params['context'] = 3;
-        }
         $this->params['ignorewhitespace'] = isset($_COOKIE['ignore_whitespace']) ? $_COOKIE['ignore_whitespace'] == 'true' : false;
         $this->params['ignoreformat'] = isset($_COOKIE['ignore_format']) ? $_COOKIE['ignore_format'] == 'true' : false;
     }

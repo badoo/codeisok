@@ -63,6 +63,12 @@ abstract class DiffBase extends Base
                 $this->params['treediff'] = true;
             }
         }
+
+        $this->params['context'] = isset($_COOKIE['diff_context']) ? (int)$_COOKIE['diff_context'] : true;
+        if (isset($_REQUEST['context']) && is_numeric($_REQUEST['context'])) $this->params['context'] = $_REQUEST['context'];
+        if ($this->params['context'] < 0 || $this->params['context'] > 9999) {
+            $this->params['context'] = 3;
+        }
     }
 
     protected function TreeDiffEnabled($overrideMode = null) {
