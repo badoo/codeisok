@@ -1593,9 +1593,6 @@ class GitPHP_Project
             $base_branches,
             function ($first_branch, $second_branch) use ($branch, $ancestors_weights) {
                 $weight_diff = ($ancestors_weights[$first_branch] ?? 0) <=> ($ancestors_weights[$second_branch] ?? 0);
-                if ($weight_diff == 0) {
-                    return $this->GetCommitsCountBetween($first_branch, $branch) <=> $this->GetCommitsCountBetween($second_branch, $branch);
-                }
                 return -$weight_diff;
             }
         );
@@ -1704,25 +1701,5 @@ class GitPHP_Project
         $Exec = new GitPHP_GitExe($this);
         $results = trim($Exec->execute(GIT_FOR_EACH_REF, $args));
         return array_filter(array_map('trim', explode("\n", $results)));
-    }
-
-    protected $commits_count_cache = [];
-
-    protected function GetCommitsCountBetween($first_hash, $second_hash, $limit = 100)
-    {
-        if (!isset($this->commits_count_cache[$first_hash])) {
-            $this->commits_count_cache[$first_hash] = [];
-        }
-        if (!isset($this->commits_count_cache[$first_hash][$second_hash])) {
-            $Git = new GitPHP_GitExe($this);
-            $commits = $Git->Execute(
-                GIT_LOG,
-                array(
-                    "-n {$limit}", '--oneline', ' ' . escapeshellarg($first_hash) . '..' . escapeshellarg($second_hash), '|wc -l'
-                )
-            );
-            $this->commits_count_cache[$first_hash][$second_hash] = intval($commits);
-        }
-        return $this->commits_count_cache[$first_hash][$second_hash];
     }
 }
