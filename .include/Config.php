@@ -60,6 +60,7 @@ class Config
     const BASE_BRANCHES_PER_CATEGORY = 'base_branches_per_category';
     const SKIP_SUPPRESS_FOR_CATEGORY = 'skip_suppress_for_category';
     const IGNORED_EMAIL_ADDRESSES = 'ignored_email_addresses';
+    const FORCE_BASE_BRANCH_PER_REPOSITORY = 'force_base_branches';
     const BUILD_BRANCH_PATTERN = 'build_branch_pattern';
 
     // Debug

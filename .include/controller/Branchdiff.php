@@ -90,10 +90,16 @@ class Branchdiff extends DiffBase
                 $this->Session->set($this->project->GetProject() . \GitPHP_Session::SESSION_BASE_BRANCH . $this->params['branch'], $this->params['base']);
             }
         } else if (empty($this->params['base'])) {
-            $base_branches = $this->project->GetBaseBranches($this->params['branch']);
-            $top_branch = array_shift($base_branches);
-            if ('master' != $top_branch) {
-                $this->params['base'] = $top_branch;
+            $force_base_per_repo = \GitPHP\Config::GetInstance()->GetValue(\GitPHP\Config::FORCE_BASE_BRANCH_PER_REPOSITORY, []);
+            $force_base = $force_base_per_repo[$this->project->GetProject()] ?? false;
+            if ($force_base) {
+                $this->params['base'] = $force_base;
+            } else {
+                $base_branches = $this->project->GetBaseBranches($this->params['branch']);
+                $top_branch = array_shift($base_branches);
+                if ('master' != $top_branch) {
+                    $this->params['base'] = $top_branch;
+                }
             }
         }
 
