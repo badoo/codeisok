@@ -1571,6 +1571,13 @@ class GitPHP_Project
             $main_branches[] = $this->GetDefaultBranch();
         }
 
+        $build_branch_pattern = \GitPHP\Config::GetInstance()->GetValue(\GitPHP\Config::BUILD_BRANCH_PATTERN, '');
+        if ($build_branch_pattern && is_string($build_branch_pattern) && preg_match($build_branch_pattern, $branch)) {
+            // 'build' branch can contain a lot of other branches inside
+            // and it's not a good idea to search for branches with common commits for them
+            return $main_branches;
+        }
+
         $branch_rev_list = [];
         foreach ($this->GetRevList([$branch, '^master']) as $hash) $branch_rev_list[$hash] = true; // a bit faster to search
 

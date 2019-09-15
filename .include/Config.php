@@ -60,6 +60,7 @@ class Config
     const BASE_BRANCHES_PER_CATEGORY = 'base_branches_per_category';
     const SKIP_SUPPRESS_FOR_CATEGORY = 'skip_suppress_for_category';
     const IGNORED_EMAIL_ADDRESSES = 'ignored_email_addresses';
+    const BUILD_BRANCH_PATTERN = 'build_branch_pattern';
 
     // Debug
     const DEBUG_ENABLED = true;
@@ -335,7 +336,7 @@ class Config
      */
     public function GetBaseBranchesByCategory($category)
     {
-        $base_branches_per_category = static::GetInstance()->GetValue(static::BASE_BRANCHES_PER_CATEGORY, []);
+        $base_branches_per_category = $this->GetValue(static::BASE_BRANCHES_PER_CATEGORY, []);
         return $base_branches_per_category[$category] ?? ['master'];
     }
 
