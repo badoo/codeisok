@@ -549,7 +549,7 @@ SideBySideReview.prototype = {
 
             review_review = `
                     ${review_review}
-                    <input type="text" id="review_ticket" />
+                    <input type="text" id="review_ticket" value="${this.ticket}" />
                     <div id="review_loader" style="background: url('/images/search-loader.gif') transparent;height: 16px;line-height: 16px;width: 16px;display:none;">&nbsp;</div>
                     <div class="review-actions">
                         <div class="review_btn" id="review_abort" style="">Discard</div>
