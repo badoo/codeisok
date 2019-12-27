@@ -62,6 +62,7 @@ class Config
     const IGNORED_EMAIL_ADDRESSES = 'ignored_email_addresses';
     const FORCE_BASE_BRANCH_PER_REPOSITORY = 'force_base_branches';
     const BUILD_BRANCH_PATTERN = 'build_branch_pattern';
+    const LARGE_DIFF_SIZE = 'large_diff_size';
 
     // Debug
     const DEBUG_ENABLED = true;
