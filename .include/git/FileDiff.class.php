@@ -570,6 +570,11 @@ class GitPHP_FileDiff
         return (octdec($this->toMode) & 0x8000) == 0x8000;
     }
 
+    public function GetLargeDiffSize()
+    {
+        return \GitPHP\Config::GetInstance()->GetValue(\GitPHP\Config::LARGE_DIFF_SIZE, self::LARGE_DIFF_SIZE);
+    }
+
     /**
      * GetDiff
      *
@@ -720,9 +725,9 @@ class GitPHP_FileDiff
             return $this->diffData;
         }
 
-        if (!$this->DiffContext->getSkipSuppress()) $this->diffTooLarge = mb_strlen($this->diffData) > static::LARGE_DIFF_SIZE;
+        if (!$this->DiffContext->getSkipSuppress()) $this->diffTooLarge = mb_strlen($this->diffData) > $this->GetLargeDiffSize();
 
-        if ($highlight_changes && mb_strlen($this->diffData) <= static::LARGE_DIFF_SIZE) {
+        if ($highlight_changes && mb_strlen($this->diffData) <= $this->GetLargeDiffSize()) {
             $this->inline_changes = DiffHighlighter::getMarks($this->diffData);
         }
 
