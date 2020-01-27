@@ -51,6 +51,8 @@ class UpdateAuthKeys
             $this->log("Cannot write authorized_keys file");
             return;
         }
+        // on the most systems it's not allowed to have authorized_keys files with too wide permissions
+        chmod($auth_keys_tmp_path, 0600);
         if (false === rename($auth_keys_tmp_path, $auth_keys_path)) {
             $this->log("Cannot rename tmp auth keys");
         }
