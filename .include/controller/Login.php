@@ -72,7 +72,7 @@ class Login extends Base
                     $this->params['password']
                 );
             } else if (\GitPHP\Config::GetInstance()->GetAuthMethod() === \GitPHP\Config::AUTH_METHOD_CONFIG) {
-                $auth_user = \GitPHP\Config::GetInstance()->GetAuthUser();
+                $auth_user = \GitPHP\Config::GetInstance()->GetAuthUserByName($this->params['login']);
                 if ($auth_user['name'] === $this->params['login'] && $auth_user['password'] === $this->params['password']) {
                     $auth_result = [
                         'user_id'    => $auth_user['name'],

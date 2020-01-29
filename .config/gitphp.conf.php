@@ -22,7 +22,9 @@ return array(
     /*
      * Credentials for AUTH_METHOD_CONFIG auth method
      */
-     GitPHP\Config::CONFIG_AUTH_USER => ['name' => 'user', 'password' => 'password', 'admin' => true],
+     GitPHP\Config::CONFIG_AUTH_USER => [
+         'user' => ['name' => 'user', 'password' => 'password', 'admin' => true]
+     ],
 
     /**
      * ===== JIRA =====

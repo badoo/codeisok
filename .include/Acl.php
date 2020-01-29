@@ -111,7 +111,7 @@ class Acl
             } else if ($auth_method == \GitPHP\Config::AUTH_METHOD_JIRA) {
                 $is_in_group = $this->Jira->restIsGroupMember($User->getId(), $group_name);
             } else if ($auth_method == \GitPHP\Config::AUTH_METHOD_CONFIG) {
-                $is_in_group = \GitPHP\Config::GetInstance()->GetAuthUser()['admin'];
+                $is_in_group = \GitPHP\Config::GetInstance()->GetAuthUserByName($User->getName())['admin'];
             } else if ($auth_method == \GitPHP\Config::AUTH_METHOD_REDMINE) {
                 $is_in_group = $this->Redmine->restIsGroupMember($User->getId(), $group_name);
             }

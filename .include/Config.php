@@ -305,14 +305,21 @@ class Config
     /**
      * Get user credentials that should be used with AUTH_METHOD_CONFIG auth method
      *
+     * @param $username
      * @return array
      */
-    public function GetAuthUser()
+    public function GetAuthUserByName($username) : array
     {
         if ($this->GetAuthMethod() !== self::AUTH_METHOD_CONFIG) {
             return [];
         }
-        return $this->GetValue(self::CONFIG_AUTH_USER);
+        $users = $this->GetValue(self::CONFIG_AUTH_USER);
+        $old_config_format = !empty($users) &&  is_string(reset($users));
+        if ($old_config_format) {
+            return $users['name'] === $username ? $users : [];
+        }
+
+        return $users[$username] ?? [];
     }
 
     /**
