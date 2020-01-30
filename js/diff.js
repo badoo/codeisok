@@ -99,7 +99,6 @@ function renderTreeDiff(fileList, container) {
     enablePaneDragging();
     enableFolderCollapsing();
 
-
     $('.two-panes').removeClass('is-loading');
 }
 
@@ -126,7 +125,7 @@ function enablePaneDragging() {
         isDragging = true;
         dragStart = e.clientX;
         leftPaneWidth = leftPane.width();
-        
+
         $(document.body)
             .on('mouseup', onMouseUp)
             .on('mousemove', onMouseMove);
@@ -134,7 +133,7 @@ function enablePaneDragging() {
 
     function onMouseUp() {
         isDragging = false;
-        
+
         $(document.body)
             .off('mouseup', onMouseUp)
             .off('mousemove', onMouseMove);
@@ -167,6 +166,12 @@ function detectActiveBlobs() {
     if (foundElement.length > 0) {
         foundElement.get(0).scrollIntoView();
     }
+
+    const suppressedDiff = closestBlob.find('.show_suppressed_diff');
+    if (suppressedDiff.length > 0) {
+        suppressedDiff.click();
+    }
+
 }
 
 function getReviewKey() {
