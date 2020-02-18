@@ -120,7 +120,7 @@ class GitPHP_TreeDiff implements Iterator
         $args[] = $this->toHash;
 
         $diffTreeLines = explode("\n", $exe->Execute(GIT_DIFF_TREE, $args));
-        $toHash = $this->fromHash ? '' : $toHash;
+        $toHash = $this->fromHash ? '' : $this->toHash;
         foreach ($diffTreeLines as $line) {
             $trimmed = trim($line);
             if ((strlen($trimmed) > 0) && (substr_compare($trimmed, ':', 0, 1) === 0)) {
