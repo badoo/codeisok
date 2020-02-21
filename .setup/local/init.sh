@@ -32,7 +32,7 @@ echo "127.0.0.1 $localhost $localhost.localdomain $hostname $hostname.localdomai
 service sendmail start
 
 if [ -t 1 ]; then
-    // Interactive mode, stdout is terminal
+    # Interactive mode, stdout is terminal
     service nginx start
     bash
 else
