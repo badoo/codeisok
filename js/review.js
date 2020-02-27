@@ -750,15 +750,32 @@ var Review = (function() {
             $('#review_abort').click(Review.setReviewStatus);
             $('#review_commentnav_prev').click(Review.gotoPrevComment);
             $('#review_commentnav_next').click(Review.gotoNextComment);
+
+            let keyMap = {};
+
             $('#review_text').keydown(function(e) {
-                if (e.keyCode == 13) {
+                keyMap[e.keyCode] = true;
+
+                // Detect CMD+Enter
+                if (keyMap[91] && keyMap[13]) {
+                    Review.commentSubmit();
+
+                    // Clear it because we won't trigger keyup if we modify the DOM
+                    keyMap = {};
+                }
+                else if (keyMap[13]) {
+                    e.preventDefault();
+
                     var cur = getInputSelection(e.target);
                     this.value = this.value.substr(0, cur.start) + "\n" + this.value.substr(cur.end);
                     setSelectionRange(e.target, cur.start + 1, cur.end + 1);
-                    e.preventDefault();
+                    Review.adjustTextarea.call(this, e);
                 }
+            })
+            .keyup(function(e) {
+                delete keyMap[e.keyCode];
                 Review.adjustTextarea.call(this, e);
-            }).keyup(Review.adjustTextarea);
+            });
 
             $('body').on({
                 mousedown: Review.selectStart
