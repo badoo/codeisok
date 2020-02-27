@@ -527,6 +527,12 @@ var Review = (function() {
     Review.selectEnd = function(e) {
         $('body').off('mousemove', null, null, Review.selectMove);
 
+        // If there is a selection in the document, we don't want to show dialog
+        // This allows developers to copy code without losing selection
+        if (window.getSelection().isCollapsed === false) {
+            return;
+        }
+
         var $target = $(e.target);
 
         /* click onto existing comment */
