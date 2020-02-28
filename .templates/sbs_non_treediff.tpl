@@ -13,7 +13,7 @@
                         {if $filediff->GetToFile()}{$filediff->GetToFile()}{else}{$filediff->GetToHash()}{/if} {t}(new){/t}
                     {elseif $filediff->GetStatus() == 'D'}
                         {if $filediff->GetFromFile()}{$filediff->GetFromFile()}{else}{$filediff->GetToFile()}{/if} {t}(deleted){/t}
-                    {elseif $filediff->GetStatus() == 'M'}
+                    {elseif ($filediff->GetStatus() == 'M') || ($filediff->GetStatus() == 'R')}
                         {if $filediff->GetFromFile()}
                             {assign var=fromfilename value=$filediff->GetFromFile()}
                         {else}
