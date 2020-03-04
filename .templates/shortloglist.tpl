@@ -12,7 +12,7 @@
 <table cellspacing="0" class="git-table shortlog">
 {foreach from=$revlist item=rev}
     <tr {if !empty($mark) && $mark->GetHash() == $rev->GetHash()}class="selected"{/if}>
-        <td width="15%" title="{if $rev->GetAge() > 60*60*24*7*2}{$rev->GetAge()|agestring}{else}{$rev->GetCommitterEpoch()|date_format:"%Y-%m-%d"}{/if}">
+        <td width="15%" title="{if $rev->GetAge() > 60*60*24*7*2}{$rev->GetAge()|agestring}{else}{$rev->GetCommitterEpoch()|date_format:"%Y-%m-%d %H:%M:%S"}{/if}">
             {if $rev->GetAge() > 60*60*24*7*2}{$rev->GetCommitterEpoch()|date_format:"%Y-%m-%d"}{else}{$rev->GetAge()|agestring}{/if}
         </td>
 
