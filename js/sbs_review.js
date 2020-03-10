@@ -1,10 +1,10 @@
 
 SideBySideReview = function (compare, initialize) {
-    if (initialize == undefined) {
+    if (initialize === undefined) {
         initialize = false;
     }
 
-    if (compare != undefined) {
+    if (compare !== undefined) {
         this.compare = compare;
         this.leftEditor = compare.mergely('cm', 'lhs');
         this.rightEditor = compare.mergely('cm', 'rhs');
@@ -58,19 +58,18 @@ SideBySideReview.prototype = {
     },
 
     setReviewStatus: function (new_status, callback) {
-        var that = this;
-        $.post('/?a=set_review_status', {
-            review_id: this.review_id,
-            status: new_status
-        }, 'json')
-            .fail(function (data) {
-                that._saveFailureHandler(data);
-            })
-            .done(function (data) {
-                if (callback) {
-                    callback(data);
-                }
-            });
+        console.debug($.ajax(
+            '/?a=set_review_status',
+            {
+                type: 'POST',
+                data: {
+                    review_id: this.review_id,
+                    status: new_status
+                },
+                async: false
+            }).done(callback).fail(function () {
+            console.log('error');
+        }));
     },
 
     setSelection: function (range) {

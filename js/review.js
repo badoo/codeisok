@@ -12,7 +12,6 @@ var Review = (function() {
         ticket: null,
         select_file: null,
         select_line: null,
-        select_before: null,
         select_after: null,
         select_count: null,
         select_active: false,
@@ -135,7 +134,7 @@ var Review = (function() {
 
     Review.checkReviewId = function() {
         var urlQuery = Review.getUrlParams();
-        if (Review.review_id == null && (urlQuery.review == undefined || urlQuery.review == '')) {
+        if (Review.review_id === null && (urlQuery.review === undefined || urlQuery.review === '')) {
             var data = {
                 commit_message: Review.getCommitMessage(),
                 hash: Review.getHash(),
@@ -159,7 +158,7 @@ var Review = (function() {
 
             SessionChecker.setTimer();
 
-        } else if (Review.review_id == 0) {
+        } else if (Review.review_id === 0) {
             Review.ticket = $('#review_ticket').val();
         }
         return true;
@@ -179,7 +178,6 @@ var Review = (function() {
             file: Review.select_file,
             line: Review.select_line,
             real_line: Review.select_after,
-            real_line_before: Review.select_before,
             text: $('#review_text').val(),
             lines_count: Review.select_count
         };
@@ -222,12 +220,15 @@ var Review = (function() {
         if (Review.is_review_controls_dim) {
             return;
         }
-        var reviewData = {
-            review_id: Review.review_id,
-            status: this.id == 'review_finish' ? 'Finish' : 'Deleted'
-        };
         Review.dimReviewControls(true);
-        $.post('/?a=set_review_status', reviewData, function(data) {
+        $.ajax('/?a=set_review_status', {
+            type: 'POST',
+            data: {
+                review_id: Review.review_id,
+                status: this.id === 'review_finish' ? 'Finish' : 'Deleted',
+            },
+            async: false
+        }).success(function (data) {
             Review.dimReviewControls(false);
             if (!Review.reviewSaveSuccess(data)) {
                 return;
@@ -236,8 +237,7 @@ var Review = (function() {
             $('#review_finish').hide();
             $('#review_abort').hide();
             Review.showComments();
-        })
-            .error(Review.saveError).complete(Review.reviewSaveComplete);
+        }).error(Review.saveError).complete(Review.reviewSaveComplete);
     };
 
     Review.getClickTargetParams = function(target) {
@@ -352,7 +352,7 @@ var Review = (function() {
                         if (data.comments[i].side) {
                             real_line = real_line + 1;
                         }
-                        var real_line_before = parseInt(data.comments[i].real_line_before) || undefined;
+                        var real_line_before = undefined;
                         var text = data.comments[i].text;
                         var author = data.comments[i].author;
                         var date = data.comments[i].date;
@@ -470,7 +470,6 @@ var Review = (function() {
         Review.select_file = null;
         Review.select_line = null;
         Review.select_after = null;
-        Review.select_before = null;
         Review.select_count = null;
         Review.select_active = false;
         try {
@@ -517,7 +516,6 @@ var Review = (function() {
         Review.select_file = params.file;
         Review.select_line = params.line;
         Review.select_start_line = params.line;
-        Review.select_before = params.before;
         Review.select_after = params.after;
         Review.select_active = true;
         Review.selectReset();
@@ -536,14 +534,12 @@ var Review = (function() {
             }
             if ($target.data('line')) {
                 Review.select_count = $target.data('lines_count');
-                Review.select_before = $target.data('real_line_before');
                 Review.select_after = $target.data('real_line');
                 $target = Review.getNodeFileLine($target.data('file'), $target.data('line'), $target.data('real_line_before'), $target.data('real_line'));
             }
             var params = Review.getClickTargetParams($target[0]);
             Review.select_file = params.file;
             Review.select_line = params.line;
-            Review.select_before = params.before;
             Review.select_after = params.after;
             Review.selectReset();
             Review.showForm($target[0]);
@@ -581,7 +577,6 @@ var Review = (function() {
             var params = Review.getClickTargetParams(target);
             Review.select_file = params.file;
             Review.select_line = params.line;
-            Review.select_before = params.before;
             Review.select_after = params.after;
             Review.selectReset();
             if ($target.hasClass('spaces') || $target.hasClass('line-number')) {
@@ -608,7 +603,6 @@ var Review = (function() {
         }
 
         if (params.line > Review.select_line) {
-            Review.select_before = params.before;
             Review.select_after = params.after;
         }
         Review.select_line = Math.max(params.line, Review.select_line, Review.select_start_line);
