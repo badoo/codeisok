@@ -58,7 +58,7 @@ SideBySideReview.prototype = {
     },
 
     setReviewStatus: function (new_status, callback) {
-        console.debug($.ajax(
+        $.ajax(
             '/?a=set_review_status',
             {
                 type: 'POST',
@@ -67,9 +67,8 @@ SideBySideReview.prototype = {
                     status: new_status
                 },
                 async: false
-            }).done(callback).fail(function () {
-            console.log('error');
-        }));
+            }
+        ).done(callback);
     },
 
     setSelection: function (range) {
