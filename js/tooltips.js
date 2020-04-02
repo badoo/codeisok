@@ -78,7 +78,7 @@ function initCommitTips() {
 		$(this).qtip(
 		{
 			content: {
-				text: '<img src="' + url + 'images/tooltip-loader.gif" alt="' + GITPHP_RES_LOADING + '" />',
+				text: '<img src="' + url + 'images/loader.gif" alt="' + GITPHP_RES_LOADING + '" />',
 				ajax: {
 					url: 'index.php',
 					data: {
@@ -129,7 +129,7 @@ function initTagTips() {
 		$(this).qtip(
 		{
 			content: {
-				text: '<img src="' + url + 'images/tooltip-loader.gif" alt="' + GITPHP_RES_LOADING + '" />',
+				text: '<img src="' + url + 'images/loader.gif" alt="' + GITPHP_RES_LOADING + '" />',
 				ajax: {
 					url: 'index.php',
 					data: {

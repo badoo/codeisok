@@ -20,7 +20,7 @@ html {
 body {
 	font-size: 14px;
 	background-color: white;
-	color: #303030;
+	color: #000;
 	margin: 0;
 	min-height: 100%;
 	font-family: "SF UI Text", Helvetica, Arial, sans-serif;
@@ -34,18 +34,12 @@ body {
 }
 
 a {
-	color: #6100c4;
+	color: #000;
 	text-decoration: none;
 }
 
 a:hover, a:active {
-	color: #880000;
-	text-decoration: none;
-}
-
-a:visited {
-	color: #6100c4;
-	text-decoration: none;
+	text-decoration: underline;
 }
 
 .empty {
@@ -79,16 +73,12 @@ div.page_header .project-path {
 	padding-left: 15px;
 }
 
-div.page_header a:hover {
-	color: #880000;
-}
-
 div.page_nav {
 	margin-bottom: 10px;
 }
 
 div.adminheader {
-    border-color: #6f2fe3;
+    border-color: #000;
     border-width: 5px;
 }
 
@@ -269,7 +259,7 @@ div.diff_modes a:hover {
 
 div.diff_modes a:first-child {
 	border-width: 1px 0 1px 1px;
-	border0 10px 10px 0:;
+	border: 10px 10px 0;
 	border-radius: 10px 0 0 10px;
 }
 
@@ -279,7 +269,7 @@ div.diff_modes a:last-child {
 }
 
 div.diff_modes a.is-active {
-	border: 1px solid #7000e3;
+	border: 1px solid #000;
 	background: #fdfbff;
 }
 
@@ -330,7 +320,6 @@ div.title.compact a.title {
 div.title a.title {
 	font-weight: bold;
 	text-decoration: none;
-	color: #303030;
 	line-height: 1em;
 }
 
@@ -372,12 +361,6 @@ div.log_link {
 	font-family: sans-serif;
 	font-style: normal;
 	float: right;
-}
-
-a.list {
-	/* Filename in list of changed files */
-	text-decoration: none;
-	color: #3a75bd;
 }
 
 span.newfile {
@@ -425,7 +408,6 @@ div.pre {
 
 div.diff_info {
 	/* the from -> to file header */
-	color: #000099;
 	background-color: #f5f5f5;
 	padding: 16px 20px;
 	border-radius: 10px 10px 0 0;
@@ -646,9 +628,13 @@ span.agehighlight {
 	outline: none;
 }
 
-.project-filter-container .searchSpinner {
+.searchSpinner {
 	width: 15px;
 	height: 15px;
+    vertical-align: middle;
+}
+
+.project-filter-container .searchSpinner {
 	position: absolute;
 	user-select: none;
 	top: 0px;
@@ -695,9 +681,10 @@ table.treeTable td.link {
 }
 
 table.treeTable tr.row-loading > td:first-child {
-	background-image: url("/images/tree-loader.gif");
+	background-image: url("/images/loader.gif");
 	background-repeat: no-repeat;
-	background-position: 97% 50%;
+	background-position: 23px 50%;
+	background-size: 15px 15px;
 }
 
 table.treeTable tr.is-loaded {
@@ -862,7 +849,7 @@ ul.owners-list {
 .login-form [type="submit"] {
 	display: block;
 	width: 100%;
-	background: #6f2fe3;
+	background: #000;
 	color: white;
 	padding: 10px 15px;
 	margin-top: 10px;
@@ -888,8 +875,8 @@ ul.owners-list {
 }
 
 .checkbox-input:checked {
-	background: #6f2fe3;
-	border-color: #6f2fe3;
+	background: #000;
+	border-color: #000;
 }
 
 .checkbox-input:checked::after {
@@ -924,7 +911,7 @@ ul.owners-list {
 .select-input:active,
 .select-input:focus,
 .select-input:active {
-	border-color: #6f2fe3;
+	border-color: #000;
 }
 
 .select-input {
@@ -963,7 +950,7 @@ ul.owners-list {
 }
 
 .page-search.settings-visible .gear-icon {
-	border-color: #7000e3;
+	border-color: #000;
 }
 
 .page-search .search-panel {
@@ -1078,10 +1065,6 @@ ul.owners-list {
 	border: 0;
 }
 
-.git-table td a {
-	color: #303030;
-}
-
 .git-table th {
 	padding: 10px 0;
 	border-bottom: 1px solid #ddd;
@@ -1108,9 +1091,6 @@ ul.owners-list {
 	display: block;
 }
 
-.git-table tr:hover .projectName a {
-	color: #6f2fe3;
-}
 
 .git-table tr.selected td {
 	background: #fafafa;
@@ -1137,6 +1117,8 @@ ul.owners-list {
 
 .git-table td.code-search-results > * {
 	line-height: 14px;
+	display: inline-block;
+	vertical-align: middle;
 }
 
 .git-table td.code-search-results a {
@@ -1178,14 +1160,8 @@ ul.owners-list {
 	pointer-events: none;
 }
 
-.git-tabs__item,
-.git-tabs__item:active,
-.git-tabs__item:visited {
-	color: #303030;
-}
-
 .git-tabs__item:hover {
-	color: #7000e3;
+	color: #000;
 }
 
 .git-tabs__item.is-active {
@@ -1198,7 +1174,7 @@ ul.owners-list {
 	bottom: 0;
 	left: 0;
 	height: 3px;
-	background-color: #7000e3;
+	background-color: #000;
 	content: '';
 }
 
@@ -1253,7 +1229,6 @@ ul.owners-list {
 	border: 1px solid #eee;
 	border-radius: 10px;
 	display: inline-block;
-	color: #303030 !important;
 	background: white;
 	text-decoration: none;
 	line-height: 1.2em;
@@ -1268,13 +1243,9 @@ ul.owners-list {
 }
 
 .simple-button-highlighted {
-	border-color: #6f2fe3;
+	border-color: #000;
 }
 
-.projectHeader a,
-.projectName a {
-	color: #303030;
-}
 
 .projectName a {
 	font-size: 16px;
@@ -1339,14 +1310,9 @@ ul.owners-list {
 	cursor: pointer;
 }
 
-.checkbox-link,
-.checkbox-link:visited,
-.checkbox-link:active {
-	color: #303030;
-}
 
 .checkbox-link:hover {
-	color: #7000e3;
+	color: #000;
 }
 
 .checkbox-link__control {

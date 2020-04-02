@@ -11,7 +11,7 @@
 {else}
 {if $filediff->getDiffTooLarge() && $sexy}
 <p class="too_large_diff">
-    <img src="/images/diff-loader.gif" alt="Please wait" />
+    <img src="/images/loader.gif" alt="Please wait" />
     <a data-brush="{$decoration.highlighter_brush_name}" href="?p={$project->GetProject()|urlencode}&a=blobdiff_plain&hp={$filediff->getDiffTreeLine()|urlencode}&h=&f={$filediff->GetFromFile()|urlencode}" class="show_suppressed_diff">Diff suppressed. Click to show.</a>
 </p>
 {else}

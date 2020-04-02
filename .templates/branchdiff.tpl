@@ -71,13 +71,16 @@
                 {else}
                     {include file='extensions_filter.tpl' stasuses=$statuses extensions=$extensions folders=$folders}
 
-                    <table>
+                    <table class="diff-file-list">
                         {foreach from=$branchdiff item=filediff}
                             <tr class="filetype-{$filediff->getToFileExtension()} status-{$filediff->getStatus()|lower} folder-{$filediff->getToFileRootFolder()|lower}">
                                 <td>
-                                    {$filediff->getStatus()} <a href="#{$filediff->getToFile()}">{$filediff->getToFile()}</a>
+                                    <span>{$filediff->getStatus()}</span>
                                 </td>
-                                <td width="30%" name="files_index_{$filediff->getToFile()}"></td>
+                                <td>
+                                    <a href="#{$filediff->getToFile()}">{$filediff->getToFile()}</a>
+                                </td>
+                                <td name="files_index_{$filediff->getToFile()}"></td>
                             </tr>
                         {/foreach}
                     </table>

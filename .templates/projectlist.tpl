@@ -20,7 +20,7 @@
                 placeholder="{t}Filter projects{/t}" />
 
             {if $javascript}
-                <img src="/images/search-loader.gif" class="searchSpinner" style="display: none;"/>
+                <img src="/images/loader.gif" class="searchSpinner" style="display: none;"/>
             {/if}
 
             <a href="index.php?a" class="clearSearch"
@@ -143,7 +143,7 @@
     {if $searchmode == 1 && isset($projects.$currentproject)}
         <tr class="{$rowclass}">
             <td colspan="6" class="code-search-results" id="searchresults[{$currentproject}]">
-                <img src="/images/search-loader.gif" class="searchSpinner" onload='getSearchResults("{$text|urlencode}", "{$currentproject}", this);'/> Loading...
+                <img src="/images/loader.gif" class="searchSpinner" onload='getSearchResults("{$text|urlencode}", "{$currentproject}", this);'/> Loading...
             </td>
         </tr>
     {/if}
