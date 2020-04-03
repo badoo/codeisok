@@ -38,6 +38,7 @@ div.review_btn.comment_delete,
 #review_cancel {
     background: white !important;
     border-color: #c0c0c0 !important;
+    color: #000 !important;
 }
 
 span.btn_small {
@@ -91,7 +92,7 @@ span.btn_small {
 }
 
 .comment-container > div {
-    color: blue !important;
+    color: black !important;
     background: #ffffff !important;
     white-space: pre-wrap;
     padding: 5px !important;

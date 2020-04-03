@@ -20,7 +20,7 @@ html {
 body {
 	font-size: 14px;
 	background-color: white;
-	color: #000;
+	color: gray;
 	margin: 0;
 	min-height: 100%;
 	font-family: "SF UI Text", Helvetica, Arial, sans-serif;
@@ -210,17 +210,6 @@ a.rss_logo:hover {
 	background-color: #ee5500;
 }
 
-span.refs a {
-	/* for both tag and head badges */
-	color: #000000;
-	text-decoration: none;
-}
-
-span.refs a:hover {
-	color: #880000;
-	text-decoration: underline;
-}
-
 span.tag {
 	/* tag badge */
 	padding: 0 4px;
@@ -388,7 +377,7 @@ span.latenight {
 	Log List
 */
 
-tr.commit-head td {
+tr.commit-head td > a {
 	font-weight: bold;
 }
 
