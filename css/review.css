@@ -229,14 +229,20 @@ div.review-selected {
     border-radius: 5px;
 }
 
+span.head, span.review {
+	/* head badge */
+	padding: 4px 10px;
+	font-size: 12px;
+	font-weight: normal;
+	background-color: #d1ffd1;
+	border-radius: 5px;
+	margin-left: 10px;
+    white-space: nowrap;
+}
+
 span.review {
     /* review badge */
-    padding: 0px 4px;
-    font-size: 10px;
-    font-weight: normal;
     background-color: #ffaaaa;
-    border: 1px solid;
-    border-color: #ffcccc #ff0000 #ff0000 #ffcccc;
 }
 
 #session_checker {
@@ -325,6 +331,8 @@ span.review {
 #notifications strong {
     cursor: pointer;
     display: inline-block;
+    color: #000;
+    text-decoration: underline;
 }
 
 .hoverable {
