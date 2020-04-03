@@ -77,7 +77,7 @@
                                 <td>
                                     <span>{$filediff->getStatus()}</span>
                                 </td>
-                                <td>
+                                <td class="file-name">
                                     <a href="#{$filediff->getToFile()}">{$filediff->getToFile()}</a>
                                 </td>
                                 <td name="files_index_{$filediff->getToFile()}"></td>

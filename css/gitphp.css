@@ -404,7 +404,7 @@ sup {
     min-width: 400px;
 }
 
-.diff-file-list a {
+.diff-file-list .file-name a {
 	display: block;
 }
 
