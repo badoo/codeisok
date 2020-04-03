@@ -8,13 +8,31 @@
  * @package GitPHP
  */
 
-
 /*
  * Base styles
  */
 .monospace {
 	font-family: monospace;
 }
+
+:root {
+	/* Added files */
+	--git-status-a-color: #008c00;
+	--git-status-a-visited-color: #829f82;
+
+	/* Deleted files */
+	--git-status-d-color: #a50000;
+	--git-status-d-visited-color: #ca9999;
+
+	/* Modified files */
+	--git-status-m-color: #3a75bd;
+	--git-status-m-visited-color: #91bef5;
+
+	/* Renamed files */
+	--git-status-r-color: #a400cf;
+	--git-status-r-visited-color: #c991f5;
+}
+
 
 td.code * {
     font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace !important;
@@ -226,7 +244,7 @@ div.suppressed {
 	font-size: 12px;
 }
 .file_filter .extension.selected {
-	background-color: #1AB0FF;
+	background-color: #0089d2;
 }
 .file_filter .status.selected {
 	background-color: #FF8201;
@@ -364,7 +382,7 @@ div.suppressed {
 }
 
 .switcher.checked .switch {
-    background: #7000e3;
+    background: #000;
 }
 
 .switcher.checked .switch::before {
@@ -384,4 +402,28 @@ sup {
 
 .git-admin-table .text-input, .git-table .text-input {
     min-width: 400px;
+}
+
+.diff-file-list a {
+	display: block;
+}
+
+.diff-file-list span {
+	font-weight: bold;
+}
+
+.diff-file-list .status-d span {
+	color: var(--git-status-d-color);
+}
+
+.diff-file-list .status-r span {
+	color: var(--git-status-r-color);
+}
+
+.diff-file-list .status-a span {
+	color: var(--git-status-a-color);
+}
+
+.diff-file-list .status-m span {
+	color: var(--git-status-m-color);
 }

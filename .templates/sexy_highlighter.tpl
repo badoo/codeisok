@@ -15,7 +15,7 @@
 <div id="review_review">
     <div id="review_ticket_select"></div>
     <input class="text-input" type="text" id="review_ticket" />
-    <div id="review_loader" style="background: url('/images/search-loader.gif') transparent;height: 16px;line-height: 16px;width: 16px;display:none;">&nbsp;</div>
+    <div id="review_loader" style="background: url('/images/loader.gif') transparent;height: 16px;line-height: 16px;width: 16px;display:none;">&nbsp;</div>
     <div class="review-actions">
         <div class="review_btn review_cancel" id="review_abort" style="display: none;">Discard</div>
         <div class="review_btn" id="review_finish" style="display: none;">Finish</div>

@@ -147,7 +147,6 @@ div.ui-tooltip-light .ui-tooltip-wrapper{
 
 /*! Dark tooltip style */
 div.ui-tooltip-dark .ui-tooltip-wrapper{
-	border-color: #303030;
 	background-color: #505050;
 	color: #f3f3f3;
 }

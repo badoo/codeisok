@@ -1,8 +1,8 @@
 /*
  * GitPHP Javascript blame
- * 
+ *
  * Load blame data into blob page asynchronously
- * 
+ *
  * @author Christopher Han <xiphux@gmail.com>
  * @copyright Copyright (c) 2010 Christopher Han
  * @package GitPHP
@@ -36,7 +36,7 @@ function initBlame() {
 			div.css('text-align', 'center');
 
 			var img = jQuery(document.createElement('img'));
-			img.attr('src', url + "images/blame-loader.gif");
+			img.attr('src', url + "images/loader.gif");
 			img.attr('alt', GITPHP_RES_LOADING);
 			img.appendTo(div);
 
@@ -49,7 +49,7 @@ function initBlame() {
 			function(data) {
 
 				blameCol = $('td#blameData');
-				
+
 				var insertBlame = function() {
 					blameCol.html(data).addClass('de1');
 					initCommitTips();

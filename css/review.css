@@ -19,14 +19,14 @@ body.has-review-block {
 }
 div.review_btn {
     padding: 11px 20px 9px !important;
-    border: 1px solid #7000E3 !important;
+    border: 1px solid #000 !important;
     border-radius: 10px !important;
     display: inline-block;
     cursor: pointer !important;
     color: #333 !important;
     text-align: center !important;
     color: #fff !important;
-    background-color: #7000E3 !important;
+    background-color: #000 !important;
     font-family: Helvetica, Arial, sans-serif !important;
     line-height: 1.5em !important;
     margin-right: 5px !important;
@@ -37,7 +37,6 @@ div.review_btn.comment_delete,
 #review_abort,
 #review_cancel {
     background: white !important;
-    color: #303030 !important;
     border-color: #c0c0c0 !important;
 }
 
@@ -63,7 +62,7 @@ span.btn_small {
     outline: none !important;
     font-family: "SF UI Text", Helvetica, Arial, sans-serif !important;
 }
-#review_text:focus {border: 1px solid #7000e3 !important;}
+#review_text:focus {border: 1px solid #000 !important;}
 #review_msg {
     white-space: pre-wrap !important;
 }
@@ -296,7 +295,6 @@ span.review {
 
 .comment-container .comments .text,
 .cloud_with_text.sbs .text {
-  color: #303030;
   display: block;
   padding-top: 10px;
   padding-bottom: 10px;
@@ -389,3 +387,4 @@ span.review {
 
 .SBSContent .CodeMirror-linewidget + .CodeMirror-linewidget {
     margin-top: -17px;
+}
