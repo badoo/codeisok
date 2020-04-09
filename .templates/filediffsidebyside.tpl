@@ -24,7 +24,7 @@
  {literal}
 
  $(document).delegate('.SBSTOC a', 'click', function (e) {
-    //e.preventDefault();
+    e.preventDefault();
 
     const link = $(this);
     const data = link.data();
