@@ -58,6 +58,10 @@ var Review = (function() {
         console.log('Error');
     };
     Review.reviewSaveComplete = function() {
+        // Trigger any listeners to review comment changes
+        if (window.onhashchange) {
+            window.onhashchange();
+        }
     };
 
 
