@@ -408,6 +408,15 @@ sup {
 	display: block;
 }
 
+.diff-file-list .file-name a.is-visited {
+	color: grey;
+}
+
+.diff-file-list .file-name a.is-active {
+	background: #f0f0f0;
+	color: black;
+}
+
 .diff-file-list span {
 	font-weight: bold;
 }

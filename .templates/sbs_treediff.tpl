@@ -22,7 +22,7 @@ var _file_list = [
 
 <div class="two-panes SBSTOC is-loading">
     <div class="js-left-pane left-pane">
-        <ul class="SBSFileList file-list">
+        <ul class="file-list">
         </ul>
     </div>
 
