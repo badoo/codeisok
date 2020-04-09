@@ -219,17 +219,6 @@ span.tag {
 	background-color: #ffffaa;
 }
 
-span.head {
-	/* head badge */
-	padding: 4px 10px;
-	font-size: 12px;
-	font-weight: normal;
-	background-color: #d1ffd1;
-	border-radius: 5px;
-	margin-left: 10px;
-    white-space: nowrap;
-}
-
 img.logo {
 	/* the git logo */
 	border-width: 0px;
