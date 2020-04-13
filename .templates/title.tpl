@@ -25,7 +25,7 @@
                     {foreach from=$titlecommit->GetComment() item=line key=key}
                         {* First line is always the original commit title which we render above *}
                         {if $key !== 0 && trim($line) !== ""}
-                            {$line|htmlspecialchars|buglink:$bugpattern:$bugurl}<br />
+                            {$line|htmlspecialchars}<br />
                         {/if}
                     {/foreach}
                 </div>
