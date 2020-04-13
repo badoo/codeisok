@@ -187,14 +187,16 @@ var Review = (function() {
             }
             Review.hideForm();
             $('#review_text').val('');
+
             if (!Review.getUrlParams().review) {
-                location = location.protocol + '//' + location.host + location.pathname + location.search + '&review=' + data.review_id + '#' + data.comment_id;
+                history.replaceState(null, null, location.search + '&review=' + data.review_id + '#' + data.comment_id);
             } else {
                 location.hash = data.comment_id;
-                Review.showComments();
-                $('#review_finish').show();
-                $('#review_abort').show();
             }
+
+            Review.showComments();
+            $('#review_finish').show();
+            $('#review_abort').show();
         }, 'json')
             .error(Review.saveError).complete(Review.reviewSaveComplete);
     };
