@@ -166,7 +166,7 @@ SideBySideReview.prototype = {
                         }
                     );
                     for (var file_name in comments_counts) {
-                        const link = $('.SBSFileList a[data-fromfile="'+file_name+'"] .review-comments,.SBSFileList a[data-tofile="'+file_name+'"] .review-comments');
+                        const link = $('.SBSTOC .review-comments[data-fromfile="'+file_name+'"],.SBSTOC .review-comments[data-tofile="'+file_name+'"]');
                         const commentCount = comments_counts[file_name];
                         link.html(`<span>${commentCount} comment${commentCount > 1 ? 's' : ''}</span>`);
                     }

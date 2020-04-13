@@ -171,7 +171,6 @@ function detectActiveBlobs() {
     if (suppressedDiff.length > 0) {
         suppressedDiff.click();
     }
-
 }
 
 function getReviewKey() {
@@ -238,7 +237,7 @@ function renderFile(file) {
 
     return `
         <li class="type-file status-${file.status} filetype-${file.fileType}">
-            <a href="#${file.path}" ${fileDataString}>${file.name} <span class="review-comments" name="files_index_${file.path}"></span></a>
+            <a href="#${file.path}" ${fileDataString}>${file.name} <span class="review-comments" name="files_index_${file.path}" ${fileDataString}></span></a>
         </li>
     `;
 }

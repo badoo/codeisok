@@ -23,7 +23,7 @@
  var reviewCache = new Object();
  {literal}
 
- $(document).delegate('.SBSFileList a', 'click', function (e) {
+ $(document).delegate('.SBSTOC a', 'click', function (e) {
     e.preventDefault();
 
     const link = $(this);
@@ -37,8 +37,11 @@
         $('.SBSTOC').removeClass('is-loading');
     });
 
-    $('.file-list li').removeClass('is-active');
-    link.parent().addClass('is-active is-visited');
+    // to account for both treediff and non-treediff modes
+    $('.SBSTOC a, .SBSTOC li').removeClass('is-active');
+
+    link.addClass('is-active is-visited');
+    link.parent('li').addClass('is-active is-visited');
  });
 
  function loadSBS(fromHash, fromFile, toHash, toFile, callback) {
@@ -136,7 +139,7 @@
  });
 
  $(function(){
-    $('.SBSFileList a:first').click();
+    $('.SBSTOC a:first').click();
  });
 
  </script>
