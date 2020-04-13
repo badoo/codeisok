@@ -20,6 +20,16 @@
                 {else}
                     <a href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=commit&amp;h={$titlecommit->GetHash()}" class="title">{$titlecommit->GetTitle()|escape}</a>
                 {/if}
+
+                <div>
+                    {foreach from=$titlecommit->GetComment() item=line key=key}
+                        {* First line is always the original commit title which we render above *}
+                        {if $key !== 0 && trim($line) !== ""}
+                            {$line|htmlspecialchars}<br />
+                        {/if}
+                    {/foreach}
+                </div>
+
                 {include file='refbadges.tpl' commit=$titlecommit}
             {else}
                 {if $target == 'shortlog'}
