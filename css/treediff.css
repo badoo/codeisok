@@ -18,6 +18,7 @@
 
 .has-review-block .two-panes .left-pane {
     max-height: calc(100vh - 100px);
+    min-height: calc(100vh - 300px);
 }
 
 .two-panes .pane-dragger {

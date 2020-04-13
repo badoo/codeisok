@@ -153,11 +153,13 @@ div.review-selected {
     color: #000 !important;
     font-size: 14px !important;
 }
-.date {
+.comment-user .date {
     font-size: 12px !important;
-    letter-spacing: -0.5px;
-    color: #949494 !important;
+    color: #8e8e8e !important;
     margin-left: 20px;
+    float: right;
+    clear: both;
+    font-weight: 100;
 }
 .author {
     font-weight: bold;
@@ -295,9 +297,47 @@ span.review {
   white-space: normal;
 }
 
+.comment-container .comments + .comments {
+  padding-left: 30px !important;
+  position: relative;
+}
+
+.comment-container .comments + .comments + .comments {
+  padding-left: 45px !important;
+}
+
+.comment-container .comments + .comments + .comments + .comments {
+    padding-left: 60px !important;
+}
+
+.comment-container .comments + .comments + .comments + .comments + .comments {
+    padding-left: 75px !important;
+}
+
+.comment-container .comments + .comments:after {
+  content: "";
+  background: #f9f9f9;
+  left: 0;
+  top: 0;
+  width: 15px;
+  position: absolute;
+  height: 100%;
+}
+
+.comment-container .comments + .comments + .comments:after {
+  width: 30px;
+}
+
+.comment-container .comments + .comments + .comments + .comments:after {
+  width: 45px;
+}
+
+.comment-container .comments + .comments + .comments + .comments + .comments:after {
+  width: 60px;
+}
+
 .comment-container .comments, .comment-container .comments a {
   font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace !important;
-  text-decoration: none !important;
 }
 
 .comment-container .comments .text,
