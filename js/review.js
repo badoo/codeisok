@@ -194,6 +194,8 @@ var Review = (function() {
 
             if (!Review.getUrlParams().review) {
                 history.replaceState(null, null, location.search + '&review=' + data.review_id + '#' + data.comment_id);
+                Review.review_id = data.review_id;
+                Review.checkReviewId();
             } else {
                 location.hash = data.comment_id;
             }
