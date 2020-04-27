@@ -48,14 +48,7 @@
 .two-panes .right-pane {
     overflow: scroll;
     flex: 5 0 0;
-}
-
-.right-pane .diffBlob {
-    display: none;
-}
-
-.right-pane .diffBlob.is-visible {
-    display: block;
+    padding-bottom: 50vh;
 }
 
 .left-pane .file_filter {
@@ -222,8 +215,4 @@
 
 .file-list li.collapsed .type-folder::after {
     content: '▶︎';
-}
-
-.page_body.only-comments .right-pane .diffBlob.has-review-comment {
-    display: block;
 }

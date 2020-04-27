@@ -40,7 +40,10 @@ function SyntaxHighlighterApply() {ldelim}
     SyntaxHighlighter.config.diff_enabled = true;
     {/if}
     SyntaxHighlighter.defaults['quick-code'] = false;
-    SyntaxHighlighter.config.afterHightlight = Review.start;
+    SyntaxHighlighter.config.afterHightlight = function () {ldelim}
+        Review.start();
+        window.initTreeDiff && window.initTreeDiff();
+    {rdelim};
     SyntaxHighlighter.all();
 {rdelim}
 SyntaxHighlighterApply();

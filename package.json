@@ -1,0 +1,25 @@
+{
+  "name": "codeisok",
+  "version": "1.0.0",
+  "description": "Git code browsing and code review tool",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/badoo/codeisok.git"
+  },
+  "author": "Nikhil Verma <nikhil.verma@corp.badoo.com>",
+  "license": "GPL-3.0-or-later",
+  "bugs": {
+    "url": "https://github.com/badoo/codeisok/issues"
+  },
+  "homepage": "https://github.com/badoo/codeisok#readme",
+  "devDependencies": {
+    "eslint": "^6.8.0"
+  }
+}
