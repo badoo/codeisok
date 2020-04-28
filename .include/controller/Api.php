@@ -48,6 +48,10 @@ class Api implements ControllerInterface
                 $this->handleMergeBaseRequest();
                 break;
 
+            case "contributors":
+                $this->handleContributorsRequest();
+                break;
+
             default:
                 $this->renderNotFound();
         }
@@ -267,5 +271,30 @@ class Api implements ControllerInterface
             }
         }
         return $commit_info;
+    }
+
+    protected function handleContributorsRequest()
+    {
+        $file = $_REQUEST['file'] ?? '';
+
+        if (empty($file)) {
+            $this->renderNotFound("Need to specify 'file'");
+        }
+
+        $contributors = [];
+        $log = $this->getProject()->GetLog('HEAD', 1000, 0, null, ['file' => $file]);
+        foreach ($log as $Commit) {
+            if (isset($contributors[$Commit->GetAuthorEmail()])) {
+                $contributors[$Commit->GetAuthorEmail()]['commits_count']++;
+            } else {
+                $contributors[$Commit->GetAuthorEmail()] = [
+                    'name' => $Commit->GetAuthorName(),
+                    'email' => $Commit->GetAuthorEmail(),
+                    'commits_count' => 1,
+                ];
+            }
+        }
+
+        $this->sendResponse(array_values($contributors));
     }
 }

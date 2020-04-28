@@ -1458,6 +1458,9 @@ class GitPHP_Project
 
         if ($skip > 0) $canSkip = $exe->CanSkip();
 
+        $file = $args['file'] ?? '';
+        unset($args['file']);
+
         if ($canSkip) {
             $args[] = '--max-count=' . $count;
             if ($skip > 0) {
@@ -1472,6 +1475,14 @@ class GitPHP_Project
         } else {
             $args[] = $hash;
         }
+
+        if (!empty($file)) {
+            $args[] = '--';
+            $args[] = $file;
+        }
+
+        // we don't know how to parse STDERR from rev-list command + we don't need it in most cases
+        $args[] = "2>/dev/null";
 
         $revlist = explode("\n", $exe->Execute(GIT_REV_LIST, $args));
 

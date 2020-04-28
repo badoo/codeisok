@@ -12,7 +12,8 @@ class GitPHP_Session
     /** @var GitPHP_User */
     protected $User;
 
-    protected static $instance = null;
+    /** @var GitPHP_Session */
+    protected static $instance;
 
     /**
      * @return GitPHP_Session
