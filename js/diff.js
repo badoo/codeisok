@@ -74,7 +74,6 @@ $(function(){
 
 
 function renderTreeDiff(fileList, container) {
-
     // Update the folder list
     const treeMap = getFolderMap(fileList);
     container.innerHTML = `
@@ -84,13 +83,13 @@ function renderTreeDiff(fileList, container) {
 
     // Check if we need to display a pre-selected comment or blob
     if (!window.sbsTreeDiff) {
-        // Check for existing viewed file names and mark them as viewed
-        const viewedFiles = getViewedFiles();
-        viewedFiles.forEach(viewedFileName => {
-            $(`.file-list a[href="${viewedFileName}"]`).parent().addClass('is-active is-visited');
-        });
-
-        detectActiveBlobs();
+        // Triggered by sexy_highlighter.tpl
+        window.initTreeDiff = function () {
+            // Check for existing viewed file names and mark them as viewed
+            markFilesAsViewed(getViewedFiles());
+            detectActiveBlobs();
+            enableScrollDetection();
+        }
 
         // Start listening for hash changes
         window.onhashchange = detectActiveBlobs;
@@ -108,6 +107,79 @@ function enableFolderCollapsing() {
     });
 }
 
+function markFilesAsViewed(viewedFiles) {
+    viewedFiles.forEach(viewedFileName => {
+        $(`.file-list a[href="#${viewedFileName}"]`).parent().addClass('is-visited');
+    });
+}
+
+function enableScrollDetection() {
+    if (!window.IntersectionObserver || !WeakMap) {
+        return;
+    }
+
+    const visibleNodes = new WeakMap();
+
+    const observer = new window.IntersectionObserver((entries) => {
+        entries
+        .forEach(entry => {
+            const el = entry.target;
+
+            if (visibleNodes.has(el)) {
+                clearTimeout(visibleNodes.get(el));
+            }
+
+            if (!entry.isIntersecting) {
+                visibleNodes.delete(el);
+                return;
+            }
+
+            const fileName = el.querySelector('a.anchor').name;
+            markFileAsActive(fileName);
+            scrollFileListItemIntoView(fileName);
+
+            // auto-loading diff showed poor UX when implemented
+            // const suppressedDiff = el.querySelector('.show_suppressed_diff');
+            // if (suppressedDiff) {
+            //     suppressedDiff.click();
+            // }
+
+            // For a file to be marked as viewed, it must be in the viewport for 2 seconds
+            visibleNodes.set(el, setTimeout(() => {
+                setViewedFiles([fileName]);
+            }, 2000));
+        });
+    }, {
+        // Start triggering when an element is in the top 90% of the screen
+        rootMargin: `0px 0px -${window.innerHeight * 0.9}px 0px`,
+
+        // 0 threshold means we get triggers for when an element is visible and also when it leaves
+        threshold: 0
+    });
+
+    document.querySelectorAll('.right-pane .diffBlob').forEach(el => observer.observe(el));
+}
+
+function markFileAsActive(fileName) {
+    $('.file-list li').removeClass('is-active');
+    $(`.file-list a[href="#${fileName}"]`).parent().addClass('is-active');
+}
+
+function scrollFileListItemIntoView(fileName) {
+    const fileListElement = document.querySelector(`.file-list a[href="#${fileName}"]`);
+
+    if (fileListElement) {
+        // scrollIntoView scrolls the whole page, so we use a chrome-only api
+        fileListElement.scrollIntoView({
+            block: 'nearest',
+            inline: 'start'
+        });
+
+        // fix weird scrolling
+        document.querySelector('.js-left-pane').scrollLeft = 0;
+    }
+}
+
 // Dragging for panes
 function enablePaneDragging() {
     const leftPane = $('.js-left-pane');
@@ -117,12 +189,10 @@ function enablePaneDragging() {
         return;
     }
 
-    let isDragging = false;
     let dragStart = 0;
     let leftPaneWidth;
 
     dragger.on('mousedown', function (e) {
-        isDragging = true;
         dragStart = e.clientX;
         leftPaneWidth = leftPane.width();
 
@@ -132,8 +202,6 @@ function enablePaneDragging() {
     });
 
     function onMouseUp() {
-        isDragging = false;
-
         $(document.body)
             .off('mouseup', onMouseUp)
             .off('mousemove', onMouseMove);
@@ -151,12 +219,10 @@ function detectActiveBlobs() {
     const hash = decodeURIComponent(window.location.hash.substr(1));
     const foundElement = $(`[name="${hash}"]`);
     const closestBlob = foundElement.closest('.diffBlob');
-    closestBlob.addClass('is-visible').siblings().removeClass('is-visible');
 
     // Find the file name and highlight on the left pane
     const fileName = closestBlob.find('a.anchor').attr('name');
-    $('.file-list li').removeClass('is-active');
-    $(`.file-list a[href="#${fileName}"]`).parent().addClass('is-active is-visited');
+    markFileAsActive(fileName);
 
     // Save the viewed files again
     const viewedFiles = $('.type-file.is-visited a').get().map(el => el.getAttribute('href'));
@@ -165,6 +231,7 @@ function detectActiveBlobs() {
     // Make sure it's in the view
     if (foundElement.length > 0) {
         foundElement.get(0).scrollIntoView();
+        scrollFileListItemIntoView(fileName);
     }
 
     const suppressedDiff = closestBlob.find('.show_suppressed_diff');
@@ -201,13 +268,20 @@ function getViewedFiles() {
 function setViewedFiles(files) {
     files = files || [];
 
+    if (files.length === 0) {
+        return;
+    }
+
     try {
+        markFilesAsViewed(files);
+
         sessionStorage.setItem('viewed-files', JSON.stringify({
             reviewKey: getReviewKey(),
-            files: files
+            files: files.concat(getViewedFiles())
         }));
     }
-    catch(e) {
+    catch(err) {
+        console.error(err);
         sessionStorage.removeItem('viewed-files');
     }
 }
