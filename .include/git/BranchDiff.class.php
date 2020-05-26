@@ -138,7 +138,7 @@ class GitPHP_BranchDiff implements Iterator
             '--ancestry-path',
             '--parents',
             '--first-parent',
-            "{$this->toBranch}..{$this->fromBranch}",
+            "{$this->toHash}..{$this->fromBranch}",
             '2>/dev/null',
         ];
         $history = trim($this->exe->Execute(GIT_REV_LIST, $args));
@@ -148,7 +148,7 @@ class GitPHP_BranchDiff implements Iterator
             $args = [
                 '--ancestry-path',
                 '--parents',
-                "{$this->toBranch}..{$this->fromBranch}",
+                "{$this->toHash}..{$this->fromBranch}",
                 '2>/dev/null',
             ];
             $history = trim($this->exe->Execute(GIT_REV_LIST, $args));
