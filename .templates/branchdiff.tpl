@@ -46,7 +46,7 @@
             </div>
             {/if}
 
-            {if $branchdiff->hasHidden()}
+            {if $branchdiff && $branchdiff->hasHidden()}
                 <a class="diff-controls__item simple-button-highlighted" href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=branchdiff&amp;branch={$branch}{if $review}&amp;review={$review}{/if}{if $base}&amp;base={$base}{/if}&amp;show_hidden=1">
                     Show hidden files
                 </a>
