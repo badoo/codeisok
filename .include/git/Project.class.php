@@ -1214,12 +1214,16 @@ class GitPHP_Project
         $hash_tags = array();
 
         /** @var $Commit GitPHP_Commit */
-        foreach ($log as $i => $hash) {
-            $log[$i] = $Commit = $this->GetCommit($hash);
-            if (!isset($contents[$hash])) continue;
+        foreach ($log as $i => $log_hash) {
+            $log[$i] = $Commit = $this->GetCommit($log_hash);
+            if (!isset($contents[$log_hash])) {
+                continue;
+            }
 
-            $Commit->ReadData($contents[$hash]);
-            foreach ($Commit->GetTags() as $Tag) $hash_tags[$Tag->GetHash()] = $Tag;
+            $Commit->ReadData($contents[$log_hash]);
+            foreach ($Commit->GetTags() as $Tag) {
+                $hash_tags[$Tag->GetHash()] = $Tag;
+            }
         }
 
         $this->BatchLoadTags($hash_tags);
