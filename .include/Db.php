@@ -12,8 +12,13 @@ class Db
     const TBL_ACCESS     = 'Access';
     const TBL_REPOSITORY = 'Repository';
 
-    const QUERY_SAVE_BRANCH_HEAD = 'INSERT INTO #TBL_HEADS# SET branch = #branch#, hash = #hash# ON DUPLICATE KEY UPDATE hash = VALUES(hash)';
-    const QUERY_GET_BRANCH_HEAD = 'SELECT hash FROM #TBL_HEADS# WHERE branch = #branch#';
+    const QUERY_SAVE_BRANCH_HEAD = 'INSERT INTO #TBL_HEADS#
+        SET `repository` = #repository#, `branch` = #branch#, `hash` = #hash#
+        ON DUPLICATE KEY UPDATE hash = VALUES(hash)';
+
+    const QUERY_GET_BRANCH_HEAD = 'SELECT hash FROM #TBL_HEADS#
+        WHERE `repository` = #repository# AND `branch` = #branch#';
+
     const QUERY_GET_DRAFT_COMMENT_BY_AUTHOR = 'SELECT * FROM #TBL_COMMENT# rc
        JOIN #TBL_SNAPSHOT# rs ON rs.id = rc.snapshot_id
        WHERE rc.`status` = \'Draft\' AND rc.`author` = #author#
@@ -430,14 +435,24 @@ class Db
         return $this->getAll($sql, $params);
     }
 
-    public function saveBranchHead($branch, $hash)
+    public function saveBranchHead($repository, $branch, $hash)
     {
-        return false !== $this->query(self::QUERY_SAVE_BRANCH_HEAD, ['branch' => $this->quote($branch), 'hash' => $this->quote($hash)]);
+        return false !== $this->query(
+            self::QUERY_SAVE_BRANCH_HEAD,
+            [
+                'repository' => $this->quote($repository),
+                'branch' => $this->quote($branch),
+                'hash' => $this->quote($hash),
+            ]
+        );
     }
 
-    public function getBranchHead($branch)
+    public function getBranchHead($repository, $branch)
     {
-        return $this->getOne(self::QUERY_GET_BRANCH_HEAD, ['branch' => $this->quote($branch)]);
+        return $this->getOne(
+            self::QUERY_GET_BRANCH_HEAD,
+            ['repository' => $repository, 'branch' => $this->quote($branch)]
+        );
     }
 
     public function deleteAllDraftComments($author)

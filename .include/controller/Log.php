@@ -106,7 +106,7 @@ class Log extends Base
         $co = $this->project->GetCommit($this->params['hash']);
         $toHash = null;
         if (!$co) {
-            $co = \GitPHP\Db::getInstance()->getBranchHead($this->params['hash']);
+            $co = \GitPHP\Db::getInstance()->getBranchHead($this->project->GetProject(), $this->params['hash']);
             if ($co) $co = $this->project->GetCommit($co);
             if (!$co) return;
             $toHash = $co->GetHash();

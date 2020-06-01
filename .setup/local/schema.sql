@@ -23,9 +23,10 @@ CREATE TABLE IF NOT EXISTS `Comment` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 CREATE TABLE IF NOT EXISTS `Heads` (
+  `repository` varchar(128) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
   `branch` varchar(255) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
   `hash` varchar(40) COLLATE utf8_unicode_ci NOT NULL DEFAULT '',
-  PRIMARY KEY (`branch`)
+  UNIQUE KEY `repo_branch` (`repository`, `branch`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 CREATE TABLE IF NOT EXISTS `Review` (

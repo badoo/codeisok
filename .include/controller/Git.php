@@ -120,7 +120,7 @@ class Git extends Base
             if (!empty($head)) {
                 $hash = $head->GetHash();
                 if ($persist) {
-                    $res = \GitPHP\Db::getInstance()->saveBranchHead($branch, $hash);
+                    $res = \GitPHP\Db::getInstance()->saveBranchHead($this->project->GetProject(), $branch, $hash);
                     $response['status'] = ($res ? 'ok' : 'err');
                 }
             }
