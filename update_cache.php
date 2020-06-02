@@ -19,6 +19,7 @@ class UpdateCache
                 echo date('r') . ": Running for {$repository['project']}\n";
                 $Project = new GitPHP_Project($repository['project']);
                 $Project->UpdateUnmergedCommitsCache();
+                $Project->UpdateHeadsCache();
             } catch (\Exception $e) {
                 echo date('r') . ": Error: {$e->getMessage()}";
             }

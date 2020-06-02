@@ -1683,8 +1683,11 @@ class GitPHP_Project
             $cache = [];
         }
 
-        // note: don't use quotes in --format arguments. They are not needed because of escapeshellarg call inside ForEachRef
-        $unmerged_branches = $this->ForEachRef(["--format=%(objectname)\t%(refname)", '--no-merge', $this->GetDefaultBranch(), 'refs/heads/*']);
+        // note: don't use quotes in --format arguments. They are not needed
+        // because of escapeshellarg call inside ForEachRef
+        $unmerged_branches = $this->ForEachRef(
+            ["--format=%(objectname)\t%(refname)", '--no-merge', $this->GetDefaultBranch(), 'refs/heads/*']
+        );
         $commits_per_branch = [];
         foreach ($unmerged_branches as $line) {
             $line = explode("\t", $line);
@@ -1695,10 +1698,13 @@ class GitPHP_Project
             if (!$head || !$branch) continue;
 
             $previous_head = $cache[$branch]['head'] ?? '';
-            if ($previous_head == $head) {
+            if ($previous_head === $head) {
                 $commits_per_branch[$branch] = $cache[$branch];
             } else {
-                $commits_per_branch[$branch] = ['head' => $head, 'commits' => $this->GetRevList([$branch, '^' . $this->GetDefaultBranch()])];
+                $commits_per_branch[$branch] = [
+                    'head' => $head,
+                    'commits' => $this->GetRevList([$branch, '^' . $this->GetDefaultBranch()]),
+                ];
             }
         }
         $commits_per_branch['HEAD'] = $this->GetDefaultBranch();
@@ -1707,6 +1713,46 @@ class GitPHP_Project
             $this->GetPath() . "/.codeisok_cache.php",
             json_encode($commits_per_branch)
         );
+    }
+
+    /**
+     * Update heads cache stored in DB
+     * its used when user tries to see a diff with a branch that was removed
+     */
+    public function UpdateHeadsCache()
+    {
+        $old_branches = [];
+        $DB = \GitPHP\Db::getInstance();
+        if (!isset($DB)) {
+            return;
+        }
+
+        foreach ($DB->getRepositoryBranches($this->GetProject()) as $branch_head) {
+            if (!isset($branch_head['branch'], $branch_head['hash'])) {
+                continue;
+            }
+            $old_branches[$branch_head['branch']] = $branch_head['hash'];
+        }
+        $current_branches = $this->ForEachRef(
+            ["--format=%(objectname)\t%(refname)", 'refs/heads/*']
+        );
+
+        foreach ($current_branches as $line) {
+            $line = explode("\t", $line);
+            if (count($line) < 2) {
+                continue;
+            }
+
+            $head = $line[0];
+            $branch = explode("/", $line[1], 3)[2] ?? '';
+            if (!$head || !$branch) {
+                continue;
+            }
+
+            if (!isset($old_branches[$branch]) || $old_branches[$branch] !== $head) {
+                $DB->saveBranchHead($this->GetProject(), $branch, $head);
+            }
+        }
     }
 
     /**

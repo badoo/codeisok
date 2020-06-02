@@ -19,10 +19,14 @@ class Db
     const QUERY_GET_BRANCH_HEAD = 'SELECT hash FROM #TBL_HEADS#
         WHERE `repository` = #repository# AND `branch` = #branch#';
 
+    const QUERY_GET_PROJECT_BRANCH_HEADS = 'select `branch`, `hash` FROM #TBL_HEADS#
+        WHERE `repository` = #repository#';
+
     const QUERY_GET_DRAFT_COMMENT_BY_AUTHOR = 'SELECT * FROM #TBL_COMMENT# rc
        JOIN #TBL_SNAPSHOT# rs ON rs.id = rc.snapshot_id
        WHERE rc.`status` = \'Draft\' AND rc.`author` = #author#
        ORDER BY `date` desc limit #limit#';
+
     const QUERY_GET_COMMENTS_BY_REVIEW_AUTHOR = 'SELECT rc.id, rc.snapshot_id, rc.author, rc.date, rc.file, rc.line,
             rc.text, rc.status, rc.real_line, rc.real_line_start, rc.real_line_before, rc.real_line_before_start,
             rc.lines_count, rc.side, rs.id as snapshot_id, rs.review_id, rs.hash_head, rs.hash_base, rs.repo, rs.created,
@@ -31,6 +35,7 @@ class Db
              JOIN #TBL_SNAPSHOT# rs ON rs.id = rc.snapshot_id
          WHERE `review_id` = #review_id# AND (`status` = "Finish" OR (`author` = #author# AND `status` != "Deleted"))
          ORDER BY rc.`file`, rc.`real_line_before`, rc.`real_line`, rc.`date`';
+
     const QUERY_GET_COMMENTS_BY_SNAPSHOT_AUTHOR = 'SELECT rc.id, rc.snapshot_id, rc.author, rc.date, rc.file, rc.line,
             rc.text, rc.status, rc.real_line, rc.real_line_start, rc.real_line_before, rc.real_line_before_start,
             rc.lines_count, rc.side
@@ -61,16 +66,18 @@ class Db
         WHERE `hash_head` = #hash_head# AND `review_id` = #review_id# AND `hash_base` = #hash_base# #PART_SNAPSHOT_TYPE#';
     const PART_SNAPSHOT_TYPE = ' AND `review_type` = #review_type#';
 
-    const QUERY_FIND_SNAPSHOT_BY_TICKET = 'SELECT rs.* FROM #TBL_SNAPSHOT# rs JOIN #TBL_REVIEW# rr ON rs.review_id = rr.id WHERE rr.ticket = #ticket#';
+    const QUERY_FIND_SNAPSHOT_BY_TICKET = 'SELECT rs.* FROM #TBL_SNAPSHOT# rs
+        JOIN #TBL_REVIEW# rr ON rs.review_id = rr.id WHERE rr.ticket = #ticket#';
 
     const QUERY_FIND_REVIEW = 'SELECT * FROM #TBL_REVIEW# WHERE `id` = #id#';
 
-    const QUERY_GET_REVIEWS_BY_IDS = 'SELECT `id`, `ticket` FROM #TBL_REVIEW# WHERE `id` IN (#ids#) ORDER BY `id` DESC LIMIT 100';
+    const QUERY_GET_REVIEWS_BY_IDS = 'SELECT `id`, `ticket` FROM #TBL_REVIEW#
+        WHERE `id` IN (#ids#) ORDER BY `id` DESC LIMIT 100';
 
     const QUERY_GET_REVIEWS = 'SELECT `id`, `ticket` FROM #TBL_REVIEW# ORDER BY `id` DESC LIMIT 100';
 
     const QUERY_GET_COMMENTSCOUNT_FOR_REVIEWS = 'SELECT rs.review_id, SUM(rc.status = "Finish") cnt,
-            SUM(rc.status = "Draft" AND rc.author = #author#) cnt_draft, rr.ticket
+        SUM(rc.status = "Draft" AND rc.author = #author#) cnt_draft, rr.ticket
         FROM #TBL_SNAPSHOT# rs
         JOIN #TBL_COMMENT# rc ON rs.id = rc.snapshot_id
         JOIN #TBL_REVIEW# rr ON rs.review_id = rr.id
@@ -78,11 +85,11 @@ class Db
         GROUP BY rs.review_id';
 
     const QUERY_GET_COMMENTS_COUNT = 'SELECT SUM(rc.status = "Finish") cnt
-            FROM #TBL_SNAPSHOT# rs
-            JOIN #TBL_COMMENT# rc ON rs.id = rc.snapshot_id
-            JOIN #TBL_REVIEW# rr ON rs.review_id = rr.id
-            WHERE rs.review_id = #review_id#
-            GROUP BY rs.review_id';
+        FROM #TBL_SNAPSHOT# rs
+        JOIN #TBL_COMMENT# rc ON rs.id = rc.snapshot_id
+        JOIN #TBL_REVIEW# rr ON rs.review_id = rr.id
+        WHERE rs.review_id = #review_id#
+        GROUP BY rs.review_id';
 
     const QUERY_GET_SNAPSHOTS = 'SELECT * FROM #TBL_SNAPSHOT# #LIST_PART# ORDER BY `id` DESC LIMIT #limit#';
     const PART_SNAPSHOTS_LIST = 'WHERE id <= #id#';
@@ -90,11 +97,15 @@ class Db
     const QUERY_GET_SNAPSHOTS_BY_REVIEW = 'SELECT * FROM #TBL_SNAPSHOT# WHERE review_id = #review_id# ORDER BY `id` DESC';
 
     const QUERY_FIND_COMMENT = 'SELECT * FROM #TBL_COMMENT#
-            WHERE `snapshot_id` = #snapshot_id# AND `author` = #author# AND `file` = #file#
-            AND `line` = #line# AND `status` IN (#status#) #PART_SIDE#';
+        WHERE `snapshot_id` = #snapshot_id# AND `author` = #author# AND `file` = #file#
+        AND `line` = #line# AND `status` IN (#status#) #PART_SIDE#';
+
     const PART_COMMENT_NOSIDE = ' AND `side` IS NULL';
+
     const PART_COMMENT_SIDE_SOME = ' AND `side` IS NOT NULL';
+
     const PART_COMMENT_SIDE = ' AND `side` = #side#';
+
     const QUERY_UPDATE_COMMENT_STATUS = 'UPDATE #TBL_COMMENT# SET `status` = #status# WHERE `id` = #id#';
 
     const QUERY_UPDATE_COMMENT = 'UPDATE #TBL_COMMENT# SET `text` = #text# WHERE `id` = #id#';
@@ -104,12 +115,13 @@ class Db
             `created` = NOW(), `review_type` = #review_type#';
 
     const QUERY_ADD_COMMENT = 'INSERT INTO #TBL_COMMENT#
-            SET `snapshot_id` = #snapshot_id#, `author` = #author#, `file` = #file#, `line` = #line#,
-            `text` = #text#, `date` = NOW(), `lines_count` = #lines_count#, `real_line` = #real_line#,
-            `real_line_before` = #real_line_before# #PART_SIDE#';
+        SET `snapshot_id` = #snapshot_id#, `author` = #author#, `file` = #file#, `line` = #line#,
+        `text` = #text#, `date` = NOW(), `lines_count` = #lines_count#, `real_line` = #real_line#,
+        `real_line_before` = #real_line_before# #PART_SIDE#';
     const PART_ADDCOMMENT_SIDE = ', `side` = #side#';
 
-    const QUERY_DELETE_ALL_DRAFT_COMMENTS = 'UPDATE #TBL_COMMENT# SET `status` = "Deleted" WHERE `author` = #author# AND status = "Draft"';
+    const QUERY_DELETE_ALL_DRAFT_COMMENTS = 'UPDATE #TBL_COMMENT# SET `status` = "Deleted"
+        WHERE `author` = #author# AND status = "Draft"';
 
     private $db;
 
@@ -451,7 +463,15 @@ class Db
     {
         return $this->getOne(
             self::QUERY_GET_BRANCH_HEAD,
-            ['repository' => $repository, 'branch' => $this->quote($branch)]
+            ['repository' => $this->quote($repository), 'branch' => $this->quote($branch)]
+        );
+    }
+
+    public function getRepositoryBranches($repository)
+    {
+        return $this->getAll(
+            self::QUERY_GET_PROJECT_BRANCH_HEADS,
+            ['repository' => $this->quote($repository)]
         );
     }
 
