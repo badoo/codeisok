@@ -594,13 +594,20 @@ var Review = (function() {
 
             // If an existing comment exists, scroll to it
             if (Review.form_shown) {
-                const currentReviewText = $('#review_text').val();
+                const reviewText = $('#review_text');
+
+                // User clicked inside the form
+                if (target.contains(reviewText.get(0))) {
+                    return;
+                }
+
+                const currentReviewText = reviewText.val();
 
                 if (currentReviewText.length > 0) {
                     const userConfirm = window.confirm('You have an unsaved comment, do you want to go to it?');
 
                     if (userConfirm) {
-                        window.scrollTo({ left: 0, top: $('#review_text').offset().top - 50, behavior: 'smooth' })
+                        window.scrollTo({ left: 0, top: reviewText.offset().top - 50, behavior: 'smooth' })
                     }
 
                     return;
