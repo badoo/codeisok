@@ -587,7 +587,26 @@ var Review = (function() {
                 if ($div_line.size() == 0) return;
                 target = $div_line.get(0);
             }
-            if (!Review.commentableLine($(target)) || Review.form_shown) return;
+
+            if (!Review.commentableLine($(target))) {
+                return;
+            }
+
+            // If an existing comment exists, scroll to it
+            if (Review.form_shown) {
+                const currentReviewText = $('#review_text').val();
+
+                if (currentReviewText.length > 0) {
+                    const userConfirm = window.confirm('You have an unsaved comment, do you want to go to it?');
+
+                    if (userConfirm) {
+                        window.scrollTo({ left: 0, top: $('#review_text').offset().top - 50, behavior: 'smooth' })
+                    }
+
+                    return;
+                }
+            }
+
             var params = Review.getClickTargetParams(target);
             Review.select_file = params.file;
             Review.select_line = params.line;
@@ -797,6 +816,7 @@ var Review = (function() {
                 }
                 return true;
             });
+
             $(window).on('beforeunload', function() {
                 if (Review.form_shown && $('#review_text').val()) {
                     return "You're about to leave this page but you have unsaved comment\nIf you continue unsaved message would be lost";
