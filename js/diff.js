@@ -97,8 +97,37 @@ function renderTreeDiff(fileList, container) {
 
     enablePaneDragging();
     enableFolderCollapsing();
+    sortFileList(treeMap);
 
     $('.two-panes').removeClass('is-loading');
+}
+
+function sortFileList(treeMap) {
+    const flatTreeMap = getFlatTreeMap(treeMap);
+    const rightPane = document.querySelector('.right-pane');
+    const fileNodes = Array.from(rightPane.querySelectorAll('a.anchor')).reduce((fileNodeMap, anchor) => {
+        fileNodeMap[anchor.name] = anchor.parentElement;
+        return fileNodeMap;
+    }, {});
+
+    flatTreeMap.forEach(fileName => {
+        const node = fileNodes[fileName];
+        if (node) {
+            rightPane.appendChild(node);
+        }
+    })
+}
+
+function getFlatTreeMap(treeMap) {
+    if (treeMap instanceof Array) {
+        return treeMap.map(getFlatTreeMap).flat();
+    }
+
+    if (treeMap.type === 'folder') {
+        return treeMap.contents.map(getFlatTreeMap).flat();
+    }
+
+    return treeMap.path;
 }
 
 function enableFolderCollapsing() {
@@ -147,7 +176,7 @@ function enableScrollDetection() {
             // For a file to be marked as viewed, it must be in the viewport for 2 seconds
             visibleNodes.set(el, setTimeout(() => {
                 setViewedFiles([fileName]);
-            }, 2000));
+            }, 1000));
         });
     }, {
         // Start triggering when an element is in the top 90% of the screen
