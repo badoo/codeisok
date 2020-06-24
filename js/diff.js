@@ -367,7 +367,7 @@ function getFolderMap(fileList) {
             }
 
             // If no folder found then make one
-            let foundFolder = currentFolder.find(item => item.name === folder);
+            let foundFolder = currentFolder.find(item => item.type === 'folder' && item.name === folder);
             if (!foundFolder) {
                 foundFolder = {
                     type: 'folder',
