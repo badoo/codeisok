@@ -9,6 +9,11 @@ class Model_Gitosis
         $this->db = \GitPHP\Db::getInstance();
     }
 
+    public function getLastError()
+    {
+        return $this->db->getError();
+    }
+
     /* User */
 
     public function getUsers()

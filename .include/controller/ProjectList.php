@@ -117,7 +117,11 @@ class ProjectList extends Base
     protected function LoadData()
     {
         $this->tpl->assign('order', $this->params['order']);
-        $this->tpl->assign('allow_create_projects', \GitPHP\Config::GetInstance()->GetValue(\GitPHP\Config::ALLOW_USER_CREATE_REPOS, false));
+        $allow_create_projects = \GitPHP\Config::GetInstance()->GetValue(
+            \GitPHP\Config::ALLOW_USER_CREATE_REPOS,
+            false
+        );
+        $this->tpl->assign('allow_create_projects', $allow_create_projects);
 
         $projectList = \GitPHP_ProjectList::GetInstance();
         $projectList->Sort($this->params['order']);

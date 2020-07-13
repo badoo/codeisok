@@ -233,6 +233,16 @@ class Db
         return $this->affectedRows;
     }
 
+    public function getError()
+    {
+        return $this->error;
+    }
+
+    public function getErrno()
+    {
+        return $this->errno;
+    }
+
     public function addComment($snapshotId, $author, $file, $line, $text, $realLine, $realLineBefore, $linesCount, $side = null)
     {
         $sql = str_replace('#PART_SIDE#', in_array($side, ['lhs', 'rhs']) ? self::PART_ADDCOMMENT_SIDE : '', self::QUERY_ADD_COMMENT);

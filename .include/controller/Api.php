@@ -8,7 +8,6 @@ namespace GitPHP\Controller;
 
 class Api implements ControllerInterface
 {
-    protected $action;
     protected $project;
 
     public function Render()
@@ -22,7 +21,15 @@ class Api implements ControllerInterface
         }
 
         if (!$this->getProject()) {
-            $this->renderNotFound();
+            $action = $this->getActionWithoutProject();
+            switch ($action) {
+                case "project":
+                    $this->handleProjectRequest();
+                    break;
+
+                default:
+                    $this->renderNotFound();
+            }
             return;
         }
         $action = $this->getAction();
@@ -64,11 +71,14 @@ class Api implements ControllerInterface
 
     protected function getAction()
     {
-        if (!isset($this->action)) {
-            // uri should be in form /api/project.git/action
-            $this->action = explode(".git/", $_SERVER['DOCUMENT_URI'], 2)[1] ?? "";
-        }
-        return $this->action;
+        // uri should be in form /api/project.git/action
+        return explode(".git/", $_SERVER['DOCUMENT_URI'], 2)[1] ?? "";
+    }
+
+    protected function getActionWithoutProject()
+    {
+        // instead of $this->getAction() method this time uri will be in form /api/action
+        return explode("api/", $_SERVER['DOCUMENT_URI'], 2)[1] ?? "";
     }
 
     protected function getProject()
@@ -81,7 +91,9 @@ class Api implements ControllerInterface
                 $this->project = false;
             } else {
                 try {
-                    $this->project = \GitPHP_ProjectList::GetInstance()->GetProject(substr($last_uri_part, 0, $dot_git_pos + 4));
+                    $this->project = \GitPHP_ProjectList::GetInstance()->GetProject(
+                        substr($last_uri_part, 0, $dot_git_pos + 4)
+                    );
                 } catch (\Exception $e) {
                     $this->project = false;
                 }
@@ -92,7 +104,7 @@ class Api implements ControllerInterface
 
     protected function handleCommitRequest()
     {
-        $search_for = $_REQUEST["hash"] ?? false;
+        $search_for = $_REQUEST["hash"] ?? '';
         if (!$search_for) {
             $this->renderNotFound();
             return;
@@ -296,5 +308,125 @@ class Api implements ControllerInterface
         }
 
         $this->sendResponse(array_values($contributors));
+    }
+
+    protected function handleProjectRequest()
+    {
+        $project = $_REQUEST['project'] ?? '';
+        if (empty($project)) {
+            $this->renderNotFound('Need to specify project');
+            return;
+        }
+
+        // one day probably we'll need to check if this is admin request
+        // but for now it's enough to check if repository creation is enabled
+        // for mere mortals
+        $allow_create_projects = \GitPHP\Config::GetInstance()->GetValue(
+            \GitPHP\Config::ALLOW_USER_CREATE_REPOS,
+            false
+        );
+        if ($this->isPostRequest()) {
+            if ($allow_create_projects) {
+                if ($this->createProjectFromRequestData()) {
+                    $this->sendResponse(['message' => 'Repository created'], 200);
+                }
+                return;
+            }
+
+            $this->renderNotFound("Repository creation is forbidden");
+            return;
+        }
+
+        try {
+            $Project = \GitPHP_ProjectList::GetInstance()->GetProject(
+                $project
+            );
+            if (!$Project) {
+                $this->renderNotFound("Cannot find project {$project}");
+            }
+            $response = [
+                'project' => $Project->GetProject(),
+                'description' => $Project->GetDescription(),
+                'category' => $Project->GetCategory(),
+                'owner' => $Project->GetOwner(),
+            ];
+            if ($Project->GetCloneUrl()) {
+                $response['clone_url'] = $Project->GetCloneUrl();
+            }
+            $this->sendResponse($response);
+        } catch (\Exception $e) {
+            $this->renderNotFound("Cannot find project {$project}");
+        }
+    }
+
+    protected function createProjectFromRequestData() : bool
+    {
+        $yes_no_options = ['Yes', 'No'];
+
+        $project = empty($_POST['project']) || !is_string($_POST['project']) ? '' : $_POST['project'];
+        $project = trim($project);
+
+        $Project = \GitPHP_ProjectList::GetInstance()->GetProject(
+            $project
+        );
+        if ($Project) {
+            $this->sendResponse(['error' => 'Repository with this name already exists'], 400);
+            return false;
+        }
+
+        $description = empty($_POST['description']) || !is_string($_POST['description']) ? '' : $_POST['description'];
+        $description = trim($description);
+
+        $category = empty($_POST['category']) || !is_string($_POST['category']) ? '' : $_POST['category'];
+        $category = trim($category);
+
+        $notify_email = empty($_POST['notify_email']) || !is_string($_POST['notify_email']) ? '' : $_POST['notify_email'];
+        $notify_email = trim($notify_email);
+
+        $display = empty($_POST['display']) || !in_array($_POST['display'], $yes_no_options) ? '' : $_POST['display'];
+        $display = trim($display);
+
+        $restricted = empty($_POST['restricted']) || !in_array($_POST['restricted'], $yes_no_options) ? '' : $_POST['restricted'];
+        $restricted = trim($restricted);
+
+        if (!$project) {
+            $this->sendResponse(['error' => 'Project can not be empty.'], 400);
+            return false;
+        }
+
+        if (!preg_match('/\.git$/', $project)) {
+            $this->sendResponse(['error' => 'Project name must end with ".git".'], 400);
+            return false;
+        }
+
+        $Model = new \Model_Gitosis();
+        $Session = \GitPHP_Session::instance();
+        $result = $Model->saveRepository(
+            $project,
+            $description,
+            $category,
+            $notify_email,
+            $restricted,
+            $display,
+            $Session->getUser()->getEmail() ?? $Session->getUser()->getName()
+        );
+        if (!$result) {
+            $this->sendResponse(['error' => 'Cannot create project: ' . $Model->getLastError()], 400);
+        }
+        //creating the repo
+        if (\GitPHP\Config::GetInstance()->GetValue(\GitPHP\Config::UPDATE_AUTH_KEYS_FROM_WEB)) {
+            $base_path = \GitPHP\Config::GetInstance()->GetValue(\GitPHP\Config::PROJECT_ROOT);
+            exec("cd " . $base_path . ";git init --bare " . escapeshellarg($project), $out, $retval);
+            if ($retval) {
+                $this->sendResponse(['error' => 'Can\'t init bare repo in ' . $base_path], 500);
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private function isPostRequest() : bool
+    {
+        return isset($_SERVER['REQUEST_METHOD']) && ($_SERVER['REQUEST_METHOD'] === 'POST');
     }
 }
