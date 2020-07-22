@@ -189,6 +189,38 @@ class Model_Gitosis
         );
     }
 
+    /**
+     * Adds new repository with the specified parameters
+     *
+     * One may notice that there is no much difference between this method and saveRepository
+     * Problem with saveRepository is that it executes SQL request with 'on duplicate key update' statement
+     * This may lead to some security problems
+     *
+     * @param $project
+     * @param $description
+     * @param $category
+     * @param $notify_email
+     * @param $restricted
+     * @param $display
+     * @param $owner
+     * @return bool|\GitPHP\Db_Result
+     */
+    public function addRepository($project, $description, $category, $notify_email, $restricted, $display, $owner)
+    {
+        return $this->db->query(
+            static::QUERY_ADD_REPOSITORY,
+            array(
+                'project'      => $this->db->quote($project),
+                'description'  => $this->db->quote($description),
+                'category'     => $this->db->quote($category),
+                'notify_email' => $this->db->quote($notify_email),
+                'restricted'   => $this->db->quote($restricted),
+                'display'      => $this->db->quote($display),
+                'owner'        => $this->db->quote($owner),
+            )
+        );
+    }
+
     public function saveRepository($project, $description, $category, $notify_email, $restricted, $display, $owner)
     {
         return $this->db->query(
@@ -203,28 +235,6 @@ class Model_Gitosis
                 'owner'        => $this->db->quote($owner),
             )
         );
-    }
-
-    public function getRepositoryNotifyEmail($project)
-    {
-        return $this->db->getOne(
-            static::QUERY_GET_REPOSITORY_NOTIFY_EMAIL,
-            array(
-                'project' => $project,
-            )
-        );
-    }
-
-    public function getRepositoryEmailDiffType($project)
-    {
-        $diff_type = $this->db->getOne(
-            static::QUERY_GET_REPOSITORY_EMAIL_DIFF_TYPE,
-            array(
-                'project' => $project,
-            )
-        );
-
-        return empty($diff_type) ? static::DIFF_TYPE_CUMULATIVE : $diff_type;
     }
 
     /* User */
@@ -264,14 +274,14 @@ class Model_Gitosis
 
     const QUERY_GET_REPOSITORY_BY_PROJECT = "SELECT * FROM #TBL_REPOSITORY# WHERE project = #project#";
 
+    const QUERY_ADD_REPOSITORY = "INSERT INTO #TBL_REPOSITORY#
+        (project, description, category, notify_email, restricted, display, created, owner)
+        VALUES (#project#, #description#, #category#, #notify_email#, #restricted#, #display#, NOW(), #owner#)";
+
     const QUERY_SAVE_REPOSITORY = "INSERT INTO #TBL_REPOSITORY#
         (project, description, category, notify_email, restricted, display, created, owner)
         VALUES (#project#, #description#, #category#, #notify_email#, #restricted#, #display#, NOW(), #owner#)
         ON DUPLICATE KEY UPDATE
             project = #project#, description = #description#, category = #category#, notify_email = #notify_email#,
             restricted = #restricted#, display = #display#, owner = #owner#";
-
-    const QUERY_GET_REPOSITORY_NOTIFY_EMAIL = "SELECT notify_email FROM #TBL_REPOSITORY# WHERE project = #project#";
-
-    const QUERY_GET_REPOSITORY_EMAIL_DIFF_TYPE = "SELECT diffs_by_email FROM #TBL_REPOSITORY# WHERE project = #project#";
 }

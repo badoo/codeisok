@@ -327,31 +327,31 @@ class Api implements ControllerInterface
         );
         if ($this->isPostRequest()) {
             if ($allow_create_projects) {
-                if ($this->createProjectFromRequestData()) {
-                    $this->sendResponse(['message' => 'Repository created'], 200);
+                if (!$this->createProjectFromRequestData()) {
+                    return;
                 }
+            } else {
+                $this->renderNotFound("Repository creation is forbidden");
                 return;
             }
-
-            $this->renderNotFound("Repository creation is forbidden");
-            return;
         }
 
         try {
-            $Project = \GitPHP_ProjectList::GetInstance()->GetProject(
-                $project
-            );
-            if (!$Project) {
+            $Model = new \Model_Gitosis();
+            $project_data = $Model->getRepositoryByProject($project);
+            if (empty($project_data)) {
                 $this->renderNotFound("Cannot find project {$project}");
+                return;
             }
+
             $response = [
-                'project' => $Project->GetProject(),
-                'description' => $Project->GetDescription(),
-                'category' => $Project->GetCategory(),
-                'owner' => $Project->GetOwner(),
+                'project' => $project_data['project'],
+                'description' => $project_data['description'],
+                'category' => $project_data['category'],
             ];
-            if ($Project->GetCloneUrl()) {
-                $response['clone_url'] = $Project->GetCloneUrl();
+            $clone_url = \GitPHP_Util::AddSlash(\GitPHP\Config::GetInstance()->GetValue('cloneurl', ''), false);
+            if ($clone_url) {
+                $response['clone_url'] = $clone_url . $project_data['project'];
             }
             $this->sendResponse($response);
         } catch (\Exception $e) {
@@ -365,14 +365,6 @@ class Api implements ControllerInterface
 
         $project = empty($_POST['project']) || !is_string($_POST['project']) ? '' : $_POST['project'];
         $project = trim($project);
-
-        $Project = \GitPHP_ProjectList::GetInstance()->GetProject(
-            $project
-        );
-        if ($Project) {
-            $this->sendResponse(['error' => 'Repository with this name already exists'], 400);
-            return false;
-        }
 
         $description = empty($_POST['description']) || !is_string($_POST['description']) ? '' : $_POST['description'];
         $description = trim($description);
@@ -400,8 +392,16 @@ class Api implements ControllerInterface
         }
 
         $Model = new \Model_Gitosis();
+
+        // this will allow us to have slightly better error messages
+        $previous_project = $Model->getRepositoryByProject($project);
+        if (!empty($previous_project)) {
+            $this->sendResponse(['error' => 'Repository with this name already exists'], 400);
+            return false;
+        }
+
         $Session = \GitPHP_Session::instance();
-        $result = $Model->saveRepository(
+        $result = $Model->addRepository(
             $project,
             $description,
             $category,
@@ -412,6 +412,7 @@ class Api implements ControllerInterface
         );
         if (!$result) {
             $this->sendResponse(['error' => 'Cannot create project: ' . $Model->getLastError()], 400);
+            return false;
         }
         //creating the repo
         if (\GitPHP\Config::GetInstance()->GetValue(\GitPHP\Config::UPDATE_AUTH_KEYS_FROM_WEB)) {
