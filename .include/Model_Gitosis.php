@@ -100,7 +100,10 @@ class Model_Gitosis
     {
         $result = array();
         if (!empty($repository_id)) {
-            $data = $this->db->getAll(static::QUERY_GET_ACCESS_BY_REPOSITORY_ID, array('repository_id' => (int)$repository_id));
+            $data = $this->db->getAll(
+                static::QUERY_GET_ACCESS_BY_REPOSITORY_ID,
+                array('repository_id' => (int)$repository_id)
+            );
         } else {
             $data = $this->db->getAll(static::QUERY_GET_ACCESS);
         }
@@ -118,23 +121,28 @@ class Model_Gitosis
         return $result;
     }
 
+    /**
+     * @param $username
+     * @param $repository
+     * @return string
+     */
     public function getUserAccessToRepository($username, $repository)
     {
         $data = $this->db->getRow(
             self::QUERY_GET_ACCESS_BY_USER_AND_REPO,
             ['username' => $this->db->quote($username), 'project' => $this->db->quote($repository)]
         );
-        return $data;
+        return $data['mode'] ?? '';
     }
 
     public function delUserAccess($user_id, $repositories_ids)
     {
         return $this->db->query(
             static::QUERY_DEL_USER_ACCESS,
-            array(
-                'user_id'       => (int)$user_id,
+            [
+                'user_id'          => (int)$user_id,
                 'repositories_ids' => $this->db->quote(array_map('intval', $repositories_ids), true),
-            )
+            ]
         );
     }
 
@@ -245,8 +253,11 @@ class Model_Gitosis
     const QUERY_GET_USER_BY_USERNAME = "SELECT * FROM #TBL_USER# WHERE username = #username#";
 
     const QUERY_SAVE_USER = "INSERT INTO #TBL_USER#
-        (username, email, public_key, access_mode, comment, created) VALUES (#username#, #email#, #public_key#, #access_mode#, #comment#, NOW())
-        ON DUPLICATE KEY UPDATE username = #username#, email = #email#, public_key = #public_key#, access_mode = #access_mode#, comment = #comment#";
+            (username, email, public_key, access_mode, comment, created)
+        VALUES (#username#, #email#, #public_key#, #access_mode#, #comment#, NOW())
+        ON DUPLICATE KEY UPDATE
+            username = #username#, email = #email#, public_key = #public_key#,
+            access_mode = #access_mode#, comment = #comment#";
 
     const QUERY_REMOVE_USER = "DELETE FROM #TBL_USER# WHERE id = #id#";
     const QUERY_REMOVE_USER_ACCESS = "DELETE FROM #TBL_ACCESS# WHERE user_id = #user_id#";
@@ -275,11 +286,11 @@ class Model_Gitosis
     const QUERY_GET_REPOSITORY_BY_PROJECT = "SELECT * FROM #TBL_REPOSITORY# WHERE project = #project#";
 
     const QUERY_ADD_REPOSITORY = "INSERT INTO #TBL_REPOSITORY#
-        (project, description, category, notify_email, restricted, display, created, owner)
+            (project, description, category, notify_email, restricted, display, created, owner)
         VALUES (#project#, #description#, #category#, #notify_email#, #restricted#, #display#, NOW(), #owner#)";
 
     const QUERY_SAVE_REPOSITORY = "INSERT INTO #TBL_REPOSITORY#
-        (project, description, category, notify_email, restricted, display, created, owner)
+            (project, description, category, notify_email, restricted, display, created, owner)
         VALUES (#project#, #description#, #category#, #notify_email#, #restricted#, #display#, NOW(), #owner#)
         ON DUPLICATE KEY UPDATE
             project = #project#, description = #description#, category = #category#, notify_email = #notify_email#,

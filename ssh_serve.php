@@ -27,54 +27,60 @@ class SSH_Serve
     public function init()
     {
         $original_command = getenv('SSH_ORIGINAL_COMMAND');
-        if ($_SERVER['argc'] > 0) {
-            $this->user = $_SERVER['argv'][1];
-            @list($cmd, $arg) = explode(' ', $original_command);
-            if (preg_match(self::ARG_REGEXP, $arg, $m)) {
-                if (!empty($cmd) && !empty($arg) && (in_array($cmd, self::COMMANDS_WRITE) || in_array($cmd, self::COMMANDS_READONLY))) {
-                    $this->full_path = $this->repository = $m['path'];
+        $this->user = $_SERVER['argv'][1] ?? '';
+        if (empty($this->user)) {
+            $this->error('wrong ssh_serve script usage. Expected username as the only argument');
+        }
 
-                    $project_root = \GitPHP\Config::GetInstance()->getValue(\GitPHP\Config::PROJECT_ROOT);
+        @list($command, $arguments) = explode(' ', $original_command);
+        if (!preg_match(self::ARG_REGEXP, $arguments, $matches) || !isset($matches['path'])) {
+            $this->error("command looks unsafe: {$command} {$arguments}");
+        }
+        $this->full_path = $this->repository = $matches['path'];
 
-                    if (strpos($this->full_path, $project_root) === false) {
-                        $this->full_path = $project_root . $this->full_path;
-                    }
+        if (empty($command) || empty($arguments) || $this->commandIsNotSupported($command)) {
+            $this->error("command is not supported: {$command} {$arguments}");
+        }
 
-                    if (!file_exists($this->full_path)) {
-                        if (strpos($this->full_path, '.git') === false) {
-                            $this->full_path .= '.git';
-                            $this->repository .= '.git';
-                            if (!file_exists($this->full_path)) {
-                                $this->error('Repo can\'t be found by the path given.');
-                            }
-                        } else {
-                            $this->error('Repo can\'t be found by the path given.');
-                        }
-                    }
+        $project_root = \GitPHP\Config::GetInstance()->getValue(\GitPHP\Config::PROJECT_ROOT);
 
-                    $this->command = $cmd;
-                } else {
-                    $this->error('Command is not supported!: ' . $cmd . ' ' . $arg);
+        if (strpos($this->full_path, $project_root) === false) {
+            $this->full_path = $project_root . $this->full_path;
+        }
+
+        if (!file_exists($this->full_path)) {
+            if (strpos($this->full_path, '.git') === false) {
+                $this->full_path .= '.git';
+                $this->repository .= '.git';
+                if (!file_exists($this->full_path)) {
+                    $this->error('repo can\'t be found by the path given.');
                 }
             } else {
-                $this->error("Command looks unsafe.");
+                $this->error('repo can\'t be found by the path given.');
             }
-        } else {
-            $this->error('SSH Serve requires user name.');
         }
+
+        $this->command = $command;
     }
 
     public function run()
     {
         $ModelGitosis = new Model_Gitosis();
         $global_mode = $this->getUserGlobalAccessMode($ModelGitosis, $this->user);
-        if (!$global_mode || ($global_mode === 'readonly' && in_array($this->command, self::COMMANDS_WRITE)) || $this->isRestrictedRepository($ModelGitosis, $this->repository)) {
+        if ($global_mode === 'readonly' && $this->isWriteCommand($this->command)) {
+            // it's not enough to have readonly global mode for write commands
+            // so let's assume that we don't have global mode at all
+            $global_mode = false;
+        }
+
+        if (!$global_mode || $this->isRestrictedRepository($ModelGitosis, $this->repository)) {
             $access = $ModelGitosis->getUserAccessToRepository($this->user, $this->repository);
         } else {
-            $access = ['mode' => $global_mode];
+            $access = $global_mode;
         }
+
         if (!empty($access)) {
-            if (in_array($this->command, self::COMMANDS_WRITE) && $access['mode'] !== 'writable') {
+            if ($this->isWriteCommand($this->command) && $access !== 'writable') {
                 $this->error('You don\' have write access to repo.');
             }
             if (!function_exists('pcntl_exec') && !extension_loaded('pcntl') && !dl('pcntl.so')) {
@@ -83,8 +89,14 @@ class SSH_Serve
                 trigger_error('cannot load pcntl extension');
                 $escaped_user = escapeshellarg($this->user);
                 $escaped_repo = escapeshellarg($this->repository);
+
+                $command = implode(' ', [
+                    'GITOSIS_USER=' . $escaped_user,
+                    'GITOSIS_REPO=' . $escaped_repo,
+                    'git-shell -c "' . $this->command . ' ' . escapeshellarg($this->full_path) . '"'
+                ]);
                 passthru(
-                    'GITOSIS_USER=' . $escaped_user . ' GITOSIS_REPO=' . $escaped_repo . ' git-shell -c "' . $this->command . ' ' . escapeshellarg($this->full_path) . '"'
+                    $command
                 );
             } else {
                 // we need this for hooks and back-compatibility with gitosis
@@ -98,25 +110,41 @@ class SSH_Serve
         } else {
             $this->error("You don't have rights to access the repo.");
         }
-        //file_put_contents('out.txt', var_export([$this->user, $this->command, $this->argument, $access], 1), FILE_APPEND);
+    }
+
+    protected function commandIsNotSupported($command)
+    {
+        return !($this->isWriteCommand($command) || $this->isReadCommand($command));
+    }
+
+    protected function isWriteCommand($command)
+    {
+        return in_array($command, self::COMMANDS_WRITE, true);
+    }
+
+    protected function isReadCommand($command)
+    {
+        return in_array($command, self::COMMANDS_READONLY, true);
     }
 
     protected function isRestrictedRepository(Model_Gitosis $ModelGitosis, $repository)
     {
         $repository_info = $ModelGitosis->getRepositoryByProject($repository);
-        return $repository_info['restricted'] == 'Yes';
+        return $repository_info['restricted'] === 'Yes';
     }
 
     protected function getUserGlobalAccessMode(Model_Gitosis $Gitosis, $username)
     {
         $user = $Gitosis->getUserByUsername($username);
-        if ($user['access_mode'] == \GitPHP\Controller\GitosisUsers::ACCESS_MODE_ALLOW_ALL) {
+        if ($user['access_mode'] === \GitPHP\Controller\GitosisUsers::ACCESS_MODE_ALLOW_ALL) {
             return 'writable';
-        } else if ($user['access_mode'] == \GitPHP\Controller\GitosisUsers::ACCESS_MODE_ALLOW_ALL_RO) {
-            return 'readonly';
-        } else {
-            return false;
         }
+
+        if ($user['access_mode'] === \GitPHP\Controller\GitosisUsers::ACCESS_MODE_ALLOW_ALL_RO) {
+            return 'readonly';
+        }
+
+        return false;
     }
 
     protected function error($message)
