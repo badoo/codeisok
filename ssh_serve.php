@@ -44,19 +44,26 @@ class SSH_Serve
 
         $project_root = \GitPHP\Config::GetInstance()->getValue(\GitPHP\Config::PROJECT_ROOT);
 
+        // we force all repositories to be in the same directory
         if (strpos($this->full_path, $project_root) === false) {
             $this->full_path = $project_root . $this->full_path;
         }
 
+        // and we also force all repositories to have .git suffix
+        // this is done on the project creation form
+        if (strpos($this->full_path, '.git') === false) {
+            $this->full_path .= '.git';
+            $this->repository .= '.git';
+        }
+
         if (!file_exists($this->full_path)) {
-            if (strpos($this->full_path, '.git') === false) {
-                $this->full_path .= '.git';
-                $this->repository .= '.git';
-                if (!file_exists($this->full_path)) {
-                    $this->error('repo can\'t be found by the path given.');
-                }
+            // since we have "global" access modes for people
+            // we have to check if repository is in DB
+            if ($this->repositoryRegisteredInDatabase($this->repository)) {
+                // and here we can create repository
+                $this->initEmptyRepository($this->repository);
             } else {
-                $this->error('repo can\'t be found by the path given.');
+                $this->error('repository can\'t be found');
             }
         }
 
@@ -151,6 +158,23 @@ class SSH_Serve
     {
         fwrite(STDERR, '[ERROR]: ' . $message . PHP_EOL);
         exit(1);
+    }
+
+    protected function repositoryRegisteredInDatabase($repository)
+    {
+        $Model = new \Model_Gitosis();
+        return !empty($Model->getRepositoryByProject($repository));
+    }
+
+    protected function initEmptyRepository($repository)
+    {
+        $root_directory = escapeshellarg(GitPHP\Config::GetInstance()->GetValue(GitPHP\Config::PROJECT_ROOT));
+        $repository = escapeshellarg($repository);
+
+        exec("git -C {$root_directory} init --bare {$repository}", $out, $retval);
+        if ($retval) {
+            $this->error("cannot create directory for repository");
+        }
     }
 }
 
