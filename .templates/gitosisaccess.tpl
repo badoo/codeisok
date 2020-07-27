@@ -45,6 +45,7 @@
                 </td>
                 <td>
                     <a class="simple-button" href="#" onclick="document.getElementById('form_user_{$user.id}').submit();">Grant access</a>
+                    <a class="simple-button" href="/?a=gitosis&section=users&id={$user.id}">Edit User</a>
                 </td>
                 <td>
                 {foreach from=$access[$user.id] key=mode item=projects_ids}
