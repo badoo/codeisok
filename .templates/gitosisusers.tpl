@@ -46,6 +46,7 @@
                     <td colspan="2">
                         <a class="simple-button" href="#" onclick="document.getElementById('createform').submit();">Save</a>
                         <a class="simple-button" href="/?a=gitosis&section=users">Cancel</a>
+                        <a class="simple-button" href="/?a=gitosis&section=access&user_id={$edit_user.id}">Access list</a>
                     </td>
                 </tr>
             </tbody>
@@ -72,6 +73,7 @@
                 <td>{$user.email|htmlspecialchars}</td>
                 <td>
                     <a class="simple-button" href="/?a=gitosis&section=users&id={$user.id}">Edit</a>
+                    <a class="simple-button" href="/?a=gitosis&section=access&user_id={$user.id}">Access list</a>
                     <a class="simple-button" href="/?a=gitosis&section=users&id={$user.id}&delete=1"
                        onclick="return confirm('Are you really want deleting {$user.username}');">Delete</a>
                 </td>
