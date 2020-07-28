@@ -104,7 +104,7 @@ class GitPHP_Session
         }
 
         if (!$this->isAuthorized()) {
-            $auth_token = $_GET['auth_token'] ?? false;
+            $auth_token = $_REQUEST['auth_token'] ?? false;
             if (!$auth_token) {
                 return;
             }
