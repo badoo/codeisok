@@ -91,7 +91,7 @@ class Acl
      */
     public function isActionAllowed($Project, $action, $User = null)
     {
-        if (!isset($User)) $User = \GitPHP_Session::instance()->getUser();
+        if (!isset($User)) $User = \GitPHP\Session::instance()->getUser();
 
         if (empty($User->getId())) {
             return in_array($action, \GitPHP\Config::GetInstance()->GetGitNoAuthActions($Project->GetProject()));

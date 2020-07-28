@@ -162,7 +162,7 @@ class Comment extends Base
                 return;
             }
             $review_id = $this->db->addReview($ticket);
-            $this->Session->set(\GitPHP_Session::SESSION_REVIEW_ID, $review_id);
+            $this->Session->set(\GitPHP\Session::SESSION_REVIEW_ID, $review_id);
         }
 
         $snapshot = $this->db->findSnapshotByHashAndReview($review_id, $hash, $hash_base, $review_type);
@@ -210,7 +210,7 @@ class Comment extends Base
         }
         $hash = $_POST['hash'];
 
-        $session_review_id = $this->Session->get(\GitPHP_Session::SESSION_REVIEW_ID);
+        $session_review_id = $this->Session->get(\GitPHP\Session::SESSION_REVIEW_ID);
 
         $review_list = $this->db->getReview($ticket, $hash, $session_review_id);
 

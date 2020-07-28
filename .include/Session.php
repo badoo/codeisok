@@ -1,6 +1,8 @@
 <?php
 
-class GitPHP_Session
+namespace GitPHP;
+
+class Session
 {
     const SESSION_REVIEW_ID = 'review_id';
     const SESSION_BASE_BRANCH = 'base_branch';
@@ -12,11 +14,11 @@ class GitPHP_Session
     /** @var \GitPHP\User */
     protected $User;
 
-    /** @var GitPHP_Session */
+    /** @var \GitPHP\Session */
     protected static $instance;
 
     /**
-     * @return GitPHP_Session
+     * @return \GitPHP\Session
      */
     public static function instance()
     {
@@ -99,7 +101,7 @@ class GitPHP_Session
     {
         $this->User = \GitPHP\User::fromAuthData($this->get(self::SESSION_AUTH_DATA));
         if ($this->User->getId()) {
-            $Acl = new \GitPHP\Acl(\GitPHP\Jira::instance(), GitPHP\Redmine::instance());
+            $Acl = new \GitPHP\Acl(\GitPHP\Jira::instance(), \GitPHP\Redmine::instance());
             $this->User->setIsGitosisAdmin($Acl->isGitosisAdmin($this->User));
         }
 
@@ -109,7 +111,7 @@ class GitPHP_Session
                 return;
             }
 
-            $user_data = GitPHP\Config::GetInstance()->GetUserDataByApiToken($auth_token);
+            $user_data = \GitPHP\Config::GetInstance()->GetUserDataByApiToken($auth_token);
             if (empty($user_data)) {
                 return;
             }

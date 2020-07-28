@@ -14,7 +14,7 @@ class Api implements ControllerInterface
     {
         $this->renderCommonHeaders();
 
-        $Session = \GitPHP_Session::instance();
+        $Session = \GitPHP\Session::instance();
         if (!$Session->isAuthorized()) {
             $this->sendResponse(['error' => "Unauthorized api usage is forbidden"], 403);
             return;
@@ -400,7 +400,7 @@ class Api implements ControllerInterface
             return false;
         }
 
-        $Session = \GitPHP_Session::instance();
+        $Session = \GitPHP\Session::instance();
         $result = $Model->addRepository(
             $project,
             $description,

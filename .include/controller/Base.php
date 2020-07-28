@@ -41,7 +41,7 @@ abstract class Base implements ControllerInterface
     protected $headers = [];
 
     /**
-     * @var \GitPHP_Session
+     * @var \GitPHP\Session
      */
     protected $Session = null;
 
@@ -423,7 +423,7 @@ abstract class Base implements ControllerInterface
 
     protected function initSession()
     {
-        $this->Session = \GitPHP_Session::instance();
+        $this->Session = \GitPHP\Session::instance();
     }
 
     public static function finishScript()

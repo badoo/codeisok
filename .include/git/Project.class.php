@@ -217,7 +217,7 @@ class GitPHP_Project
      */
     public function __construct($project)
     {
-        $User = GitPHP_Session::instance()->getUser();
+        $User = \GitPHP\Session::instance()->getUser();
         $Acl = \GitPHP\Acl::getInstance();
         if (!$Acl->isProjectAllowed($project, $User)) {
             throw new \Exception();
