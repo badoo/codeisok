@@ -21,7 +21,7 @@ class Feed extends Base
     {
         parent::__construct();
         if (!$this->project) {
-            throw new \GitPHP_MessageException(__('Project is required'), true);
+            throw new \GitPHP\MessageException(__('Project is required'), true);
         }
     }
 
