@@ -3,7 +3,6 @@ return array(
     'GitPHP_MessageException'                     => GITPHP_INCLUDEDIR . 'MessageException.class.php',
     'GitPHP_Resource'                             => GITPHP_INCLUDEDIR . 'Resource.class.php',
     'GitPHP_Util'                                 => GITPHP_INCLUDEDIR . 'Util.class.php',
-    'GitPHP_User'                                 => GITPHP_INCLUDEDIR . 'User.class.php',
     'GitPHP_Session'                              => GITPHP_INCLUDEDIR . 'Session.class.php',
     \GitPHP\Db_Result::class                      => GITPHP_INCLUDEDIR . 'Result.php',
     'Model_Gitosis'                               => GITPHP_INCLUDEDIR . 'Model_Gitosis.php',

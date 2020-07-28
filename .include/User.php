@@ -1,6 +1,8 @@
 <?php
 
-class GitPHP_User
+namespace GitPHP;
+
+class User
 {
     protected $id;
     protected $name = 'anonymous';
