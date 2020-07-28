@@ -129,12 +129,12 @@ class Config
     public function LoadConfig($configFile)
     {
         if (!is_file($configFile)) {
-            throw new \GitPHP_MessageException('Could not load config file ' . $configFile, true, 500);
+            throw new \GitPHP\MessageException('Could not load config file ' . $configFile, true, 500);
         }
 
         /** @noinspection PhpIncludeInspection */
         if (($gitphp_conf = include($configFile)) === false) {
-            throw new \GitPHP_MessageException('Could not read config file ' . $configFile, true, 500);
+            throw new \GitPHP\MessageException('Could not read config file ' . $configFile, true, 500);
         }
         if (is_array($gitphp_conf)) {
             $this->values = array_merge($this->values, $gitphp_conf);

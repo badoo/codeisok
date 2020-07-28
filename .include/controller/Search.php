@@ -20,13 +20,13 @@ class Search extends Base
     public function __construct()
     {
         if (!\GitPHP\Config::GetInstance()->GetValue('search', true)) {
-            throw new \GitPHP_MessageException(__('Search has been disabled'), true);
+            throw new \GitPHP\MessageException(__('Search has been disabled'), true);
         }
 
         parent::__construct();
 
         if (!$this->project) {
-            throw new \GitPHP_MessageException(__('Project is required'), true);
+            throw new \GitPHP\MessageException(__('Project is required'), true);
         }
     }
 
@@ -89,12 +89,12 @@ class Search extends Base
 
         if ($this->params['searchtype'] == GITPHP_SEARCH_FILE) {
             if (!\GitPHP\Config::GetInstance()->GetValue('filesearch', true)) {
-                throw new \GitPHP_MessageException(__('File search has been disabled'), true);
+                throw new \GitPHP\MessageException(__('File search has been disabled'), true);
             }
         }
 
         if ((!isset($this->params['search'])) || (strlen($this->params['search']) < 2)) {
-            throw new \GitPHP_MessageException(
+            throw new \GitPHP\MessageException(
                 sprintf(
                     __n('You must enter search text of at least %1$d character', 'You must enter search text of at least %1$d characters', 2),
                     2
@@ -141,12 +141,12 @@ class Search extends Base
                     break;
 
                 default:
-                    throw new \GitPHP_MessageException(__('Invalid search type'));
+                    throw new \GitPHP\MessageException(__('Invalid search type'));
             }
         }
 
         if (count($results) < 1) {
-            throw new \GitPHP_MessageException(sprintf(__('No matches for "%1$s"'), $this->params['search']), false);
+            throw new \GitPHP\MessageException(sprintf(__('No matches for "%1$s"'), $this->params['search']), false);
         }
 
         if (count($results) > 100) {

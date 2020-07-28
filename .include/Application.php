@@ -102,12 +102,12 @@ class Application
     private function initProject()
     {
         if (!\GitPHP\Config::GetInstance()->GetValue('projectroot', null)) {
-            throw new \GitPHP_MessageException(__('A projectroot must be set in the config'), true, 500);
+            throw new \GitPHP\MessageException(__('A projectroot must be set in the config'), true, 500);
         }
 
         $exe = new \GitPHP_GitExe(null);
         if (!$exe->Valid()) {
-            throw new \GitPHP_MessageException(
+            throw new \GitPHP\MessageException(
                 sprintf(
                     __('Could not run the git executable "%1$s".  You may need to set the "%2$s" config value.'),
                     $exe->GetBinary(),
@@ -119,7 +119,7 @@ class Application
         }
         $exe = new \GitPHP_DiffExe();
         if (!$exe->Valid()) {
-            throw new \GitPHP_MessageException(
+            throw new \GitPHP\MessageException(
                 sprintf(
                     __('Could not run the diff executable "%1$s".  You may need to set the "%2$s" config value.'),
                     $exe->GetBinary(),
@@ -163,7 +163,7 @@ class Application
         try {
             $controller = new \GitPHP\Controller\Message();
             $controller->SetParam('message', $e->getMessage());
-            if ($e instanceof \GitPHP_MessageException) {
+            if ($e instanceof \GitPHP\MessageException) {
                 $controller->SetParam('error', $e->Error);
                 $controller->SetParam('statuscode', $e->StatusCode);
             } else {

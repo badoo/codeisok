@@ -71,7 +71,7 @@ class GitPHP_TreeDiff implements Iterator
      * @param string $toHash to commit hash
      * @param string $fromHash from commit hash
      * @param DiffContext $DiffContext
-     * @throws GitPHP_MessageException
+     * @throws \GitPHP\MessageException
      */
     public function __construct($project, $toHash, $fromHash = '', DiffContext $DiffContext)
     {
@@ -80,7 +80,7 @@ class GitPHP_TreeDiff implements Iterator
 
         $toCommit = $this->project->GetCommit($toHash);
         if (empty($toCommit)) {
-            throw new GitPHP_MessageException('Commit not found ' . $toHash);
+            throw new \GitPHP\MessageException('Commit not found ' . $toHash);
         }
         $this->toHash = $toHash;
 

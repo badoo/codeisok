@@ -36,7 +36,7 @@ class Blob extends Base
     {
         parent::__construct();
         if (!$this->project) {
-            throw new \GitPHP_MessageException(__('Project is required'), true);
+            throw new \GitPHP\MessageException(__('Project is required'), true);
         }
     }
 
@@ -195,13 +195,13 @@ class Blob extends Base
      * Loads data for this template
      *
      * @access protected
-     * @throws \GitPHP_MessageException
+     * @throws \GitPHP\MessageException
      */
     protected function LoadData()
     {
         $commit = $this->project->GetCommit($this->params['hashbase']);
         if (!$commit) {
-            throw new \GitPHP_MessageException("Incorrect hash {$this->params['hashbase']}", true, 404);
+            throw new \GitPHP\MessageException("Incorrect hash {$this->params['hashbase']}", true, 404);
         }
         $this->tpl->assign('commit', $commit);
 
