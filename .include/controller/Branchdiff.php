@@ -82,12 +82,12 @@ class Branchdiff extends DiffBase
         $this->params['branch'] = isset($_GET['branch']) ? $_GET['branch'] : '';
         $this->params['review'] = $this->getReviewNumber();
         // it looks like a possibly wrong code
-        $this->params['base'] = $this->Session->get($this->project->GetProject() . \GitPHP_Session::SESSION_BASE_BRANCH . $this->params['branch'], '');
+        $this->params['base'] = $this->Session->get($this->project->GetProject() . \GitPHP\Session::SESSION_BASE_BRANCH . $this->params['branch'], '');
 
         if (isset($_REQUEST['base'])) {
             $this->params['base'] = $_REQUEST['base'];
             if (empty($this->params['review'])) {
-                $this->Session->set($this->project->GetProject() . \GitPHP_Session::SESSION_BASE_BRANCH . $this->params['branch'], $this->params['base']);
+                $this->Session->set($this->project->GetProject() . \GitPHP\Session::SESSION_BASE_BRANCH . $this->params['branch'], $this->params['base']);
             }
         } else if (empty($this->params['base'])) {
             $force_base_per_repo = \GitPHP\Config::GetInstance()->GetValue(\GitPHP\Config::FORCE_BASE_BRANCH_PER_REPOSITORY, []);

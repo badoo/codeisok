@@ -87,10 +87,10 @@ class Log extends Base
         else $this->params['page'] = 0;
         if (isset($_GET['m'])) $this->params['mark'] = $_GET['m'];
         $this->params['branchlog'] = !empty($_GET['branchlog']);
-        $this->params['base'] = $this->Session->get($this->project->GetProject() . \GitPHP_Session::SESSION_BASE_BRANCH, '');
+        $this->params['base'] = $this->Session->get($this->project->GetProject() . \GitPHP\Session::SESSION_BASE_BRANCH, '');
         if (isset($_REQUEST['base'])) {
             $this->params['base'] = $_REQUEST['base'];
-            $this->Session->set($this->project->GetProject() . \GitPHP_Session::SESSION_BASE_BRANCH, $this->params['base']);
+            $this->Session->set($this->project->GetProject() . \GitPHP\Session::SESSION_BASE_BRANCH, $this->params['base']);
         }
     }
 
