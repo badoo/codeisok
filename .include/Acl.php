@@ -37,12 +37,12 @@ class Acl
         $this->Redmine = $Redmine;
     }
 
-    public function isGitosisAdmin(\GitPHP_User $User)
+    public function isGitosisAdmin(\GitPHP\User $User)
     {
         return $this->isGroupMemberCached(self::GITOSIS_ADMIN_GROUP, $User);
     }
 
-    public function isCodeAccessAllowed(\GitPHP_User $User)
+    public function isCodeAccessAllowed(\GitPHP\User $User)
     {
         if (empty($User->getId())) {
             return false;
@@ -53,10 +53,10 @@ class Acl
 
     /**
      * @param string $project
-     * @param \GitPHP_User $User
+     * @param \GitPHP\User $User
      * @return bool
      */
-    public function isProjectAllowed($project, \GitPHP_User $User)
+    public function isProjectAllowed($project, \GitPHP\User $User)
     {
         if (\GitPHP\Config::GetInstance()->IsCli()) {
             return true;
@@ -84,7 +84,7 @@ class Acl
      * Check User for permission to perform a specific action on specific project (repository).
      * @param \GitPHP_Project   $Project - project to check
      * @param string            $action  - action to check
-     * @param \GitPHP_User|null $User    - user to check for permission.
+     * @param \GitPHP\User|null $User    - user to check for permission.
      *                                     When 'null' is given - current (authenticated) user is used.
      *
      * @return bool
@@ -100,7 +100,7 @@ class Acl
         }
     }
 
-    protected function isGroupMemberCached($group_name, \GitPHP_User $User)
+    protected function isGroupMemberCached($group_name, \GitPHP\User $User)
     {
         $is_in_group = $User->isInGroup($group_name);
         if ($is_in_group === null) {

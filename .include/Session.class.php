@@ -9,7 +9,7 @@ class GitPHP_Session
 
     const FILE_DESTROY = '/tmp/gitphp_sesssion_destroy';
 
-    /** @var GitPHP_User */
+    /** @var \GitPHP\User */
     protected $User;
 
     /** @var GitPHP_Session */
@@ -69,14 +69,14 @@ class GitPHP_Session
     }
 
     /**
-     * @return GitPHP_User
+     * @return \GitPHP\User
      */
     public function getUser()
     {
         return $this->User;
     }
 
-    public function setUser(\GitPHP_User $User)
+    public function setUser(\GitPHP\User $User)
     {
         $this->User = $User;
         $this->set(self::SESSION_AUTH_DATA, $User->toAuthData());
@@ -84,7 +84,7 @@ class GitPHP_Session
 
     public function logout()
     {
-        $this->User = new \GitPHP_User();
+        $this->User = new \GitPHP\User();
         $this->delete(self::SESSION_AUTH_DATA);
         $this->delete(self::SESSION_CREATED);
     }
@@ -97,7 +97,7 @@ class GitPHP_Session
 
     protected function initUser()
     {
-        $this->User = \GitPHP_User::fromAuthData($this->get(self::SESSION_AUTH_DATA));
+        $this->User = \GitPHP\User::fromAuthData($this->get(self::SESSION_AUTH_DATA));
         if ($this->User->getId()) {
             $Acl = new \GitPHP\Acl(\GitPHP\Jira::instance(), GitPHP\Redmine::instance());
             $this->User->setIsGitosisAdmin($Acl->isGitosisAdmin($this->User));
@@ -114,7 +114,7 @@ class GitPHP_Session
                 return;
             }
 
-            $this->User = \GitPHP_User::fromAuthData($user_data);
+            $this->User = \GitPHP\User::fromAuthData($user_data);
         }
     }
 }

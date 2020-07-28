@@ -265,7 +265,7 @@ class GitPHP_Project
     /**
      * Check User for permission to perform an action on this project
      * @param string $action
-     * @param \GitPHP_User|null $User
+     * @param \GitPHP\User|null $User
      * @return bool
      */
     public function isActionAllowed($action, $User = null)
