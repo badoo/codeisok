@@ -47,7 +47,7 @@ class GitosisUsers extends GitosisBase
             if ($username && $public_key) {
                 $this->ModelGitosis->saveUser($username, $email, $public_key, $access_mode, $comment);
                 if (\GitPHP\Config::GetInstance()->GetValue(\GitPHP\Config::UPDATE_AUTH_KEYS_FROM_WEB, false)) {
-                    if (!\GitPHP_Gitosis::addKey($username, $public_key)) {
+                    if (!\GitPHP\Gitosis::addKey($username, $public_key)) {
                         $this->_form_errors[] = "Can't write key file!";
                     } else {
                         $this->redirect('/?a=gitosis&section=users');
