@@ -142,7 +142,7 @@ class Commitdiff extends DiffBase
         $this->loadReviewsLinks($co, implode('', $co->GetComment()));
 
         if (empty($this->params['sidebyside'])) {
-            include_once(\GitPHP_Util::AddSlash('lib/syntaxhighlighter') . "syntaxhighlighter.php");
+            include_once(\GitPHP\Util::AddSlash('lib/syntaxhighlighter') . "syntaxhighlighter.php");
             $this->tpl->assign('sexy', 1);
             $this->tpl->assign('highlighter_no_ruler', 1);
             $this->tpl->assign('highlighter_diff_enabled', 1);

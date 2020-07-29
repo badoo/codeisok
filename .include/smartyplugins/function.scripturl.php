@@ -23,7 +23,7 @@ function smarty_function_scripturl($params, &$smarty)
 		$selfurl = \GitPHP\Config::GetInstance()->GetValue('self');
 		if (!empty($selfurl)) {
 			if (substr($selfurl, -4) != '.php') {
-				$selfurl = GitPHP_Util::AddSlash($selfurl);
+				$selfurl = \GitPHP\Util::AddSlash($selfurl);
 			}
 			return $selfurl;
 		}

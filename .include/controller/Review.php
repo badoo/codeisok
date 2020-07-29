@@ -104,7 +104,7 @@ class Review extends Base
                 $comments = $db->getComments($snapshot['id']);
                 $comment = reset($comments);
             }
-            $url = \GitPHP_Util::getReviewLink($snapshot, $comment['file']);
+            $url = \GitPHP\Util::getReviewLink($snapshot, $comment['file']);
 
             $this->redirect($url . $c);
         }
@@ -129,7 +129,7 @@ class Review extends Base
                 $comment = reset($comments);
                 $snapshot['file'] = $comment['file'];
             }
-            $snapshot['url'] = \GitPHP_Util::getReviewLink($snapshot, $snapshot['file'] ?? null);
+            $snapshot['url'] = \GitPHP\Util::getReviewLink($snapshot, $snapshot['file'] ?? null);
 
             if ($snapshot['hash_base'] == 'blob') {
                 $snapshot['title'] = $snapshot['hash_head'] . ' ' . $snapshot['file'];
@@ -145,7 +145,7 @@ class Review extends Base
 
     public static function getReviewUrl($reviewId)
     {
-        $hostname = \GitPHP_Util::getHostnameUrl();
+        $hostname = \GitPHP\Util::getHostnameUrl();
         $url = $hostname . '/r/' . $reviewId;
         return $url;
     }

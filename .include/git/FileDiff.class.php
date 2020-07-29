@@ -719,8 +719,8 @@ class GitPHP_FileDiff
         $fromBlob = $this->GetFromBlob();
         $toBlob = $this->GetToBlob();
 
-        if (GitPHP_Util::checkFileIsImage($this->fromFile) || GitPHP_Util::checkFileIsImage($this->toFile)) {
-            $this->diffData = GitPHP_Util::getImagesDiff($fromBlob, $toBlob, $this->GetFromFile(), $this->GetToFile());
+        if (\GitPHP\Util::checkFileIsImage($this->fromFile) || \GitPHP\Util::checkFileIsImage($this->toFile)) {
+            $this->diffData = \GitPHP\Util::getImagesDiff($fromBlob, $toBlob, $this->GetFromFile(), $this->GetToFile());
             $this->diffTypeImage = 1;
             return $this->diffData;
         }
