@@ -56,7 +56,7 @@ abstract class Base implements ControllerInterface
     public function __construct()
     {
         \GitPHP\Log::GetInstance()->timerStart();
-        require_once(\GitPHP_Util::AddSlash(\GitPHP\Config::GetInstance()->GetValue('smarty_prefix', 'lib/smarty/libs/')) . 'Smarty.class.php');
+        require_once(\GitPHP\Util::AddSlash(\GitPHP\Config::GetInstance()->GetValue('smarty_prefix', 'lib/smarty/libs/')) . 'Smarty.class.php');
         \GitPHP\Log::GetInstance()->timerStop('require Smarty.class.php');
         $this->tpl = new \Smarty;
         $this->tpl->plugins_dir[] = GITPHP_INCLUDEDIR . 'smartyplugins';

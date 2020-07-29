@@ -42,7 +42,7 @@ class GitPHP_ProjectListDirectory extends GitPHP_ProjectListBase
             throw new Exception(sprintf(__('%1$s is not a directory'), $projectDir));
         }
 
-        $this->projectDir = GitPHP_Util::AddSlash($projectDir);
+        $this->projectDir = \GitPHP\Util::AddSlash($projectDir);
 
         parent::__construct();
     }

@@ -113,7 +113,7 @@ class GitPHP_TmpDir
             }
         }
 
-        return GitPHP_Util::AddSlash(realpath($tmpdir));
+        return \GitPHP\Util::AddSlash(realpath($tmpdir));
     }
 
     /**
@@ -125,7 +125,7 @@ class GitPHP_TmpDir
      */
     public function __construct()
     {
-        $this->dir = GitPHP_Util::AddSlash(\GitPHP\Config::GetInstance()->GetValue('gittmp'));
+        $this->dir = \GitPHP\Util::AddSlash(\GitPHP\Config::GetInstance()->GetValue('gittmp'));
 
         if (empty($this->dir)) {
             $this->dir = GitPHP_TmpDir::SystemTmpDir();

@@ -111,7 +111,7 @@ class Blame extends Base
         $this->tpl->assign('tree', $commit->GetTree());
 
         if (\GitPHP\Config::GetInstance()->GetValue('geshi', true)) {
-            include_once(\GitPHP_Util::AddSlash(\GitPHP\Config::GetInstance()->GetValue('geshiroot', 'lib/geshi/')) . "geshi.php");
+            include_once(\GitPHP\Util::AddSlash(\GitPHP\Config::GetInstance()->GetValue('geshiroot', 'lib/geshi/')) . "geshi.php");
             if (class_exists('GeSHi')) {
                 $geshi = new \GeSHi("", 'php');
                 if ($geshi) {

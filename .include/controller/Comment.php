@@ -262,9 +262,9 @@ class Comment extends Base
             $comments = $this->db->getCommentsByReviewAndAuthor($reviewId, $author);
             $url = Review::getReviewUrl($reviewId);
             $review_type = $comments[0]['review_type'];
-            \GitPHP_Util::sendReviewEmail($this->Session->getUser()->getEmail(), $review['ticket'], $url, $comments, $review_type);
+            \GitPHP\Util::sendReviewEmail($this->Session->getUser()->getEmail(), $review['ticket'], $url, $comments, $review_type);
             if (\GitPHP\Tracker::instance()->enabled()) {
-                \GitPHP_Util::addReviewToTracker($this->Session->getUser()->getId(), $review['ticket'], $url, $comments, $review_type);
+                \GitPHP\Util::addReviewToTracker($this->Session->getUser()->getId(), $review['ticket'], $url, $comments, $review_type);
             }
         }
 

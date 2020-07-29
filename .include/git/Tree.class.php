@@ -138,7 +138,7 @@ class GitPHP_Tree extends GitPHP_FilesystemObject
                         if (!empty($this->path)) $path = $this->path . '/' . $path;
                         $b->SetPath($path);
                         $size = trim($regs[4]);
-                        if (!empty($size)) $b->SetSize(GitPHP_Util::humanFilesize($regs[4]));
+                        if (!empty($size)) $b->SetSize(\GitPHP\Util::humanFilesize($regs[4]));
                         if ($this->commit) $b->SetCommit($this->commit);
                         $contents['b'][] = $b;
                         break;

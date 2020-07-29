@@ -349,7 +349,7 @@ class Api implements ControllerInterface
                 'description' => $project_data['description'],
                 'category' => $project_data['category'],
             ];
-            $clone_url = \GitPHP_Util::AddSlash(\GitPHP\Config::GetInstance()->GetValue('cloneurl', ''), false);
+            $clone_url = \GitPHP\Util::AddSlash(\GitPHP\Config::GetInstance()->GetValue('cloneurl', ''), false);
             if ($clone_url) {
                 $response['clone_url'] = $clone_url . $project_data['project'];
             }

@@ -1,6 +1,8 @@
 <?php
 
-class GitPHP_Util
+namespace GitPHP;
+
+class Util
 {
     const DEBUG_EMAIL = '';
 
@@ -47,7 +49,7 @@ class GitPHP_Util
         }
 
         $first = reset($comments);
-        $Project = GitPHP_ProjectList::GetInstance()->GetProject($first['repo']);
+        $Project = \GitPHP_ProjectList::GetInstance()->GetProject($first['repo']);
         $project_notify_email = $Project->GetNotifyEmail();
         if (!empty($project_notify_email)) {
             $to[] = $project_notify_email;
@@ -130,7 +132,7 @@ class GitPHP_Util
     {
         if (!is_array($changes_authors)) $changes_authors = [];
         $first = reset($comments);
-        $Project = GitPHP_ProjectList::GetInstance()->GetProject($first['repo']);
+        $Project = \GitPHP_ProjectList::GetInstance()->GetProject($first['repo']);
 
         /* собираем структурку hash: file: comment */
         $hash_files_comments = [];
@@ -144,7 +146,7 @@ class GitPHP_Util
                 $comment['real_line_before'] = null;
                 if (!isset($blob_hashes[$comment['file']][$comment['side']])) {
                     $commit_hash = $comment['side'] == 'lhs' ? $comment['hash_base'] : $comment['hash_head'];
-                    $blob_hashes[$comment['file']][$comment['side']] = GitPHP_Blob::getBlobHash($Project, $commit_hash, $comment['file']);
+                    $blob_hashes[$comment['file']][$comment['side']] = \GitPHP_Blob::getBlobHash($Project, $commit_hash, $comment['file']);
                 }
                 // маппинг будет вида [hash-blob => [file => [id => text]]]
                 // в итоге у нас для каждой стороны будет генериться дифф как для блоба
@@ -157,7 +159,7 @@ class GitPHP_Util
             }
         }
 
-        $DiffContext = new DiffContext();
+        $DiffContext = new \DiffContext();
         $DiffContext->setRenames(true);
         $vars_data = ['DIFF_OBJS' => []];
         /* разбираем */
@@ -173,7 +175,7 @@ class GitPHP_Util
         } elseif ($format == 'redmine') {
             $template = 'review.redmine.tpl';
         }
-        $View = new Smarty;
+        $View = new \Smarty;
         $View->plugins_dir[] = GITPHP_INCLUDEDIR . 'smartyplugins';
         $View->template_dir = GITPHP_TEMPLATESDIR;
 
@@ -189,27 +191,27 @@ class GitPHP_Util
         return $diff;
     }
 
-    protected static function getDiffCached($hash, DiffContext $DiffContext, GitPHP_Project $Project, &$changes_authors)
+    protected static function getDiffCached($hash, \DiffContext $DiffContext, \GitPHP_Project $Project, &$changes_authors)
     {
         static $diffs = [];
 
         if (!isset($diffs[$hash])) {
             list($hash_head, $hash_base) = explode('-', $hash);
             if (empty($hash_base)) {
-                $diffs[$hash] = new GitPHP_TreeDiff($Project, $hash_head, '', $DiffContext);
+                $diffs[$hash] = new \GitPHP_TreeDiff($Project, $hash_head, '', $DiffContext);
                 if (\GitPHP\Config::GetInstance()->GetValue(\GitPHP\Config::COLLECT_CHANGES_AUTHORS, false)) {
                     $changes_authors[] = $Project->GetCommit($hash_head)->GetAuthor();
                 }
             } else if ($hash_base == 'blob') {
-                $diffs[$hash] = new GitPHP_Blob($Project, $hash_head);
+                $diffs[$hash] = new \GitPHP_Blob($Project, $hash_head);
             } else {
-                $diffs[$hash] = new GitPHP_BranchDiff($Project, $hash_head, $hash_base, $DiffContext);
+                $diffs[$hash] = new \GitPHP_BranchDiff($Project, $hash_head, $hash_base, $DiffContext);
 
                 if (\GitPHP\Config::GetInstance()->GetValue(\GitPHP\Config::COLLECT_CHANGES_AUTHORS, false)) {
                     $log = $Project->GetLog($hash_head, 50, 0, $hash_base);
                     if (is_array($log)) {
                         foreach ($log as $commit) {
-                            /** @var $commit GitPHP_Commit */
+                            /** @var $commit \GitPHP_Commit */
                             $changes_authors[] = $commit->GetAuthor();
                         }
                     }
@@ -223,7 +225,7 @@ class GitPHP_Util
      * @static
      * @param array[] $comments
      * @param string $file
-     * @param GitPHP_BranchDiff|GitPHP_TreeDiff|GitPHP_FileDiff[]|GitPHP_Blob $Diffs
+     * @param \GitPHP_BranchDiff|\GitPHP_TreeDiff|\GitPHP_FileDiff[]|\GitPHP_Blob $Diffs
      * @param int $diff_size
      * @return string|array
      */
@@ -231,7 +233,7 @@ class GitPHP_Util
     {
         $result = [];
         $startLine = 0;
-        if ($Diffs instanceof GitPHP_Blob) {
+        if ($Diffs instanceof \GitPHP_Blob) {
             $lines = $Diffs->GetData(true);
             $result['HEADER'] = [['header' => $file]];
         } else {
@@ -377,14 +379,14 @@ class GitPHP_Util
         if ($snapshot['hash_base'] == 'blob') {
             $params['h'] = $snapshot['hash_head'];
             $params['f'] = $file;
-            $url = GitPHP\Application::getUrl('blob', $params);
+            $url = \GitPHP\Application::getUrl('blob', $params);
         } else if ($snapshot['hash_base']) {
             $params['branch'] = $snapshot['hash_head'];
             $params['base'] = $snapshot['hash_base'];
-            $url = GitPHP\Application::getUrl('branchdiff', $params);
+            $url = \GitPHP\Application::getUrl('branchdiff', $params);
         } else {
             $params['h'] = $snapshot['hash_head'];
-            $url = GitPHP\Application::getUrl('commitdiff', $params);
+            $url = \GitPHP\Application::getUrl('commitdiff', $params);
         }
         return $url;
     }
@@ -414,7 +416,7 @@ class GitPHP_Util
 
     public static function getImagesDiff($fromBlob, $toBlob, $fromName, $toName)
     {
-        $tmpdir = GitPHP_TmpDir::GetInstance();
+        $tmpdir = \GitPHP_TmpDir::GetInstance();
         $pid = rand();
         $fromTmpFile = 'gitphp_' . $pid . '_from';
         $toTmpFile = 'gitphp_' . $pid . '_to';
