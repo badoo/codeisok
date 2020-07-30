@@ -135,7 +135,7 @@ class Api implements ControllerInterface
             $this->sendResponse(
                 [
                     'commits' => array_map(
-                        function (\GitPHP_Commit $Commit) { return $this->renderCommit($Commit); },
+                        function (\GitPHP\Git\Commit $Commit) { return $this->renderCommit($Commit); },
                         $this->getProject()->GetLog($range_to, $limit, 0, $range_from, $rev_list_opts)
                     )
                 ]
@@ -172,7 +172,7 @@ class Api implements ControllerInterface
         $this->sendResponse(
             [
                 'commits' => array_map(
-                    function (\GitPHP_Commit $Commit) { return $this->renderCommit($Commit); },
+                    function (\GitPHP\Git\Commit $Commit) { return $this->renderCommit($Commit); },
                     $this->getProject()->GetLog($branch, 1000, 0, $compare_with, $rev_list_options)
                 )
             ]
@@ -252,10 +252,10 @@ class Api implements ControllerInterface
     }
 
     /**
-     * @param \GitPHP_Commit $Commit
+     * @param \GitPHP\Git\Commit $Commit
      * @return array
      */
-    protected function renderCommit(\GitPHP_Commit $Commit) : array
+    protected function renderCommit(\GitPHP\Git\Commit $Commit) : array
     {
         $commit_info = [
             'hash'         => $Commit->GetHash(),
