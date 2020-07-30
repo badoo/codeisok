@@ -1237,7 +1237,7 @@ class GitPHP_Project
      *
      * @access public
      * @param string $hash blob hash
-     * @return GitPHP_Blob|null
+     * @return \GitPHP\Git\Blob|null
      * @throws Exception
      */
     public function GetBlob($hash)
@@ -1248,7 +1248,7 @@ class GitPHP_Project
         $cached = GitPHP_Cache::GetInstance()->Get($cacheKey);
         if ($cached) return $cached;
 
-        return new GitPHP_Blob($this, $hash);
+        return new \GitPHP\Git\Blob($this, $hash);
     }
 
     /**

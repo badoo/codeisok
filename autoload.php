@@ -4,7 +4,6 @@ return array(
     \GitPHP\Db_Result::class                      => GITPHP_INCLUDEDIR . 'Result.php',
     'Model_Gitosis'                               => GITPHP_INCLUDEDIR . 'Model_Gitosis.php',
     'GitPHP_Cache'                                => GITPHP_CACHEDIR . 'Cache.class.php',
-    'GitPHP_Blob'                                 => GITPHP_GITOBJECTDIR . 'Blob.class.php',
     'GitPHP_BranchDiff'                           => GITPHP_GITOBJECTDIR . 'BranchDiff.class.php',
     'GitPHP_Commit'                               => GITPHP_GITOBJECTDIR . 'Commit.class.php',
     'GitPHP_DiffExe'                              => GITPHP_GITOBJECTDIR . 'DiffExe.class.php',
