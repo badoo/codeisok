@@ -79,7 +79,7 @@ class Snapshot extends Base
         if (isset($_GET['fmt'])) {
             $this->params['format'] = $_GET['fmt'];
         } else {
-            $this->params['format'] = \GitPHP\Config::GetInstance()->GetValue('compressformat', \GitPHP_Archive::GITPHP_COMPRESS_ZIP);
+            $this->params['format'] = \GitPHP\Config::GetInstance()->GetValue('compressformat', \GitPHP\Git\Archive::GITPHP_COMPRESS_ZIP);
         }
 
         \GitPHP\Log::GetInstance()->SetEnabled(false);
