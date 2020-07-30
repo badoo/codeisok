@@ -205,8 +205,7 @@ class Util
             } else if ($hash_base == 'blob') {
                 $diffs[$hash] = new \GitPHP\Git\Blob($Project, $hash_head);
             } else {
-                $diffs[$hash] = new \GitPHP_BranchDiff($Project, $hash_head, $hash_base, $DiffContext);
-
+                $diffs[$hash] = new \GitPHP\Git\BranchDiff($Project, $hash_head, $hash_base, $DiffContext);
                 if (\GitPHP\Config::GetInstance()->GetValue(\GitPHP\Config::COLLECT_CHANGES_AUTHORS, false)) {
                     $log = $Project->GetLog($hash_head, 50, 0, $hash_base);
                     if (is_array($log)) {
@@ -225,7 +224,7 @@ class Util
      * @static
      * @param array[] $comments
      * @param string $file
-     * @param \GitPHP_BranchDiff|\GitPHP_TreeDiff|\GitPHP_FileDiff[]|\GitPHP\Git\Blob $Diffs
+     * @param \GitPHP\Git\BranchDiff|\GitPHP_TreeDiff|\GitPHP_FileDiff[]|\GitPHP\Git\Blob $Diffs
      * @param int $diff_size
      * @return string|array
      */
