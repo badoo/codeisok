@@ -158,7 +158,7 @@ abstract class DiffBase extends Base
         $this->tpl->assign('review', empty($this->params['review'])?'':$this->params['review']);
     }
 
-    protected function loadReviewsLinks(\GitPHP_Commit $co, $ticket)
+    protected function loadReviewsLinks(\GitPHP\Git\Commit $co, $ticket)
     {
         if ($key = \GitPHP\Tracker::instance()->parseTicketFromString($ticket)) {
             $ticket = \GitPHP\Tracker::instance()->getReviewTicketPrefix() . $key;

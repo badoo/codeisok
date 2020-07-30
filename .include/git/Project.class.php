@@ -619,7 +619,7 @@ class GitPHP_Project
      * Get a commit for this project
      *
      * @param $hash
-     * @return GitPHP_Commit
+     * @return \GitPHP\Git\Commit
      * @throws Exception
      */
     public function GetCommit($hash)
@@ -656,7 +656,7 @@ class GitPHP_Project
                 if ($cached) {
                     $this->commitCache[$hash] = $cached;
                 } else {
-                    $this->commitCache[$hash] = new GitPHP_Commit($this, $hash);
+                    $this->commitCache[$hash] = new \GitPHP\Git\Commit($this, $hash);
                 }
             }
 
@@ -1199,7 +1199,7 @@ class GitPHP_Project
      * @param integer $skip number of entries to skip
      * @param string $hashBase
      * @param array $revListOptions
-     * @return GitPHP_Commit[]
+     * @return \GitPHP\Git\Commit[]
      * @throws Exception
      */
     public function GetLog($hash, $count = 50, $skip = 0, $hashBase = null, $revListOptions = [])
@@ -1213,7 +1213,7 @@ class GitPHP_Project
         $contents = $result['contents'];
         $hash_tags = array();
 
-        /** @var $Commit GitPHP_Commit */
+        /** @var $Commit \GitPHP\Git\Commit */
         foreach ($log as $i => $log_hash) {
             $log[$i] = $Commit = $this->GetCommit($log_hash);
             if (!isset($contents[$log_hash])) {
@@ -1624,7 +1624,7 @@ class GitPHP_Project
     /**
      * @param string $first_commit
      * @param string $second_commit
-     * @return GitPHP_Commit|null
+     * @return \GitPHP\Git\Commit|null
      * @throws Exception
      */
     public function getMergeBase(string $first_commit, string $second_commit)
@@ -1636,7 +1636,7 @@ class GitPHP_Project
         if (!$hash) {
             return null;
         }
-        return new GitPHP_Commit($this, $hash);
+        return new \GitPHP\Git\Commit($this, $hash);
     }
 
     /**
