@@ -16,7 +16,9 @@
  * @package GitPHP
  * @subpackage Git
  */
-class GitPHP_Archive
+namespace GitPHP\Git;
+
+class Archive
 {
     const GITPHP_COMPRESS_TAR = 'tar';
     const GITPHP_COMPRESS_BZ2 = 'tbz2';
@@ -64,7 +66,7 @@ class GitPHP_Archive
      * @param string $format the format for the archive
      * @param string $path
      * @param string $prefix
-     * @throws Exception
+     * @throws \Exception
      */
     public function __construct($project, $gitObject, $format = self::GITPHP_COMPRESS_ZIP, $path = '', $prefix = '')
     {
@@ -127,13 +129,13 @@ class GitPHP_Archive
      * Sets the object for this archive
      *
      * @param mixed $object the git object
-     * @throws Exception
+     * @throws \Exception
      */
     public function SetObject($object)
     {
         // Archive only works for commits and trees
-        if (($object != null) && (!(($object instanceof GitPHP_Commit) || ($object instanceof GitPHP_Tree)))) {
-            throw new Exception('Invalid source object for archive');
+        if (($object != null) && (!(($object instanceof \GitPHP_Commit) || ($object instanceof \GitPHP_Tree)))) {
+            throw new \Exception('Invalid source object for archive');
         }
 
         $this->gitObject = $object;
@@ -173,11 +175,11 @@ class GitPHP_Archive
      * Gets the extension to use for this archive
      *
      * @return string extension for the archive
-     * @throws Exception
+     * @throws \Exception
      */
     public function GetExtension()
     {
-        return GitPHP_Archive::FormatToExtension($this->format);
+        return \GitPHP\Git\Archive::FormatToExtension($this->format);
     }
 
     /**
@@ -186,7 +188,7 @@ class GitPHP_Archive
      * Gets the filename for this archive
      *
      * @return string filename
-     * @throws Exception
+     * @throws \Exception
      */
     public function GetFilename()
     {
@@ -280,7 +282,7 @@ class GitPHP_Archive
      * Gets the headers to send to the browser for this file
      *
      * @return array header strings
-     * @throws Exception
+     * @throws \Exception
      */
     public function GetHeaders()
     {
@@ -304,7 +306,7 @@ class GitPHP_Archive
                 break;
 
             default:
-                throw new Exception('Unknown compression type');
+                throw new \Exception('Unknown compression type');
         }
 
         if (count($headers) > 0) {
@@ -320,15 +322,15 @@ class GitPHP_Archive
      * Gets the archive data
      *
      * @return string archive data
-     * @throws Exception
+     * @throws \Exception
      */
     public function GetData()
     {
         if (!$this->gitObject) {
-            throw new Exception('Invalid object for archive');
+            throw new \Exception('Invalid object for archive');
         }
 
-        $exe = new GitPHP_GitExe($this->GetProject());
+        $exe = new \GitPHP_GitExe($this->GetProject());
 
         $args = array();
 
@@ -372,7 +374,7 @@ class GitPHP_Archive
      *
      * @param string $format format to get extension for
      * @return string file extension
-     * @throws Exception
+     * @throws \Exception
      */
     public static function FormatToExtension($format)
     {
@@ -406,19 +408,19 @@ class GitPHP_Archive
      * @access public
      * @static
      * @return array array of formats mapped to extensions
-     * @throws Exception
+     * @throws \Exception
      */
     public static function SupportedFormats()
     {
         $formats = array();
-        $formats[self::GITPHP_COMPRESS_TAR] = GitPHP_Archive::FormatToExtension(self::GITPHP_COMPRESS_TAR);
-        $formats[self::GITPHP_COMPRESS_ZIP] = GitPHP_Archive::FormatToExtension(self::GITPHP_COMPRESS_ZIP);
+        $formats[self::GITPHP_COMPRESS_TAR] = \GitPHP\Git\Archive::FormatToExtension(self::GITPHP_COMPRESS_TAR);
+        $formats[self::GITPHP_COMPRESS_ZIP] = \GitPHP\Git\Archive::FormatToExtension(self::GITPHP_COMPRESS_ZIP);
 
         if (function_exists('bzcompress')) {
-            $formats[self::GITPHP_COMPRESS_BZ2] = GitPHP_Archive::FormatToExtension(self::GITPHP_COMPRESS_BZ2);
+            $formats[self::GITPHP_COMPRESS_BZ2] = \GitPHP\Git\Archive::FormatToExtension(self::GITPHP_COMPRESS_BZ2);
         }
         if (function_exists('gzencode')) {
-            $formats[self::GITPHP_COMPRESS_GZ] = GitPHP_Archive::FormatToExtension(self::GITPHP_COMPRESS_GZ);
+            $formats[self::GITPHP_COMPRESS_GZ] = \GitPHP\Git\Archive::FormatToExtension(self::GITPHP_COMPRESS_GZ);
         }
 
         return $formats;
