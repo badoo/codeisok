@@ -146,7 +146,7 @@ class Util
                 $comment['real_line_before'] = null;
                 if (!isset($blob_hashes[$comment['file']][$comment['side']])) {
                     $commit_hash = $comment['side'] == 'lhs' ? $comment['hash_base'] : $comment['hash_head'];
-                    $blob_hashes[$comment['file']][$comment['side']] = \GitPHP_Blob::getBlobHash($Project, $commit_hash, $comment['file']);
+                    $blob_hashes[$comment['file']][$comment['side']] = \GitPHP\Git\Blob::getBlobHash($Project, $commit_hash, $comment['file']);
                 }
                 // маппинг будет вида [hash-blob => [file => [id => text]]]
                 // в итоге у нас для каждой стороны будет генериться дифф как для блоба
@@ -203,7 +203,7 @@ class Util
                     $changes_authors[] = $Project->GetCommit($hash_head)->GetAuthor();
                 }
             } else if ($hash_base == 'blob') {
-                $diffs[$hash] = new \GitPHP_Blob($Project, $hash_head);
+                $diffs[$hash] = new \GitPHP\Git\Blob($Project, $hash_head);
             } else {
                 $diffs[$hash] = new \GitPHP_BranchDiff($Project, $hash_head, $hash_base, $DiffContext);
 
@@ -225,7 +225,7 @@ class Util
      * @static
      * @param array[] $comments
      * @param string $file
-     * @param \GitPHP_BranchDiff|\GitPHP_TreeDiff|\GitPHP_FileDiff[]|\GitPHP_Blob $Diffs
+     * @param \GitPHP_BranchDiff|\GitPHP_TreeDiff|\GitPHP_FileDiff[]|\GitPHP\Git\Blob $Diffs
      * @param int $diff_size
      * @return string|array
      */
@@ -233,7 +233,7 @@ class Util
     {
         $result = [];
         $startLine = 0;
-        if ($Diffs instanceof \GitPHP_Blob) {
+        if ($Diffs instanceof \GitPHP\Git\Blob) {
             $lines = $Diffs->GetData(true);
             $result['HEADER'] = [['header' => $file]];
         } else {
