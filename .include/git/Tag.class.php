@@ -575,14 +575,14 @@ class GitPHP_Tag extends GitPHP_Ref
     {
         $aObj = $a->GetObject();
         $bObj = $b->GetObject();
-        if (($aObj instanceof GitPHP_Commit) && ($bObj instanceof GitPHP_Commit)) {
+        if (($aObj instanceof \GitPHP\Git\Commit) && ($bObj instanceof \GitPHP\Git\Commit)) {
             if ($aObj->GetAge() === $bObj->GetAge()) return 0;
             return ($aObj->GetAge() < $bObj->GetAge() ? -1 : 1);
         }
 
-        if ($aObj instanceof GitPHP_Commit) return 1;
+        if ($aObj instanceof \GitPHP\Git\Commit) return 1;
 
-        if ($bObj instanceof GitPHP_Commit) return -1;
+        if ($bObj instanceof \GitPHP\Git\Commit) return -1;
 
         return strcmp($a->GetName(), $b->GetName());
     }
