@@ -172,7 +172,7 @@ class GitPHP_Tree extends GitPHP_FilesystemObject
 
             if ($obj instanceof GitPHP_Tree) {
                 $data['type'] = 'tree';
-            } else if ($obj instanceof GitPHP_Blob) {
+            } else if ($obj instanceof \GitPHP\Git\Blob) {
                 $data['type'] = 'blob';
                 $data['size'] = $obj->GetSize();
             }

@@ -389,7 +389,7 @@ class GitPHP_FileDiff
      * Gets the to file blob
      *
      * @access public
-     * @return GitPHP_Blob blob object
+     * @return \GitPHP\Git\Blob blob object
      */
     public function GetToBlob()
     {
@@ -491,7 +491,7 @@ class GitPHP_FileDiff
     {
         if (!$this->diffInfoRead) $this->ReadDiffInfo();
 
-        return GitPHP_Blob::FileType($this->fromMode, $local);
+        return \GitPHP\Git\Blob::FileType($this->fromMode, $local);
     }
 
     /**
@@ -507,7 +507,7 @@ class GitPHP_FileDiff
     {
         if (!$this->diffInfoRead) $this->ReadDiffInfo();
 
-        return GitPHP_Blob::FileType($this->toMode, $local);
+        return \GitPHP\Git\Blob::FileType($this->toMode, $local);
     }
 
     /**
