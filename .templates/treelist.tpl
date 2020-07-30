@@ -10,7 +10,7 @@
  *}
 
 {foreach from=$tree->GetContents() item=treeitem}
-    {if $treeitem instanceof GitPHP_Blob}
+    {if $treeitem instanceof \GitPHP\Git\Blob}
       <tr>
           <td class="list fileName">
               <span class="expander"></span>

@@ -1,22 +1,8 @@
 <?php
-/**
- * GitPHP Blob
- *
- * Represents a single blob
- *
- * @author Christopher Han <xiphux@gmail.com>
- * @copyright Copyright (c) 2010 Christopher Han
- * @package GitPHP
- * @subpackage Git
- */
 
-/**
- * Commit class
- *
- * @package GitPHP
- * @subpackage Git
- */
-class GitPHP_Blob extends GitPHP_FilesystemObject
+namespace GitPHP\Git;
+
+class Blob extends \GitPHP_FilesystemObject
 {
     /**
      * data
@@ -83,7 +69,7 @@ class GitPHP_Blob extends GitPHP_FilesystemObject
 
     public static function getBlobHash($Project, $commit_hash, $file_name)
     {
-        $exe = new GitPHP_GitExe($Project);
+        $exe = new \GitPHP_GitExe($Project);
 
         $commit_hash = escapeshellarg($commit_hash);
         $file_name = escapeshellarg($file_name);
@@ -104,7 +90,7 @@ class GitPHP_Blob extends GitPHP_FilesystemObject
      * @access public
      * @param mixed $project the project
      * @param string $hash object hash
-     * @throws Exception exception on invalid hash
+     * @throws \Exception exception on invalid hash
      */
     public function __construct($project, $hash)
     {
@@ -140,7 +126,7 @@ class GitPHP_Blob extends GitPHP_FilesystemObject
         $this->dataRead = true;
 
         if ($this->hash !== self::ALL_ZEROS_HASH) {
-            $exe = new GitPHP_GitExe($this->GetProject());
+            $exe = new \GitPHP_GitExe($this->GetProject());
 
             $args = array();
             $args[] = 'blob';
@@ -148,7 +134,7 @@ class GitPHP_Blob extends GitPHP_FilesystemObject
 
             $this->data = $exe->Execute(GIT_CAT_FILE, $args);
 
-            GitPHP_Cache::GetInstance()->Set($this->GetCacheKey(), $this);
+            \GitPHP_Cache::GetInstance()->Set($this->GetCacheKey(), $this);
         }
     }
 
@@ -387,7 +373,7 @@ class GitPHP_Blob extends GitPHP_FilesystemObject
     {
         $this->historyRead = true;
 
-        $exe = new GitPHP_GitExe($this->GetProject());
+        $exe = new \GitPHP_GitExe($this->GetProject());
 
         $args = array();
         if (isset($this->commit)) $args[] = $this->commit->GetHash();
@@ -409,10 +395,10 @@ class GitPHP_Blob extends GitPHP_FilesystemObject
                 $commit = $this->GetProject()->GetCommit($regs[1]);
             } else if ($commit) {
                 try {
-                    $history = new GitPHP_FileDiff($this->GetProject(), $line, '', new DiffContext());
+                    $history = new \GitPHP_FileDiff($this->GetProject(), $line, '', new \DiffContext());
                     $history->SetCommit($commit);
                     $this->history[] = $history;
-                } catch (Exception $e) {}
+                } catch (\Exception $e) {}
                 $commit = null;
             }
         }
@@ -444,7 +430,7 @@ class GitPHP_Blob extends GitPHP_FilesystemObject
     {
         $this->blameRead = true;
 
-        $exe = new GitPHP_GitExe($this->GetProject());
+        $exe = new \GitPHP_GitExe($this->GetProject());
 
         $args = array();
         $args[] = '-s';
