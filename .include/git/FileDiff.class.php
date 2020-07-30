@@ -852,7 +852,7 @@ class GitPHP_FileDiff
      * Gets the commit for this filediff
      *
      * @access public
-     * @return GitPHP_Commit object
+     * @return \GitPHP\Git\Commit object
      */
     public function GetCommit()
     {

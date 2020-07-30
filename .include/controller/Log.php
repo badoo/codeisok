@@ -147,7 +147,7 @@ class Log extends Base
             }
             $revlist_hashes = array();
             $revlist_index = array();
-            /** @var $revlist \GitPHP_Commit[] */
+            /** @var $revlist \GitPHP\Git\Commit[] */
             foreach ($revlist as $idx => $commit) {
                 $revlist_hashes[] = $commit->GetHash();
                 $revlist_index[$commit->GetHash()] = $idx;

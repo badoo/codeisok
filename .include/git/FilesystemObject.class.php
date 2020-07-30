@@ -40,7 +40,7 @@ abstract class GitPHP_FilesystemObject extends GitPHP_GitObject
     /**
      * Stores the commit this object belongs to
      *
-     * @var GitPHP_Commit
+     * @var \GitPHP\Git\Commit
      */
     protected $commit;
 

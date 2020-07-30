@@ -210,7 +210,7 @@ class Util
                     $log = $Project->GetLog($hash_head, 50, 0, $hash_base);
                     if (is_array($log)) {
                         foreach ($log as $commit) {
-                            /** @var $commit \GitPHP_Commit */
+                            /** @var $commit \GitPHP\Git\Commit */
                             $changes_authors[] = $commit->GetAuthor();
                         }
                     }

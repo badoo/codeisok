@@ -50,7 +50,7 @@ class GitPHP_Head extends GitPHP_Ref
      * Gets the commit for this head
      *
      * @access public
-     * @return GitPHP_Commit
+     * @return \GitPHP\Git\Commit
      */
     public function GetCommit()
     {
