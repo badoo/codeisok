@@ -321,7 +321,7 @@ abstract class Base implements ControllerInterface
         }
         $this->tpl->assign('requestvars', $getvarsmapped);
 
-        $this->tpl->assign('snapshotformats', \GitPHP_Archive::SupportedFormats());
+        $this->tpl->assign('snapshotformats', \GitPHP\Git\Archive::SupportedFormats());
         $this->tpl->assign('Session', $this->Session);
         $this->tpl->assign('User', $this->Session->getUser());
 

@@ -9,7 +9,7 @@ class Snapshot extends Base
      * Stores the archive object
      *
      * @access private
-     * @var \GitPHP_Archive
+     * @var \GitPHP\Git\Archive
      */
     private $archive = null;
 
@@ -94,7 +94,7 @@ class Snapshot extends Base
      */
     protected function LoadHeaders()
     {
-        $this->archive = new \GitPHP_Archive(
+        $this->archive = new \GitPHP\Git\Archive(
             $this->project,
             null,
             $this->params['format'],
