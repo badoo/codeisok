@@ -1,22 +1,8 @@
 <?php
-/**
- * GitPHP ProjectListArray
- *
- * Lists all projects in a multidimensional array
- *
- * @author Christopher Han <xiphux@gmail.com>
- * @copyright Copyright (c) 2010 Christopher Han
- * @package GitPHP
- * @subpackage Git
- */
 
-/**
- * ProjectListArray class
- *
- * @package GitPHP
- * @subpackage Git
- */
-class GitPHP_ProjectListArray extends GitPHP_ProjectListBase
+namespace GitPHP\Git;
+
+class ProjectListArray extends \GitPHP_ProjectListBase
 {
     /**
      * __construct
@@ -24,13 +10,13 @@ class GitPHP_ProjectListArray extends GitPHP_ProjectListBase
      * constructor
      *
      * @param mixed $projectArray array to read
-     * @throws Exception if parameter is not an array
+     * @throws \Exception if parameter is not an array
      * @access public
      */
     public function __construct($projectArray)
     {
         if (!is_array($projectArray)) {
-            throw new Exception('An array of projects is required');
+            throw new \Exception('An array of projects is required');
         }
 
         $this->projectConfig = $projectArray;
@@ -44,7 +30,7 @@ class GitPHP_ProjectListArray extends GitPHP_ProjectListBase
      * Populates the internal list of projects
      *
      * @access protected
-     * @throws Exception if file cannot be read
+     * @throws \Exception if file cannot be read
      */
     protected function PopulateProjects()
     {
@@ -67,7 +53,7 @@ class GitPHP_ProjectListArray extends GitPHP_ProjectListBase
                         $this->ApplyProjectSettings(null, $projData);
                     }
                 }
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 \GitPHP\Log::GetInstance()->Log(__METHOD__, $e->__toString());
             }
         }
