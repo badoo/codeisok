@@ -700,7 +700,7 @@ class GitPHP_FileDiff
                 }
             }
 
-            $this->diffData = GitPHP_DiffExe::Diff(
+            $this->diffData = \GitPHP\Git\DiffExe::Diff(
                 (empty($fromTmpFile) ? null : ($tmpdir->GetDir() . $fromTmpFile)),
                 $fromName,
                 (empty($toTmpFile) ? null : ($tmpdir->GetDir() . $toTmpFile)),
@@ -930,7 +930,7 @@ class GitPHP_FileDiff
         exec($cmd, $out, $ret);
         \GitPHP\Log::GetInstance()->timerStop('exec', $cmd . "\n\n" . implode("\n", $out) . ' ret:' . $ret);
 
-        $this->diffData = GitPHP_DiffExe::Diff(
+        $this->diffData = \GitPHP\Git\DiffExe::Diff(
             (empty($fromTmpFile) ? null : ($tmpdir->GetDir() . $fromTmpFile)),
             $fromName,
             (empty($toTmpFile) ? null : ($tmpdir->GetDir() . $toTmpFile)),
