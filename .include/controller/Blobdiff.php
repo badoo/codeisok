@@ -97,7 +97,7 @@ class Blobdiff extends DiffBase
         $DiffContext->setContext($this->params['context'])
             ->setIgnoreWhitespace($this->params['ignorewhitespace'])
             ->setIgnoreFormatting($this->params['ignoreformat']);
-        $filediff = new \GitPHP_FileDiff(
+        $filediff = new \GitPHP\Git\FileDiff(
             $this->project,
             $this->params['hashparent'],
             $this->params['hash'],
