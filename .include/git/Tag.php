@@ -2,7 +2,7 @@
 
 namespace GitPHP\Git;
 
-class Tag extends \GitPHP_Ref
+class Tag extends \GitPHP\Git\Ref
 {
     /**
      * dataRead

@@ -1,22 +1,8 @@
 <?php
-/**
- * GitPHP Ref
- *
- * Base class for ref objects
- *
- * @author Christopher Han <xiphux@gmail.com>
- * @copyright Copyright (c) 2010 Christopher Han
- * @package GitPHP
- * @subpackage Git
- */
 
-/**
- * Git Ref class
- *
- * @package GitPHP
- * @subpackage Git
- */
-abstract class GitPHP_Ref extends \GitPHP\Git\GitObject
+namespace GitPHP\Git;
+
+abstract class Ref extends \GitPHP\Git\GitObject
 {
     /**
      * refName
@@ -46,7 +32,7 @@ abstract class GitPHP_Ref extends \GitPHP\Git\GitObject
      * @param string $refDir the ref directory
      * @param string $refName the ref name
      * @param string $refHash the ref hash
-     * @throws Exception if not a valid ref
+     * @throws \Exception if not a valid ref
      * @return mixed git ref
      */
     public function __construct($project, $refDir, $refName, $refHash = '')
@@ -80,7 +66,7 @@ abstract class GitPHP_Ref extends \GitPHP\Git\GitObject
      * Looks up the hash for the ref
      *
      * @access protected
-     * @throws Exception if hash is not found
+     * @throws \Exception if hash is not found
      */
     protected function FindHash()
     {
@@ -91,7 +77,7 @@ abstract class GitPHP_Ref extends \GitPHP\Git\GitObject
         $args[] = $this->GetRefPath();
         $hash = trim($exe->Execute(GIT_SHOW_REF, $args));
 
-        if (empty($hash)) throw new Exception('Invalid ref ' . $this->GetRefPath());
+        if (empty($hash)) throw new \Exception('Invalid ref ' . $this->GetRefPath());
 
         $this->SetHash($hash);
     }

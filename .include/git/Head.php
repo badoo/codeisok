@@ -2,7 +2,7 @@
 
 namespace GitPHP\Git;
 
-class Head extends \GitPHP_Ref
+class Head extends \GitPHP\Git\Ref
 {
     /**
      * commit
