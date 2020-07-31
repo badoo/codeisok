@@ -12,7 +12,6 @@ return array(
     'GitPHP_ProjectListDirectory'                 => GITPHP_GITOBJECTDIR . 'ProjectListDirectory.class.php',
     'GitPHP_ProjectListFile'                      => GITPHP_GITOBJECTDIR . 'ProjectListFile.class.php',
     'GitPHP_Ref'                                  => GITPHP_GITOBJECTDIR . 'Ref.class.php',
-    'GitPHP_Tag'                                  => GITPHP_GITOBJECTDIR . 'Tag.class.php',
     'GitPHP_TmpDir'                               => GITPHP_GITOBJECTDIR . 'TmpDir.class.php',
     'GitPHP_Tree'                                 => GITPHP_GITOBJECTDIR . 'Tree.class.php',
     'GitPHP_TreeDiff'                             => GITPHP_GITOBJECTDIR . 'TreeDiff.class.php',
