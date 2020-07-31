@@ -304,7 +304,7 @@ class GitPHP_Tag extends GitPHP_Ref
         $this->dataRead = true;
 
         if (is_null($external_type)) {
-            $exe = new GitPHP_GitExe($this->GetProject());
+            $exe = new \GitPHP\Git\GitExe($this->GetProject());
             $args = array();
             $args[] = '-t';
             $args[] = $this->GetHash();
@@ -323,7 +323,7 @@ class GitPHP_Tag extends GitPHP_Ref
         }
 
         if (is_null($external_contents)) {
-            $exe = new GitPHP_GitExe($this->GetProject());
+            $exe = new \GitPHP\Git\GitExe($this->GetProject());
             /* get data from tag object */
             $args = array();
             $args[] = 'tag';
@@ -376,7 +376,7 @@ class GitPHP_Tag extends GitPHP_Ref
                 break;
 
             case 'tag':
-                $exe = new GitPHP_GitExe($this->GetProject());
+                $exe = new \GitPHP\Git\GitExe($this->GetProject());
                 $args = array();
                 $args[] = 'tag';
                 $args[] = $objectHash;
@@ -407,7 +407,7 @@ class GitPHP_Tag extends GitPHP_Ref
      */
     private function ReadCommit()
     {
-        $exe = new GitPHP_GitExe($this->GetProject());
+        $exe = new \GitPHP\Git\GitExe($this->GetProject());
         $args = array();
         $args[] = '--tags';
         $args[] = '--dereference';

@@ -183,7 +183,7 @@ class Git extends Base
 
         $log = "Can't get short log for requested commits";
         if (!empty($this->project) && $first_commit && $second_commit) {
-            $exe = new \GitPHP_GitExe($this->project);
+            $exe = new \GitPHP\Git\GitExe($this->project);
 
             $args = ['--oneline', $first_commit, "^{$second_commit}", '--'];
             if ($no_merges) {

@@ -107,7 +107,7 @@ class GitPHP_TreeDiff implements Iterator
 
         $this->fileDiffs = array();
 
-        $exe = new GitPHP_GitExe($this->project);
+        $exe = new \GitPHP\Git\GitExe($this->project);
 
         $args = array();
 

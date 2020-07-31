@@ -69,7 +69,7 @@ class Blob extends FilesystemObject
 
     public static function getBlobHash($Project, $commit_hash, $file_name)
     {
-        $exe = new \GitPHP_GitExe($Project);
+        $exe = new \GitPHP\Git\GitExe($Project);
 
         $commit_hash = escapeshellarg($commit_hash);
         $file_name = escapeshellarg($file_name);
@@ -126,7 +126,7 @@ class Blob extends FilesystemObject
         $this->dataRead = true;
 
         if ($this->hash !== self::ALL_ZEROS_HASH) {
-            $exe = new \GitPHP_GitExe($this->GetProject());
+            $exe = new \GitPHP\Git\GitExe($this->GetProject());
 
             $args = array();
             $args[] = 'blob';
@@ -373,7 +373,7 @@ class Blob extends FilesystemObject
     {
         $this->historyRead = true;
 
-        $exe = new \GitPHP_GitExe($this->GetProject());
+        $exe = new \GitPHP\Git\GitExe($this->GetProject());
 
         $args = array();
         if (isset($this->commit)) $args[] = $this->commit->GetHash();
@@ -430,7 +430,7 @@ class Blob extends FilesystemObject
     {
         $this->blameRead = true;
 
-        $exe = new \GitPHP_GitExe($this->GetProject());
+        $exe = new \GitPHP\Git\GitExe($this->GetProject());
 
         $args = array();
         $args[] = '-s';

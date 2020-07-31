@@ -478,7 +478,7 @@ class Commit extends \GitPHP_GitObject
 
         if (is_null($external_contents)) {
             /* get data from git_rev_list */
-            $exe = new \GitPHP_GitExe($this->GetProject());
+            $exe = new \GitPHP\Git\GitExe($this->GetProject());
             $args = array();
             $args[] = '--header';
             $args[] = '--parents';
@@ -605,7 +605,7 @@ class Commit extends \GitPHP_GitObject
     {
         $this->containingTagRead = true;
 
-        $exe = new \GitPHP_GitExe($this->GetProject());
+        $exe = new \GitPHP\Git\GitExe($this->GetProject());
         $args = array();
         $args[] = '--tags';
         $args[] = $this->hash;
@@ -677,7 +677,7 @@ class Commit extends \GitPHP_GitObject
     {
         $this->hashPathsRead = true;
 
-        $exe = new \GitPHP_GitExe($this->GetProject());
+        $exe = new \GitPHP\Git\GitExe($this->GetProject());
 
         $args = array();
         $args[] = '--full-name';
@@ -759,7 +759,7 @@ class Commit extends \GitPHP_GitObject
             return null;
         }
 
-        $exe = new \GitPHP_GitExe($this->GetProject());
+        $exe = new \GitPHP\Git\GitExe($this->GetProject());
 
         $args = array();
         $args[] = '-I';
