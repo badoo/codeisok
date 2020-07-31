@@ -284,7 +284,7 @@ class GitPHP_Project
     public function GetOwner()
     {
         if (empty($this->owner) && !$this->readOwner) {
-            $exe = new GitPHP_GitExe($this);
+            $exe = new \GitPHP\Git\GitExe($this);
             $args = array();
             $args[] = 'gitweb.owner';
             $this->owner = $exe->Execute(GIT_CONFIG, $args);
@@ -606,7 +606,7 @@ class GitPHP_Project
     {
         $this->readHeadRef = true;
 
-        $exe = new GitPHP_GitExe($this);
+        $exe = new \GitPHP\Git\GitExe($this);
         $args = array();
         $args[] = '--verify';
         $args[] = 'HEAD';
@@ -868,7 +868,7 @@ class GitPHP_Project
             return;
         }
 
-        $exe = new GitPHP_GitExe($this);
+        $exe = new \GitPHP\Git\GitExe($this);
         $args = array();
         $args[] = '--heads';
         $args[] = '--tags';
@@ -914,7 +914,7 @@ class GitPHP_Project
     {
         if (!$this->readRefs) $this->ReadRefList();
 
-        $exe = new GitPHP_GitExe($this);
+        $exe = new \GitPHP\Git\GitExe($this);
         $args = array();
         $args[] = '--sort=-creatordate';
         $args[] = '--format="%(refname)"';
@@ -1004,7 +1004,7 @@ class GitPHP_Project
     {
         if (!$this->readRefs) $this->ReadRefList();
 
-        $exe = new GitPHP_GitExe($this);
+        $exe = new \GitPHP\Git\GitExe($this);
         $args = [];
         $args[] = '--sort=-committerdate';
         $args[] = '--format="%(refname)"';
@@ -1063,7 +1063,7 @@ class GitPHP_Project
      */
     public function SymbolicRef($link)
     {
-        $exe = new GitPHP_GitExe($this);
+        $exe = new \GitPHP\Git\GitExe($this);
         $object = trim($exe->Execute("symbolic-ref", [$link, '2>/dev/null']));
         return $object;
     }
@@ -1124,7 +1124,7 @@ class GitPHP_Project
         $outfile = tempnam('/tmp', 'objlist');
         $hashlistfile = tempnam('/tmp', 'objlist');
         file_put_contents($hashlistfile, implode("\n", $hashes));
-        $Git = new GitPHP_GitExe($this);
+        $Git = new \GitPHP\Git\GitExe($this);
         $Git->Execute(GIT_CAT_FILE, array('--batch', ' < ' . escapeshellarg($hashlistfile), ' > ' . escapeshellarg($outfile)));
         unlink($hashlistfile);
         $fp = fopen($outfile, 'r');
@@ -1279,7 +1279,7 @@ class GitPHP_Project
      */
     public function GetDiffTree($first_tree, $second_tree)
     {
-        $exe = new GitPHP_GitExe($this);
+        $exe = new \GitPHP\Git\GitExe($this);
         return trim($exe->Execute(GIT_DIFF_TREE, ['-r', escapeshellarg($first_tree), escapeshellarg($second_tree), '2>/dev/null']));
     }
 
@@ -1296,7 +1296,7 @@ class GitPHP_Project
                 escapeshellarg($text),
                 escapeshellarg($branch),
             );
-            $exe = new GitPHP_GitExe($this);
+            $exe = new \GitPHP\Git\GitExe($this);
             $result = $exe->Execute(GIT_GREP, $args);
         }
         return $result;
@@ -1323,7 +1323,7 @@ class GitPHP_Project
 
         $args = array();
 
-        $exe = new GitPHP_GitExe($this);
+        $exe = new \GitPHP\Git\GitExe($this);
         if ($exe->CanIgnoreRegexpCase()) $args[] = '--regexp-ignore-case';
         unset($exe);
 
@@ -1357,7 +1357,7 @@ class GitPHP_Project
 
         $search_for = escapeshellarg("{$abbreviated_hash}^{{$object_type}}");
 
-        $exe = new GitPHP_GitExe($this);
+        $exe = new \GitPHP\Git\GitExe($this);
         $hash = $exe->Execute(GIT_REV_PARSE, ['--quiet', '--verify', $search_for, '2>/dev/null']);
         if ($hash) {
             return trim($hash);
@@ -1386,7 +1386,7 @@ class GitPHP_Project
 
         $args = array();
 
-        $exe = new GitPHP_GitExe($this);
+        $exe = new \GitPHP\Git\GitExe($this);
         if ($exe->CanIgnoreRegexpCase()) $args[] = '--regexp-ignore-case';
         unset($exe);
 
@@ -1422,7 +1422,7 @@ class GitPHP_Project
 
         $args = array();
 
-        $exe = new GitPHP_GitExe($this);
+        $exe = new \GitPHP\Git\GitExe($this);
         if ($exe->CanIgnoreRegexpCase()) $args[] = '--regexp-ignore-case';
         unset($exe);
 
@@ -1456,7 +1456,7 @@ class GitPHP_Project
             return null;
         }
 
-        $exe = new GitPHP_GitExe($this);
+        $exe = new \GitPHP\Git\GitExe($this);
 
         $canSkip = true;
 
@@ -1546,7 +1546,7 @@ class GitPHP_Project
     {
         $this->epochRead = true;
 
-        $exe = new GitPHP_GitExe($this);
+        $exe = new \GitPHP\Git\GitExe($this);
 
         $args = array();
         $args[] = '--format="%(committer)"';
@@ -1632,7 +1632,7 @@ class GitPHP_Project
         if (!$first_commit || !$second_commit) {
             return null;
         }
-        $hash = trim((new GitPHP_GitExe($this))->Execute(GIT_MERGE_BASE, [$first_commit, $second_commit, '2>/dev/null']));
+        $hash = trim((new \GitPHP\Git\GitExe($this))->Execute(GIT_MERGE_BASE, [$first_commit, $second_commit, '2>/dev/null']));
         if (!$hash) {
             return null;
         }
@@ -1666,7 +1666,7 @@ class GitPHP_Project
     public function GetRevList($args)
     {
         $args[] = '2>/dev/null';
-        $hashes = trim((new GitPHP_GitExe($this))->Execute(GIT_REV_LIST, $args));
+        $hashes = trim((new \GitPHP\Git\GitExe($this))->Execute(GIT_REV_LIST, $args));
         return array_map('trim', explode("\n", $hashes));
     }
 
@@ -1766,7 +1766,7 @@ class GitPHP_Project
     {
         $args = array_map('escapeshellarg', $args);
         $args[] = '2>/dev/null';
-        $Exec = new GitPHP_GitExe($this);
+        $Exec = new \GitPHP\Git\GitExe($this);
         $results = trim($Exec->execute(GIT_FOR_EACH_REF, $args));
         return array_filter(array_map('trim', explode("\n", $results)));
     }

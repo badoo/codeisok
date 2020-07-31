@@ -53,7 +53,7 @@ class BranchDiff implements \Iterator
     protected $dataRead = false;
 
     /**
-     * @var \GitPHP_GitExe
+     * @var \GitPHP\Git\GitExe
      */
     private $exe;
 
@@ -88,7 +88,7 @@ class BranchDiff implements \Iterator
         $this->fromBranch = ($fromBranch) ? : 'master';
         $this->DiffContext = $DiffContext;
 
-        $this->exe = new \GitPHP_GitExe($this->project);
+        $this->exe = new \GitPHP\Git\GitExe($this->project);
     }
 
     public function setFromHash($fromHash)
