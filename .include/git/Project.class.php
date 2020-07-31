@@ -932,7 +932,7 @@ class GitPHP_Project
 
         foreach ($lines as $ref) {
             if (isset($this->tags[$ref])) {
-                /** @var $Tag GitPHP_Tag */
+                /** @var $Tag \GitPHP\Git\Tag */
                 $Tag = $this->tags[$ref];
                 $tags[$Tag->getHash()] = $Tag;
             }
@@ -986,7 +986,7 @@ class GitPHP_Project
         if ($cached) {
             return $cached;
         } else {
-            return new GitPHP_Tag($this, $tag, $hash);
+            return new \GitPHP\Git\Tag($this, $tag, $hash);
         }
     }
 
@@ -1145,7 +1145,7 @@ class GitPHP_Project
     /**
      * Loads data for tags all-at-once (with their commit hashes)
      *
-     * @param array $hash_tags array(hash => GitPHP_Tag)
+     * @param array $hash_tags array(hash => \GitPHP\Git\Tag)
      */
     public function BatchLoadTags(array $hash_tags)
     {
@@ -1153,7 +1153,7 @@ class GitPHP_Project
 
         $result = $this->BatchReadData(array_keys($hash_tags));
 
-        /** @var $Tag GitPHP_Tag */
+        /** @var $Tag \GitPHP\Git\Tag */
         foreach ($hash_tags as $hash => $Tag) {
             if (!isset($result['types'][$hash])) continue;
             $Tag->ReadData($result['types'][$hash], $result['contents'][$hash]);

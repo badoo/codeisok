@@ -1,22 +1,8 @@
 <?php
-/**
- * GitPHP Tag
- *
- * Represents a single tag object
- *
- * @author Christopher Han <xiphux@gmail.com>
- * @copyright Copyright (c) 2010 Christopher Han
- * @package GitPHP
- * @subpackage Git
- */
 
-/**
- * Tag class
- *
- * @package GitPHP
- * @subpackage Git
- */
-class GitPHP_Tag extends GitPHP_Ref
+namespace GitPHP\Git;
+
+class Tag extends \GitPHP_Ref
 {
     /**
      * dataRead
@@ -118,7 +104,7 @@ class GitPHP_Tag extends GitPHP_Ref
      * @param string $tag tag name
      * @param string $tagHash tag hash
      * @return mixed tag object
-     * @throws Exception exception on invalid tag or hash
+     * @throws \Exception exception on invalid tag or hash
      */
     public function __construct($project, $tag, $tagHash = '')
     {
@@ -318,7 +304,7 @@ class GitPHP_Tag extends GitPHP_Ref
             $this->object = $this->GetProject()->GetCommit($this->GetHash());
             $this->commit = $this->object;
             $this->type = 'commit';
-            GitPHP_Cache::GetInstance()->Set($this->GetCacheKey(), $this);
+            \GitPHP_Cache::GetInstance()->Set($this->GetCacheKey(), $this);
             return;
         }
 
@@ -372,7 +358,7 @@ class GitPHP_Tag extends GitPHP_Ref
                 try {
                     $this->object = $this->GetProject()->GetCommit($objectHash);
                     $this->commit = $this->object;
-                } catch (Exception $e) {}
+                } catch (\Exception $e) {}
                 break;
 
             case 'tag':
@@ -395,7 +381,7 @@ class GitPHP_Tag extends GitPHP_Ref
                 break;
         }
 
-        GitPHP_Cache::GetInstance()->Set($this->GetCacheKey(), $this);
+        \GitPHP_Cache::GetInstance()->Set($this->GetCacheKey(), $this);
     }
 
     /**
@@ -424,7 +410,7 @@ class GitPHP_Tag extends GitPHP_Ref
             }
         }
 
-        GitPHP_Cache::GetInstance()->Set($this->GetCacheKey(), $this);
+        \GitPHP_Cache::GetInstance()->Set($this->GetCacheKey(), $this);
     }
 
     /**
