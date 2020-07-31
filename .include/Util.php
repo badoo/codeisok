@@ -416,7 +416,7 @@ class Util
 
     public static function getImagesDiff($fromBlob, $toBlob, $fromName, $toName)
     {
-        $tmpdir = \GitPHP_TmpDir::GetInstance();
+        $tmpdir = \GitPHP\Git\TmpDir::GetInstance();
         $pid = rand();
         $fromTmpFile = 'gitphp_' . $pid . '_from';
         $toTmpFile = 'gitphp_' . $pid . '_to';

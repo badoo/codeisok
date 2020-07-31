@@ -647,7 +647,7 @@ class FileDiff
             $diff = trim($Git->Execute(GIT_SHOW, $args));
             $this->diffData = substr($diff, strpos($diff, '---'));
         } else {
-            $tmpdir = \GitPHP_TmpDir::GetInstance();
+            $tmpdir = \GitPHP\Git\TmpDir::GetInstance();
             $pid = function_exists('posix_getpid') ? posix_getpid() : rand();
 
             $fromTmpFile = null;
@@ -876,7 +876,7 @@ class FileDiff
     /**
      * Based on diff $this->diffData calculates diff to formatted base
      */
-    public function diffWithFormattedBase(\GitPHP_TmpDir $tmpdir, $fromTmpFile, $toTmpFile, $fromName, $toName)
+    public function diffWithFormattedBase(\GitPHP\Git\TmpDir $tmpdir, $fromTmpFile, $toTmpFile, $fromName, $toName)
     {
         $php_bin = '/local/php/bin/php';
         $phpcf_bin = '/local/utils/phpcf';
