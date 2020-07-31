@@ -123,7 +123,7 @@ abstract class GitObject
     {
         if (!$this->projectReferenced) return;
 
-        $this->project = \GitPHP_ProjectList::GetInstance()->GetProject($this->project);
+        $this->project = \GitPHP\Git\ProjectList::GetInstance()->GetProject($this->project);
 
         $this->projectReferenced = false;
     }

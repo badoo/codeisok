@@ -91,7 +91,7 @@ class Api implements ControllerInterface
                 $this->project = false;
             } else {
                 try {
-                    $this->project = \GitPHP_ProjectList::GetInstance()->GetProject(
+                    $this->project = \GitPHP\Git\ProjectList::GetInstance()->GetProject(
                         substr($last_uri_part, 0, $dot_git_pos + 4)
                     );
                 } catch (\Exception $e) {
