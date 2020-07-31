@@ -52,17 +52,17 @@ class GitPHP_ProjectListArray extends GitPHP_ProjectListBase
             try {
                 if (is_string($projData)) {
                     // Just flat array of project paths
-                    $projObj = new GitPHP_Project($projData);
+                    $projObj = new \GitPHP\Git\Project($projData);
                     $this->projects[$projData] = $projObj;
                 } else if (is_array($projData)) {
                     if (is_string($proj) && !empty($proj)) {
                         // Project key pointing to data array
-                        $projObj = new GitPHP_Project($proj);
+                        $projObj = new \GitPHP\Git\Project($proj);
                         $this->projects[$proj] = $projObj;
                         $this->ApplyProjectSettings($proj, $projData);
                     } else if (isset($projData['project'])) {
                         // List of data arrays with projects inside
-                        $projObj = new GitPHP_Project($projData['project']);
+                        $projObj = new \GitPHP\Git\Project($projData['project']);
                         $this->projects[$projData['project']] = $projObj;
                         $this->ApplyProjectSettings(null, $projData);
                     }

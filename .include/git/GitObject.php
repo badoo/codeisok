@@ -11,7 +11,7 @@ abstract class GitObject
      *
      * Stores the project internally
      *
-     * @var \GitPHP_Project
+     * @var \GitPHP\Git\Project
      * @access protected
      */
     protected $project;
@@ -57,7 +57,7 @@ abstract class GitObject
      * Gets the project
      *
      * @access public
-     * @return \GitPHP_Project
+     * @return \GitPHP\Git\Project
      */
     public function GetProject()
     {

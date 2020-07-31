@@ -55,7 +55,7 @@ class GitPHP_ProjectListArrayLegacy extends GitPHP_ProjectListBase
             if (is_array($plist)) {
                 foreach ($plist as $pname => $ppath) {
                     try {
-                        $projObj = new GitPHP_Project($ppath);
+                        $projObj = new \GitPHP\Git\Project($ppath);
                         if ($cat != self::GITPHP_NO_CATEGORY) $projObj->SetCategory($cat);
                         $this->projects[$ppath] = $projObj;
                     } catch (Exception $e) {}

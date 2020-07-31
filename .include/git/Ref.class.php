@@ -42,7 +42,7 @@ abstract class GitPHP_Ref extends \GitPHP\Git\GitObject
      * Instantiates ref
      *
      * @access public
-     * @param GitPHP_Project $project the project
+     * @param \GitPHP\Git\Project $project the project
      * @param string $refDir the ref directory
      * @param string $refName the ref name
      * @param string $refHash the ref hash

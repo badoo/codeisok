@@ -86,7 +86,7 @@ abstract class GitPHP_ProjectListBase implements Iterator
      * Gets a particular project
      *
      * @access public
-     * @return GitPHP_Project mixed project object or null
+     * @return \GitPHP\Git\Project mixed project object or null
      * @param string $project the project to find
      */
     public function GetProject($project)
@@ -193,20 +193,20 @@ abstract class GitPHP_ProjectListBase implements Iterator
     {
         switch ($sortBy) {
             case self::GITPHP_SORT_DESCRIPTION:
-                uasort($this->projects, array('GitPHP_Project', 'CompareDescription'));
+                uasort($this->projects, array('\GitPHP\Git\Project', 'CompareDescription'));
                 break;
 
             case self::GITPHP_SORT_OWNER:
-                uasort($this->projects, array('GitPHP_Project', 'CompareOwner'));
+                uasort($this->projects, array('\GitPHP\Git\Project', 'CompareOwner'));
                 break;
 
             case self::GITPHP_SORT_AGE:
-                uasort($this->projects, array('GitPHP_Project', 'CompareAge'));
+                uasort($this->projects, array('\GitPHP\Git\Project', 'CompareAge'));
                 break;
 
             case self::GITPHP_SORT_PROJECT:
             default:
-                uasort($this->projects, array('GitPHP_Project', 'CompareProject'));
+                uasort($this->projects, array('\GitPHP\Git\Project', 'CompareProject'));
                 break;
         }
     }

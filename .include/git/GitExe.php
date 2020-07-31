@@ -30,7 +30,7 @@ class GitExe
      *
      * Stores the project internally
      *
-     * @var \GitPHP_Project
+     * @var \GitPHP\Git\Project
      * @access protected
      */
     protected $project;
