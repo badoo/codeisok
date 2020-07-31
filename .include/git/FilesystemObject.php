@@ -1,23 +1,8 @@
 <?php
-/**
- * GitPHP Filesystem Object
- *
- * Base class for all git objects that represent
- * a filesystem item
- *
- * @author Christopher Han <xiphux@gmail.com>
- * @copyright Copyright (c) 2010 Christopher Han
- * @package GitPHP
- * @subpackage Git
- */
-/**
- * Git Filesystem object class
- *
- * @abstract
- * @package GitPHP
- * @subpackage Git
- */
-abstract class GitPHP_FilesystemObject extends GitPHP_GitObject
+
+namespace GitPHP\Git;
+
+abstract class FilesystemObject extends \GitPHP_GitObject
 {
     /**
      * path
@@ -71,7 +56,7 @@ abstract class GitPHP_FilesystemObject extends GitPHP_GitObject
      * @param mixed $project the project
      * @param string $hash object hash
      * @return mixed git filesystem object
-     * @throws Exception exception on invalid hash
+     * @throws \Exception exception on invalid hash
      */
     public function __construct($project, $hash)
     {
