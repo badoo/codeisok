@@ -16,7 +16,7 @@
  * @package GitPHP
  * @subpackage Git
  */
-class GitPHP_ProjectListFile extends GitPHP_ProjectListBase
+class GitPHP_ProjectListFile extends \GitPHP\Git\ProjectListBase
 {
     /**
      * __construct

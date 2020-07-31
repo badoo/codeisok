@@ -2,7 +2,7 @@
 
 namespace GitPHP\Git;
 
-class ProjectListArray extends \GitPHP_ProjectListBase
+class ProjectListArray extends \GitPHP\Git\ProjectListBase
 {
     /**
      * __construct
