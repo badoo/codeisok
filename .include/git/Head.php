@@ -1,22 +1,8 @@
 <?php
-/**
- * GitPHP Head
- *
- * Represents a single head
- *
- * @author Christopher Han <xiphux@gmail.com>
- * @copyright Copyright (c) 2010 Christopher Han
- * @package GitPHP
- * @subpackage Git
- */
 
-/**
- * Head class
- *
- * @package GitPHP
- * @subpackage Git
- */
-class GitPHP_Head extends GitPHP_Ref
+namespace GitPHP\Git;
+
+class Head extends \GitPHP_Ref
 {
     /**
      * commit
@@ -37,7 +23,7 @@ class GitPHP_Head extends GitPHP_Ref
      * @param string $head head name
      * @param string $headHash head hash
      * @return mixed head object
-     * @throws Exception exception on invalid head or hash
+     * @throws \Exception exception on invalid head or hash
      */
     public function __construct($project, $head, $headHash = '')
     {

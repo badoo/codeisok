@@ -802,7 +802,7 @@ class GitPHP_Project
                 if (strlen($hash) == 40) {
                     $name = substr($path, 11); // strlen('refs/heads/')
                     try {
-                        $this->heads[$path] = new GitPHP_Head($this, $name, $hash);
+                        $this->heads[$path] = new \GitPHP\Git\Head($this, $name, $hash);
                     } catch (Exception $e) {
                         // oh yeah baby, ignore all exceptions!
                     }
@@ -892,7 +892,7 @@ class GitPHP_Project
                             $this->tags[$key] = $this->LoadTag($regs[3], $regs[1]);
                         }
                     } else if ($regs[2] == 'heads') {
-                        $this->heads[$key] = new GitPHP_Head($this, $regs[3], $regs[1]);
+                        $this->heads[$key] = new \GitPHP\Git\Head($this, $regs[3], $regs[1]);
                     }
 
                     $this->all_hashes[$regs[1]][$regs[2]][] = $regs[3];
@@ -998,7 +998,7 @@ class GitPHP_Project
      * @access public
      * @param integer $count number of tags to load
      * @param string $mask
-     * @return GitPHP_Head[]
+     * @return \GitPHP\Git\Head[]
      */
     public function GetHeads($count = 0, $mask = '')
     {
@@ -1024,7 +1024,7 @@ class GitPHP_Project
 
         foreach ($lines as $ref) {
             if (isset($this->heads[$ref])) {
-                /** @var $Head GitPHP_Head */
+                /** @var $Head \GitPHP\Git\Head */
                 $Head = $this->heads[$ref];
                 // one hash <-> many heads
                 $hashes[$Head->GetHash()] = true;
@@ -1075,7 +1075,7 @@ class GitPHP_Project
      *
      * @access public
      * @param string $head head to find
-     * @return GitPHP_Head head object
+     * @return \GitPHP\Git\Head head object
      * @throws Exception
      */
     public function GetHead($head)
@@ -1085,7 +1085,7 @@ class GitPHP_Project
         $key = 'refs/heads/' . $head;
 
         if (!isset($this->heads[$key])) {
-            $this->heads[$key] = new GitPHP_Head($this, $head);
+            $this->heads[$key] = new \GitPHP\Git\Head($this, $head);
         }
 
         return $this->heads[$key];
@@ -1173,12 +1173,12 @@ class GitPHP_Project
      * Loads data for heads all-at-once
      *
      * @param string[] $hashes
-     * @param GitPHP_Head[] $heads
+     * @param \GitPHP\Git\Head[] $heads
      */
     public function BatchLoadHeads(array $hashes, array $heads)
     {
         $result = $this->BatchReadData($hashes);
-        /** @var $Head GitPHP_Head */
+        /** @var $Head \GitPHP\Git\Head */
         foreach ($heads as $Head) {
             $hash = $Head->GetHash();
             if (!isset($result['contents'][$hash])) continue;
