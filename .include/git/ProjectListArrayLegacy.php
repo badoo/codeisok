@@ -1,7 +1,7 @@
 <?php
 namespace GitPHP\Git;
 
-class ProjectListArrayLegacy extends \GitPHP_ProjectListBase
+class ProjectListArrayLegacy extends \GitPHP\Git\ProjectListBase
 {
     const GITPHP_NO_CATEGORY = 'none';
 

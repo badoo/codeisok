@@ -21,7 +21,7 @@ class ProjectList
      *
      * @access public
      * @static
-     * @return \GitPHP_ProjectListBase mixed instance of projectlist
+     * @return \GitPHP\Git\ProjectListBase mixed instance of projectlist
      * @throws \Exception if projectlist has not been instantiated yet
      */
     public static function GetInstance()

@@ -1,23 +1,8 @@
 <?php
-/**
- * GitPHP ProjectListBase
- *
- * Base class that all projectlist classes extend
- *
- * @author Christopher Han <xiphux@gmail.com>
- * @copyright Copyright (c) 2010 Christopher Han
- * @package GitPHP
- * @subpackage Git
- */
 
-/**
- * ProjectListBase class
- *
- * @package GitPHP
- * @subpackage Git
- * @abstract
- */
-abstract class GitPHP_ProjectListBase implements Iterator
+namespace GitPHP\Git;
+
+abstract class ProjectListBase implements \Iterator
 {
     const GITPHP_SORT_PROJECT = 'project';
     const GITPHP_SORT_DESCRIPTION = 'descr';
