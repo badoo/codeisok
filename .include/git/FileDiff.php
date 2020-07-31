@@ -714,7 +714,7 @@ class FileDiff
         if (!$this->DiffContext->getSkipSuppress()) $this->diffTooLarge = mb_strlen($this->diffData) > $this->GetLargeDiffSize();
 
         if ($highlight_changes && mb_strlen($this->diffData) <= $this->GetLargeDiffSize()) {
-            $this->inline_changes = \DiffHighlighter::getMarks($this->diffData);
+            $this->inline_changes = \GitPHP\Git\DiffHighlighter::getMarks($this->diffData);
         }
 
         if ($highlight_changes) {
