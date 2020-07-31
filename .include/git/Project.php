@@ -1244,7 +1244,7 @@ class Project
      *
      * @access public
      * @param string $hash tree hash
-     * @return \GitPHP_Tree
+     * @return \GitPHP\Git\Tree
      * @throws \Exception
      */
     public function GetTree($hash)
@@ -1255,7 +1255,7 @@ class Project
         $cached = \GitPHP_Cache::GetInstance()->Get($cacheKey);
         if ($cached) return $cached;
 
-        return new \GitPHP_Tree($this, $hash);
+        return new \GitPHP\Git\Tree($this, $hash);
     }
 
     /**

@@ -23,7 +23,7 @@ class Commit extends GitObject
      *
      * Tree object for this commit
      *
-     * @var \GitPHP_Tree
+     * @var \GitPHP\Git\Tree
      */
     protected $tree;
 
