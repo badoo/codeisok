@@ -560,7 +560,7 @@ class Commit extends GitObject
      * Gets tags that point to this commit
      *
      * @access public
-     * @return \GitPHP_Tag[] array of tags
+     * @return \GitPHP\Git\Tag[] array of tags
      */
     public function GetTags()
     {
@@ -585,7 +585,7 @@ class Commit extends GitObject
      * Gets the tag that contains the changes in this commit
      *
      * @access public
-     * @return \GitPHP_Tag tag object
+     * @return \GitPHP\Git\Tag tag object
      */
     public function GetContainingTag()
     {
