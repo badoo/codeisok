@@ -2,7 +2,7 @@
 
 namespace GitPHP\Git;
 
-class Commit extends \GitPHP_GitObject
+class Commit extends GitObject
 {
     /**
      * dataRead

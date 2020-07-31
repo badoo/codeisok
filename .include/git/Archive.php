@@ -11,7 +11,7 @@ class Archive
 
     /**
      * Stores the object for this archive internally
-     * @var \GitPHP_GitObject
+     * @var \GitPHP\Git\GitObject
      */
     protected $gitObject = null;
 
