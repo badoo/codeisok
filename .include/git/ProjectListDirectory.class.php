@@ -78,7 +78,7 @@ class GitPHP_ProjectListDirectory extends GitPHP_ProjectListBase
                     if (is_file($fullPath . '/HEAD')) {
                         $projectPath = substr($fullPath, $trimlen);
                         try {
-                            $proj = new GitPHP_Project($projectPath);
+                            $proj = new \GitPHP\Git\Project($projectPath);
                             $proj->SetCategory(trim(substr($dir, strlen($this->projectDir)), '/'));
                             if ((!\GitPHP\Config::GetInstance()->GetValue('exportedonly', false)) || $proj->GetDaemonEnabled()) {
                                 $this->projects[$projectPath] = $proj;

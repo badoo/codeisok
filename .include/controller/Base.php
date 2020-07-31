@@ -17,7 +17,7 @@ abstract class Base implements ControllerInterface
      *
      * Current project
      *
-     * @var \GitPHP_Project
+     * @var \GitPHP\Git\Project
      * @access protected
      */
     protected $project;

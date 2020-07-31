@@ -27,7 +27,7 @@ class BranchDiff implements \Iterator
      *
      * Stores the project
      *
-     * @var \GitPHP_Project
+     * @var \GitPHP\Git\Project
      * @access protected
      */
     protected $project;
@@ -75,7 +75,7 @@ class BranchDiff implements \Iterator
     private $has_hidden;
 
     /**
-     * @param \GitPHP_Project $project project
+     * @param \GitPHP\Git\Project $project project
      * @param $toBranch
      * @param string $fromBranch
      * @param \DiffContext $DiffContext

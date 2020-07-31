@@ -67,7 +67,7 @@ class GitPHP_TreeDiff implements Iterator
     protected $DiffContext;
 
     /**
-     * @param GitPHP_Project $project project
+     * @param \GitPHP\Git\Project $project project
      * @param string $toHash to commit hash
      * @param string $fromHash from commit hash
      * @param DiffContext $DiffContext
