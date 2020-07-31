@@ -16,7 +16,7 @@
  * @package GitPHP
  * @subpackage Git
  */
-class GitPHP_Tree extends GitPHP_FilesystemObject
+class GitPHP_Tree extends \GitPHP\Git\FilesystemObject
 {
     /**
      * contents
