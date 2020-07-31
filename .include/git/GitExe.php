@@ -1,14 +1,6 @@
 <?php
-/**
- * GitPHP GitExe
- *
- * Class to wrap git executable
- *
- * @author Christopher Han <xiphux@gmail.com>
- * @copyright Copyright (c) 2010 Christopher Han
- * @package GitPHP
- * @subpackage Git
- */
+
+namespace GitPHP\Git;
 
 /**
  * Constants for git commands
@@ -31,20 +23,14 @@ define('GIT_SHOW',         'show');
 define('GIT_MERGE_BASE',   'merge-base');
 define('GIT_BRANCH',       'branch');
 
-/**
- * Git Executable class
- *
- * @package GitPHP
- * @subpackage Git
- */
-class GitPHP_GitExe
+class GitExe
 {
     /**
      * project
      *
      * Stores the project internally
      *
-     * @var GitPHP_Project
+     * @var \GitPHP_Project
      * @access protected
      */
     protected $project;
@@ -69,7 +55,7 @@ class GitPHP_GitExe
     {
         $binary = \GitPHP\Config::GetInstance()->GetValue('gitbin');
         if (empty($binary)) {
-            $this->binary = GitPHP_GitExe::DefaultBinary();
+            $this->binary = \GitPHP\Git\GitExe::DefaultBinary();
         } else {
             $this->binary = $binary;
         }

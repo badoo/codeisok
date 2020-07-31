@@ -314,7 +314,7 @@ class Archive
             throw new \Exception('Invalid object for archive');
         }
 
-        $exe = new \GitPHP_GitExe($this->GetProject());
+        $exe = new \GitPHP\Git\GitExe($this->GetProject());
 
         $args = array();
 

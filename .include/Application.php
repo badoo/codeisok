@@ -105,7 +105,7 @@ class Application
             throw new \GitPHP\MessageException(__('A projectroot must be set in the config'), true, 500);
         }
 
-        $exe = new \GitPHP_GitExe(null);
+        $exe = new \GitPHP\Git\GitExe(null);
         if (!$exe->Valid()) {
             throw new \GitPHP\MessageException(
                 sprintf(

@@ -615,7 +615,7 @@ class FileDiff
             if ($this->DiffContext->getRenames()) {
                 $args[] = escapeshellarg($this->fromFile);
             }
-            $Git = new \GitPHP_GitExe($this->project);
+            $Git = new \GitPHP\Git\GitExe($this->project);
             $diff = trim($Git->Execute(GIT_DIFF, $args));
             $this->diffData = substr($diff, strpos($diff, '---'));
         } else if (!$this->DiffContext->getIgnoreFormatting() && !empty($this->toHashOriginal)) {
@@ -643,7 +643,7 @@ class FileDiff
             if ($this->DiffContext->getRenames()) {
                 $args[] = escapeshellarg($this->fromFile);
             }
-            $Git = new \GitPHP_GitExe($this->project);
+            $Git = new \GitPHP\Git\GitExe($this->project);
             $diff = trim($Git->Execute(GIT_SHOW, $args));
             $this->diffData = substr($diff, strpos($diff, '---'));
         } else {
@@ -745,7 +745,7 @@ class FileDiff
 
         $this->diffDataSplitRead = true;
 
-        $exe = new \GitPHP_GitExe($this->project);
+        $exe = new \GitPHP\Git\GitExe($this->project);
 
         $args = array();
         if (is_numeric($this->DiffContext->getContext())) {
