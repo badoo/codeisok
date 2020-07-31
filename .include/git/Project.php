@@ -351,7 +351,7 @@ class Project
      */
     public function GetPath()
     {
-        $projectRoot = \GitPHP\Util::AddSlash(\GitPHP\Config::GetInstance()->GetValue(GitPHP\Config::PROJECT_ROOT));
+        $projectRoot = \GitPHP\Util::AddSlash(\GitPHP\Config::GetInstance()->GetValue(\GitPHP\Config::PROJECT_ROOT));
 
         return $projectRoot . $this->project;
     }
