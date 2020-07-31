@@ -198,7 +198,7 @@ class Util
         if (!isset($diffs[$hash])) {
             list($hash_head, $hash_base) = explode('-', $hash);
             if (empty($hash_base)) {
-                $diffs[$hash] = new \GitPHP_TreeDiff($Project, $hash_head, '', $DiffContext);
+                $diffs[$hash] = new \GitPHP\Git\TreeDiff($Project, $hash_head, '', $DiffContext);
                 if (\GitPHP\Config::GetInstance()->GetValue(\GitPHP\Config::COLLECT_CHANGES_AUTHORS, false)) {
                     $changes_authors[] = $Project->GetCommit($hash_head)->GetAuthor();
                 }
@@ -225,7 +225,7 @@ class Util
      * @static
      * @param array[] $comments
      * @param string $file
-     * @param \GitPHP\Git\BranchDiff|\GitPHP_TreeDiff|\GitPHP\Git\FileDiff[]|\GitPHP\Git\Blob $Diffs
+     * @param \GitPHP\Git\BranchDiff|\GitPHP\Git\TreeDiff|\GitPHP\Git\FileDiff[]|\GitPHP\Git\Blob $Diffs
      * @param int $diff_size
      * @return string|array
      */

@@ -629,11 +629,11 @@ class Commit extends GitObject
      * Diffs this commit with its immediate parent
      *
      * @access public
-     * @return \GitPHP_TreeDiff Tree diff
+     * @return \GitPHP\Git\TreeDiff Tree diff
      */
     public function DiffToParent()
     {
-        return new \GitPHP_TreeDiff($this->GetProject(), $this->hash, '', new \DiffContext());
+        return new \GitPHP\Git\TreeDiff($this->GetProject(), $this->hash, '', new \DiffContext());
     }
 
     /**

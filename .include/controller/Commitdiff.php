@@ -132,7 +132,7 @@ class Commitdiff extends DiffBase
             ->setIgnoreWhitespace($this->params['ignorewhitespace'])
             ->setIgnoreFormatting($this->params['ignoreformat']);
 
-        $commit_tree_diff = new \GitPHP_TreeDiff(
+        $commit_tree_diff = new \GitPHP\Git\TreeDiff(
             $this->project,
             $this->params['hash'],
             (isset($this->params['hashparent']) ? $this->params['hashparent'] : ''),
