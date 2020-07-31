@@ -117,7 +117,7 @@ class Application
                 500
             );
         }
-        $exe = new \GitPHP_DiffExe();
+        $exe = new \GitPHP\Git\DiffExe();
         if (!$exe->Valid()) {
             throw new \GitPHP\MessageException(
                 sprintf(

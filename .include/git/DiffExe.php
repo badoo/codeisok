@@ -1,21 +1,8 @@
 <?php
-/**
- * GitPHP Diff Exe
- *
- * Diff executable class
- *
- * @author Christopher Han <xiphux@gmail.com>
- * @copyright Copyright (c) 2010 Christopher Han
- * @package GitPHP
- * @subpackage Git
- */
 
-/**
- * DiffExe class
- *
- * Class to handle working with the diff executable
- */
-class GitPHP_DiffExe
+namespace GitPHP\Git;
+
+class DiffExe
 {
     /**
      * binary
@@ -234,7 +221,7 @@ class GitPHP_DiffExe
     public static function Diff($fromFile = null, $fromName = null, $toFile = null, $toName = null, $context = true, $ignoreWhitespace = false)
     {
         \GitPHP\Log::GetInstance()->Log(__METHOD__, var_export(func_get_args(), true));
-        $obj = new GitPHP_DiffExe();
+        $obj = new \GitPHP\Git\DiffExe();
         $obj->SetUnified($context);
         $obj->setIgnoreWhitespace($ignoreWhitespace);
         $ret = $obj->Execute($fromFile, $fromName, $toFile, $toName);
