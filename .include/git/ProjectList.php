@@ -47,7 +47,7 @@ class ProjectList
         if (!empty($file) && is_file($file) && include($file)) {
             if (isset($git_projects)) {
                 if (is_string($git_projects)) {
-                    self::$instance = new \GitPHP_ProjectListFile($git_projects);
+                    self::$instance = new \GitPHP\Git\ProjectListFile($git_projects);
                 } else if (is_array($git_projects)) {
                     if ($legacy) {
                         self::$instance = new \GitPHP\Git\ProjectListArrayLegacy($git_projects);
