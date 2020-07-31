@@ -50,7 +50,7 @@ class GitPHP_TreeDiff implements Iterator
      * fileDiffs
      *
      * Stores the individual file diffs
-     * @var GitPHP_FileDiff[]
+     * @var \GitPHP\Git\FileDiff[]
      */
     protected $fileDiffs = array();
 
@@ -125,7 +125,7 @@ class GitPHP_TreeDiff implements Iterator
             $trimmed = trim($line);
             if ((strlen($trimmed) > 0) && (substr_compare($trimmed, ':', 0, 1) === 0)) {
                 try {
-                    $this->fileDiffs[] = new GitPHP_FileDiff($this->project, $trimmed, $toHash, $this->DiffContext);
+                    $this->fileDiffs[] = new \GitPHP\Git\FileDiff($this->project, $trimmed, $toHash, $this->DiffContext);
                 } catch (Exception $e) {}
             }
         }

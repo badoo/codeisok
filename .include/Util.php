@@ -225,7 +225,7 @@ class Util
      * @static
      * @param array[] $comments
      * @param string $file
-     * @param \GitPHP\Git\BranchDiff|\GitPHP_TreeDiff|\GitPHP_FileDiff[]|\GitPHP\Git\Blob $Diffs
+     * @param \GitPHP\Git\BranchDiff|\GitPHP_TreeDiff|\GitPHP\Git\FileDiff[]|\GitPHP\Git\Blob $Diffs
      * @param int $diff_size
      * @return string|array
      */
