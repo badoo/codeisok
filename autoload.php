@@ -4,7 +4,6 @@ return array(
     \GitPHP\Db_Result::class                      => GITPHP_INCLUDEDIR . 'Result.php',
     'Model_Gitosis'                               => GITPHP_INCLUDEDIR . 'Model_Gitosis.php',
     'GitPHP_Cache'                                => GITPHP_CACHEDIR . 'Cache.class.php',
-    'GitPHP_GitObject'                            => GITPHP_GITOBJECTDIR . 'GitObject.class.php',
     'GitPHP_Head'                                 => GITPHP_GITOBJECTDIR . 'Head.class.php',
     'GitPHP_Project'                              => GITPHP_GITOBJECTDIR . 'Project.class.php',
     'GitPHP_ProjectList'                          => GITPHP_GITOBJECTDIR . 'ProjectList.class.php',

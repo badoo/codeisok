@@ -16,7 +16,7 @@
  * @package GitPHP
  * @subpackage Git
  */
-abstract class GitPHP_Ref extends GitPHP_GitObject
+abstract class GitPHP_Ref extends \GitPHP\Git\GitObject
 {
     /**
      * refName
