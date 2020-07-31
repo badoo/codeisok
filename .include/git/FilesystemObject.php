@@ -2,7 +2,7 @@
 
 namespace GitPHP\Git;
 
-abstract class FilesystemObject extends \GitPHP_GitObject
+abstract class FilesystemObject extends GitObject
 {
     /**
      * path
