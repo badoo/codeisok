@@ -52,7 +52,7 @@ class ProjectList
                     if ($legacy) {
                         self::$instance = new \GitPHP_ProjectListArrayLegacy($git_projects);
                     } else {
-                        self::$instance = new \GitPHP_ProjectListArray($git_projects);
+                        self::$instance = new \GitPHP\Git\ProjectListArray($git_projects);
                     }
                 }
             }
