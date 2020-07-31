@@ -274,7 +274,7 @@ class Api implements ControllerInterface
             switch ($item) {
                 case 'name-status':
                     $commit_info['name-status'] = array_map(
-                        function (\GitPHP_FileDiff $FileDiff) {
+                        function (\GitPHP\Git\FileDiff $FileDiff) {
                             return ['file' => $FileDiff->GetFromFile(), 'status' => $FileDiff->GetStatus()];
                         },
                         $Commit->DiffToParent()->ToArray()

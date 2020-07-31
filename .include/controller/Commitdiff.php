@@ -152,7 +152,7 @@ class Commitdiff extends DiffBase
             $statuses = [];
             $folders = [];
             foreach ($commit_tree_diff as $filediff) {
-                /** @var \GitPHP_FileDiff $filediff */
+                /** @var \GitPHP\Git\FileDiff $filediff */
 
                 $extensions[$filediff->getToFileExtension()] = $filediff->getToFileExtension();
                 $statuses[$filediff->GetStatus()] = $filediff->GetStatus();

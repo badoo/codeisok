@@ -38,7 +38,7 @@ class BranchDiff implements \Iterator
      * Stores the individual file diffs
      *
      * @access protected
-     * @var \GitPHP_FileDiff[]
+     * @var \GitPHP\Git\FileDiff[]
      */
     protected $fileDiffs = array();
 
@@ -194,7 +194,7 @@ class BranchDiff implements \Iterator
             $trimmed = trim($line);
             if ((strlen($trimmed) > 0) && (substr_compare($trimmed, ':', 0, 1) === 0)) {
                 try {
-                    $fileDiff = new \GitPHP_FileDiff($this->project, $trimmed, $this->fromHash, $this->DiffContext, $this->toHash);
+                    $fileDiff = new \GitPHP\Git\FileDiff($this->project, $trimmed, $this->fromHash, $this->DiffContext, $this->toHash);
                     if (!$this->DiffContext->getShowHidden() && isset($hide_files_per_category[$this->project->GetCategory()])) {
                         foreach ($hide_files_per_category[$this->project->GetCategory()] as $pattern) {
                             if (preg_match($pattern, $fileDiff->GetFromFile()) || preg_match($pattern, $fileDiff->GetToFile())) {
