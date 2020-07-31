@@ -49,7 +49,7 @@ class Util
         }
 
         $first = reset($comments);
-        $Project = \GitPHP_ProjectList::GetInstance()->GetProject($first['repo']);
+        $Project = \GitPHP\Git\ProjectList::GetInstance()->GetProject($first['repo']);
         $project_notify_email = $Project->GetNotifyEmail();
         if (!empty($project_notify_email)) {
             $to[] = $project_notify_email;
@@ -132,7 +132,7 @@ class Util
     {
         if (!is_array($changes_authors)) $changes_authors = [];
         $first = reset($comments);
-        $Project = \GitPHP_ProjectList::GetInstance()->GetProject($first['repo']);
+        $Project = \GitPHP\Git\ProjectList::GetInstance()->GetProject($first['repo']);
 
         /* собираем структурку hash: file: comment */
         $hash_files_comments = [];

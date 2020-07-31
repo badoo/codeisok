@@ -73,7 +73,7 @@ class Review extends Base
         if ($this->params['review']) {
             $snapshots = $db->getSnapshotListByReview($this->params['review']);
             if (!empty($snapshots[0]) && !empty($snapshots[0]['repo'])) {
-                $this->project = \GitPHP_ProjectList::GetInstance()->GetProject($snapshots[0]['repo']);
+                $this->project = \GitPHP\Git\ProjectList::GetInstance()->GetProject($snapshots[0]['repo']);
                 $this->tpl->assign('project', $this->project);
             }
         } else {

@@ -123,7 +123,7 @@ class ProjectList extends Base
         );
         $this->tpl->assign('allow_create_projects', $allow_create_projects);
 
-        $projectList = \GitPHP_ProjectList::GetInstance();
+        $projectList = \GitPHP\Git\ProjectList::GetInstance();
         $projectList->Sort($this->params['order']);
         $this->tpl->assign('projectlist', $projectList);
 

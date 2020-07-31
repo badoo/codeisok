@@ -82,7 +82,7 @@ abstract class Base implements ControllerInterface
         }
 
         if (isset($_GET['p'])) {
-            $this->project = \GitPHP_ProjectList::GetInstance()->GetProject(str_replace(chr(0), '', $_GET['p']));
+            $this->project = \GitPHP\Git\ProjectList::GetInstance()->GetProject(str_replace(chr(0), '', $_GET['p']));
         }
 
         if (isset($_GET['s'])) $this->params['search'] = $_GET['s'];
@@ -140,7 +140,7 @@ abstract class Base implements ControllerInterface
     {
         $cacheKeyPrefix = \GitPHP_Resource::GetLocale();
 
-        $projList = \GitPHP_ProjectList::GetInstance();
+        $projList = \GitPHP\Git\ProjectList::GetInstance();
         if ($projList) {
             $cacheKeyPrefix .= '|' . sha1(serialize($projList->GetConfig())) . '|' . sha1(serialize($projList->GetSettings()));
             unset($projList);
