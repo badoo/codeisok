@@ -2,7 +2,7 @@
 
 namespace GitPHP\Git;
 
-class Blob extends \GitPHP_FilesystemObject
+class Blob extends FilesystemObject
 {
     /**
      * data
