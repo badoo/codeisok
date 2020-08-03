@@ -179,7 +179,7 @@ class FileDiff
     protected $branch;
 
     /**
-     * @var \DiffContext
+     * @var \GitPHP\Git\DiffContext
      */
     protected $DiffContext;
 
@@ -196,11 +196,11 @@ class FileDiff
      * @param mixed $project project
      * @param string $fromHash source hash, can also be a diff-tree info line
      * @param string $toHash target hash, required if $fromHash is a hash
-     * @param \DiffContext $DiffContext
+     * @param \GitPHP\Git\DiffContext $DiffContext
      * @param string $branch
      * @throws \Exception
      */
-    public function __construct(\GitPHP\Git\Project $project, $fromHash, $toHash = '', \DiffContext $DiffContext, $branch = '')
+    public function __construct(\GitPHP\Git\Project $project, $fromHash, $toHash = '', \GitPHP\Git\DiffContext $DiffContext, $branch = '')
     {
         $this->project = $project;
         $this->toHashOriginal = $toHash;

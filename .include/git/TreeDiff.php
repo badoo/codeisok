@@ -48,7 +48,7 @@ class TreeDiff implements \Iterator
     protected $dataRead = false;
 
     /**
-     * @var \DiffContext
+     * @var \GitPHP\Git\DiffContext
      */
     protected $DiffContext;
 
@@ -56,10 +56,10 @@ class TreeDiff implements \Iterator
      * @param \GitPHP\Git\Project $project project
      * @param string $toHash to commit hash
      * @param string $fromHash from commit hash
-     * @param \DiffContext $DiffContext
+     * @param \GitPHP\Git\DiffContext $DiffContext
      * @throws \GitPHP\MessageException
      */
-    public function __construct($project, $toHash, $fromHash = '', \DiffContext $DiffContext)
+    public function __construct($project, $toHash, $fromHash = '', \GitPHP\Git\DiffContext $DiffContext)
     {
         $this->project = $project;
         $this->DiffContext = $DiffContext;

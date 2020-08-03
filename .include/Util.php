@@ -159,7 +159,7 @@ class Util
             }
         }
 
-        $DiffContext = new \DiffContext();
+        $DiffContext = new \GitPHP\Git\DiffContext();
         $DiffContext->setRenames(true);
         $vars_data = ['DIFF_OBJS' => []];
         /* разбираем */
@@ -191,7 +191,7 @@ class Util
         return $diff;
     }
 
-    protected static function getDiffCached($hash, \DiffContext $DiffContext, \GitPHP\Git\Project $Project, &$changes_authors)
+    protected static function getDiffCached($hash, \GitPHP\Git\DiffContext $DiffContext, \GitPHP\Git\Project $Project, &$changes_authors)
     {
         static $diffs = [];
 

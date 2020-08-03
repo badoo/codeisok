@@ -126,7 +126,7 @@ class Commitdiff extends DiffBase
         }
 
         $renames = true;
-        $DiffContext = new \DiffContext();
+        $DiffContext = new \GitPHP\Git\DiffContext();
         $DiffContext->setRenames($renames)
             ->setContext($this->params['context'])
             ->setIgnoreWhitespace($this->params['ignorewhitespace'])

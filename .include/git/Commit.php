@@ -633,7 +633,7 @@ class Commit extends GitObject
      */
     public function DiffToParent()
     {
-        return new \GitPHP\Git\TreeDiff($this->GetProject(), $this->hash, '', new \DiffContext());
+        return new \GitPHP\Git\TreeDiff($this->GetProject(), $this->hash, '', new \GitPHP\Git\DiffContext());
     }
 
     /**
