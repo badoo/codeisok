@@ -6,7 +6,7 @@ class UpdateCache
 {
     public function run()
     {
-        $Gitosis = new Model_Gitosis();
+        $Gitosis = new \GitPHP\Model_Gitosis();
 
         $repositories = $Gitosis->getRepositories();
         if ($repositories === false) {

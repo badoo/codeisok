@@ -1,6 +1,5 @@
 <?php
 return array(
     \GitPHP\Db_Result::class                      => GITPHP_INCLUDEDIR . 'Result.php',
-    'Model_Gitosis'                               => GITPHP_INCLUDEDIR . 'Model_Gitosis.php',
     'DiffContext'                                 => GITPHP_GITOBJECTDIR . 'DiffContext.php',
 );

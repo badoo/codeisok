@@ -1,5 +1,7 @@
 <?php
 
+namespace GitPHP;
+
 class Model_Gitosis
 {
     private $db;

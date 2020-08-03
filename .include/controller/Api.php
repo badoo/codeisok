@@ -337,7 +337,7 @@ class Api implements ControllerInterface
         }
 
         try {
-            $Model = new \Model_Gitosis();
+            $Model = new \GitPHP\Model_Gitosis();
             $project_data = $Model->getRepositoryByProject($project);
             if (empty($project_data)) {
                 $this->renderNotFound("Cannot find project {$project}");
@@ -391,7 +391,7 @@ class Api implements ControllerInterface
             return false;
         }
 
-        $Model = new \Model_Gitosis();
+        $Model = new \GitPHP\Model_Gitosis();
 
         // this will allow us to have slightly better error messages
         $previous_project = $Model->getRepositoryByProject($project);
