@@ -15,11 +15,6 @@ define('GITPHP_BASE_NS', 'GitPHP');
 
 spl_autoload_register(
     function($class) {
-        static $map;
-        if (!$map) {
-            $map = require_once 'autoload.php';
-        }
-
         // psr4 autoload
         $namespaces = explode('\\', $class);
         if (count($namespaces) > 1 && $namespaces[0] == GITPHP_BASE_NS) {
@@ -30,11 +25,6 @@ spl_autoload_register(
             if (file_exists($file_name)) {
                 require_once $file_name;
             }
-        }
-
-        // old autoload
-        if (isset($map[$class]) && file_exists($map[$class])) {
-            require_once $map[$class];
         }
     }
 );
