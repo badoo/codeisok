@@ -134,7 +134,7 @@ class Blob extends FilesystemObject
 
             $this->data = $exe->Execute(GIT_CAT_FILE, $args);
 
-            \GitPHP_Cache::GetInstance()->Set($this->GetCacheKey(), $this);
+            \GitPHP\Cache\Cache::GetInstance()->Set($this->GetCacheKey(), $this);
         }
     }
 

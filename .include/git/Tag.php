@@ -304,7 +304,7 @@ class Tag extends \GitPHP\Git\Ref
             $this->object = $this->GetProject()->GetCommit($this->GetHash());
             $this->commit = $this->object;
             $this->type = 'commit';
-            \GitPHP_Cache::GetInstance()->Set($this->GetCacheKey(), $this);
+            \GitPHP\Cache\Cache::GetInstance()->Set($this->GetCacheKey(), $this);
             return;
         }
 
@@ -381,7 +381,7 @@ class Tag extends \GitPHP\Git\Ref
                 break;
         }
 
-        \GitPHP_Cache::GetInstance()->Set($this->GetCacheKey(), $this);
+        \GitPHP\Cache\Cache::GetInstance()->Set($this->GetCacheKey(), $this);
     }
 
     /**
@@ -410,7 +410,7 @@ class Tag extends \GitPHP\Git\Ref
             }
         }
 
-        \GitPHP_Cache::GetInstance()->Set($this->GetCacheKey(), $this);
+        \GitPHP\Cache\Cache::GetInstance()->Set($this->GetCacheKey(), $this);
     }
 
     /**

@@ -132,7 +132,7 @@ class Tree extends \GitPHP\Git\FilesystemObject
             }
         }
         $this->contents = array_merge($contents['t'], $contents['b']);
-        \GitPHP_Cache::GetInstance()->Set($this->GetCacheKey(), $this);
+        \GitPHP\Cache\Cache::GetInstance()->Set($this->GetCacheKey(), $this);
     }
 
     /**

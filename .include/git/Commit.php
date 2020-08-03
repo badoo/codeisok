@@ -527,7 +527,7 @@ class Commit extends GitObject
             }
         }
 
-        \GitPHP_Cache::GetInstance()->Set($this->GetCacheKey(), $this);
+        \GitPHP\Cache\Cache::GetInstance()->Set($this->GetCacheKey(), $this);
     }
 
     /**
@@ -620,7 +620,7 @@ class Commit extends GitObject
             }
         }
 
-        \GitPHP_Cache::GetInstance()->Set($this->GetCacheKey(), $this);
+        \GitPHP\Cache\Cache::GetInstance()->Set($this->GetCacheKey(), $this);
     }
 
     /**
@@ -701,7 +701,7 @@ class Commit extends GitObject
             }
         }
 
-        \GitPHP_Cache::GetInstance()->Set($this->GetCacheKey(), $this);
+        \GitPHP\Cache\Cache::GetInstance()->Set($this->GetCacheKey(), $this);
     }
 
     /**
