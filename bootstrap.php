@@ -75,3 +75,33 @@ if (!function_exists('mb_orig_strpos')) {
         return strpos($haystack, $needle, $offset);
     }
 }
+
+/**
+ * Gettext wrapper function for readability, single string
+ *
+ * @param string $str string to translate
+ * @return string translated string
+ */
+function __($str)
+{
+    if (\GitPHP\Resource::Instantiated())
+        return \GitPHP\Resource::GetInstance()->translate($str);
+    return $str;
+}
+
+/**
+ * Gettext wrapper function for readability, plural form
+ *
+ * @param string $singular singular form of string
+ * @param string $plural plural form of string
+ * @param int $count number of items
+ * @return string translated string
+ */
+function __n($singular, $plural, $count)
+{
+    if (\GitPHP\Resource::Instantiated())
+        return \GitPHP\Resource::GetInstance()->ngettext($singular, $plural, $count);
+    if ($count > 1)
+        return $plural;
+    return $singular;
+}

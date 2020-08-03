@@ -1,17 +1,12 @@
 <?php
 
+namespace GitPHP;
+
 require_once(GITPHP_BASEDIR . '/lib/php-gettext/streams.php');
 require_once(GITPHP_BASEDIR . '/lib/php-gettext/gettext.php');
 
-
-/**
- * Resource factory class
- *
- * @package GitPHP
- */
-class GitPHP_Resource
+class Resource
 {
-	
 	/**
 	 * instance
 	 *
@@ -39,7 +34,7 @@ class GitPHP_Resource
 	 *
 	 * @access public
 	 * @static
-	 * @return gettext_reader
+	 * @return \gettext_reader
 	 */
 	public static function GetInstance()
 	{
@@ -85,7 +80,7 @@ class GitPHP_Resource
 	 */
 	public static function GetLocaleName()
 	{
-		return GitPHP_Resource::LocaleToName(self::$currentLocale);
+		return \GitPHP\Resource::LocaleToName(self::$currentLocale);
 	}
 
 	/**
@@ -130,7 +125,7 @@ class GitPHP_Resource
 	{
 		$locales = array();
 
-		$locales['en_US'] = GitPHP_Resource::LocaleToName('en_US');
+		$locales['en_US'] = \GitPHP\Resource::LocaleToName('en_US');
 
 		if ($dh = opendir(GITPHP_LOCALEDIR)) {
 			while (($file = readdir($dh)) !== false) {
@@ -144,7 +139,7 @@ class GitPHP_Resource
 							}
 						}
 					}
-					$locales[$file] = GitPHP_Resource::LocaleToName($file);
+					$locales[$file] = \GitPHP\Resource::LocaleToName($file);
 				}
 			}
 		}
@@ -184,7 +179,7 @@ class GitPHP_Resource
 		}
 		krsort($localePref);
 
-		$supportedLocales = GitPHP_Resource::SupportedLocales();
+		$supportedLocales = \GitPHP\Resource::SupportedLocales();
 
 		foreach ($localePref as $quality => $qualityArray) {
 			foreach ($qualityArray as $browserLocale) {
@@ -225,46 +220,17 @@ class GitPHP_Resource
 
 		$reader = null;
 		if (!(($locale == 'en_US') || ($locale == 'en'))) {
-			$reader = new FileReader(GITPHP_LOCALEDIR . $locale . '/gitphp.mo');
+			$reader = new \FileReader(GITPHP_LOCALEDIR . $locale . '/gitphp.mo');
 			if (!$reader)
 				return false;
 		}
 
-		self::$instance = new gettext_reader($reader);
+		self::$instance = new \gettext_reader($reader);
 		self::$currentLocale = $locale;
 		return true;
 	}
-
 }
 
 
-/**
- * Gettext wrapper function for readability, single string
- *
- * @param string $str string to translate
- * @return string translated string
- */
-function __($str)
-{
-	if (GitPHP_Resource::Instantiated())
-		return GitPHP_Resource::GetInstance()->translate($str);
-	return $str;
-}
 
-/**
- * Gettext wrapper function for readability, plural form
- *
- * @param string $singular singular form of string
- * @param string $plural plural form of string
- * @param int $count number of items
- * @return string translated string
- */
-function __n($singular, $plural, $count)
-{
-	if (GitPHP_Resource::Instantiated())
-		return GitPHP_Resource::GetInstance()->ngettext($singular, $plural, $count);
-	if ($count > 1)
-		return $plural;
-	return $singular;
-}
 
