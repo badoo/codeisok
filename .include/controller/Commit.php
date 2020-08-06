@@ -82,10 +82,15 @@ class Commit extends Base
      * Loads data for this template
      *
      * @access protected
+     *
+     * @throws \GitPHP\MessageException on invalid commit hash
      */
     protected function LoadData()
     {
         $commit = $this->project->GetCommit($this->params['hash']);
+        if (!isset($commit)) {
+            throw new \GitPHP\MessageException('Invalid commit hash', true, 404);
+        }
         $this->tpl->assign('commit', $commit);
         $this->tpl->assign('tree', $commit->GetTree());
         $treediff = $commit->DiffToParent();
