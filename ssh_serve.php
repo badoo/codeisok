@@ -72,7 +72,7 @@ class SSH_Serve
 
     public function run()
     {
-        $ModelGitosis = new Model_Gitosis();
+        $ModelGitosis = new \GitPHP\Model_Gitosis();
         $global_mode = $this->getUserGlobalAccessMode($ModelGitosis, $this->user);
         if ($global_mode === 'readonly' && $this->isWriteCommand($this->command)) {
             // it's not enough to have readonly global mode for write commands
@@ -134,13 +134,13 @@ class SSH_Serve
         return in_array($command, self::COMMANDS_READONLY, true);
     }
 
-    protected function isRestrictedRepository(Model_Gitosis $ModelGitosis, $repository)
+    protected function isRestrictedRepository(\GitPHP\Model_Gitosis $ModelGitosis, $repository)
     {
         $repository_info = $ModelGitosis->getRepositoryByProject($repository);
         return $repository_info['restricted'] === 'Yes';
     }
 
-    protected function getUserGlobalAccessMode(Model_Gitosis $Gitosis, $username)
+    protected function getUserGlobalAccessMode(\GitPHP\Model_Gitosis $Gitosis, $username)
     {
         $user = $Gitosis->getUserByUsername($username);
         if ($user['access_mode'] === \GitPHP\Controller\GitosisUsers::ACCESS_MODE_ALLOW_ALL) {
@@ -162,13 +162,13 @@ class SSH_Serve
 
     protected function repositoryRegisteredInDatabase($repository)
     {
-        $Model = new \Model_Gitosis();
+        $Model = new \GitPHP\Model_Gitosis();
         return !empty($Model->getRepositoryByProject($repository));
     }
 
     protected function initEmptyRepository($repository)
     {
-        $root_directory = escapeshellarg(GitPHP\Config::GetInstance()->GetValue(GitPHP\Config::PROJECT_ROOT));
+        $root_directory = escapeshellarg(\GitPHP\Config::GetInstance()->GetValue(\GitPHP\Config::PROJECT_ROOT));
         $repository = escapeshellarg($repository);
 
         exec("git -C {$root_directory} init --bare {$repository}", $out, $retval);

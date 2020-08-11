@@ -14,7 +14,7 @@ class UpdateAuthKeys
     {
         $this->log("Starting ssh keys update process...");
 
-        $Gitosis = new Model_Gitosis();
+        $Gitosis = new \GitPHP\Model_Gitosis();
 
         $this->log("Getting users list...");
         $users = $Gitosis->getUsers();

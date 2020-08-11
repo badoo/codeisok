@@ -23,7 +23,7 @@ class ProjectCreate extends Base
     protected function getModel()
     {
         if (!isset($this->ModelGitosis)) {
-            $this->ModelGitosis = new \Model_Gitosis();
+            $this->ModelGitosis = new \GitPHP\Model_Gitosis();
         }
         return $this->ModelGitosis;
     }

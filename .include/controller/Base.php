@@ -74,8 +74,8 @@ abstract class Base implements ControllerInterface
 
             $servers = \GitPHP\Config::GetInstance()->GetValue('memcache', null);
             if (isset($servers) && is_array($servers) && (count($servers) > 0)) {
-                require_once(GITPHP_CACHEDIR . 'Memcache.class.php');
-                \GitPHP_Memcache::GetInstance()->AddServers($servers);
+                require_once(GITPHP_CACHEDIR . 'Memcache.php');
+                \GitPHP\Cache\Memcache::GetInstance()->AddServers($servers);
                 require_once(GITPHP_CACHEDIR . 'memcache_cache_handler.php');
                 $this->tpl->cache_handler_func = 'memcache_cache_handler';
             }
@@ -138,7 +138,7 @@ abstract class Base implements ControllerInterface
      */
     protected function GetCacheKeyPrefix($projectKeys = true)
     {
-        $cacheKeyPrefix = \GitPHP_Resource::GetLocale();
+        $cacheKeyPrefix = \GitPHP\Resource::GetLocale();
 
         $projList = \GitPHP\Git\ProjectList::GetInstance();
         if ($projList) {
@@ -304,8 +304,8 @@ abstract class Base implements ControllerInterface
         if (\GitPHP\Config::GetInstance()->GetValue('filesearch', true)) $this->tpl->assign('filesearch', true);
         $this->tpl->assign('search', isset($this->params['search']) ? $this->params['search'] : null);
         if (isset($this->params['searchtype'])) $this->tpl->assign('searchtype', $this->params['searchtype']);
-        $this->tpl->assign('currentlocale', \GitPHP_Resource::GetLocale());
-        $this->tpl->assign('supportedlocales', \GitPHP_Resource::SupportedLocales());
+        $this->tpl->assign('currentlocale', \GitPHP\Resource::GetLocale());
+        $this->tpl->assign('supportedlocales', \GitPHP\Resource::SupportedLocales());
 
         $getvars = explode('&', $_SERVER['QUERY_STRING']);
         $getvarsmapped = [];

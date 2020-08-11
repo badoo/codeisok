@@ -1,4 +1,5 @@
 <?php
+
 namespace GitPHP;
 
 class Db_Result

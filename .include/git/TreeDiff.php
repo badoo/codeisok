@@ -1,22 +1,8 @@
 <?php
-/**
- * GitPHP Tree Diff
- *
- * Represents differences between two commit trees
- *
- * @author Christopher Han <xiphux@gmail.com>
- * @copyright Copyright (c) 2010 Christopher Han
- * @package GitPHP
- * @subpackage Git
- */
 
-/**
- * TreeDiff class
- *
- * @package GitPHP
- * @subpackage Git
- */
-class GitPHP_TreeDiff implements Iterator
+namespace GitPHP\Git;
+
+class TreeDiff implements \Iterator
 {
     /**
      * fromHash
@@ -62,7 +48,7 @@ class GitPHP_TreeDiff implements Iterator
     protected $dataRead = false;
 
     /**
-     * @var DiffContext
+     * @var \GitPHP\Git\DiffContext
      */
     protected $DiffContext;
 
@@ -70,10 +56,10 @@ class GitPHP_TreeDiff implements Iterator
      * @param \GitPHP\Git\Project $project project
      * @param string $toHash to commit hash
      * @param string $fromHash from commit hash
-     * @param DiffContext $DiffContext
+     * @param \GitPHP\Git\DiffContext $DiffContext
      * @throws \GitPHP\MessageException
      */
-    public function __construct($project, $toHash, $fromHash = '', DiffContext $DiffContext)
+    public function __construct($project, $toHash, $fromHash = '', \GitPHP\Git\DiffContext $DiffContext)
     {
         $this->project = $project;
         $this->DiffContext = $DiffContext;
@@ -126,7 +112,7 @@ class GitPHP_TreeDiff implements Iterator
             if ((strlen($trimmed) > 0) && (substr_compare($trimmed, ':', 0, 1) === 0)) {
                 try {
                     $this->fileDiffs[] = new \GitPHP\Git\FileDiff($this->project, $trimmed, $toHash, $this->DiffContext);
-                } catch (Exception $e) {}
+                } catch (\Exception $e) {}
             }
         }
 

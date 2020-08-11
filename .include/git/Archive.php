@@ -118,7 +118,7 @@ class Archive
     public function SetObject($object)
     {
         // Archive only works for commits and trees
-        if (($object != null) && (!(($object instanceof \GitPHP\Git\Commit) || ($object instanceof \GitPHP_Tree)))) {
+        if (($object != null) && (!(($object instanceof \GitPHP\Git\Commit) || ($object instanceof \GitPHP\Git\Tree)))) {
             throw new \Exception('Invalid source object for archive');
         }
 

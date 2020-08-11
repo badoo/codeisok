@@ -134,7 +134,7 @@ class Blob extends FilesystemObject
 
             $this->data = $exe->Execute(GIT_CAT_FILE, $args);
 
-            \GitPHP_Cache::GetInstance()->Set($this->GetCacheKey(), $this);
+            \GitPHP\Cache\Cache::GetInstance()->Set($this->GetCacheKey(), $this);
         }
     }
 
@@ -395,7 +395,7 @@ class Blob extends FilesystemObject
                 $commit = $this->GetProject()->GetCommit($regs[1]);
             } else if ($commit) {
                 try {
-                    $history = new \GitPHP\Git\FileDiff($this->GetProject(), $line, '', new \DiffContext());
+                    $history = new \GitPHP\Git\FileDiff($this->GetProject(), $line, '', new \GitPHP\Git\DiffContext());
                     $history->SetCommit($commit);
                     $this->history[] = $history;
                 } catch (\Exception $e) {}

@@ -23,7 +23,7 @@ class Commit extends GitObject
      *
      * Tree object for this commit
      *
-     * @var \GitPHP_Tree
+     * @var \GitPHP\Git\Tree
      */
     protected $tree;
 
@@ -527,7 +527,7 @@ class Commit extends GitObject
             }
         }
 
-        \GitPHP_Cache::GetInstance()->Set($this->GetCacheKey(), $this);
+        \GitPHP\Cache\Cache::GetInstance()->Set($this->GetCacheKey(), $this);
     }
 
     /**
@@ -620,7 +620,7 @@ class Commit extends GitObject
             }
         }
 
-        \GitPHP_Cache::GetInstance()->Set($this->GetCacheKey(), $this);
+        \GitPHP\Cache\Cache::GetInstance()->Set($this->GetCacheKey(), $this);
     }
 
     /**
@@ -629,11 +629,11 @@ class Commit extends GitObject
      * Diffs this commit with its immediate parent
      *
      * @access public
-     * @return \GitPHP_TreeDiff Tree diff
+     * @return \GitPHP\Git\TreeDiff Tree diff
      */
     public function DiffToParent()
     {
-        return new \GitPHP_TreeDiff($this->GetProject(), $this->hash, '', new \DiffContext());
+        return new \GitPHP\Git\TreeDiff($this->GetProject(), $this->hash, '', new \GitPHP\Git\DiffContext());
     }
 
     /**
@@ -701,7 +701,7 @@ class Commit extends GitObject
             }
         }
 
-        \GitPHP_Cache::GetInstance()->Set($this->GetCacheKey(), $this);
+        \GitPHP\Cache\Cache::GetInstance()->Set($this->GetCacheKey(), $this);
     }
 
     /**

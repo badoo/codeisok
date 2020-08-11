@@ -638,7 +638,7 @@ class Project
         if (preg_match('/[0-9a-f]{40}/i', $hash)) {
             if (!isset($this->commitCache[$hash])) {
                 $cacheKey = 'project|' . $this->project . '|commit|' . $hash;
-                $cached = \GitPHP_Cache::GetInstance()->Get($cacheKey);
+                $cached = \GitPHP\Cache\Cache::GetInstance()->Get($cacheKey);
                 if ($cached) {
                     $this->commitCache[$hash] = $cached;
                 } else {
@@ -968,7 +968,7 @@ class Project
         }
 
         $cacheKey = 'project|' . $this->project . '|tag|' . $tag;
-        $cached = \GitPHP_Cache::GetInstance()->Get($cacheKey);
+        $cached = \GitPHP\Cache\Cache::GetInstance()->Get($cacheKey);
         if ($cached) {
             return $cached;
         } else {
@@ -1231,7 +1231,7 @@ class Project
         if (empty($hash)) return null;
 
         $cacheKey = 'project|' . $this->project . '|blob|' . $hash;
-        $cached = \GitPHP_Cache::GetInstance()->Get($cacheKey);
+        $cached = \GitPHP\Cache\Cache::GetInstance()->Get($cacheKey);
         if ($cached) return $cached;
 
         return new \GitPHP\Git\Blob($this, $hash);
@@ -1244,7 +1244,7 @@ class Project
      *
      * @access public
      * @param string $hash tree hash
-     * @return \GitPHP_Tree
+     * @return \GitPHP\Git\Tree
      * @throws \Exception
      */
     public function GetTree($hash)
@@ -1252,10 +1252,10 @@ class Project
         if (empty($hash)) return null;
 
         $cacheKey = 'project|' . $this->project . '|tree|' . $hash;
-        $cached = \GitPHP_Cache::GetInstance()->Get($cacheKey);
+        $cached = \GitPHP\Cache\Cache::GetInstance()->Get($cacheKey);
         if ($cached) return $cached;
 
-        return new \GitPHP_Tree($this, $hash);
+        return new \GitPHP\Git\Tree($this, $hash);
     }
 
     /**

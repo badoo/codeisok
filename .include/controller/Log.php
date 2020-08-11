@@ -132,7 +132,7 @@ class Log extends Base
             $base_branches = $this->project->GetBaseBranches($branch_name);
             $this->tpl->assign('base_branches', $base_branches);
 
-            $BranchDiff = new \GitPHP\Git\BranchDiff($this->project, $this->params['hash'], $this->params['base'], new \DiffContext());
+            $BranchDiff = new \GitPHP\Git\BranchDiff($this->project, $this->params['hash'], $this->params['base'], new \GitPHP\Git\DiffContext());
             $BranchDiff->SetToHash($toHash);
             $hashBase = $BranchDiff->getBaseHash();
         } else {

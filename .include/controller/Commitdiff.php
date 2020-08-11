@@ -126,13 +126,13 @@ class Commitdiff extends DiffBase
         }
 
         $renames = true;
-        $DiffContext = new \DiffContext();
+        $DiffContext = new \GitPHP\Git\DiffContext();
         $DiffContext->setRenames($renames)
             ->setContext($this->params['context'])
             ->setIgnoreWhitespace($this->params['ignorewhitespace'])
             ->setIgnoreFormatting($this->params['ignoreformat']);
 
-        $commit_tree_diff = new \GitPHP_TreeDiff(
+        $commit_tree_diff = new \GitPHP\Git\TreeDiff(
             $this->project,
             $this->params['hash'],
             (isset($this->params['hashparent']) ? $this->params['hashparent'] : ''),

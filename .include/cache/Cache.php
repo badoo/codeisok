@@ -1,22 +1,8 @@
 <?php
-/**
- * GitPHP Cache
- *
- * Class to store arbitrary data objects in smarty cache
- *
- * @author Christopher Han <xiphux@gmail.com>
- * @copyright Copyright (c) 2010 Christopher Han
- * @package GitPHP
- * @subpackage Cache
- */
 
-/**
- * Cache class
- *
- * @package GitPHP
- * @subpackage Cache
- */
-class GitPHP_Cache
+namespace GitPHP\Cache;
+
+class Cache
 {
 	/**
 	 * Template
@@ -47,7 +33,7 @@ class GitPHP_Cache
 	public static function GetInstance()
 	{
 		if (!self::$instance) {
-			self::$instance = new GitPHP_Cache();
+			self::$instance = new \GitPHP\Cache\Cache();
 		}
 		return self::$instance;
 	}
@@ -136,10 +122,10 @@ class GitPHP_Cache
 		if (!$this->enabled)
 			return false;
 
-		if (!$this->tpl->is_cached(GitPHP_Cache::Template, $key))
+		if (!$this->tpl->is_cached(\GitPHP\Cache\Cache::Template, $key))
 			return false;
 
-		$data = $this->tpl->fetch(GitPHP_Cache::Template, $key);
+		$data = $this->tpl->fetch(\GitPHP\Cache\Cache::Template, $key);
 
 		return unserialize($data);
 	}
@@ -166,7 +152,7 @@ class GitPHP_Cache
 		$this->tpl->assign('data', serialize($value));
 
 		// Force it into smarty's cache
-		$tmp = $this->tpl->fetch(GitPHP_Cache::Template, $key);
+		$tmp = $this->tpl->fetch(\GitPHP\Cache\Cache::Template, $key);
 		unset($tmp);
 	}
 
@@ -187,7 +173,7 @@ class GitPHP_Cache
 		if (!$this->enabled)
 			return false;
 
-		return $this->tpl->is_cached(GitPHP_Cache::Template, $key);
+		return $this->tpl->is_cached(\GitPHP\Cache\Cache::Template, $key);
 	}
 
 	/**
@@ -206,7 +192,7 @@ class GitPHP_Cache
 		if (!$this->enabled)
 			return;
 
-		$this->tpl->clear_cache(GitPHP_Cache::Template, $key);
+		$this->tpl->clear_cache(\GitPHP\Cache\Cache::Template, $key);
 	}
 
 	/**
@@ -236,7 +222,7 @@ class GitPHP_Cache
 		if ($this->tpl)
 			return;
 
-		$this->tpl = new Smarty;
+		$this->tpl = new \Smarty;
         $this->tpl->template_dir = GITPHP_TEMPLATESDIR;
 
 		$this->tpl->caching = 2;
@@ -245,8 +231,8 @@ class GitPHP_Cache
 
 		$servers = \GitPHP\Config::GetInstance()->GetValue('memcache', null);
 		if (isset($servers) && is_array($servers) && (count($servers) > 0)) {
-			require_once(GITPHP_CACHEDIR . 'Memcache.class.php');
-			GitPHP_Memcache::GetInstance()->AddServers($servers);
+			require_once(GITPHP_CACHEDIR . 'Memcache.php');
+			\GitPHP\Cache\Memcache::GetInstance()->AddServers($servers);
 			require_once(GITPHP_CACHEDIR . 'memcache_cache_handler.php');
 			$this->tpl->cache_handler_func = 'memcache_cache_handler';
 		}
@@ -267,5 +253,4 @@ class GitPHP_Cache
 
 		$this->tpl = null;
 	}
-
 }

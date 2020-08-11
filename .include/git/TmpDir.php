@@ -1,26 +1,8 @@
 <?php
-/**
- * GitPHP Tmp Dir
- *
- * Temporary directory class
- *
- * @author Christopher Han <xiphux@gmail.com>
- * @copyright Copyright (c) 2010 Christopher Han
- * @package GitPHP
- * @subpackage Git
- */
 
-/**
- * TmpDir class
- *
- * Class to handle managing files in a temporary directory
- *
- * @author Christopher Han <xiphux@gmail.com>
- * @copyright Copyright (c) 2010 Christopher Han
- * @package GitPHP
- * @subpackage Git
- */
-class GitPHP_TmpDir
+namespace GitPHP\Git;
+
+class TmpDir
 {
     /**
      * instance
@@ -62,7 +44,7 @@ class GitPHP_TmpDir
     public static function GetInstance()
     {
         if (!self::$instance) {
-            self::$instance = new GitPHP_TmpDir();
+            self::$instance = new \GitPHP\Git\TmpDir();
         }
         return self::$instance;
     }
@@ -128,23 +110,23 @@ class GitPHP_TmpDir
         $this->dir = \GitPHP\Util::AddSlash(\GitPHP\Config::GetInstance()->GetValue('gittmp'));
 
         if (empty($this->dir)) {
-            $this->dir = GitPHP_TmpDir::SystemTmpDir();
+            $this->dir = \GitPHP\Git\TmpDir::SystemTmpDir();
         }
 
         if (empty($this->dir)) {
-            throw new Exception(__('No tmpdir defined'));
+            throw new \Exception(__('No tmpdir defined'));
         }
 
         if (file_exists($this->dir)) {
             if (is_dir($this->dir)) {
                 if (!is_writeable($this->dir)) {
-                    throw new Exception(sprintf(__('Specified tmpdir %1$s is not writable'), $this->dir));
+                    throw new \Exception(sprintf(__('Specified tmpdir %1$s is not writable'), $this->dir));
                 }
             } else {
-                throw new Exception(sprintf(__('Specified tmpdir %1$s is not a directory'), $this->dir));
+                throw new \Exception(sprintf(__('Specified tmpdir %1$s is not a directory'), $this->dir));
             }
         } else if (!mkdir($this->dir, 0700)) {
-            throw new Exception(sprintf(__('Could not create tmpdir %1$s'), $this->dir));
+            throw new \Exception(sprintf(__('Could not create tmpdir %1$s'), $this->dir));
         }
     }
 

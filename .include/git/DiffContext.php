@@ -1,5 +1,7 @@
 <?php
 
+namespace GitPHP\Git;
+
 class DiffContext
 {
     protected

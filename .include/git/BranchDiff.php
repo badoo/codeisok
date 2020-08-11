@@ -68,7 +68,7 @@ class BranchDiff implements \Iterator
     private $toHash;
 
     /**
-     * @var \DiffContext
+     * @var \GitPHP\Git\DiffContext
      */
     private $DiffContext;
 
@@ -78,9 +78,9 @@ class BranchDiff implements \Iterator
      * @param \GitPHP\Git\Project $project project
      * @param $toBranch
      * @param string $fromBranch
-     * @param \DiffContext $DiffContext
+     * @param \GitPHP\Git\DiffContext $DiffContext
      */
-    public function __construct($project, $toBranch, $fromBranch, \DiffContext $DiffContext)
+    public function __construct($project, $toBranch, $fromBranch, \GitPHP\Git\DiffContext $DiffContext)
     {
         $this->project = $project;
 

@@ -42,7 +42,7 @@ $git_projects_settings['someapp.git'] = array(
 
 $git_projects = array();
 $git_projects_settings = array();
-$ModelGitosis = new Model_Gitosis();
+$ModelGitosis = new \GitPHP\Model_Gitosis();
 foreach ($ModelGitosis->getRepositories(true) as $project) {
     $git_projects[] = $project['project'];
     $git_projects_settings[$project['project']] = array(

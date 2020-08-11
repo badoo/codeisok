@@ -17,7 +17,7 @@ abstract class GitosisBase extends Base
     protected $_form_errors = array();
 
     /**
-     * @var \Model_Gitosis
+     * @var \GitPHP\Model_Gitosis
      */
     protected $ModelGitosis;
 
@@ -28,7 +28,7 @@ abstract class GitosisBase extends Base
 
     public function __construct()
     {
-        $this->ModelGitosis = new \Model_Gitosis();
+        $this->ModelGitosis = new \GitPHP\Model_Gitosis();
         parent::__construct();
         if (!$this->Session->getUser()->isGitosisAdmin()) {
             $this->redirect('/');
