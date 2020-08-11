@@ -200,7 +200,7 @@ class FileDiff
      * @param string $branch
      * @throws \Exception
      */
-    public function __construct(\GitPHP_Project $project, $fromHash, $toHash = '', \DiffContext $DiffContext, $branch = '')
+    public function __construct(\GitPHP\Git\Project $project, $fromHash, $toHash = '', \DiffContext $DiffContext, $branch = '')
     {
         $this->project = $project;
         $this->toHashOriginal = $toHash;

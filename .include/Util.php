@@ -49,7 +49,7 @@ class Util
         }
 
         $first = reset($comments);
-        $Project = \GitPHP_ProjectList::GetInstance()->GetProject($first['repo']);
+        $Project = \GitPHP\Git\ProjectList::GetInstance()->GetProject($first['repo']);
         $project_notify_email = $Project->GetNotifyEmail();
         if (!empty($project_notify_email)) {
             $to[] = $project_notify_email;
@@ -132,7 +132,7 @@ class Util
     {
         if (!is_array($changes_authors)) $changes_authors = [];
         $first = reset($comments);
-        $Project = \GitPHP_ProjectList::GetInstance()->GetProject($first['repo']);
+        $Project = \GitPHP\Git\ProjectList::GetInstance()->GetProject($first['repo']);
 
         /* собираем структурку hash: file: comment */
         $hash_files_comments = [];
@@ -191,7 +191,7 @@ class Util
         return $diff;
     }
 
-    protected static function getDiffCached($hash, \DiffContext $DiffContext, \GitPHP_Project $Project, &$changes_authors)
+    protected static function getDiffCached($hash, \DiffContext $DiffContext, \GitPHP\Git\Project $Project, &$changes_authors)
     {
         static $diffs = [];
 
@@ -206,6 +206,7 @@ class Util
                 $diffs[$hash] = new \GitPHP\Git\Blob($Project, $hash_head);
             } else {
                 $diffs[$hash] = new \GitPHP\Git\BranchDiff($Project, $hash_head, $hash_base, $DiffContext);
+
                 if (\GitPHP\Config::GetInstance()->GetValue(\GitPHP\Config::COLLECT_CHANGES_AUTHORS, false)) {
                     $log = $Project->GetLog($hash_head, 50, 0, $hash_base);
                     if (is_array($log)) {

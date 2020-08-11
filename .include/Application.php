@@ -131,7 +131,7 @@ class Application
         }
 
         if (file_exists(GITPHP_CONFIGDIR . 'projects.conf.php')) {
-            \GitPHP_ProjectList::Instantiate(GITPHP_CONFIGDIR . 'projects.conf.php', false);
+            \GitPHP\Git\ProjectList::Instantiate(GITPHP_CONFIGDIR . 'projects.conf.php', false);
         }
     }
 

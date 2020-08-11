@@ -1,22 +1,8 @@
 <?php
-/**
- * GitPHP ProjectListDirectory
- *
- * Lists all projects in a given directory
- *
- * @author Christopher Han <xiphux@gmail.com>
- * @copyright Copyright (c) 2010 Christopher Han
- * @package GitPHP
- * @subpackage Git
- */
 
-/**
- * ProjectListDirectory class
- *
- * @package GitPHP
- * @subpackage Git
- */
-class GitPHP_ProjectListDirectory extends GitPHP_ProjectListBase
+namespace GitPHP\Git;
+
+class ProjectListDirectory extends \GitPHP\Git\ProjectListBase
 {
     /**
      * projectDir
@@ -33,13 +19,13 @@ class GitPHP_ProjectListDirectory extends GitPHP_ProjectListBase
      * constructor
      *
      * @param string $projectDir directory to search
-     * @throws Exception if parameter is not a directory
+     * @throws \Exception if parameter is not a directory
      * @access public
      */
     public function __construct($projectDir)
     {
         if (!is_dir($projectDir)) {
-            throw new Exception(sprintf(__('%1$s is not a directory'), $projectDir));
+            throw new \Exception(sprintf(__('%1$s is not a directory'), $projectDir));
         }
 
         $this->projectDir = \GitPHP\Util::AddSlash($projectDir);
@@ -78,12 +64,12 @@ class GitPHP_ProjectListDirectory extends GitPHP_ProjectListBase
                     if (is_file($fullPath . '/HEAD')) {
                         $projectPath = substr($fullPath, $trimlen);
                         try {
-                            $proj = new GitPHP_Project($projectPath);
+                            $proj = new \GitPHP\Git\Project($projectPath);
                             $proj->SetCategory(trim(substr($dir, strlen($this->projectDir)), '/'));
                             if ((!\GitPHP\Config::GetInstance()->GetValue('exportedonly', false)) || $proj->GetDaemonEnabled()) {
                                 $this->projects[$projectPath] = $proj;
                             }
-                        } catch (Exception $e) {}
+                        } catch (\Exception $e) {}
                     } else {
                         $this->RecurseDir($fullPath);
                     }

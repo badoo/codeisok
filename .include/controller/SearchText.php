@@ -64,7 +64,7 @@ class SearchText extends Base
     protected function LoadData()
     {
         $response = 'Nothing found...';
-        $Project = \GitPHP_ProjectList::GetInstance()->GetProject($this->params['project']);
+        $Project = \GitPHP\Git\ProjectList::GetInstance()->GetProject($this->params['project']);
         if (!empty($Project)) {
             $branch = 'master';
             $search = $Project->SearchText($this->params['text'], $branch);
