@@ -93,11 +93,11 @@ class Blobdiff extends DiffBase
         parent::LoadData();
         if (isset($this->params['file'])) $this->tpl->assign('file', $this->params['file']);
 
-        $DiffContext = new \DiffContext();
+        $DiffContext = new \GitPHP\Git\DiffContext();
         $DiffContext->setContext($this->params['context'])
             ->setIgnoreWhitespace($this->params['ignorewhitespace'])
             ->setIgnoreFormatting($this->params['ignoreformat']);
-        $filediff = new \GitPHP_FileDiff(
+        $filediff = new \GitPHP\Git\FileDiff(
             $this->project,
             $this->params['hashparent'],
             $this->params['hash'],

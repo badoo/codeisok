@@ -39,23 +39,23 @@ class Application
     {
         if (!empty($_GET['l'])) {
             setcookie(self::GITPHP_LOCALE_COOKIE, $_GET['l'], time() + self::GITPHP_LOCALE_COOKIE_LIFETIME);
-            \GitPHP_Resource::Instantiate($_GET['l']);
+            \GitPHP\Resource::Instantiate($_GET['l']);
         } else if (!empty($_COOKIE[self::GITPHP_LOCALE_COOKIE])) {
-            \GitPHP_Resource::Instantiate($_COOKIE[self::GITPHP_LOCALE_COOKIE]);
+            \GitPHP\Resource::Instantiate($_COOKIE[self::GITPHP_LOCALE_COOKIE]);
         } else {
             if (isset($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
-                if ($preferredLocale = \GitPHP_Resource::FindPreferredLocale($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
+                if ($preferredLocale = \GitPHP\Resource::FindPreferredLocale($_SERVER['HTTP_ACCEPT_LANGUAGE'])) {
                     setcookie(self::GITPHP_LOCALE_COOKIE, $preferredLocale, time() + self::GITPHP_LOCALE_COOKIE_LIFETIME);
-                    \GitPHP_Resource::Instantiate($preferredLocale);
+                    \GitPHP\Resource::Instantiate($preferredLocale);
                 }
             }
-            if (!\GitPHP_Resource::Instantiated()) {
+            if (!\GitPHP\Resource::Instantiated()) {
                 setcookie(self::GITPHP_LOCALE_COOKIE, 0, time() + self::GITPHP_LOCALE_COOKIE_LIFETIME);
             }
         }
 
-        if (!\GitPHP_Resource::Instantiated()) {
-            \GitPHP_Resource::Instantiate(\GitPHP\Config::GetInstance()->GetValue('locale', 'en_US'));
+        if (!\GitPHP\Resource::Instantiated()) {
+            \GitPHP\Resource::Instantiate(\GitPHP\Config::GetInstance()->GetValue('locale', 'en_US'));
         }
 
         if (isset($_GET['fix_lineheight'])) {
@@ -105,7 +105,7 @@ class Application
             throw new \GitPHP\MessageException(__('A projectroot must be set in the config'), true, 500);
         }
 
-        $exe = new \GitPHP_GitExe(null);
+        $exe = new \GitPHP\Git\GitExe(null);
         if (!$exe->Valid()) {
             throw new \GitPHP\MessageException(
                 sprintf(
@@ -117,7 +117,7 @@ class Application
                 500
             );
         }
-        $exe = new \GitPHP_DiffExe();
+        $exe = new \GitPHP\Git\DiffExe();
         if (!$exe->Valid()) {
             throw new \GitPHP\MessageException(
                 sprintf(
@@ -131,7 +131,7 @@ class Application
         }
 
         if (file_exists(GITPHP_CONFIGDIR . 'projects.conf.php')) {
-            \GitPHP_ProjectList::Instantiate(GITPHP_CONFIGDIR . 'projects.conf.php', false);
+            \GitPHP\Git\ProjectList::Instantiate(GITPHP_CONFIGDIR . 'projects.conf.php', false);
         }
     }
 

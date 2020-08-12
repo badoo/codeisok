@@ -49,7 +49,7 @@ class Util
         }
 
         $first = reset($comments);
-        $Project = \GitPHP_ProjectList::GetInstance()->GetProject($first['repo']);
+        $Project = \GitPHP\Git\ProjectList::GetInstance()->GetProject($first['repo']);
         $project_notify_email = $Project->GetNotifyEmail();
         if (!empty($project_notify_email)) {
             $to[] = $project_notify_email;
@@ -132,7 +132,7 @@ class Util
     {
         if (!is_array($changes_authors)) $changes_authors = [];
         $first = reset($comments);
-        $Project = \GitPHP_ProjectList::GetInstance()->GetProject($first['repo']);
+        $Project = \GitPHP\Git\ProjectList::GetInstance()->GetProject($first['repo']);
 
         /* собираем структурку hash: file: comment */
         $hash_files_comments = [];
@@ -146,7 +146,7 @@ class Util
                 $comment['real_line_before'] = null;
                 if (!isset($blob_hashes[$comment['file']][$comment['side']])) {
                     $commit_hash = $comment['side'] == 'lhs' ? $comment['hash_base'] : $comment['hash_head'];
-                    $blob_hashes[$comment['file']][$comment['side']] = \GitPHP_Blob::getBlobHash($Project, $commit_hash, $comment['file']);
+                    $blob_hashes[$comment['file']][$comment['side']] = \GitPHP\Git\Blob::getBlobHash($Project, $commit_hash, $comment['file']);
                 }
                 // маппинг будет вида [hash-blob => [file => [id => text]]]
                 // в итоге у нас для каждой стороны будет генериться дифф как для блоба
@@ -159,7 +159,7 @@ class Util
             }
         }
 
-        $DiffContext = new \DiffContext();
+        $DiffContext = new \GitPHP\Git\DiffContext();
         $DiffContext->setRenames(true);
         $vars_data = ['DIFF_OBJS' => []];
         /* разбираем */
@@ -191,27 +191,27 @@ class Util
         return $diff;
     }
 
-    protected static function getDiffCached($hash, \DiffContext $DiffContext, \GitPHP_Project $Project, &$changes_authors)
+    protected static function getDiffCached($hash, \GitPHP\Git\DiffContext $DiffContext, \GitPHP\Git\Project $Project, &$changes_authors)
     {
         static $diffs = [];
 
         if (!isset($diffs[$hash])) {
             list($hash_head, $hash_base) = explode('-', $hash);
             if (empty($hash_base)) {
-                $diffs[$hash] = new \GitPHP_TreeDiff($Project, $hash_head, '', $DiffContext);
+                $diffs[$hash] = new \GitPHP\Git\TreeDiff($Project, $hash_head, '', $DiffContext);
                 if (\GitPHP\Config::GetInstance()->GetValue(\GitPHP\Config::COLLECT_CHANGES_AUTHORS, false)) {
                     $changes_authors[] = $Project->GetCommit($hash_head)->GetAuthor();
                 }
             } else if ($hash_base == 'blob') {
-                $diffs[$hash] = new \GitPHP_Blob($Project, $hash_head);
+                $diffs[$hash] = new \GitPHP\Git\Blob($Project, $hash_head);
             } else {
-                $diffs[$hash] = new \GitPHP_BranchDiff($Project, $hash_head, $hash_base, $DiffContext);
+                $diffs[$hash] = new \GitPHP\Git\BranchDiff($Project, $hash_head, $hash_base, $DiffContext);
 
                 if (\GitPHP\Config::GetInstance()->GetValue(\GitPHP\Config::COLLECT_CHANGES_AUTHORS, false)) {
                     $log = $Project->GetLog($hash_head, 50, 0, $hash_base);
                     if (is_array($log)) {
                         foreach ($log as $commit) {
-                            /** @var $commit \GitPHP_Commit */
+                            /** @var $commit \GitPHP\Git\Commit */
                             $changes_authors[] = $commit->GetAuthor();
                         }
                     }
@@ -225,7 +225,7 @@ class Util
      * @static
      * @param array[] $comments
      * @param string $file
-     * @param \GitPHP_BranchDiff|\GitPHP_TreeDiff|\GitPHP_FileDiff[]|\GitPHP_Blob $Diffs
+     * @param \GitPHP\Git\BranchDiff|\GitPHP\Git\TreeDiff|\GitPHP\Git\FileDiff[]|\GitPHP\Git\Blob $Diffs
      * @param int $diff_size
      * @return string|array
      */
@@ -233,7 +233,7 @@ class Util
     {
         $result = [];
         $startLine = 0;
-        if ($Diffs instanceof \GitPHP_Blob) {
+        if ($Diffs instanceof \GitPHP\Git\Blob) {
             $lines = $Diffs->GetData(true);
             $result['HEADER'] = [['header' => $file]];
         } else {
@@ -416,7 +416,7 @@ class Util
 
     public static function getImagesDiff($fromBlob, $toBlob, $fromName, $toName)
     {
-        $tmpdir = \GitPHP_TmpDir::GetInstance();
+        $tmpdir = \GitPHP\Git\TmpDir::GetInstance();
         $pid = rand();
         $fromTmpFile = 'gitphp_' . $pid . '_from';
         $toTmpFile = 'gitphp_' . $pid . '_to';

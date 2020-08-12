@@ -82,7 +82,7 @@ class Acl
 
     /**
      * Check User for permission to perform a specific action on specific project (repository).
-     * @param \GitPHP_Project   $Project - project to check
+     * @param \GitPHP\Git\Project   $Project - project to check
      * @param string            $action  - action to check
      * @param \GitPHP\User|null $User    - user to check for permission.
      *                                     When 'null' is given - current (authenticated) user is used.

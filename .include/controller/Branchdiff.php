@@ -157,7 +157,7 @@ class Branchdiff extends DiffBase
         }
 
         $renames = true;
-        $DiffContext = new \DiffContext();
+        $DiffContext = new \GitPHP\Git\DiffContext();
         $DiffContext->setContext($this->params['context'])
             ->setIgnoreWhitespace($this->params['ignorewhitespace'])
             ->setIgnoreFormatting($this->params['ignoreformat'])
@@ -167,7 +167,7 @@ class Branchdiff extends DiffBase
         if (in_array($this->project->GetCategory(), \GitPHP\Config::GetInstance()->GetValue(\GitPHP\Config::SKIP_SUPPRESS_FOR_CATEGORY, []))) {
             $DiffContext->setSkipSuppress(true);
         }
-        $branchdiff = new \GitPHP_BranchDiff($this->project, $this->params['branch'], $this->params['base'], $DiffContext);
+        $branchdiff = new \GitPHP\Git\BranchDiff($this->project, $this->params['branch'], $this->params['base'], $DiffContext);
         if ($toHash) $branchdiff->SetToHash($toHash);
         if (preg_match('/[0-9a-f]{40}/i', $this->params['base'])) {
             $branchdiff->setFromHash($this->params['base']);

@@ -126,13 +126,13 @@ class Commitdiff extends DiffBase
         }
 
         $renames = true;
-        $DiffContext = new \DiffContext();
+        $DiffContext = new \GitPHP\Git\DiffContext();
         $DiffContext->setRenames($renames)
             ->setContext($this->params['context'])
             ->setIgnoreWhitespace($this->params['ignorewhitespace'])
             ->setIgnoreFormatting($this->params['ignoreformat']);
 
-        $commit_tree_diff = new \GitPHP_TreeDiff(
+        $commit_tree_diff = new \GitPHP\Git\TreeDiff(
             $this->project,
             $this->params['hash'],
             (isset($this->params['hashparent']) ? $this->params['hashparent'] : ''),
@@ -152,7 +152,7 @@ class Commitdiff extends DiffBase
             $statuses = [];
             $folders = [];
             foreach ($commit_tree_diff as $filediff) {
-                /** @var \GitPHP_FileDiff $filediff */
+                /** @var \GitPHP\Git\FileDiff $filediff */
 
                 $extensions[$filediff->getToFileExtension()] = $filediff->getToFileExtension();
                 $statuses[$filediff->GetStatus()] = $filediff->GetStatus();

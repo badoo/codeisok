@@ -1,23 +1,8 @@
 <?php
-/**
- * GitPHP GitObject
- *
- * Base class for all hash objects in a git repository
- *
- * @author Christopher Han <xiphux@gmail.com>
- * @copyright Copyright (c) 2010 Christopher Han
- * @package GitPHP
- * @subpackage Git
- */
 
-/**
- * Git Object class
- *
- * @abstract
- * @package GitPHP
- * @subpackage Git
- */
-abstract class GitPHP_GitObject
+namespace GitPHP\Git;
+
+abstract class GitObject
 {
     const ALL_ZEROS_HASH = '0000000000000000000000000000000000000000';
 
@@ -26,7 +11,7 @@ abstract class GitPHP_GitObject
      *
      * Stores the project internally
      *
-     * @var GitPHP_Project
+     * @var \GitPHP\Git\Project
      * @access protected
      */
     protected $project;
@@ -58,7 +43,7 @@ abstract class GitPHP_GitObject
      * @param mixed $project the project
      * @param string $hash object hash
      * @return mixed git object
-     * @throws Exception exception on invalid hash
+     * @throws \Exception exception on invalid hash
      */
     public function __construct($project, $hash)
     {
@@ -72,7 +57,7 @@ abstract class GitPHP_GitObject
      * Gets the project
      *
      * @access public
-     * @return GitPHP_Project
+     * @return \GitPHP\Git\Project
      */
     public function GetProject()
     {
@@ -100,13 +85,13 @@ abstract class GitPHP_GitObject
      * Attempts to set the hash of this object
      *
      * @param string $hash the hash to set
-     * @throws Exception on invalid hash
+     * @throws \Exception on invalid hash
      * @access protected
      */
     protected function SetHash($hash)
     {
         if (!(preg_match('/[0-9a-f]{40}/i', $hash))) {
-            throw new Exception(sprintf(__('Invalid hash %1$s'), $hash));
+            throw new \Exception(sprintf(__('Invalid hash %1$s'), $hash));
         }
         $this->hash = $hash;
     }
@@ -138,7 +123,7 @@ abstract class GitPHP_GitObject
     {
         if (!$this->projectReferenced) return;
 
-        $this->project = GitPHP_ProjectList::GetInstance()->GetProject($this->project);
+        $this->project = \GitPHP\Git\ProjectList::GetInstance()->GetProject($this->project);
 
         $this->projectReferenced = false;
     }

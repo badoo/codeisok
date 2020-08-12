@@ -1,22 +1,8 @@
 <?php
-/**
- * GitPHP Tag
- *
- * Represents a single tag object
- *
- * @author Christopher Han <xiphux@gmail.com>
- * @copyright Copyright (c) 2010 Christopher Han
- * @package GitPHP
- * @subpackage Git
- */
 
-/**
- * Tag class
- *
- * @package GitPHP
- * @subpackage Git
- */
-class GitPHP_Tag extends GitPHP_Ref
+namespace GitPHP\Git;
+
+class Tag extends \GitPHP\Git\Ref
 {
     /**
      * dataRead
@@ -118,7 +104,7 @@ class GitPHP_Tag extends GitPHP_Ref
      * @param string $tag tag name
      * @param string $tagHash tag hash
      * @return mixed tag object
-     * @throws Exception exception on invalid tag or hash
+     * @throws \Exception exception on invalid tag or hash
      */
     public function __construct($project, $tag, $tagHash = '')
     {
@@ -304,7 +290,7 @@ class GitPHP_Tag extends GitPHP_Ref
         $this->dataRead = true;
 
         if (is_null($external_type)) {
-            $exe = new GitPHP_GitExe($this->GetProject());
+            $exe = new \GitPHP\Git\GitExe($this->GetProject());
             $args = array();
             $args[] = '-t';
             $args[] = $this->GetHash();
@@ -318,12 +304,12 @@ class GitPHP_Tag extends GitPHP_Ref
             $this->object = $this->GetProject()->GetCommit($this->GetHash());
             $this->commit = $this->object;
             $this->type = 'commit';
-            GitPHP_Cache::GetInstance()->Set($this->GetCacheKey(), $this);
+            \GitPHP\Cache\Cache::GetInstance()->Set($this->GetCacheKey(), $this);
             return;
         }
 
         if (is_null($external_contents)) {
-            $exe = new GitPHP_GitExe($this->GetProject());
+            $exe = new \GitPHP\Git\GitExe($this->GetProject());
             /* get data from tag object */
             $args = array();
             $args[] = 'tag';
@@ -372,11 +358,11 @@ class GitPHP_Tag extends GitPHP_Ref
                 try {
                     $this->object = $this->GetProject()->GetCommit($objectHash);
                     $this->commit = $this->object;
-                } catch (Exception $e) {}
+                } catch (\Exception $e) {}
                 break;
 
             case 'tag':
-                $exe = new GitPHP_GitExe($this->GetProject());
+                $exe = new \GitPHP\Git\GitExe($this->GetProject());
                 $args = array();
                 $args[] = 'tag';
                 $args[] = $objectHash;
@@ -395,7 +381,7 @@ class GitPHP_Tag extends GitPHP_Ref
                 break;
         }
 
-        GitPHP_Cache::GetInstance()->Set($this->GetCacheKey(), $this);
+        \GitPHP\Cache\Cache::GetInstance()->Set($this->GetCacheKey(), $this);
     }
 
     /**
@@ -407,7 +393,7 @@ class GitPHP_Tag extends GitPHP_Ref
      */
     private function ReadCommit()
     {
-        $exe = new GitPHP_GitExe($this->GetProject());
+        $exe = new \GitPHP\Git\GitExe($this->GetProject());
         $args = array();
         $args[] = '--tags';
         $args[] = '--dereference';
@@ -424,7 +410,7 @@ class GitPHP_Tag extends GitPHP_Ref
             }
         }
 
-        GitPHP_Cache::GetInstance()->Set($this->GetCacheKey(), $this);
+        \GitPHP\Cache\Cache::GetInstance()->Set($this->GetCacheKey(), $this);
     }
 
     /**
@@ -575,14 +561,14 @@ class GitPHP_Tag extends GitPHP_Ref
     {
         $aObj = $a->GetObject();
         $bObj = $b->GetObject();
-        if (($aObj instanceof GitPHP_Commit) && ($bObj instanceof GitPHP_Commit)) {
+        if (($aObj instanceof \GitPHP\Git\Commit) && ($bObj instanceof \GitPHP\Git\Commit)) {
             if ($aObj->GetAge() === $bObj->GetAge()) return 0;
             return ($aObj->GetAge() < $bObj->GetAge() ? -1 : 1);
         }
 
-        if ($aObj instanceof GitPHP_Commit) return 1;
+        if ($aObj instanceof \GitPHP\Git\Commit) return 1;
 
-        if ($bObj instanceof GitPHP_Commit) return -1;
+        if ($bObj instanceof \GitPHP\Git\Commit) return -1;
 
         return strcmp($a->GetName(), $b->GetName());
     }

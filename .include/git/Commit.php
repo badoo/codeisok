@@ -1,23 +1,8 @@
 <?php
-/**
- * GitPHP Commit
- *
- * Represents a single commit
- *
- * @author Christopher Han <xiphux@gmail.com>
- * @copyright Copyright (c) 2010 Christopher Han
- * @package GitPHP
- * @subpackage Git
- */
 
+namespace GitPHP\Git;
 
-/**
- * Commit class
- *
- * @package GitPHP
- * @subpackage Git
- */
-class GitPHP_Commit extends GitPHP_GitObject
+class Commit extends GitObject
 {
     /**
      * dataRead
@@ -38,7 +23,7 @@ class GitPHP_Commit extends GitPHP_GitObject
      *
      * Tree object for this commit
      *
-     * @var GitPHP_Tree
+     * @var \GitPHP\Git\Tree
      */
     protected $tree;
 
@@ -190,7 +175,7 @@ class GitPHP_Commit extends GitPHP_GitObject
      * Gets the main parent of this commit
      *
      * @access public
-     * @return GitPHP_Commit commit object for parent
+     * @return \GitPHP\Git\Commit commit object for parent
      */
     public function GetParent()
     {
@@ -493,7 +478,7 @@ class GitPHP_Commit extends GitPHP_GitObject
 
         if (is_null($external_contents)) {
             /* get data from git_rev_list */
-            $exe = new GitPHP_GitExe($this->GetProject());
+            $exe = new \GitPHP\Git\GitExe($this->GetProject());
             $args = array();
             $args[] = '--header';
             $args[] = '--parents';
@@ -519,7 +504,7 @@ class GitPHP_Commit extends GitPHP_GitObject
                         $tree->SetCommit($this);
                         $this->tree = $tree;
                     }
-                } catch (Exception $e) {}
+                } catch (\Exception $e) {}
             } else if (preg_match('/^author (.*) ([0-9]+) (.*)$/', $line, $regs)) {
                 /* author data */
                 $this->author = $regs[1];
@@ -542,7 +527,7 @@ class GitPHP_Commit extends GitPHP_GitObject
             }
         }
 
-        GitPHP_Cache::GetInstance()->Set($this->GetCacheKey(), $this);
+        \GitPHP\Cache\Cache::GetInstance()->Set($this->GetCacheKey(), $this);
     }
 
     /**
@@ -575,7 +560,7 @@ class GitPHP_Commit extends GitPHP_GitObject
      * Gets tags that point to this commit
      *
      * @access public
-     * @return GitPHP_Tag[] array of tags
+     * @return \GitPHP\Git\Tag[] array of tags
      */
     public function GetTags()
     {
@@ -600,7 +585,7 @@ class GitPHP_Commit extends GitPHP_GitObject
      * Gets the tag that contains the changes in this commit
      *
      * @access public
-     * @return GitPHP_Tag? tag object
+     * @return \GitPHP\Git\Tag tag object
      */
     public function GetContainingTag()
     {
@@ -620,7 +605,7 @@ class GitPHP_Commit extends GitPHP_GitObject
     {
         $this->containingTagRead = true;
 
-        $exe = new GitPHP_GitExe($this->GetProject());
+        $exe = new \GitPHP\Git\GitExe($this->GetProject());
         $args = array();
         $args[] = '--tags';
         $args[] = $this->hash;
@@ -635,7 +620,7 @@ class GitPHP_Commit extends GitPHP_GitObject
             }
         }
 
-        GitPHP_Cache::GetInstance()->Set($this->GetCacheKey(), $this);
+        \GitPHP\Cache\Cache::GetInstance()->Set($this->GetCacheKey(), $this);
     }
 
     /**
@@ -644,11 +629,11 @@ class GitPHP_Commit extends GitPHP_GitObject
      * Diffs this commit with its immediate parent
      *
      * @access public
-     * @return GitPHP_TreeDiff Tree diff
+     * @return \GitPHP\Git\TreeDiff Tree diff
      */
     public function DiffToParent()
     {
-        return new GitPHP_TreeDiff($this->GetProject(), $this->hash, '', new DiffContext());
+        return new \GitPHP\Git\TreeDiff($this->GetProject(), $this->hash, '', new \GitPHP\Git\DiffContext());
     }
 
     /**
@@ -692,7 +677,7 @@ class GitPHP_Commit extends GitPHP_GitObject
     {
         $this->hashPathsRead = true;
 
-        $exe = new GitPHP_GitExe($this->GetProject());
+        $exe = new \GitPHP\Git\GitExe($this->GetProject());
 
         $args = array();
         $args[] = '--full-name';
@@ -716,7 +701,7 @@ class GitPHP_Commit extends GitPHP_GitObject
             }
         }
 
-        GitPHP_Cache::GetInstance()->Set($this->GetCacheKey(), $this);
+        \GitPHP\Cache\Cache::GetInstance()->Set($this->GetCacheKey(), $this);
     }
 
     /**
@@ -774,7 +759,7 @@ class GitPHP_Commit extends GitPHP_GitObject
             return null;
         }
 
-        $exe = new GitPHP_GitExe($this->GetProject());
+        $exe = new \GitPHP\Git\GitExe($this->GetProject());
 
         $args = array();
         $args[] = '-I';

@@ -1,5 +1,7 @@
 <?php
 
+namespace GitPHP\Git;
+
 class DiffHighlighter
 {
     const R_BEGIN_PLACEHOLDER = '%__RBEGIN__%';
@@ -10,7 +12,7 @@ class DiffHighlighter
     public static function mark($diff)
     {
         $lines = explode("\n", $diff);
-        $DiffHighlighter = new DiffHighlighter();
+        $DiffHighlighter = new \GitPHP\Git\DiffHighlighter();
 
         foreach ($lines as $i => $ln) {
             if (!isset($lines[$i + 1]) || !isset($lines[$i - 1])) continue;
@@ -39,7 +41,7 @@ class DiffHighlighter
     {
         $lines = explode("\n", $diff);
 
-        $DiffHighlighter = new DiffHighlighter();
+        $DiffHighlighter = new \GitPHP\Git\DiffHighlighter();
         $result = [];
         $pos = mb_strlen($lines[0]) + 1 /* newline removed in explode */;
         for ($count = count($lines) - 1, $i = 1; $i < $count; $i++) {
@@ -115,11 +117,11 @@ class DiffHighlighter
         try {
             $tmpfile_old = tempnam("/tmp", "gitphp_apply");
             $tmpfile_new = tempnam("/tmp", "gitphp_apply");
-            if (!$tmpfile_old || !$tmpfile_new) throw new Exception;
-            if (file_put_contents($tmpfile_old, $old_content) === false) throw new Exception;
-            if (file_put_contents($tmpfile_new, $new_content) === false) throw new Exception;
+            if (!$tmpfile_old || !$tmpfile_new) throw new \Exception;
+            if (file_put_contents($tmpfile_old, $old_content) === false) throw new \Exception;
+            if (file_put_contents($tmpfile_new, $new_content) === false) throw new \Exception;
             exec("diff " . escapeshellarg($tmpfile_old) . " " . escapeshellarg($tmpfile_new), $out, $retval);
-            if ($retval > 1) throw new Exception;
+            if ($retval > 1) throw new \Exception;
         } catch (\Exception $e) {
             return [[], []];
         } finally {

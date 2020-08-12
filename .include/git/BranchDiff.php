@@ -1,20 +1,8 @@
 <?php
-/**
- * GitPHP Branch Diff
- *
- * Represents differences between one and another branch
- *
- * @package GitPHP
- * @subpackage Git
- */
 
-/**
- * TreeDiff class
- *
- * @package GitPHP
- * @subpackage Git
- */
-class GitPHP_BranchDiff implements Iterator
+namespace GitPHP\Git;
+
+class BranchDiff implements \Iterator
 {
     /**
      * fromHash
@@ -39,7 +27,7 @@ class GitPHP_BranchDiff implements Iterator
      *
      * Stores the project
      *
-     * @var GitPHP_Project
+     * @var \GitPHP\Git\Project
      * @access protected
      */
     protected $project;
@@ -50,7 +38,7 @@ class GitPHP_BranchDiff implements Iterator
      * Stores the individual file diffs
      *
      * @access protected
-     * @var GitPHP_FileDiff[]
+     * @var \GitPHP\Git\FileDiff[]
      */
     protected $fileDiffs = array();
 
@@ -65,7 +53,7 @@ class GitPHP_BranchDiff implements Iterator
     protected $dataRead = false;
 
     /**
-     * @var GitPHP_GitExe
+     * @var \GitPHP\Git\GitExe
      */
     private $exe;
 
@@ -80,19 +68,19 @@ class GitPHP_BranchDiff implements Iterator
     private $toHash;
 
     /**
-     * @var DiffContext
+     * @var \GitPHP\Git\DiffContext
      */
     private $DiffContext;
 
     private $has_hidden;
 
     /**
-     * @param GitPHP_Project $project project
+     * @param \GitPHP\Git\Project $project project
      * @param $toBranch
      * @param string $fromBranch
-     * @param DiffContext $DiffContext
+     * @param \GitPHP\Git\DiffContext $DiffContext
      */
-    public function __construct($project, $toBranch, $fromBranch, DiffContext $DiffContext)
+    public function __construct($project, $toBranch, $fromBranch, \GitPHP\Git\DiffContext $DiffContext)
     {
         $this->project = $project;
 
@@ -100,7 +88,7 @@ class GitPHP_BranchDiff implements Iterator
         $this->fromBranch = ($fromBranch) ? : 'master';
         $this->DiffContext = $DiffContext;
 
-        $this->exe = new GitPHP_GitExe($this->project);
+        $this->exe = new \GitPHP\Git\GitExe($this->project);
     }
 
     public function setFromHash($fromHash)
@@ -206,7 +194,7 @@ class GitPHP_BranchDiff implements Iterator
             $trimmed = trim($line);
             if ((strlen($trimmed) > 0) && (substr_compare($trimmed, ':', 0, 1) === 0)) {
                 try {
-                    $fileDiff = new GitPHP_FileDiff($this->project, $trimmed, $this->fromHash, $this->DiffContext, $this->toHash);
+                    $fileDiff = new \GitPHP\Git\FileDiff($this->project, $trimmed, $this->fromHash, $this->DiffContext, $this->toHash);
                     if (!$this->DiffContext->getShowHidden() && isset($hide_files_per_category[$this->project->GetCategory()])) {
                         foreach ($hide_files_per_category[$this->project->GetCategory()] as $pattern) {
                             if (preg_match($pattern, $fileDiff->GetFromFile()) || preg_match($pattern, $fileDiff->GetToFile())) {
@@ -216,7 +204,7 @@ class GitPHP_BranchDiff implements Iterator
                         }
                     }
                     $this->fileDiffs[] = $fileDiff;
-                } catch (Exception $e) {}
+                } catch (\Exception $e) {}
             }
         }
     }

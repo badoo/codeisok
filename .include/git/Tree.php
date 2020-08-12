@@ -1,22 +1,8 @@
 <?php
-/**
- * GitPHP Tree
- *
- * Represents a single tree
- *
- * @author Christopher Han <xiphux@gmail.com>
- * @copyright Copyright (c) 2010 Christopher Han
- * @package GitPHP
- * @subpackage Git
- */
 
-/**
- * Tree class
- *
- * @package GitPHP
- * @subpackage Git
- */
-class GitPHP_Tree extends GitPHP_FilesystemObject
+namespace GitPHP\Git;
+
+class Tree extends \GitPHP\Git\FilesystemObject
 {
     /**
      * contents
@@ -54,7 +40,7 @@ class GitPHP_Tree extends GitPHP_FilesystemObject
      * @param mixed $project the project
      * @param string $hash tree hash
      * @return mixed tree object
-     * @throws Exception exception on invalid hash
+     * @throws \Exception exception on invalid hash
      */
     public function __construct($project, $hash)
     {
@@ -108,7 +94,7 @@ class GitPHP_Tree extends GitPHP_FilesystemObject
     {
         $this->contentsRead = true;
 
-        $exe = new GitPHP_GitExe($this->GetProject());
+        $exe = new \GitPHP\Git\GitExe($this->GetProject());
 
         $args = array();
         $args[] = '--full-name';
@@ -146,7 +132,7 @@ class GitPHP_Tree extends GitPHP_FilesystemObject
             }
         }
         $this->contents = array_merge($contents['t'], $contents['b']);
-        GitPHP_Cache::GetInstance()->Set($this->GetCacheKey(), $this);
+        \GitPHP\Cache\Cache::GetInstance()->Set($this->GetCacheKey(), $this);
     }
 
     /**
@@ -170,9 +156,9 @@ class GitPHP_Tree extends GitPHP_FilesystemObject
             $data['mode'] = $obj->GetMode();
             $data['path'] = $obj->GetPath();
 
-            if ($obj instanceof GitPHP_Tree) {
+            if ($obj instanceof \GitPHP\Git\Tree) {
                 $data['type'] = 'tree';
-            } else if ($obj instanceof GitPHP_Blob) {
+            } else if ($obj instanceof \GitPHP\Git\Blob) {
                 $data['type'] = 'blob';
                 $data['size'] = $obj->GetSize();
             }

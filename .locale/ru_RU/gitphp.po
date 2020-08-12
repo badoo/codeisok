@@ -674,7 +674,7 @@ msgstr "atom"
 
 # Used as an error message when memcache is turned
 # on without the appropriate PHP extension installed
-#: include/cache/Memcache.class.php:103
+#: include/cache/Memcache.php:103
 msgid "The Memcached or Memcache PHP extension is required for Memcache support"
 msgstr "Для поддержки Memcache требуется PHP расширение Memcached или Memcache"
 

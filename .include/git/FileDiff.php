@@ -1,22 +1,8 @@
 <?php
-/**
- * GitPHP File Diff
- *
- * Represents a single file difference
- *
- * @author Christopher Han <xiphux@gmail.com>
- * @copyright Copyright (c) 2010 Christopher Han
- * @package GitPHP
- * @subpackage Git
- */
 
-/**
- * Commit class
- *
- * @package GitPHP
- * @subpackage Git
- */
-class GitPHP_FileDiff
+namespace GitPHP\Git;
+
+class FileDiff
 {
     const LARGE_DIFF_SIZE = 10000;
 
@@ -193,7 +179,7 @@ class GitPHP_FileDiff
     protected $branch;
 
     /**
-     * @var DiffContext
+     * @var \GitPHP\Git\DiffContext
      */
     protected $DiffContext;
 
@@ -210,11 +196,11 @@ class GitPHP_FileDiff
      * @param mixed $project project
      * @param string $fromHash source hash, can also be a diff-tree info line
      * @param string $toHash target hash, required if $fromHash is a hash
-     * @param DiffContext $DiffContext
+     * @param \GitPHP\Git\DiffContext $DiffContext
      * @param string $branch
-     * @throws Exception
+     * @throws \Exception
      */
-    public function __construct(GitPHP_Project $project, $fromHash, $toHash = '', DiffContext $DiffContext, $branch = '')
+    public function __construct(\GitPHP\Git\Project $project, $fromHash, $toHash = '', \GitPHP\Git\DiffContext $DiffContext, $branch = '')
     {
         $this->project = $project;
         $this->toHashOriginal = $toHash;
@@ -223,7 +209,7 @@ class GitPHP_FileDiff
 
         if (!$this->ParseDiffTreeLine($fromHash)) {
             if (!(preg_match('/^[0-9a-fA-F]{40}$/', $fromHash) && preg_match('/^[0-9a-fA-F]{40}$/', $toHash))) {
-                throw new Exception('Invalid parameters for FileDiff');
+                throw new \Exception('Invalid parameters for FileDiff');
             }
 
             $this->fromHash = $fromHash;
@@ -236,7 +222,7 @@ class GitPHP_FileDiff
      *
      * @param string $diffTreeLine line from difftree
      * @return bool
-     * @throws Exception
+     * @throws \Exception
      */
     private function ParseDiffTreeLine($diffTreeLine)
     {
@@ -389,7 +375,7 @@ class GitPHP_FileDiff
      * Gets the to file blob
      *
      * @access public
-     * @return GitPHP_Blob blob object
+     * @return \GitPHP\Git\Blob blob object
      */
     public function GetToBlob()
     {
@@ -491,7 +477,7 @@ class GitPHP_FileDiff
     {
         if (!$this->diffInfoRead) $this->ReadDiffInfo();
 
-        return GitPHP_Blob::FileType($this->fromMode, $local);
+        return \GitPHP\Git\Blob::FileType($this->fromMode, $local);
     }
 
     /**
@@ -507,7 +493,7 @@ class GitPHP_FileDiff
     {
         if (!$this->diffInfoRead) $this->ReadDiffInfo();
 
-        return GitPHP_Blob::FileType($this->toMode, $local);
+        return \GitPHP\Git\Blob::FileType($this->toMode, $local);
     }
 
     /**
@@ -629,7 +615,7 @@ class GitPHP_FileDiff
             if ($this->DiffContext->getRenames()) {
                 $args[] = escapeshellarg($this->fromFile);
             }
-            $Git = new GitPHP_GitExe($this->project);
+            $Git = new \GitPHP\Git\GitExe($this->project);
             $diff = trim($Git->Execute(GIT_DIFF, $args));
             $this->diffData = substr($diff, strpos($diff, '---'));
         } else if (!$this->DiffContext->getIgnoreFormatting() && !empty($this->toHashOriginal)) {
@@ -657,11 +643,11 @@ class GitPHP_FileDiff
             if ($this->DiffContext->getRenames()) {
                 $args[] = escapeshellarg($this->fromFile);
             }
-            $Git = new GitPHP_GitExe($this->project);
+            $Git = new \GitPHP\Git\GitExe($this->project);
             $diff = trim($Git->Execute(GIT_SHOW, $args));
             $this->diffData = substr($diff, strpos($diff, '---'));
         } else {
-            $tmpdir = GitPHP_TmpDir::GetInstance();
+            $tmpdir = \GitPHP\Git\TmpDir::GetInstance();
             $pid = function_exists('posix_getpid') ? posix_getpid() : rand();
 
             $fromTmpFile = null;
@@ -700,7 +686,7 @@ class GitPHP_FileDiff
                 }
             }
 
-            $this->diffData = GitPHP_DiffExe::Diff(
+            $this->diffData = \GitPHP\Git\DiffExe::Diff(
                 (empty($fromTmpFile) ? null : ($tmpdir->GetDir() . $fromTmpFile)),
                 $fromName,
                 (empty($toTmpFile) ? null : ($tmpdir->GetDir() . $toTmpFile)),
@@ -728,7 +714,7 @@ class GitPHP_FileDiff
         if (!$this->DiffContext->getSkipSuppress()) $this->diffTooLarge = mb_strlen($this->diffData) > $this->GetLargeDiffSize();
 
         if ($highlight_changes && mb_strlen($this->diffData) <= $this->GetLargeDiffSize()) {
-            $this->inline_changes = DiffHighlighter::getMarks($this->diffData);
+            $this->inline_changes = \GitPHP\Git\DiffHighlighter::getMarks($this->diffData);
         }
 
         if ($highlight_changes) {
@@ -759,7 +745,7 @@ class GitPHP_FileDiff
 
         $this->diffDataSplitRead = true;
 
-        $exe = new GitPHP_GitExe($this->project);
+        $exe = new \GitPHP\Git\GitExe($this->project);
 
         $args = array();
         if (is_numeric($this->DiffContext->getContext())) {
@@ -852,7 +838,7 @@ class GitPHP_FileDiff
      * Gets the commit for this filediff
      *
      * @access public
-     * @return GitPHP_Commit object
+     * @return \GitPHP\Git\Commit object
      */
     public function GetCommit()
     {
@@ -890,7 +876,7 @@ class GitPHP_FileDiff
     /**
      * Based on diff $this->diffData calculates diff to formatted base
      */
-    public function diffWithFormattedBase(GitPHP_TmpDir $tmpdir, $fromTmpFile, $toTmpFile, $fromName, $toName)
+    public function diffWithFormattedBase(\GitPHP\Git\TmpDir $tmpdir, $fromTmpFile, $toTmpFile, $fromName, $toName)
     {
         $php_bin = '/local/php/bin/php';
         $phpcf_bin = '/local/utils/phpcf';
@@ -930,7 +916,7 @@ class GitPHP_FileDiff
         exec($cmd, $out, $ret);
         \GitPHP\Log::GetInstance()->timerStop('exec', $cmd . "\n\n" . implode("\n", $out) . ' ret:' . $ret);
 
-        $this->diffData = GitPHP_DiffExe::Diff(
+        $this->diffData = \GitPHP\Git\DiffExe::Diff(
             (empty($fromTmpFile) ? null : ($tmpdir->GetDir() . $fromTmpFile)),
             $fromName,
             (empty($toTmpFile) ? null : ($tmpdir->GetDir() . $toTmpFile)),
