@@ -1535,16 +1535,10 @@ class Project
         $exe = new \GitPHP\Git\GitExe($this);
 
         $args = array();
-        $args[] = '--format="%(committer)"';
-        $args[] = '--sort=-committerdate';
-        $args[] = '--count=1';
-        $args[] = 'refs/heads';
+        $args[] = '--pretty="%ct"';
+        $args[] = '-1';
 
-        $epochstr = trim($exe->Execute(GIT_FOR_EACH_REF, $args));
-
-        if (preg_match('/ (\d+) [-+][01]\d\d\d$/', $epochstr, $regs)) {
-            $this->epoch = $regs[1];
-        }
+        $this->epoch = $exe->Execute(GIT_LOG, $args);
 
         unset($exe);
     }
