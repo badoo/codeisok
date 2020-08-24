@@ -1538,7 +1538,14 @@ class Project
         $args[] = '--pretty="%ct"';
         $args[] = '-1';
 
-        $this->epoch = $exe->Execute(GIT_LOG, $args);
+        $epoch = $exe->Execute(GIT_LOG, $args);
+        if (is_numeric($epoch)) {
+            $this->epoch = (int)$epoch;
+        } else {
+            // for example repository is empty. I can't find any reason why else it can be
+            // so it's reasonable to set epoch to time()
+            $this->epoch = time();
+        }
 
         unset($exe);
     }
