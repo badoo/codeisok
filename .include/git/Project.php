@@ -423,7 +423,7 @@ class Project
 
     /**
      * SetCategory
-     * 
+     *
      * Sets the project's category
      *
      * @access public
@@ -1098,7 +1098,7 @@ class Project
     /**
      * Reads multiple objects at once and returns contents and types
      *
-     * @param array $hashes   list of object hashes
+     * @param array $hashes list of object hashes
      * @return array          array(array('contents' => array(hash => contents), 'types' => array(hash => type))
      */
     public function BatchReadData(array $hashes)
@@ -1537,10 +1537,11 @@ class Project
         $args = array();
         $args[] = '--pretty="%ct"';
         $args[] = '-1';
+        $args[] = 'HEAD';
 
         $epoch = $exe->Execute(GIT_LOG, $args);
-        if (is_numeric($epoch)) {
-            $this->epoch = (int)$epoch;
+        if (is_string($epoch) && is_numeric(trim($epoch))) {
+            $this->epoch = (int)trim($epoch);
         } else {
             // for example repository is empty. I can't find any reason why else it can be
             // so it's reasonable to set epoch to time()
@@ -1566,7 +1567,9 @@ class Project
     {
         $main_branches = array_filter(
             \GitPHP\Config::GetInstance()->GetBaseBranchesByCategory($this->GetCategory()),
-            function ($branch_name) { return $this->GetHead($branch_name)->Exists(); }
+            function ($branch_name) {
+                return $this->GetHead($branch_name)->Exists();
+            }
         );
 
         if (!in_array($this->GetDefaultBranch(), $main_branches)) {
@@ -1636,9 +1639,9 @@ class Project
      * In this case there will be only default bases in the list because it's hard
      * to search for unmerged commits on big repository in runtime
      *
+     * @return array|mixed
      * @see \GitPHP\Config::GetBaseBranchesByCategory()
      *
-     * @return array|mixed
      */
     public function GetUnmergedCommitsCache()
     {
