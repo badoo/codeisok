@@ -37,7 +37,11 @@ class Tree extends Base
      */
     protected function GetCacheKey()
     {
-        return (isset($this->params['hashbase']) ? $this->params['hashbase'] : '') . '|' . (isset($this->params['hash']) ? $this->params['hash'] : '') . '|' . (isset($this->params['file']) ? sha1($this->params['file']) : '');
+        return (isset($this->params['hashbase']) ? $this->params['hashbase'] : '')
+            . '|'
+            . (isset($this->params['hash']) ? $this->params['hash'] : '')
+            . '|'
+            . (isset($this->params['file']) ? sha1($this->params['file']) : '');
     }
 
     /**

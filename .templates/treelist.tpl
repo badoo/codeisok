@@ -27,7 +27,7 @@
             </div>
           </td>
       </tr>
-    {elseif $treeitem instanceof GitPHP_Tree}
+    {elseif $treeitem instanceof \GitPHP\Git\Tree}
       <tr>
           <td class="list folderName">
               <span class="expander" data-expand-url="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=tree&amp;h={$treeitem->GetHash()}&amp;hb={$commit->GetHash()}&amp;f={$treeitem->GetPath()}"></span>

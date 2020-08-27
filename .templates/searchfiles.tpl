@@ -30,7 +30,7 @@
     {foreach from=$results item=result key=path}
         <tr>
             {assign var=resultobject value=$result.object}
-            {if $resultobject instanceof GitPHP_Tree}
+            {if $resultobject instanceof \GitPHP\Git\Tree}
 	            <td>
 		            <a href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=tree&amp;h={$resultobject->GetHash()}&amp;hb={$commit->GetHash()}&amp;f={$path}" class="list"><strong>{$path}</strong></a>
                     <div class="actions">
