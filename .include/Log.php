@@ -245,13 +245,25 @@ class Log
         </style>
         <div id="statslow_request_selector"></div>
         <table class="statslow"><tbody id="statslow_content">
+            <tr>
+                <td class="ss_key"><a download="Logs.txt" id="test" href="#">&nbsp;&nbsp;download as txt</a></td>
+                <td class="ss_value"></td>
+                <td class="ss_time"></td>
+            </tr>
         <?php
     }
 
     public function printHtmlFooter()
     {
         if (!$this->enabled) return;
-        echo '</tbody></table>';
+        echo "</tbody></table>";
+        echo "<script>
+            let type = 'data:application/octet-stream;base64,';
+            let text = document.querySelector('.statslow').textContent;
+            let base = btoa(text);
+            let res = type + base;
+            document.getElementById('test').href = res;
+        </script>";
     }
 
     public function printHtml()
