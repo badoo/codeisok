@@ -57,7 +57,7 @@ To run container in non-interactive mode (background) - replace `-it` options wi
 
 ### Internals
 
-Default authorisation is just config-based. You can use 'user' user and 'password' password. To change it look for \GitPHP_Config::AUTH_METHOD and \GitPHP_Config::CONFIG_AUTH_USER fields in .config/gitphp.conf.php file.
+Default authorisation is just config-based. You can use 'user' user and 'password' password. To change it look for \GitPHP\Config::AUTH_METHOD and \GitPHP\Config::CONFIG_AUTH_USER fields in .config/gitphp.conf.php file.
 
 Service is using [smarty](http://www.smarty.net) as template engine. So templates_c directory should be writable for web-service user.
 
