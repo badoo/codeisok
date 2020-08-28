@@ -78,7 +78,9 @@ abstract class ProjectListBase implements \Iterator
     {
         if (empty($project)) return null;
 
-        if (isset($this->projects[$project])) return $this->projects[$project];
+        if (isset($this->projects[$project])) {
+            return $this->projects[$project];
+        }
 
         return null;
     }

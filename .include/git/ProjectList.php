@@ -12,7 +12,7 @@ class ProjectList
      * @access protected
      * @static
      */
-    protected static $instance = null;
+    protected static $instance;
 
     /**
      * GetInstance
@@ -40,27 +40,24 @@ class ProjectList
      * @param boolean $legacy true if this is the legacy project config
      * @throws \Exception if there was an error reading the file
      */
-    public static function Instantiate($file = null, $legacy = false)
+    public static function Instantiate()
     {
         if (self::$instance) return;
 
-        if (!empty($file) && is_file($file) && include($file)) {
-            if (isset($git_projects)) {
-                if (is_string($git_projects)) {
-                    self::$instance = new \GitPHP\Git\ProjectListFile($git_projects);
-                } else if (is_array($git_projects)) {
-                    if ($legacy) {
-                        self::$instance = new \GitPHP\Git\ProjectListArrayLegacy($git_projects);
-                    } else {
-                        self::$instance = new \GitPHP\Git\ProjectListArray($git_projects);
-                    }
-                }
-            }
+        $git_projects = array();
+        $git_projects_settings = array();
+        $ModelGitosis = new \GitPHP\Model_Gitosis();
+        foreach ($ModelGitosis->getRepositories(true) as $project) {
+            $git_projects[] = $project['project'];
+            $git_projects_settings[$project['project']] = array(
+                'description' => $project['description'],
+                'category' => $project['category'],
+                'notify_email' => $project['notify_email'],
+            );
         }
 
-        if (!self::$instance) self::$instance = new \GitPHP\Git\ProjectListDirectory(\GitPHP\Config::GetInstance()->GetValue(\GitPHP\Config::PROJECT_ROOT));
-
-        if (isset($git_projects_settings) && !$legacy) self::$instance->ApplySettings($git_projects_settings);
+        self::$instance = new \GitPHP\Git\ProjectListArray($git_projects);
+        self::$instance->ApplySettings($git_projects_settings);
     }
 }
 
