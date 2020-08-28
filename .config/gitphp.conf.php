@@ -15,7 +15,7 @@ return array(
     GitPHP\Config::GIT_HOME                => '/home/git/',
 
     /*
-     * Authentication method to use. See \GitPHP_Config::AUTH_METHOD_* constants to get list of supported methods
+     * Authentication method to use. See \GitPHP\Config::AUTH_METHOD_* constants to get list of supported methods
      */
     GitPHP\Config::AUTH_METHOD             => GitPHP\Config::AUTH_METHOD_CONFIG,
 
@@ -29,22 +29,22 @@ return array(
     /**
      * ===== JIRA =====
      *
-     * \GitPHP_Config::JIRA_URL jira url
-     * \GitPHP_Config::JIRA_USER jira user to use with rest api
-     * \GitPHP_Config::JIRA_PASSWORD jira password to use with rest api
+     * \GitPHP\Config::JIRA_URL jira url
+     * \GitPHP\Config::JIRA_USER jira user to use with rest api
+     * \GitPHP\Config::JIRA_PASSWORD jira password to use with rest api
      */
-    // \GitPHP_Config::JIRA_URL => 'https://yourjira.atlassian.net/',
-    // \GitPHP_Config::JIRA_USER => 'user',
-    // \GitPHP_Config::JIRA_PASSWORD => 'password',
+    // \GitPHP\Config::JIRA_URL => 'https://yourjira.atlassian.net/',
+    // \GitPHP\Config::JIRA_USER => 'user',
+    // \GitPHP\Config::JIRA_PASSWORD => 'password',
 
     /**
      * ===== CROWD =====
      *
-     * \GitPHP_Config::CROWD_URL crowd url
-     * \GitPHP_Config::CROWD_APP_TOKEN crowd application token that can be used with rest api
+     * \GitPHP\Config::CROWD_URL crowd url
+     * \GitPHP\Config::CROWD_APP_TOKEN crowd application token that can be used with rest api
      */
-    // \GitPHP_Config::CROWD_URL => 'http://crowd.yourjiraurl.com:8095/crowd/rest/',
-    // \GitPHP_Config::CROWD_APP_TOKEN => '',
+    // \GitPHP\Config::CROWD_URL => 'http://crowd.yourjiraurl.com:8095/crowd/rest/',
+    // \GitPHP\Config::CROWD_APP_TOKEN => '',
 
     /**
      * ===== Issue tracker =====
@@ -53,7 +53,7 @@ return array(
      *  - identify issues
      *  - post review in comments
      *  - find issue developers to send them review
-     * See \GitPHP_Config::TRACKER_TYPE_* or \GitPHP\Tracker::TRACKER_TYPE_* constants
+     * See \GitPHP\Config::TRACKER_TYPE_* or \GitPHP\Tracker::TRACKER_TYPE_* constants
      * to get list of supported trackers
      */
     GitPHP\Config::TRACKER_TYPE => '',
