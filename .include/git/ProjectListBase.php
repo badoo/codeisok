@@ -1,5 +1,4 @@
 <?php
-
 namespace GitPHP\Git;
 
 abstract class ProjectListBase implements \Iterator
@@ -23,9 +22,10 @@ abstract class ProjectListBase implements \Iterator
      *
      * Stores the project configuration internally
      *
+     * @var string[]
      * @access protected
      */
-    protected $projectConfig = null;
+    protected $projectConfig;
 
     /**
      * projectSettings
@@ -47,7 +47,6 @@ abstract class ProjectListBase implements \Iterator
     {
         $this->projects = array();
         $this->PopulateProjects();
-        $this->Sort();
     }
 
     /**
@@ -135,7 +134,7 @@ abstract class ProjectListBase implements \Iterator
      */
     function current()
     {
-        return current($this->projects);
+        return $this->GetProject($this->key());
     }
 
     /**
@@ -155,7 +154,8 @@ abstract class ProjectListBase implements \Iterator
      */
     function next()
     {
-        return next($this->projects);
+        next($this->projects);
+        return $this->current();
     }
 
     /**
@@ -178,6 +178,10 @@ abstract class ProjectListBase implements \Iterator
      */
     public function Sort($sortBy = self::GITPHP_SORT_PROJECT)
     {
+        foreach ($this->projects as $key => $_) {
+            $this->GetProject($key);
+        }
+
         switch ($sortBy) {
             case self::GITPHP_SORT_DESCRIPTION:
                 uasort($this->projects, array('\GitPHP\Git\Project', 'CompareDescription'));
@@ -292,10 +296,8 @@ abstract class ProjectListBase implements \Iterator
      */
     public function ApplySettings($settings)
     {
-        if ((!$settings) || (count($settings) < 1)) return;
-
-        foreach ($settings as $proj => $setting) {
-            $this->ApplyProjectSettings($proj, $setting);
+        if ((!$settings) || (count($settings) < 1)) {
+            return;
         }
 
         $this->projectSettings = $settings;
