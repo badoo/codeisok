@@ -93,7 +93,7 @@ class Project extends Base
         }
 
         $headlist = $this->project->GetHeads(27);
-        if ($headlist) {
+        if (isset($headlist)) {
             if (count($headlist) > 17) {
                 $this->tpl->assign('hasmoreheads', true);
                 $headlist = array_slice($headlist, 0, 16);

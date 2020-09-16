@@ -228,21 +228,21 @@ class Project
         $fullPath = realpath($path);
 
         if (!is_dir($fullPath)) {
-            throw new \Exception(sprintf(__('%1$s is not a directory'), $project));
+            trigger_error("A project directory for {$project} is not created yet");
         }
 
-        if (!is_file($fullPath . '/HEAD')) {
-            throw new \Exception(sprintf(__('%1$s is not a git repository'), $project));
+         if (!is_file($fullPath . '/HEAD')) {
+             trigger_error("{$project} is not a git repository");
         }
 
         if (preg_match('/(^|\/)\.{0,2}(\/|$)/', $project)) {
-            throw new \Exception(sprintf(__('%1$s is attempting directory traversal'), $project));
+            trigger_error("{$project} is attempting directory traversal");
         }
 
         $pathPiece = substr($fullPath, 0, strlen($realProjectRoot));
 
         if ((!is_link($path)) && (strcmp($pathPiece, $realProjectRoot) !== 0)) {
-            throw new \Exception(sprintf(__('%1$s is outside of the projectroot'), $project));
+            trigger_error("{$project} is outside of the projectroot");
         }
 
         $this->project = $project;
@@ -276,7 +276,7 @@ class Project
             $this->owner = $exe->Execute(GIT_CONFIG, $args);
             unset($exe);
 
-            if (empty($this->owner) && function_exists('posix_getpwuid')) {
+            if (empty($this->owner) && function_exists('posix_getpwuid') && file_exists($this->GetPath())) {
                 $uid = fileowner($this->GetPath());
                 if ($uid !== false) {
                     $data = posix_getpwuid($uid);
