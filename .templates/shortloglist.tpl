@@ -54,7 +54,49 @@
         </td>
     </tr>
 {foreachelse}
-    <tr><td><em>{t}No commits{/t}</em></td></tr>
+    <tr>
+        <td>
+            <div>
+            <em>{t}No commits{/t}</em>
+            </div>
+
+            <div class="Box-row">
+                <h4>Your repository is empty. Quick set up:</h4>
+                <h4>You can create a new repository on the command line</h4>
+                    <div class="instruction">
+                        <pre id="empty-setup-new-repo" class="commands">
+{if !$project->GetCloneUrl()}
+<span class="user-select-contain">git init</span>
+<span class="user-select-contain">git commit -m "first commit"</span>
+<span class="user-select-contain">git remote add origin {ldelim}remote-url{rdelim}:{$project->GetProject()}</span>
+<span class="user-select-contain mb-0">git push origin master</span>
+{else}
+<span class="user-select-contain">git init</span>
+<span class="user-select-contain">git commit -m "first commit"</span>
+<span class="user-select-contain">git remote add origin {$project->GetCloneUrl()}</span>
+<span class="user-select-contain mb-0">git push origin master</span>
+{/if}
+                        </pre>
+                    </div>
+            </div>
+
+            <div class="Box-row">
+                <h4>…or push an existing repository from the command line</h4>
+                    <div class="instruction">
+                        <pre id="empty-setup-push-repo" class="commands">
+{if !$project->GetCloneUrl()}
+<span class="user-select-contain">git remote add origin {ldelim}remote-url{rdelim}:{$project->GetProject()}</span>
+<span class="user-select-contain">git push origin master</span>
+{else}
+<span class="user-select-contain">git remote add origin {$project->GetCloneUrl()}</span>
+<span class="user-select-contain">git push origin master</span>
+{/if}
+                        </pre>
+                </div>
+            </div>
+
+        </td>
+    </tr>
 {/foreach}
 
 {if $hasmorerevs}
