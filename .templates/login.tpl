@@ -2,7 +2,7 @@
 
 <form class="login-form-container" action="" method="POST">
     <div class="login-form {if $auth_error}has-error{/if}">
-        <a class="logo" href="index.php?a">codeisok</a>
+        <a class="logo">codeisok</a>
         <strong>Please login with your tracker account</strong>
 
         <input type="text" class="text-input" name="login" placeholder="Login" autofocus value="{$cur_login|escape}" />

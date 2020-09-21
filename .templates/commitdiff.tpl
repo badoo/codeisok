@@ -23,15 +23,15 @@
          <div class="diff-controls__options">
              <div class="diff-controls__item">
                  <div class="diff_modes">
-                     <a class="{if $unified}is-active{/if}" href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=commitdiff&amp;h={$commit->GetHash()}{if $hashparent}&amp;hp={$hashparent}{/if}&amp;{if $review}review={$review}{/if}&amp;o=unified">{t}unified{/t}</a>
-                     <a class="{if $sidebyside}is-active{/if}" href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=commitdiff&amp;h={$commit->GetHash()}{if $hashparent}&amp;hp={$hashparent}{/if}&amp;{if $review}review={$review}{/if}&amp;o=sidebyside">{t}side by side{/t}</a>
-                     <a href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=commitdiff_plain&amp;h={$commit->GetHash()}{if $hashparent}&amp;hp={$hashparent}{/if}">{t}plain{/t}</a>
+                     <a class="{if $unified}is-active{/if}" href="/?p={$project->GetProject()|urlencode}&amp;a=commitdiff&amp;h={$commit->GetHash()}{if $hashparent}&amp;hp={$hashparent}{/if}&amp;{if $review}review={$review}{/if}&amp;o=unified">{t}unified{/t}</a>
+                     <a class="{if $sidebyside}is-active{/if}" href="/?p={$project->GetProject()|urlencode}&amp;a=commitdiff&amp;h={$commit->GetHash()}{if $hashparent}&amp;hp={$hashparent}{/if}&amp;{if $review}review={$review}{/if}&amp;o=sidebyside">{t}side by side{/t}</a>
+                     <a href="/?p={$project->GetProject()|urlencode}&amp;a=commitdiff_plain&amp;h={$commit->GetHash()}{if $hashparent}&amp;hp={$hashparent}{/if}">{t}plain{/t}</a>
                  </div>
              </div>
 
              <div class="diff-controls__item">
                  <a class="checkbox-link js-toggle-treediff"
-                    href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=commitdiff&amp;h={$commit->GetHash()}{if $hashparent}&amp;hp={$hashparent}{/if}&amp;{if $review}review={$review}{/if}&amp;treediff={if $treediff}0{else}1{/if}">
+                    href="/?p={$project->GetProject()|urlencode}&amp;a=commitdiff&amp;h={$commit->GetHash()}{if $hashparent}&amp;hp={$hashparent}{/if}&amp;{if $review}review={$review}{/if}&amp;treediff={if $treediff}0{else}1{/if}">
                     <span class="checkbox-link__control">
                         <input class="checkbox-input" type='checkbox' id='selectall' {if $treediff}checked{/if} disabled/>
                     </span>
