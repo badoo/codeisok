@@ -21,21 +21,21 @@
         </td>
 
         <td>
-            <a href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=commit&amp;h={$rev->GetHash()}" class="list commitTip" {if strlen($rev->GetTitle()) > 150}title="{$rev->GetTitle()|htmlspecialchars}"{/if}>
+            <a href="/?p={$project->GetProject()|urlencode}&amp;a=commit&amp;h={$rev->GetHash()}" class="list commitTip" {if strlen($rev->GetTitle()) > 150}title="{$rev->GetTitle()|htmlspecialchars}"{/if}>
                 {$rev->GetTitle(150)|escape}
             </a>
 
             {include file='refbadges.tpl' commit=$rev}
 
             <div class="actions">
-                <a class="simple-button" href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=commit&amp;h={$rev->GetHash()}&amp;retbranch={$branch_name}">{t}Commit{/t}</a>
-                <a class="simple-button" href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=commitdiff&amp;h={$rev->GetHash()}&amp;retbranch={$branch_name}">{t}Commitdiff{/t}</a>
-                <a class="simple-button" href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=tree&amp;h={$rev->GetHash()}&amp;hb={$rev->GetHash()}">{t}Tree{/t}</a>
-                <a class="simple-button" href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=snapshot&amp;h={$rev->GetHash()}" class="snapshotTip">{t}Snapshot{/t}</a>
+                <a class="simple-button" href="/?p={$project->GetProject()|urlencode}&amp;a=commit&amp;h={$rev->GetHash()}&amp;retbranch={$branch_name}">{t}Commit{/t}</a>
+                <a class="simple-button" href="/?p={$project->GetProject()|urlencode}&amp;a=commitdiff&amp;h={$rev->GetHash()}&amp;retbranch={$branch_name}">{t}Commitdiff{/t}</a>
+                <a class="simple-button" href="/?p={$project->GetProject()|urlencode}&amp;a=tree&amp;h={$rev->GetHash()}&amp;hb={$rev->GetHash()}">{t}Tree{/t}</a>
+                <a class="simple-button" href="/?p={$project->GetProject()|urlencode}&amp;a=snapshot&amp;h={$rev->GetHash()}" class="snapshotTip">{t}Snapshot{/t}</a>
                 {if $source == 'shortlog' || $source == 'branchlog'}
                     {if !empty($mark)}
                         {if $mark->GetHash() == $rev->GetHash()}
-                            <a class="simple-button" href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a={$source}&amp;h={$commit->GetHash()}&amp;pg={$page}">{t}Deselect{/t}</a>
+                            <a class="simple-button" href="/?p={$project->GetProject()|urlencode}&amp;a={$source}&amp;h={$commit->GetHash()}&amp;pg={$page}">{t}Deselect{/t}</a>
                         {else}
                             {if $mark->GetCommitterEpoch() > $rev->GetCommitterEpoch()}
                                 {assign var=markbase value=$mark}
@@ -44,10 +44,10 @@
                                 {assign var=markbase value=$rev}
                                 {assign var=markparent value=$mark}
                             {/if}
-                        <a class="simple-button" href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=commitdiff&amp;h={$markbase->GetHash()}&amp;hp={$markparent->GetHash()}">{t}Diff with selected{/t}</a>
+                        <a class="simple-button" href="/?p={$project->GetProject()|urlencode}&amp;a=commitdiff&amp;h={$markbase->GetHash()}&amp;hp={$markparent->GetHash()}">{t}Diff with selected{/t}</a>
                         {/if}
                     {else}
-                        <a class="simple-button" href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a={$source}&amp;h={$commit->GetHash()}&amp;pg={$page}&amp;m={$rev->GetHash()}">{t}Select for diff{/t}</a>
+                        <a class="simple-button" href="/?p={$project->GetProject()|urlencode}&amp;a={$source}&amp;h={$commit->GetHash()}&amp;pg={$page}&amp;m={$rev->GetHash()}">{t}Select for diff{/t}</a>
                     {/if}
                 {/if}
             </div>
@@ -102,11 +102,11 @@
 {if $hasmorerevs}
     <tr>
         {if $source == 'summary'}
-            <td colspan="3"><a class="simple-button" href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=shortlog">Show More</a></td>
+            <td colspan="3"><a class="simple-button" href="/?p={$project->GetProject()|urlencode}&amp;a=shortlog">Show More</a></td>
         {elseif $source == 'shortlog'}
-            <td colspan="3"><a class="simple-button" href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=shortlog&amp;h={$commit->GetHash()}&amp;pg={$page+1}{if !empty($mark)}&amp;m={$mark->GetHash()}{/if}" title="Alt-n">{t}Next{/t}</a></td>
+            <td colspan="3"><a class="simple-button" href="/?p={$project->GetProject()|urlencode}&amp;a=shortlog&amp;h={$commit->GetHash()}&amp;pg={$page+1}{if !empty($mark)}&amp;m={$mark->GetHash()}{/if}" title="Alt-n">{t}Next{/t}</a></td>
         {elseif $source == 'branchlog'}
-            <td colspan="3"><a class="simple-button" href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=branchlog&amp;h={$commit->GetHash()}&amp;pg={$page+1}{if !empty($mark)}&amp;m={$mark->GetHash()}{/if}" title="Alt-n">{t}Next{/t}</a></td>
+            <td colspan="3"><a class="simple-button" href="/?p={$project->GetProject()|urlencode}&amp;a=branchlog&amp;h={$commit->GetHash()}&amp;pg={$page+1}{if !empty($mark)}&amp;m={$mark->GetHash()}{/if}" title="Alt-n">{t}Next{/t}</a></td>
         {/if}
     </tr>
 {/if}

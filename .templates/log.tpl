@@ -29,9 +29,9 @@
 {if $mark}
     <div class="title compact">
         {t}Selected for diff: {/t}
-        <a href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=commit&amp;h={$mark->GetHash()}" class="list commitTip" {if strlen($mark->GetTitle()) > 100}title="{$mark->GetTitle()}"{/if}><strong>{$mark->GetTitle(100)}</strong></a>
+        <a href="/?p={$project->GetProject()|urlencode}&amp;a=commit&amp;h={$mark->GetHash()}" class="list commitTip" {if strlen($mark->GetTitle()) > 100}title="{$mark->GetTitle()}"{/if}><strong>{$mark->GetTitle(100)}</strong></a>
         &nbsp;&nbsp;&nbsp;
-        <a class="simple-button" href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=log&amp;h={$commit->GetHash()}&amp;pg={$page}">{t}Deselect{/t}</a>
+        <a class="simple-button" href="/?p={$project->GetProject()|urlencode}&amp;a=log&amp;h={$commit->GetHash()}&amp;pg={$page}">{t}Deselect{/t}</a>
     </div>
 {/if}
 

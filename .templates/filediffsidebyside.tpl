@@ -71,7 +71,7 @@
         $.ajax({
             type: 'GET', async: true, dataType: 'text',
             {/literal}
-            url: '{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&a=blob_plain&h=' + modes[mode].hash + '&f=' + modes[mode].file,
+            url: '/?p={$project->GetProject()|urlencode}&a=blob_plain&h=' + modes[mode].hash + '&f=' + modes[mode].file,
                 {literal}
             success: function (response, textStatus, request) {
                 content_type = request.getResponseHeader('Content-Type');

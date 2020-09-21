@@ -8,8 +8,8 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 
     {if $project}
-        <link rel="alternate" title="{$project->GetProject()} log (Atom)" href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=atom" type="application/atom+xml" />
-        <link rel="alternate" title="{$project->GetProject()} log (RSS)" href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=rss" type="application/rss+xml" />
+        <link rel="alternate" title="{$project->GetProject()} log (Atom)" href="/?p={$project->GetProject()|urlencode}&amp;a=atom" type="application/atom+xml" />
+        <link rel="alternate" title="{$project->GetProject()} log (RSS)" href="/?p={$project->GetProject()|urlencode}&amp;a=rss" type="application/rss+xml" />
     {/if}
 
     <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.png" />
@@ -91,7 +91,7 @@
 
     {if !$no_user_header}
     <div class="page_header {if $adminarea}adminheader{/if}">
-        <a class="logo" href="index.php?a">codeisok</a>
+        <a class="logo" href="/index.php?a">codeisok</a>
 
         <div class="user_block">
             {if $Session->isAuthorized()}
@@ -107,7 +107,7 @@
             {/if}
 
             {if $project}
-                <a href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=summary">{$project->GetProject()}</a>
+                <a href="/?p={$project->GetProject()|urlencode}&amp;a=summary">{$project->GetProject()}</a>
                 {if $actionlocal}
                     / {$actionlocal}
                 {/if}
