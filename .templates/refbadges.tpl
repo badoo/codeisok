@@ -12,7 +12,7 @@
 <span class="refs">
     {foreach from=$commit->GetHeads() item=commithead}
         <span class="head">
-            <a href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=shortlog&amp;h=refs/heads/{$commithead->GetName()}">{$commithead->GetName()}</a>
+            <a href="/?p={$project->GetProject()|urlencode}&amp;a=shortlog&amp;h=refs/heads/{$commithead->GetName()}">{$commithead->GetName()}</a>
         </span>
     {/foreach}
     {assign var=in_build_shown value=false}
@@ -28,7 +28,7 @@
             {assign var=hide_tag value=false}
         {/if}
         <span class="tag{if $hide_tag} hidden{/if}">
-            <a href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=tag&amp;h={$committag->GetName()}" {if !$committag->LightTag()}class="tagTip"{/if}>{$committag->GetName()}</a>
+            <a href="/?p={$project->GetProject()|urlencode}&amp;a=tag&amp;h={$committag->GetName()}" {if !$committag->LightTag()}class="tagTip"{/if}>{$committag->GetName()}</a>
         </span>
         {if $smarty.foreach.refbadgestags.last && $smarty.foreach.refbadgestags.total > 2}
         <span class="tag" onclick="$(this).siblings('.hidden').toggle();">..</span>
@@ -37,9 +37,9 @@
     {foreach from=$commit->GetReviews() item=review}
         <span class="review">
             {if $review.hash_base}
-                <a href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=branchdiff&amp;branch={$review.hash_head}&amp;&amp;base={$review.hash_base}&amp;review={$review.review_id}">Review {$review.review_id}</a>
+                <a href="/?p={$project->GetProject()|urlencode}&amp;a=branchdiff&amp;branch={$review.hash_head}&amp;&amp;base={$review.hash_base}&amp;review={$review.review_id}">Review {$review.review_id}</a>
             {else}
-                <a href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=commitdiff&amp;h={$review.hash_head}&amp;review={$review.review_id}">Review {$review.review_id}</a>
+                <a href="/?p={$project->GetProject()|urlencode}&amp;a=commitdiff&amp;h={$review.hash_head}&amp;review={$review.review_id}">Review {$review.review_id}</a>
             {/if}
         </span>
     {/foreach}

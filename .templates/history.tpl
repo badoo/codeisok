@@ -28,11 +28,11 @@
                 {include file='refbadges.tpl' commit=$historycommit}
 
                 <div class="actions">
-                    <a class="simple-button" href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=commit&amp;h={$historycommit->GetHash()}">{t}Commit{/t}</a>
-                    <a class="simple-button" href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=commitdiff&amp;h={$historycommit->GetHash()}">{t}Commitdiff{/t}</a>
-                    <a class="simple-button" href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=blob&amp;hb={$historycommit->GetHash()}&amp;f={$blob->GetPath()}">{t}Blob{/t}</a>
+                    <a class="simple-button" href="/?p={$project->GetProject()|urlencode}&amp;a=commit&amp;h={$historycommit->GetHash()}">{t}Commit{/t}</a>
+                    <a class="simple-button" href="/?p={$project->GetProject()|urlencode}&amp;a=commitdiff&amp;h={$historycommit->GetHash()}">{t}Commitdiff{/t}</a>
+                    <a class="simple-button" href="/?p={$project->GetProject()|urlencode}&amp;a=blob&amp;hb={$historycommit->GetHash()}&amp;f={$blob->GetPath()}">{t}Blob{/t}</a>
                     {if $blob->GetHash() != $historyitem->GetToHash()}
-                        <a class="simple-button" href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=blobdiff&amp;h={$blob->GetHash()}&amp;hp={$historyitem->GetToHash()}&amp;hb={$historycommit->GetHash()}&amp;f={$blob->GetPath()}">{t}Diff to current{/t}</a>
+                        <a class="simple-button" href="/?p={$project->GetProject()|urlencode}&amp;a=blobdiff&amp;h={$blob->GetHash()}&amp;hp={$historyitem->GetToHash()}&amp;hb={$historycommit->GetHash()}&amp;f={$blob->GetPath()}">{t}Diff to current{/t}</a>
                     {/if}
                 </div>
             </td>

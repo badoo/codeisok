@@ -62,25 +62,25 @@
         {if $order == "project"}
             <th class="project-name">{t}Project{/t} ▼</th>
         {else}
-            <th class="project-name"><a class="header" href="{$SCRIPT_NAME}?o=project">{t}Project{/t}</a></th>
+            <th class="project-name"><a class="header" href="/?o=project">{t}Project{/t}</a></th>
         {/if}
 
         {if $order == "descr"}
             <th class="project-desc">{t}Description{/t} ▼</th>
         {else}
-            <th class="project-desc"><a class="header" href="{$SCRIPT_NAME}?o=descr">{t}Description{/t}</a></th>
+            <th class="project-desc"><a class="header" href="/?o=descr">{t}Description{/t}</a></th>
         {/if}
 
         {if $order == "owner"}
             <th class="project-owner">{t}Owner{/t} ▼</th>
         {else}
-            <th class="project-owner"><a class="header" href="{$SCRIPT_NAME}?o=owner">{t}Owner{/t}</a></th>
+            <th class="project-owner"><a class="header" href="/?o=owner">{t}Owner{/t}</a></th>
         {/if}
 
         {if $order == "age"}
             <th class="project-age">{t}Last change{/t} ▼</th>
         {else}
-            <th class="project-age"><a class="header" href="{$SCRIPT_NAME}?o=age">{t}Last change{/t}</a></th>
+            <th class="project-age"><a class="header" href="/?o=age">{t}Last change{/t}</a></th>
         {/if}
       </tr>
     {/if}
@@ -102,11 +102,11 @@
         <td><input class="checkbox-input projects_checkbox" type='checkbox' name='projects[{$currentproject}]' value='1' {if isset($projects.$currentproject) }checked="checked"{/if}></td>
 
         <td class="projectName">
-            <a href="{$SCRIPT_NAME}?p={$currentproject|urlencode}&amp;a=summary" class="list {if $currentcategory != ''}indent{/if}">{$currentproject}</a>
+            <a href="/?p={$currentproject|urlencode}&amp;a=summary" class="list {if $currentcategory != ''}indent{/if}">{$currentproject}</a>
         </td>
 
         <td class="projectDescription">
-            <a href="{$SCRIPT_NAME}?p={$currentproject|urlencode}&amp;a=summary" class="list">{$proj->GetDescription()}</a>
+            <a href="/?p={$currentproject|urlencode}&amp;a=summary" class="list">{$proj->GetDescription()}</a>
         </td>
 
         <td class="projectOwner"><em>{$proj->GetOwner()|escape:'html'}</em>
@@ -130,11 +130,11 @@
 	        {/if}
 
             <div class="actions">
-                <a class="simple-button" href="{$SCRIPT_NAME}?p={$currentproject|urlencode}&amp;a=summary">{t}Summary{/t}</a>
+                <a class="simple-button" href="/?p={$currentproject|urlencode}&amp;a=summary">{t}Summary{/t}</a>
 	            {if $projecthead}
-	                <a class="simple-button" href="{$SCRIPT_NAME}?p={$currentproject|urlencode}&amp;a=shortlog">{t}Short Log{/t}</a>
-	                <a class="simple-button" href="{$SCRIPT_NAME}?p={$currentproject|urlencode}&amp;a=log">{t}Log{/t}</a>
-	                <a class="simple-button" href="{$SCRIPT_NAME}?p={$currentproject|urlencode}&amp;a=tree">{t}Tree{/t}</a>
+	                <a class="simple-button" href="/?p={$currentproject|urlencode}&amp;a=shortlog">{t}Short Log{/t}</a>
+	                <a class="simple-button" href="/?p={$currentproject|urlencode}&amp;a=log">{t}Log{/t}</a>
+	                <a class="simple-button" href="/?p={$currentproject|urlencode}&amp;a=tree">{t}Tree{/t}</a>
 	            {/if}
             </div>
         </td>

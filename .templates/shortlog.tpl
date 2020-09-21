@@ -12,15 +12,15 @@
 
 <div class="title compact stretch-evenly">
     {if ($commit && $head) && (($commit->GetHash() != $head->GetHash()) || ($page > 0))}
-        <a class="simple-button" href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a={$controller}{if $mark}&amp;m={$mark->GetHash()}{/if}">{t}HEAD{/t}</a>
+        <a class="simple-button" href="/?p={$project->GetProject()|urlencode}&amp;a={$controller}{if $mark}&amp;m={$mark->GetHash()}{/if}">{t}HEAD{/t}</a>
     {/if}
 
     {if $page > 0}
-        <a class="simple-button" href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a={$controller}&amp;h={$commit->GetHash()}&amp;pg={$page-1}{if $mark}&amp;m={$mark->GetHash()}{/if}" accesskey="p" title="Alt-p">{t}Prev{/t}</a>
+        <a class="simple-button" href="/?p={$project->GetProject()|urlencode}&amp;a={$controller}&amp;h={$commit->GetHash()}&amp;pg={$page-1}{if $mark}&amp;m={$mark->GetHash()}{/if}" accesskey="p" title="Alt-p">{t}Prev{/t}</a>
     {/if}
 
     {if $hasmorerevs}
-        <a class="simple-button" href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a={$controller}&amp;h={$commit->GetHash()}&amp;pg={$page+1}{if $mark}&amp;m={$mark->GetHash()}{/if}" accesskey="n" title="Alt-n">{t}Next{/t}</a>
+        <a class="simple-button" href="/?p={$project->GetProject()|urlencode}&amp;a={$controller}&amp;h={$commit->GetHash()}&amp;pg={$page+1}{if $mark}&amp;m={$mark->GetHash()}{/if}" accesskey="n" title="Alt-n">{t}Next{/t}</a>
     {/if}
     <div class="page-search-container"></div>
 </div>
@@ -28,9 +28,9 @@
 {if $mark}
     <div class="title compact">
         {t}Selected for diff: {/t}
-        <a href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=commit&amp;h={$mark->GetHash()}" class="list commitTip" {if strlen($mark->GetTitle()) > 100}title="{$mark->GetTitle()|htmlspecialchars}"{/if}><strong>{$mark->GetTitle(100)}</strong></a>
+        <a href="/?p={$project->GetProject()|urlencode}&amp;a=commit&amp;h={$mark->GetHash()}" class="list commitTip" {if strlen($mark->GetTitle()) > 100}title="{$mark->GetTitle()|htmlspecialchars}"{/if}><strong>{$mark->GetTitle(100)}</strong></a>
         &nbsp;&nbsp;&nbsp;
-        <a class="simple-button" href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a={$controller}&amp;h={$commit->GetHash()}&amp;pg={$page}">{t}Deselect{/t}</a>
+        <a class="simple-button" href="/?p={$project->GetProject()|urlencode}&amp;a={$controller}&amp;h={$commit->GetHash()}&amp;pg={$page}">{t}Deselect{/t}</a>
     </div>
 {/if}
 

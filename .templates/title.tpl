@@ -14,11 +14,11 @@
         <div>
             {if $titlecommit}
                 {if $target == 'commitdiff'}
-                    <a href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=commitdiff&amp;h={$titlecommit->GetHash()}" class="title">{$titlecommit->GetTitle()|escape}</a>
+                    <a href="/?p={$project->GetProject()|urlencode}&amp;a=commitdiff&amp;h={$titlecommit->GetHash()}" class="title">{$titlecommit->GetTitle()|escape}</a>
                 {elseif $target == 'tree'}
-                    <a href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=tree&amp;h={$titletree->GetHash()}&amp;hb={$titlecommit->GetHash()}" class="title">{$titlecommit->GetTitle()|escape}</a>
+                    <a href="/?p={$project->GetProject()|urlencode}&amp;a=tree&amp;h={$titletree->GetHash()}&amp;hb={$titlecommit->GetHash()}" class="title">{$titlecommit->GetTitle()|escape}</a>
                 {else}
-                    <a href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=commit&amp;h={$titlecommit->GetHash()}" class="title">{$titlecommit->GetTitle()|escape}</a>
+                    <a href="/?p={$project->GetProject()|urlencode}&amp;a=commit&amp;h={$titlecommit->GetHash()}" class="title">{$titlecommit->GetTitle()|escape}</a>
                 {/if}
 
                 <div>
@@ -36,19 +36,19 @@
                     {if $disablelink}
                         {t}Shortlog{/t}
                     {else}
-                    <a href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=shortlog" class="title">{t}Short Log{/t}</a>
+                    <a href="/?p={$project->GetProject()|urlencode}&amp;a=shortlog" class="title">{t}Short Log{/t}</a>
                     {/if}
                 {elseif $target == 'tags'}
                     {if $disablelink}
                         {t}Tags{/t}
                     {else}
-                    <a href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=tags" class="title">{t}Tags{/t}</a>
+                    <a href="/?p={$project->GetProject()|urlencode}&amp;a=tags" class="title">{t}Tags{/t}</a>
                     {/if}
                 {elseif $target == 'heads'}
                     {if $disablelink}
                         {t}Heads{/t}
                     {else}
-                    <a href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=heads" class="title">{t}Heads{/t}</a>
+                    <a href="/?p={$project->GetProject()|urlencode}&amp;a=heads" class="title">{t}Heads{/t}</a>
                     {/if}
                 {/if}
             {/if}
