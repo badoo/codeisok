@@ -12,15 +12,15 @@
 
 <div class="title compact stretch-evenly">
     {if ($commit && $head) && (($commit->GetHash() != $head->GetHash()) || ($page > 0))}
-        <a class="simple-button" href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=log{if $mark}&amp;m={$mark->GetHash()}{/if}">{t}HEAD{/t}</a>
+        <a class="simple-button" href="/}?p={$project->GetProject()|urlencode}&amp;a=log{if $mark}&amp;m={$mark->GetHash()}{/if}">{t}HEAD{/t}</a>
     {/if}
 
     {if $page > 0}
-        <a class="simple-button" href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=log&amp;h={$commit->GetHash()}&amp;pg={$page-1}{if $mark}&amp;m={$mark->GetHash()}{/if}" accesskey="p" title="Alt-p">{t}Prev{/t}</a>
+        <a class="simple-button" href="/?p={$project->GetProject()|urlencode}&amp;a=log&amp;h={$commit->GetHash()}&amp;pg={$page-1}{if $mark}&amp;m={$mark->GetHash()}{/if}" accesskey="p" title="Alt-p">{t}Prev{/t}</a>
     {/if}
 
     {if $hasmorerevs}
-        <a class="simple-button" href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=log&amp;h={$commit->GetHash()}&amp;pg={$page+1}{if $mark}&amp;m={$mark->GetHash()}{/if}" accesskey="n" title="Alt-n">{t}Next{/t}</a>
+        <a class="simple-button" href="/?p={$project->GetProject()|urlencode}&amp;a=log&amp;h={$commit->GetHash()}&amp;pg={$page+1}{if $mark}&amp;m={$mark->GetHash()}{/if}" accesskey="n" title="Alt-n">{t}Next{/t}</a>
     {/if}
 
     <div class="page-search-container"></div>
@@ -41,20 +41,20 @@
             <td width="10%">{$rev->GetAge()|agestring}</td>
             <td width="10%">{$rev->GetAuthorName()}</td>
             <td>
-                <a href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=commit&amp;h={$rev->GetHash()}">{$rev->GetTitle()}</a>
+                <a href="/?p={$project->GetProject()|urlencode}&amp;a=commit&amp;h={$rev->GetHash()}">{$rev->GetTitle()}</a>
                 {include file='refbadges.tpl' commit=$rev}
                 {if $ticket && $smarty.foreach.revlist.first}
                     <div class="title-right"><a href="{$ticket_href}">{$ticket}</a></div>
                 {/if}
 
                 <div class="actions">
-                    <a class="simple-button" href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=commit&amp;h={$rev->GetHash()}">{t}Commit{/t}</a>
-                    <a class="simple-button" href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=commitdiff&amp;h={$rev->GetHash()}">{t}Commitdiff{/t}</a>
-                    <a class="simple-button" href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=tree&amp;h={$rev->GetHash()}&amp;hb={$rev->GetHash()}">{t}Tree{/t}</a>
+                    <a class="simple-button" href="/?p={$project->GetProject()|urlencode}&amp;a=commit&amp;h={$rev->GetHash()}">{t}Commit{/t}</a>
+                    <a class="simple-button" href="/?p={$project->GetProject()|urlencode}&amp;a=commitdiff&amp;h={$rev->GetHash()}">{t}Commitdiff{/t}</a>
+                    <a class="simple-button" href="/?p={$project->GetProject()|urlencode}&amp;a=tree&amp;h={$rev->GetHash()}&amp;hb={$rev->GetHash()}">{t}Tree{/t}</a>
 
                     {if $mark}
                         {if $mark->GetHash() == $rev->GetHash()}
-                            <a class="simple-button" href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=log&amp;h={$commit->GetHash()}&amp;pg={$page}">{t}Deselect{/t}</a>
+                            <a class="simple-button" href="/?p={$project->GetProject()|urlencode}&amp;a=log&amp;h={$commit->GetHash()}&amp;pg={$page}">{t}Deselect{/t}</a>
                         {else}
                             {if $mark->GetCommitterEpoch() > $rev->GetCommitterEpoch()}
                                 {assign var=markbase value=$mark}
@@ -63,10 +63,10 @@
                                 {assign var=markbase value=$rev}
                                 {assign var=markparent value=$mark}
                             {/if}
-                            <a class="simple-button" href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=commitdiff&amp;h={$markbase->GetHash()}&amp;hp={$markparent->GetHash()}">{t}Diff with selected{/t}</a>
+                            <a class="simple-button" href="/?p={$project->GetProject()|urlencode}&amp;a=commitdiff&amp;h={$markbase->GetHash()}&amp;hp={$markparent->GetHash()}">{t}Diff with selected{/t}</a>
                         {/if}
                     {else}
-                        <a class="simple-button" href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=log&amp;h={$commit->GetHash()}&amp;pg={$page}&amp;m={$rev->GetHash()}">{t}Select for diff{/t}</a>
+                        <a class="simple-button" href="/?p={$project->GetProject()|urlencode}&amp;a=log&amp;h={$commit->GetHash()}&amp;pg={$page}&amp;m={$rev->GetHash()}">{t}Select for diff{/t}</a>
                     {/if}
                 </div>
             </td>
@@ -88,7 +88,7 @@
     {foreachelse}
         <tr>
             <td>
-                <a href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=summary" class="title">&nbsp</a>
+                <a href="/?p={$project->GetProject()|urlencode}&amp;a=summary" class="title">&nbsp</a>
             </td>
             <td>
                 {if $commit}

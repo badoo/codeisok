@@ -12,13 +12,13 @@
 
 <div class="title compact stretch-evenly">
     {if $page > 0}
-        <a class="simple-button" href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=search&amp;h={$commit->GetHash()}&amp;s={$search}&amp;st={$searchtype}">{t}First{/t}</a>
+        <a class="simple-button" href="/?p={$project->GetProject()|urlencode}&amp;a=search&amp;h={$commit->GetHash()}&amp;s={$search}&amp;st={$searchtype}">{t}First{/t}</a>
     {/if}
     {if $page > 0}
-        <a class="simple-button" href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=search&amp;h={$commit->GetHash()}&amp;s={$search}&amp;st={$searchtype}{if $page > 1}&amp;pg={$page-1}{/if}" accesskey="p" title="Alt-p">{t}Prev{/t}</a>
+        <a class="simple-button" href="/?p={$project->GetProject()|urlencode}&amp;a=search&amp;h={$commit->GetHash()}&amp;s={$search}&amp;st={$searchtype}{if $page > 1}&amp;pg={$page-1}{/if}" accesskey="p" title="Alt-p">{t}Prev{/t}</a>
     {/if}
     {if $hasmore}
-        <a class="simple-button" href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=search&amp;h={$commit->GetHash()}&amp;s={$search}&amp;st={$searchtype}&amp;pg={$page+1}" accesskey="n" title="Alt-n">{t}Next{/t}</a>
+        <a class="simple-button" href="/?p={$project->GetProject()|urlencode}&amp;a=search&amp;h={$commit->GetHash()}&amp;s={$search}&amp;st={$searchtype}&amp;pg={$page+1}" accesskey="n" title="Alt-n">{t}Next{/t}</a>
     {/if}
     <div class="page-search-container"></div>
 </div>
@@ -42,7 +42,7 @@
                 </em>
             </td>
             <td>
-                <a href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=commit&amp;h={$result->GetHash()}" class="list commitTip" {if strlen($result->GetTitle()) > 50}title="{$result->GetTitle()}"{/if}><strong>{$result->GetTitle(50)}</strong>
+                <a href="/?p={$project->GetProject()|urlencode}&amp;a=commit&amp;h={$result->GetHash()}" class="list commitTip" {if strlen($result->GetTitle()) > 50}title="{$result->GetTitle()}"{/if}><strong>{$result->GetTitle(50)}</strong>
                 {if $searchtype == 'commit'}
                     {foreach from=$result->SearchComment($search) item=line name=match}
                         <br />{$line|highlight:$search:50}
@@ -51,10 +51,10 @@
 
                 {assign var=resulttree value=$result->GetTree()}
                 <div class="actions">
-                    <a class="simple-button" href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=commit&amp;h={$result->GetHash()}">{t}Commit{/t}</a>
-                    <a class="simple-button" href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=commitdiff&amp;h={$result->GetHash()}">{t}Commitdiff{/t}</a>
-                    <a class="simple-button" href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=tree&amp;h={$resulttree->GetHash()}&amp;hb={$result->GetHash()}">{t}Tree{/t}</a>
-                    <a class="simple-button" href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=snapshot&amp;h={$result->GetHash()}" class="snapshotTip">{t}Snapshot{/t}</a>
+                    <a class="simple-button" href="/?p={$project->GetProject()|urlencode}&amp;a=commit&amp;h={$result->GetHash()}">{t}Commit{/t}</a>
+                    <a class="simple-button" href="/?p={$project->GetProject()|urlencode}&amp;a=commitdiff&amp;h={$result->GetHash()}">{t}Commitdiff{/t}</a>
+                    <a class="simple-button" href="/?p={$project->GetProject()|urlencode}&amp;a=tree&amp;h={$resulttree->GetHash()}&amp;hb={$result->GetHash()}">{t}Tree{/t}</a>
+                    <a class="simple-button" href="/?p={$project->GetProject()|urlencode}&amp;a=snapshot&amp;h={$result->GetHash()}" class="snapshotTip">{t}Snapshot{/t}</a>
                 </div>
             </td>
         </tr>
@@ -62,7 +62,7 @@
 
   {if $hasmore}
     <tr>
-      <td colspan="4"><a href="{$SCRIPT_NAME}?p={$project->GetProject()|urlencode}&amp;a=search&amp;h={$commit->GetHash()}&amp;s={$search}&amp;st={$searchtype}&amp;pg={$page+1}" title="Alt-n">{t}next{/t}</a></td>
+      <td colspan="4"><a href="/?p={$project->GetProject()|urlencode}&amp;a=search&amp;h={$commit->GetHash()}&amp;s={$search}&amp;st={$searchtype}&amp;pg={$page+1}" title="Alt-n">{t}next{/t}</a></td>
     </tr>
   {/if}
 </table>

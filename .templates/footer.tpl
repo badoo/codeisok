@@ -17,7 +17,7 @@
 
         {if $supportedlocales}
             <div class="lang_select">
-                <form action="{$SCRIPT_NAME}" method="get" id="frmLangSelect">
+                <form action="/" method="get" id="frmLangSelect">
                     <div>
                         {foreach from=$requestvars key=var item=val}
                             {if $var != "l"}

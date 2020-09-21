@@ -131,8 +131,8 @@
                 </div>
             {/if}
 
-            {if $enablebase}
-                <form class="search-panel" action="{$SCRIPT_NAME}" method="get">
+
+                <form class="search-panel" action="/" method="get">
                     {foreach from=$requestvars key=var item=val}
                         {if $var != "base"}
                             <input type="hidden" name="{$var|escape}" value="{$val|escape}" />
@@ -145,10 +145,10 @@
                         {/foreach}
                     </select>
                 </form>
-            {/if}
+
 
             {if $enablesearch}
-                <form class="search-panel" method="get" action="index.php" enctype="application/x-www-form-urlencoded">
+                <form class="search-panel" method="get" action="/" enctype="application/x-www-form-urlencoded">
                     <input type="hidden" name="p" value="{$project->GetProject()}" />
                     <input type="hidden" name="a" value="search" />
                     <input type ="hidden" name="h" value="{if $commit}{$commit->GetHash()}{else}HEAD{/if}" />
