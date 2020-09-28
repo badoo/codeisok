@@ -82,7 +82,7 @@ class Review extends Base
             if (!empty($this->project)) {
                 $p = $this->project->GetProject();
             }
-            $snapshots = $db->getSnapshotList($limit + 1, $this->params['max_id']);
+            $snapshots = $db->getSnapshotListByProject($p, $limit + 1);
             if ($this->params['max_id']) {
                 $to_start_link = \GitPHP\Application::getUrl('reviews', ['max_id' => 0, 'p' => $p]);
             }
