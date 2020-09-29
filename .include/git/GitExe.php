@@ -90,6 +90,7 @@ class GitExe
         if ($this->project) {
             $gitDir = '--git-dir=' . $this->project->GetPath();
         }
+        $args[] = '2>/dev/null';
 
         $fullCommand = $this->binary . ' ' . $gitDir . ' ' . $command . ' ' . implode(' ', $args);
 

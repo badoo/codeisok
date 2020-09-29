@@ -1050,7 +1050,7 @@ class Project
     public function SymbolicRef($link)
     {
         $exe = new \GitPHP\Git\GitExe($this);
-        $object = trim($exe->Execute("symbolic-ref", [$link, '2>/dev/null']));
+        $object = trim($exe->Execute("symbolic-ref", [$link]));
         return $object;
     }
 
@@ -1266,7 +1266,7 @@ class Project
     public function GetDiffTree($first_tree, $second_tree)
     {
         $exe = new \GitPHP\Git\GitExe($this);
-        return trim($exe->Execute(GIT_DIFF_TREE, ['-r', escapeshellarg($first_tree), escapeshellarg($second_tree), '2>/dev/null']));
+        return trim($exe->Execute(GIT_DIFF_TREE, ['-r', escapeshellarg($first_tree), escapeshellarg($second_tree)]));
     }
 
     public function SearchText($text, $branch = 'master')
@@ -1344,7 +1344,7 @@ class Project
         $search_for = escapeshellarg("{$abbreviated_hash}^{{$object_type}}");
 
         $exe = new \GitPHP\Git\GitExe($this);
-        $hash = $exe->Execute(GIT_REV_PARSE, ['--quiet', '--verify', $search_for, '2>/dev/null']);
+        $hash = $exe->Execute(GIT_REV_PARSE, ['--quiet', '--verify', $search_for]);
         if ($hash) {
             return trim($hash);
         }
@@ -1470,9 +1470,6 @@ class Project
             $args[] = '--';
             $args[] = $file;
         }
-
-        // we don't know how to parse STDERR from rev-list command + we don't need it in most cases
-        $args[] = "2>/dev/null";
 
         $revlist = explode("\n", $exe->Execute(GIT_REV_LIST, $args));
 
@@ -1622,7 +1619,7 @@ class Project
         if (!$first_commit || !$second_commit) {
             return null;
         }
-        $hash = trim((new \GitPHP\Git\GitExe($this))->Execute(GIT_MERGE_BASE, [$first_commit, $second_commit, '2>/dev/null']));
+        $hash = trim((new \GitPHP\Git\GitExe($this))->Execute(GIT_MERGE_BASE, [$first_commit, $second_commit]));
         if (!$hash) {
             return null;
         }
@@ -1655,7 +1652,6 @@ class Project
 
     public function GetRevList($args)
     {
-        $args[] = '2>/dev/null';
         $hashes = trim((new \GitPHP\Git\GitExe($this))->Execute(GIT_REV_LIST, $args));
         return array_map('trim', explode("\n", $hashes));
     }
@@ -1755,7 +1751,6 @@ class Project
     public function ForEachRef($args)
     {
         $args = array_map('escapeshellarg', $args);
-        $args[] = '2>/dev/null';
         $Exec = new \GitPHP\Git\GitExe($this);
         $results = trim($Exec->execute(GIT_FOR_EACH_REF, $args));
         return array_filter(array_map('trim', explode("\n", $results)));

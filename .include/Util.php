@@ -434,8 +434,8 @@ class Util
         $tmpdir->AddFile($dstFile, '');
 
         self::getExecResult('compare -fuzz 5% "' . $fromIndex . '" "' . $toIndex
-            . '" png:- 2>/dev/null | montage -geometry 400x400\\>+4+4 "' . $fromIndex . '" - "' . $toIndex
-            . '" png:- > "' . $tmpdir->GetDir() . $dstFile . '" 2>/dev/null');
+            . '" png:- | montage -geometry 400x400\\>+4+4 "' . $fromIndex . '" - "' . $toIndex
+            . '" png:- > "' . $tmpdir->GetDir() . $dstFile . '"');
 
         $diffData = base64_encode(file_get_contents($tmpdir->GetDir() . $dstFile));
 
