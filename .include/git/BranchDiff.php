@@ -127,7 +127,6 @@ class BranchDiff implements \Iterator
             '--parents',
             '--first-parent',
             "{$this->toHash}..{$this->fromBranch}",
-            '2>/dev/null',
         ];
         $history = trim($this->exe->Execute(GIT_REV_LIST, $args));
         if (empty($history)) {
@@ -137,7 +136,6 @@ class BranchDiff implements \Iterator
                 '--ancestry-path',
                 '--parents',
                 "{$this->toHash}..{$this->fromBranch}",
-                '2>/dev/null',
             ];
             $history = trim($this->exe->Execute(GIT_REV_LIST, $args));
         }
