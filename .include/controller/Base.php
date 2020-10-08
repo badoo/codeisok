@@ -53,7 +53,7 @@ abstract class Base implements ControllerInterface
      * @access public
      * @throws \Exception on invalid project
      */
-    public function __construct()
+    public function __construct($project = null)
     {
         \GitPHP\Log::GetInstance()->timerStart();
         require_once(\GitPHP\Util::AddSlash(\GitPHP\Config::GetInstance()->GetValue('smarty_prefix', 'lib/smarty/libs/')) . 'Smarty.class.php');
@@ -81,7 +81,9 @@ abstract class Base implements ControllerInterface
             }
         }
 
-        if (isset($_GET['p'])) {
+        if (!empty($project)) {
+            $this->project = $project;
+        } else if (isset($_GET['p'])) {
             $this->project = \GitPHP\Git\ProjectList::GetInstance()->GetProject(str_replace(chr(0), '', $_GET['p']));
         }
 
