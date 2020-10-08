@@ -3,9 +3,9 @@ namespace GitPHP\Controller;
 
 class Project extends Base
 {
-    public function __construct()
+    public function __construct($project = null)
     {
-        parent::__construct();
+        parent::__construct($project);
         if (!$this->project) {
             throw new \GitPHP\MessageException(__('Project is required'), true);
         }
