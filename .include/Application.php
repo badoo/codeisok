@@ -182,17 +182,13 @@ class Application
      */
     protected function getController($uri, $action)
     {
-        $uri = array_values(array_filter(explode("/", $uri)));
-        if (count($uri) == 0 || ($uri[0] ?? "") == "index.php") {
+        $url = ltrim($uri, '/');
+        if (!$url || $url == "index.php") {
             $controller = $this->getOldController($action);
         } else {
-            $controller_ns = "\\GitPHP\\Controller\\";
-            $controller = $controller_ns . ucfirst(array_shift($uri));
-            if (class_exists($controller)) {
-                $controller = new $controller($uri);
-            } else {
-                $controller = new \GitPHP\Controller\ProjectList();
-            }
+            $project_git_url = $url . ".git";
+            $project = \GitPHP\Git\ProjectList::GetInstance()->GetProject($project_git_url);
+            $controller = new \GitPHP\Controller\Project($project);
         }
 
         \GitPHP\Log::GetInstance()->Log('controller', get_class($controller));
@@ -209,7 +205,7 @@ class Application
 
     /**
      * @param $action
-     * @return \GitPHP\Controller\ControllerInterface?
+     * @return \GitPHP\Controller\ControllerInterface
      * @throws \Exception
      */
     protected function getOldController($action)

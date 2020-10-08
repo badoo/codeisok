@@ -51,6 +51,7 @@ span.btn_small {
 }
 
 #review_text {
+    overflow-y: scroll !important;
     width: 100% !important;
     border: 1px solid #cacaca !important;
     box-sizing: border-box !important;
@@ -58,10 +59,11 @@ span.btn_small {
     display: block !important;
     position: relative !important;
     min-height: 3em !important;
-    padding: 10px !important;
+    padding: 15px !important;
     font-size: 14px !important;
     outline: none !important;
     font-family: "SF UI Text", Helvetica, Arial, sans-serif !important;
+    white-space: pre-wrap !important;
 }
 #review_text:focus {border: 1px solid #000 !important;}
 #review_msg {

@@ -95,6 +95,7 @@ class Db
     const PART_SNAPSHOTS_LIST = 'WHERE id <= #id#';
 
     const QUERY_GET_SNAPSHOTS_BY_REVIEW = 'SELECT * FROM #TBL_SNAPSHOT# WHERE review_id = #review_id# ORDER BY `id` DESC';
+    const QUERY_GET_SNAPSHOTS_BY_REPO = 'SELECT * FROM #TBL_SNAPSHOT# WHERE `repo` = #repo# ORDER BY `created` DESC LIMIT #limit#';
 
     const QUERY_FIND_COMMENT = 'SELECT * FROM #TBL_COMMENT#
         WHERE `snapshot_id` = #snapshot_id# AND `author` = #author# AND `file` = #file#
@@ -400,6 +401,11 @@ class Db
     {
         $sql = str_replace('#LIST_PART#', $max_id ? self::PART_SNAPSHOTS_LIST : '', self::QUERY_GET_SNAPSHOTS);
         return $this->getAll($sql, ['limit' => (int)$limit, 'id' => (int)$max_id]);
+    }
+
+    public function getSnapshotListByProject($repo, $limit = 100)
+    {
+        return $this->getAll(self::QUERY_GET_SNAPSHOTS_BY_REPO, ['repo' => $this->quote($repo), 'limit' => (int)$limit]);
     }
 
     public function getReview($ticket, $hash, $session_review_id = null)
