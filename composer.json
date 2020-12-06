@@ -8,7 +8,7 @@
             "GitPHP\\": "src/"
         },
         "files": [
-            "helpers/memcache_cache_handler.php",
+            "lib/memcache_cache_handler.php",
             "lib/php-gettext/streams.php",
             "lib/php-gettext/gettext.php"
         ]

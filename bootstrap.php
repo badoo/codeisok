@@ -3,8 +3,8 @@ require_once __DIR__ . '/vendor/autoload.php';
 
 const GITPHP_BASEDIR = __DIR__ . '/';
 const GITPHP_CONFIGDIR = GITPHP_BASEDIR . '.config/';
-const GITPHP_LOCALEDIR = GITPHP_BASEDIR . '.locale/';
-const GITPHP_TEMPLATESDIR = GITPHP_BASEDIR . '.templates/';
+const GITPHP_LOCALEDIR = GITPHP_BASEDIR . 'resources/locale/';
+const GITPHP_TEMPLATESDIR = GITPHP_BASEDIR . 'resources/templates/';
 const GITPHP_TEMPLATESCACHEDIR = GITPHP_BASEDIR . 'templates_c/';
 const GITPHP_CSSDIR = GITPHP_BASEDIR . 'public/css/';
 const GITPHP_JSDIR = GITPHP_BASEDIR . 'public/js/';

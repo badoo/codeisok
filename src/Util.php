@@ -176,7 +176,7 @@ class Util
             $template = 'review.redmine.tpl';
         }
         $View = new \Smarty;
-        $View->plugins_dir[] = GITPHP_BASEDIR . 'helpers/smartyplugins';
+        $View->plugins_dir[] = GITPHP_BASEDIR . 'lib/smartyplugins';
         $View->template_dir = GITPHP_TEMPLATESDIR;
         $View->compile_dir = GITPHP_TEMPLATESCACHEDIR;
 

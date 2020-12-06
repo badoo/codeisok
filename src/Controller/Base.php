@@ -59,7 +59,7 @@ abstract class Base implements ControllerInterface
         require_once(\GitPHP\Util::AddSlash(\GitPHP\Config::GetInstance()->GetValue('smarty_prefix', GITPHP_BASEDIR . 'lib/smarty/libs/')) . 'Smarty.class.php');
         \GitPHP\Log::GetInstance()->timerStop('require Smarty.class.php');
         $this->tpl = new \Smarty;
-        $this->tpl->plugins_dir[] = GITPHP_BASEDIR . 'helpers/smartyplugins';
+        $this->tpl->plugins_dir[] = GITPHP_BASEDIR . 'lib/smartyplugins';
         $this->tpl->template_dir = GITPHP_TEMPLATESDIR;
         $this->tpl->compile_dir = GITPHP_TEMPLATESCACHEDIR;
 
