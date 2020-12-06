@@ -224,6 +224,7 @@ class Cache
 
 		$this->tpl = new \Smarty;
         $this->tpl->template_dir = GITPHP_TEMPLATESDIR;
+        $this->tpl->compile_dir = GITPHP_TEMPLATESCACHEDIR;
 
 		$this->tpl->caching = 2;
 
@@ -231,9 +232,7 @@ class Cache
 
 		$servers = \GitPHP\Config::GetInstance()->GetValue('memcache', null);
 		if (isset($servers) && is_array($servers) && (count($servers) > 0)) {
-			require_once(GITPHP_CACHEDIR . 'Memcache.php');
 			\GitPHP\Cache\Memcache::GetInstance()->AddServers($servers);
-			require_once(GITPHP_CACHEDIR . 'memcache_cache_handler.php');
 			$this->tpl->cache_handler_func = 'memcache_cache_handler';
 		}
 

@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Git code browsing and code review tool",
   "directories": {
-    "lib": "lib"
+    "lib": "public/lib"
   },
   "scripts": {
     "lint": "eslint .",

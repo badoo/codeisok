@@ -1,0 +1,16 @@
+{
+    "name": "badoo/codeisok",
+    "description": "Git code browsing and code review tool",
+    "type": "project",
+    "license": "GPL-3.0",
+    "autoload": {
+        "psr-4": {
+            "GitPHP\\": "src/"
+        },
+        "files": [
+            "helpers/memcache_cache_handler.php"
+        ]
+    },
+    "minimum-stability": "dev",
+    "require": {}
+}

@@ -31,6 +31,8 @@ localhost=$(head -n 1 /etc/hosts | awk '{print $2}')
 echo "127.0.0.1 $localhost $localhost.localdomain $hostname $hostname.localdomain" >> /etc/hosts
 service sendmail start
 
+composer install -d /local/codeisok
+
 if [ -t 1 ]; then
     # Interactive mode, stdout is terminal
     service nginx start

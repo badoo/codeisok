@@ -56,11 +56,12 @@ abstract class Base implements ControllerInterface
     public function __construct($project = null)
     {
         \GitPHP\Log::GetInstance()->timerStart();
-        require_once(\GitPHP\Util::AddSlash(\GitPHP\Config::GetInstance()->GetValue('smarty_prefix', 'lib/smarty/libs/')) . 'Smarty.class.php');
+        require_once(\GitPHP\Util::AddSlash(\GitPHP\Config::GetInstance()->GetValue('smarty_prefix', GITPHP_BASEDIR . 'lib/smarty/libs/')) . 'Smarty.class.php');
         \GitPHP\Log::GetInstance()->timerStop('require Smarty.class.php');
         $this->tpl = new \Smarty;
-        $this->tpl->plugins_dir[] = GITPHP_INCLUDEDIR . 'smartyplugins';
+        $this->tpl->plugins_dir[] = GITPHP_BASEDIR . 'helpers/smartyplugins';
         $this->tpl->template_dir = GITPHP_TEMPLATESDIR;
+        $this->tpl->compile_dir = GITPHP_TEMPLATESCACHEDIR;
 
         if (\GitPHP\Config::GetInstance()->GetValue('debug', false)) {
             $this->tpl->error_reporting = E_ALL;
@@ -74,9 +75,7 @@ abstract class Base implements ControllerInterface
 
             $servers = \GitPHP\Config::GetInstance()->GetValue('memcache', null);
             if (isset($servers) && is_array($servers) && (count($servers) > 0)) {
-                require_once(GITPHP_CACHEDIR . 'Memcache.php');
                 \GitPHP\Cache\Memcache::GetInstance()->AddServers($servers);
-                require_once(GITPHP_CACHEDIR . 'memcache_cache_handler.php');
                 $this->tpl->cache_handler_func = 'memcache_cache_handler';
             }
         }

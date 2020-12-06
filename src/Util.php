@@ -176,8 +176,9 @@ class Util
             $template = 'review.redmine.tpl';
         }
         $View = new \Smarty;
-        $View->plugins_dir[] = GITPHP_INCLUDEDIR . 'smartyplugins';
+        $View->plugins_dir[] = GITPHP_BASEDIR . 'helpers/smartyplugins';
         $View->template_dir = GITPHP_TEMPLATESDIR;
+        $View->compile_dir = GITPHP_TEMPLATESCACHEDIR;
 
         $View->assign($vars_data);
         $diff = $View->fetch($template);

@@ -126,7 +126,7 @@ class Blob extends Base
     {
         $result = false;
         if (\GitPHP\Config::GetInstance()->GetValue('geshi', true)) {
-            include_once(\GitPHP\Util::AddSlash(\GitPHP\Config::GetInstance()->GetValue('geshiroot', 'lib/geshi/')) . "geshi.php");
+            include_once(\GitPHP\Util::AddSlash(\GitPHP\Config::GetInstance()->GetValue('geshiroot', GITPHP_BASEDIR . 'lib/geshi/')) . "geshi.php");
             if (class_exists('GeSHi')) {
                 $result = true;
             }
@@ -240,7 +240,7 @@ class Blob extends Base
 
         switch ($this->params['hi']) {
             case 'sexy':
-                include_once('lib/syntaxhighlighter/syntaxhighlighter.php');
+                include_once(GITPHP_BASEDIR . 'lib/syntaxhighlighter/syntaxhighlighter.php');
                 $SH = new \SyntaxHighlighter($blob->GetName());
                 $this->tpl->assign('sexy', 1);
                 $this->tpl->assign('extracss_files', $SH->getCssList());
