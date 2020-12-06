@@ -1,14 +1,6 @@
 <?php
 namespace GitPHP\Controller;
 
-define('GITPHP_FEED_ITEMS', 150);
-
-/**
- * Constants for the different feed formats
- */
-define('GITPHP_FEED_FORMAT_RSS', 'rss');
-define('GITPHP_FEED_FORMAT_ATOM', 'atom');
-
 /**
  * Feed controller class
  *
@@ -17,6 +9,14 @@ define('GITPHP_FEED_FORMAT_ATOM', 'atom');
  */
 class Feed extends Base
 {
+    const GITPHP_FEED_ITEMS = 150;
+
+    /**
+     * Constants for the different feed formats
+     */
+    const GITPHP_FEED_FORMAT_RSS = 'rss';
+    const GITPHP_FEED_FORMAT_ATOM = 'atom';
+
     public function __construct()
     {
         parent::__construct();
@@ -35,9 +35,9 @@ class Feed extends Base
      */
     protected function GetTemplate()
     {
-        if ($this->params['format'] == GITPHP_FEED_FORMAT_RSS) {
+        if ($this->params['format'] == self::GITPHP_FEED_FORMAT_RSS) {
             return 'rss.tpl';
-        } else if ($this->params['format'] == GITPHP_FEED_FORMAT_ATOM) {
+        } else if ($this->params['format'] == self::GITPHP_FEED_FORMAT_ATOM) {
             return 'atom.tpl';
         } else {
             return null;
@@ -68,13 +68,13 @@ class Feed extends Base
      */
     public function GetName($local = false)
     {
-        if ($this->params['format'] == GITPHP_FEED_FORMAT_RSS) {
+        if ($this->params['format'] == self::GITPHP_FEED_FORMAT_RSS) {
             if ($local) {
                 return __('rss');
             } else {
                 return 'rss';
             }
-        } else if ($this->params['format'] == GITPHP_FEED_FORMAT_ATOM) {
+        } else if ($this->params['format'] == self::GITPHP_FEED_FORMAT_ATOM) {
             if ($local) {
                 return __('atom');
             } else {
@@ -109,9 +109,9 @@ class Feed extends Base
             throw new \Exception('A feed format is required');
         }
 
-        if ($this->params['format'] == GITPHP_FEED_FORMAT_RSS) {
+        if ($this->params['format'] == self::GITPHP_FEED_FORMAT_RSS) {
             $this->headers[] = "Content-type: text/xml; charset=UTF-8";
-        } else if ($this->params['format'] == GITPHP_FEED_FORMAT_ATOM) {
+        } else if ($this->params['format'] == self::GITPHP_FEED_FORMAT_ATOM) {
             $this->headers[] = "Content-type: application/atom+xml; charset=UTF-8";
         }
     }
@@ -125,7 +125,7 @@ class Feed extends Base
      */
     protected function LoadData()
     {
-        $log = $this->project->GetLog('HEAD', GITPHP_FEED_ITEMS);
+        $log = $this->project->GetLog('HEAD', self::GITPHP_FEED_ITEMS);
 
         $entries = count($log);
 

@@ -8,7 +8,9 @@
             "GitPHP\\": "src/"
         },
         "files": [
-            "helpers/memcache_cache_handler.php"
+            "helpers/memcache_cache_handler.php",
+            "lib/php-gettext/streams.php",
+            "lib/php-gettext/gettext.php"
         ]
     },
     "minimum-stability": "dev",

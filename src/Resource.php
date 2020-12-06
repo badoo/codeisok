@@ -2,9 +2,6 @@
 
 namespace GitPHP;
 
-require_once(GITPHP_BASEDIR . '/lib/php-gettext/streams.php');
-require_once(GITPHP_BASEDIR . '/lib/php-gettext/gettext.php');
-
 class Resource
 {
 	/**

@@ -5,8 +5,6 @@ define('GITPHP_START_MEM', memory_get_usage());
 
 require_once __DIR__ . '/../bootstrap.php';
 
-define('DO_NOT_USE_ERROR_HANDLER', 1);
-
 $Application = new \GitPHP\Application();
 
 \GitPHP\Log::GetInstance()->timerStart();

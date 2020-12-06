@@ -102,7 +102,7 @@ class Tree extends \GitPHP\Git\FilesystemObject
         $args[] = '-t';
         $args[] = $this->hash;
 
-        $lines = explode("\n", $exe->Execute(GIT_LS_TREE, $args));
+        $lines = explode("\n", $exe->Execute(GitExe::GIT_LS_TREE, $args));
         $contents = ['t' => [], 'b' => []];
         foreach ($lines as $line) {
             if (preg_match("/^([0-9]+) (.+) ([0-9a-fA-F]{40})(\s+[0-9]+|\s+-)?\t(.+)$/", $line, $regs)) {

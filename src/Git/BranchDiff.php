@@ -99,9 +99,9 @@ class BranchDiff implements \Iterator
     public function getBaseHash()
     {
         if (empty($this->toHash)) {
-            $this->toHash = trim($this->exe->Execute(GIT_REV_PARSE, array($this->toBranch)));
+            $this->toHash = trim($this->exe->Execute(GitExe::GIT_REV_PARSE, array($this->toBranch)));
         }
-        $diff_base_hash = trim($this->exe->Execute(GIT_MERGE_BASE, array($this->fromBranch, $this->toHash)));
+        $diff_base_hash = trim($this->exe->Execute(GitExe::GIT_MERGE_BASE, array($this->fromBranch, $this->toHash)));
 
         if ($this->toHash != $diff_base_hash) {
             $args = array(
@@ -109,7 +109,7 @@ class BranchDiff implements \Iterator
                 '--format="%s"',
                 $diff_base_hash,
             );
-            $diff_base_message = trim($this->exe->Execute(GIT_LOG, $args));
+            $diff_base_message = trim($this->exe->Execute(GitExe::GIT_LOG, $args));
 
             $ticket = $this->toBranch;
             if (preg_match('#([A-Z]+\-[0-9]+)#', $this->toBranch, $m)) {
@@ -128,7 +128,7 @@ class BranchDiff implements \Iterator
             '--first-parent',
             "{$this->toHash}..{$this->fromBranch}",
         ];
-        $history = trim($this->exe->Execute(GIT_REV_LIST, $args));
+        $history = trim($this->exe->Execute(GitExe::GIT_REV_LIST, $args));
         if (empty($history)) {
             // it might be so that we won't be able to get history with --first-parent
             // if there is "brother" commit for merge commit that we're looking for
@@ -137,7 +137,7 @@ class BranchDiff implements \Iterator
                 '--parents',
                 "{$this->toHash}..{$this->fromBranch}",
             ];
-            $history = trim($this->exe->Execute(GIT_REV_LIST, $args));
+            $history = trim($this->exe->Execute(GitExe::GIT_REV_LIST, $args));
         }
         $history = array_reverse(explode(PHP_EOL, $history));
         $look_for = $this->toHash;
@@ -155,7 +155,7 @@ class BranchDiff implements \Iterator
         }
 
         if (!isset($base_commit)) return $diff_base_hash;
-        $diff_base_hash = trim($this->exe->Execute(GIT_MERGE_BASE, array($base_commit, $this->toHash)));
+        $diff_base_hash = trim($this->exe->Execute(GitExe::GIT_MERGE_BASE, array($base_commit, $this->toHash)));
         return $diff_base_hash;
     }
 
@@ -173,7 +173,7 @@ class BranchDiff implements \Iterator
         $this->fileDiffs = array();
 
         if (empty($this->toHash)) {
-            $this->toHash = trim($this->exe->Execute(GIT_REV_PARSE, array($this->toBranch)));
+            $this->toHash = trim($this->exe->Execute(GitExe::GIT_REV_PARSE, array($this->toBranch)));
         }
         if (empty($this->fromHash)) {
             $this->fromHash = $this->getBaseHash();
@@ -187,7 +187,7 @@ class BranchDiff implements \Iterator
         $args[] = $this->toHash;
 
         $hide_files_per_category = \GitPHP\Config::GetInstance()->GetValue(\GitPHP\Config::HIDE_FILES_PER_CATEGORY, []);
-        $diffBranchLines = explode("\n", $this->exe->Execute(GIT_DIFF_TREE, $args));
+        $diffBranchLines = explode("\n", $this->exe->Execute(GitExe::GIT_DIFF_TREE, $args));
         foreach ($diffBranchLines as $line) {
             $trimmed = trim($line);
             if ((strlen($trimmed) > 0) && (substr_compare($trimmed, ':', 0, 1) === 0)) {

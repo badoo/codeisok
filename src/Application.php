@@ -287,8 +287,8 @@ class Application
             case 'atom':
             case 'rss':
                 $controller = new \GitPHP\Controller\Feed();
-                if ($action == 'rss') $controller->SetParam('format', GITPHP_FEED_FORMAT_RSS);
-                else if ($action == 'atom') $controller->SetParam('format', GITPHP_FEED_FORMAT_ATOM);
+                if ($action == 'rss') $controller->SetParam('format', \GitPHP\Controller\Feed::GITPHP_FEED_FORMAT_RSS);
+                else if ($action == 'atom') $controller->SetParam('format', \GitPHP\Controller\Feed::GITPHP_FEED_FORMAT_ATOM);
                 break;
 
             case 'commit':

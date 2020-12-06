@@ -335,7 +335,7 @@ class Archive
 
         if (!empty($this->path)) $args[] = $this->path;
 
-        $data = $exe->Execute(GIT_ARCHIVE, $args);
+        $data = $exe->Execute(GitExe::GIT_ARCHIVE, $args);
         unset($exe);
 
         switch ($this->format) {

@@ -2,29 +2,29 @@
 
 namespace GitPHP\Git;
 
-/**
- * Constants for git commands
- */
-define('GIT_CAT_FILE',     'cat-file');
-define('GIT_DIFF_TREE',    'diff-tree');
-define('GIT_LS_TREE',      'ls-tree');
-define('GIT_REV_LIST',     'rev-list');
-define('GIT_REV_PARSE',    'rev-parse');
-define('GIT_SHOW_REF',     'show-ref');
-define('GIT_ARCHIVE',      'archive');
-define('GIT_GREP',         'grep');
-define('GIT_BLAME',        'blame');
-define('GIT_NAME_REV',     'name-rev');
-define('GIT_FOR_EACH_REF', 'for-each-ref');
-define('GIT_CONFIG',       'config');
-define('GIT_DIFF',         'diff');
-define('GIT_LOG',          'log');
-define('GIT_SHOW',         'show');
-define('GIT_MERGE_BASE',   'merge-base');
-define('GIT_BRANCH',       'branch');
-
 class GitExe
 {
+    /**
+     * Constants for git commands
+     */
+    const GIT_CAT_FILE = 'cat-file';
+    const GIT_DIFF_TREE = 'diff-tree';
+    const GIT_LS_TREE = 'ls-tree';
+    const GIT_REV_LIST = 'rev-list';
+    const GIT_REV_PARSE = 'rev-parse';
+    const GIT_SHOW_REF = 'show-ref';
+    const GIT_ARCHIVE = 'archive';
+    const GIT_GREP = 'grep';
+    const GIT_BLAME = 'blame';
+    const GIT_NAME_REV = 'name-rev';
+    const GIT_FOR_EACH_REF = 'for-each-ref';
+    const GIT_CONFIG = 'config';
+    const GIT_DIFF = 'diff';
+    const GIT_LOG = 'log';
+    const GIT_SHOW = 'show';
+    const GIT_MERGE_BASE = 'merge-base';
+    const GIT_BRANCH = 'branch';
+
     /**
      * project
      *

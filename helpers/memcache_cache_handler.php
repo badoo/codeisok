@@ -14,7 +14,7 @@
 /**
  * Cache key for the cache contents / age map array
  */
-define('MEMCACHE_OBJECT_MAP', 'memcache_objectmap');
+const MEMCACHE_OBJECT_MAP = 'memcache_objectmap';
 
 /**
  * memcache cache handler function

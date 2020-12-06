@@ -2,14 +2,6 @@
 namespace GitPHP\Controller;
 
 /**
- * Constants for the various search types
- */
-define('GITPHP_SEARCH_COMMIT', 'commit');
-define('GITPHP_SEARCH_AUTHOR', 'author');
-define('GITPHP_SEARCH_COMMITTER', 'committer');
-define('GITPHP_SEARCH_FILE', 'file');
-
-/**
  * Search controller class
  *
  * @package GitPHP
@@ -17,6 +9,14 @@ define('GITPHP_SEARCH_FILE', 'file');
  */
 class Search extends Base
 {
+    /**
+     * Constants for the various search types
+     */
+    const GITPHP_SEARCH_COMMIT = 'commit';
+    const GITPHP_SEARCH_AUTHOR = 'author';
+    const GITPHP_SEARCH_COMMITTER = 'committer';
+    const GITPHP_SEARCH_FILE = 'file';
+
     public function __construct()
     {
         if (!\GitPHP\Config::GetInstance()->GetValue('search', true)) {
@@ -40,7 +40,7 @@ class Search extends Base
      */
     protected function GetTemplate()
     {
-        if ($this->params['searchtype'] == GITPHP_SEARCH_FILE) {
+        if ($this->params['searchtype'] == self::GITPHP_SEARCH_FILE) {
             return 'searchfiles.tpl';
         }
         return 'search.tpl';
@@ -85,9 +85,9 @@ class Search extends Base
      */
     protected function ReadQuery()
     {
-        if (!isset($this->params['searchtype'])) $this->params['searchtype'] = GITPHP_SEARCH_COMMIT;
+        if (!isset($this->params['searchtype'])) $this->params['searchtype'] = self::GITPHP_SEARCH_COMMIT;
 
-        if ($this->params['searchtype'] == GITPHP_SEARCH_FILE) {
+        if ($this->params['searchtype'] == self::GITPHP_SEARCH_FILE) {
             if (!\GitPHP\Config::GetInstance()->GetValue('filesearch', true)) {
                 throw new \GitPHP\MessageException(__('File search has been disabled'), true);
             }
@@ -124,19 +124,19 @@ class Search extends Base
         $results = array();
         if ($co) {
             switch ($this->params['searchtype']) {
-                case GITPHP_SEARCH_COMMIT:
+                case self::GITPHP_SEARCH_COMMIT:
                     $results = $this->project->SearchCommit($this->params['search'], $co->GetHash(), 101, ($this->params['page'] * 100));
                     break;
 
-                case GITPHP_SEARCH_AUTHOR:
+                case self::GITPHP_SEARCH_AUTHOR:
                     $results = $this->project->SearchAuthor($this->params['search'], $co->GetHash(), 101, ($this->params['page'] * 100));
                     break;
 
-                case GITPHP_SEARCH_COMMITTER:
+                case self::GITPHP_SEARCH_COMMITTER:
                     $results = $this->project->SearchCommitter($this->params['search'], $co->GetHash(), 101, ($this->params['page'] * 100));
                     break;
 
-                case GITPHP_SEARCH_FILE:
+                case self::GITPHP_SEARCH_FILE:
                     $results = $co->SearchFiles($this->params['search'], 101, ($this->params['page'] * 100));
                     break;
 

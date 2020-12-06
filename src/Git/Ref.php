@@ -75,7 +75,7 @@ abstract class Ref extends \GitPHP\Git\GitObject
         $args[] = '--hash';
         $args[] = '--verify';
         $args[] = $this->GetRefPath();
-        $hash = trim($exe->Execute(GIT_SHOW_REF, $args));
+        $hash = trim($exe->Execute(GitExe::GIT_SHOW_REF, $args));
 
         if (empty($hash)) throw new \Exception('Invalid ref ' . $this->GetRefPath());
 

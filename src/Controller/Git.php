@@ -189,7 +189,7 @@ class Git extends Base
             if ($no_merges) {
                 array_unshift($args, '--no-merges');
             }
-            $log  = $exe->Execute(GIT_LOG, $args);
+            $log  = $exe->Execute(\GitPHP\Git\GitExe::GIT_LOG, $args);
         }
         $this->tpl->assign('result', $log);
     }

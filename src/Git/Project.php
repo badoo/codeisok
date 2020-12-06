@@ -273,7 +273,7 @@ class Project
             $exe = new \GitPHP\Git\GitExe($this);
             $args = array();
             $args[] = 'gitweb.owner';
-            $this->owner = $exe->Execute(GIT_CONFIG, $args);
+            $this->owner = $exe->Execute(GitExe::GIT_CONFIG, $args);
             unset($exe);
 
             if (empty($this->owner) && function_exists('posix_getpwuid') && file_exists($this->GetPath())) {
@@ -596,7 +596,7 @@ class Project
         $args = array();
         $args[] = '--verify';
         $args[] = 'HEAD';
-        $this->head = trim($exe->Execute(GIT_REV_PARSE, $args));
+        $this->head = trim($exe->Execute(GitExe::GIT_REV_PARSE, $args));
     }
 
     /**
@@ -859,7 +859,7 @@ class Project
         $args[] = '--heads';
         $args[] = '--tags';
         $args[] = '--dereference';
-        $ret = $exe->Execute(GIT_SHOW_REF, $args);
+        $ret = $exe->Execute(GitExe::GIT_SHOW_REF, $args);
         unset($exe);
 
         $lines = explode("\n", $ret);
@@ -909,7 +909,7 @@ class Project
         }
         $args[] = '--';
         $args[] = 'refs/tags';
-        $ret = $exe->Execute(GIT_FOR_EACH_REF, $args);
+        $ret = $exe->Execute(GitExe::GIT_FOR_EACH_REF, $args);
         unset($exe);
 
         $lines = explode("\n", $ret);
@@ -1000,7 +1000,7 @@ class Project
         $args[] = '--';
         $ref_mask = 'refs/heads/';
         $args[] = $ref_mask . $mask;
-        $ret = $exe->Execute(GIT_FOR_EACH_REF, $args);
+        $ret = $exe->Execute(GitExe::GIT_FOR_EACH_REF, $args);
         unset($exe);
 
         $lines = explode("\n", $ret);
@@ -1111,7 +1111,7 @@ class Project
         $hashlistfile = tempnam('/tmp', 'objlist');
         file_put_contents($hashlistfile, implode("\n", $hashes));
         $Git = new \GitPHP\Git\GitExe($this);
-        $Git->Execute(GIT_CAT_FILE, array('--batch', ' < ' . escapeshellarg($hashlistfile), ' > ' . escapeshellarg($outfile)));
+        $Git->Execute(GitExe::GIT_CAT_FILE, array('--batch', ' < ' . escapeshellarg($hashlistfile), ' > ' . escapeshellarg($outfile)));
         unlink($hashlistfile);
         $fp = fopen($outfile, 'r');
         unlink($outfile);
@@ -1266,7 +1266,7 @@ class Project
     public function GetDiffTree($first_tree, $second_tree)
     {
         $exe = new \GitPHP\Git\GitExe($this);
-        return trim($exe->Execute(GIT_DIFF_TREE, ['-r', escapeshellarg($first_tree), escapeshellarg($second_tree)]));
+        return trim($exe->Execute(GitExe::GIT_DIFF_TREE, ['-r', escapeshellarg($first_tree), escapeshellarg($second_tree)]));
     }
 
     public function SearchText($text, $branch = 'master')
@@ -1283,7 +1283,7 @@ class Project
                 escapeshellarg($branch),
             );
             $exe = new \GitPHP\Git\GitExe($this);
-            $result = $exe->Execute(GIT_GREP, $args);
+            $result = $exe->Execute(GitExe::GIT_GREP, $args);
         }
         return $result;
     }
@@ -1344,7 +1344,7 @@ class Project
         $search_for = escapeshellarg("{$abbreviated_hash}^{{$object_type}}");
 
         $exe = new \GitPHP\Git\GitExe($this);
-        $hash = $exe->Execute(GIT_REV_PARSE, ['--quiet', '--verify', $search_for]);
+        $hash = $exe->Execute(GitExe::GIT_REV_PARSE, ['--quiet', '--verify', $search_for]);
         if ($hash) {
             return trim($hash);
         }
@@ -1471,7 +1471,7 @@ class Project
             $args[] = $file;
         }
 
-        $revlist = explode("\n", $exe->Execute(GIT_REV_LIST, $args));
+        $revlist = explode("\n", $exe->Execute(GitExe::GIT_REV_LIST, $args));
 
         if (!$revlist[count($revlist) - 1]) {
             /* the last newline creates a null entry */
@@ -1536,7 +1536,7 @@ class Project
         $args[] = '-1';
         $args[] = 'HEAD';
 
-        $epoch = $exe->Execute(GIT_LOG, $args);
+        $epoch = $exe->Execute(GitExe::GIT_LOG, $args);
         if (is_string($epoch) && is_numeric(trim($epoch))) {
             $this->epoch = (int)trim($epoch);
         } else {
@@ -1619,7 +1619,7 @@ class Project
         if (!$first_commit || !$second_commit) {
             return null;
         }
-        $hash = trim((new \GitPHP\Git\GitExe($this))->Execute(GIT_MERGE_BASE, [$first_commit, $second_commit]));
+        $hash = trim((new \GitPHP\Git\GitExe($this))->Execute(GitExe::GIT_MERGE_BASE, [$first_commit, $second_commit]));
         if (!$hash) {
             return null;
         }
@@ -1652,7 +1652,7 @@ class Project
 
     public function GetRevList($args)
     {
-        $hashes = trim((new \GitPHP\Git\GitExe($this))->Execute(GIT_REV_LIST, $args));
+        $hashes = trim((new \GitPHP\Git\GitExe($this))->Execute(GitExe::GIT_REV_LIST, $args));
         return array_map('trim', explode("\n", $hashes));
     }
 
@@ -1752,7 +1752,7 @@ class Project
     {
         $args = array_map('escapeshellarg', $args);
         $Exec = new \GitPHP\Git\GitExe($this);
-        $results = trim($Exec->execute(GIT_FOR_EACH_REF, $args));
+        $results = trim($Exec->execute(GitExe::GIT_FOR_EACH_REF, $args));
         return array_filter(array_map('trim', explode("\n", $results)));
     }
 }
