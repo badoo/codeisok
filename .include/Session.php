@@ -94,7 +94,10 @@ class Session
     protected function start()
     {
         $is_started = function_exists('session_status') ? session_status() === PHP_SESSION_ACTIVE : session_id() !== '';
-        if (!$is_started) session_start();
+        if (!$is_started) {
+            session_set_cookie_params(60 * 60 * 24 * 365);
+            session_start();
+        }
     }
 
     protected function initUser()
