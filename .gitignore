@@ -7,3 +7,4 @@ php_errors.log
 update_cache.lock
 node_modules
 .vscode
+vendor/

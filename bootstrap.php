@@ -1,33 +1,14 @@
 <?php
-define('GITPHP_BASEDIR', dirname(__FILE__) . '/');
-define('GITPHP_CONFIGDIR', GITPHP_BASEDIR . '.config/');
-define('GITPHP_INCLUDEDIR', GITPHP_BASEDIR . '.include/');
-define('GITPHP_GITOBJECTDIR', GITPHP_INCLUDEDIR . 'git/');
-define('GITPHP_CONTROLLERDIR', GITPHP_INCLUDEDIR . 'controller/');
-define('GITPHP_CACHEDIR', GITPHP_INCLUDEDIR . 'cache/');
-define('GITPHP_LOCALEDIR', GITPHP_BASEDIR . '.locale/');
-define('GITPHP_TEMPLATESDIR', GITPHP_BASEDIR . '.templates/');
-define('GITPHP_CSSDIR', GITPHP_BASEDIR . 'css/');
-define('GITPHP_JSDIR', GITPHP_BASEDIR . 'js/');
-define('GITPHP_LIBDIR', GITPHP_BASEDIR . 'lib/');
+require_once __DIR__ . '/vendor/autoload.php';
 
-define('GITPHP_BASE_NS', 'GitPHP');
-
-spl_autoload_register(
-    function($class) {
-        // psr4 autoload
-        $namespaces = explode('\\', $class);
-        if (count($namespaces) > 1 && $namespaces[0] == GITPHP_BASE_NS) {
-            $file_name = array_pop($namespaces) . ".php";
-            unset($namespaces[0]);
-
-            $file_name = GITPHP_INCLUDEDIR . join(DIRECTORY_SEPARATOR, array_map('strtolower', $namespaces)) . DIRECTORY_SEPARATOR . $file_name;
-            if (file_exists($file_name)) {
-                require_once $file_name;
-            }
-        }
-    }
-);
+const GITPHP_BASEDIR = __DIR__ . '/';
+const GITPHP_CONFIGDIR = GITPHP_BASEDIR . '.config/';
+const GITPHP_LOCALEDIR = GITPHP_BASEDIR . 'resources/locale/';
+const GITPHP_TEMPLATESDIR = GITPHP_BASEDIR . 'resources/templates/';
+const GITPHP_TEMPLATESCACHEDIR = GITPHP_BASEDIR . 'templates_c/';
+const GITPHP_CSSDIR = GITPHP_BASEDIR . 'public/css/';
+const GITPHP_JSDIR = GITPHP_BASEDIR . 'public/js/';
+const GITPHP_LIBDIR = GITPHP_BASEDIR . 'public/lib/';
 
 class CountClass
 {

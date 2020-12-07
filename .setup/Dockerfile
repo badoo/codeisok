@@ -44,6 +44,8 @@ RUN mkdir -pv /local/logs
 COPY etc/ /etc/
 COPY local/ /local/
 
+COPY --from=composer /usr/bin/composer /usr/bin/composer
+
 VOLUME /var/lib/mysql
 VOLUME /home/git
 VOLUME /local/codeisok
