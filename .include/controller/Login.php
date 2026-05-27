@@ -125,7 +125,7 @@ class Login extends Base
                     \GitPHP\Config::AUTH_METHOD_JIRA,
                 ];
                 if (in_array(\GitPHP\Config::GetInstance()->GetAuthMethod(), $atlassian_auth_methods)) {
-                    setcookie(\GitPHP\Jira::getCookieName(), $User->getToken(), $expire, '/', $domain, false, true);
+                    setcookie(\GitPHP\Jira::getCookieName(), $User->getToken(), $expire, '/', $domain, true, true);
                 }
             }
             $this->redirect($this->params['back']);
